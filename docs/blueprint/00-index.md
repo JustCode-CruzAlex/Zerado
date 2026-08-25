@@ -204,9 +204,11 @@ that has none.
    component list is right to name the semantic, and the derive-these list is right to name the
    primitive, because an ANSI-256 index is derived from a **raw value**. Neither should change; the
    layer relationship simply needed stating, and now does.
-4. **Nine ANSI-256 indices are underived** — `--z-scanner-300` (error text), `--z-scanner-900`
-   (the scanner track), `--z-amber-900`, `--z-text-tertiary` and five others have no derived
-   terminal index. Four components ship an interim **uncoloured** rendering rather than a guessed
+4. **Nine ANSI-256 indices are underived** — the primitives `--z-scanner-300` (error text),
+   `--z-scanner-900` (the scanner track), `--z-amber-900` (inert track), `--z-chrome-500`
+   (tertiary text) and five others have no derived terminal index. The list is
+   [`../design/00-design-brief.md`](../design/00-design-brief.md) §9, which now carries an explicit
+   **primitive → semantic** column so neither layer has to be read against the other. Four components ship an interim **uncoloured** rendering rather than a guessed
    one. Deriving them is `fft-brand-architect`'s job (brand manual §10 requires a
    nearest-neighbour search in CIELAB, never an eyeballed index), and until it is done those
    components are correct but plainer than designed.

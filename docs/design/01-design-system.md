@@ -143,6 +143,16 @@ exceptions — the confirmation overlay and the command palette — may paint
 The only colours a Zerado terminal component may use. Ratios are measured against
 `--z-surface` and were read from the brand manual's table — none is estimated.
 
+> **This table names SEMANTICS, per brand §10's three layers** — *primitive* carries the raw
+> value and is **never referenced by a component**; *semantic* carries the meaning and is what
+> components reference. This is a component-facing table, so it names the semantic.
+>
+> `00-design-brief.md` §9 names the **primitive** for the same colours, equally correctly: an
+> ANSI-256 index is derived from a raw value, and the raw value lives in the primitive.
+> So `--z-scanner-track` here and `--z-scanner-900` there are **one token seen at two layers**,
+> not two competing names — likewise `--z-primary-muted` and `--z-amber-900`. §9 carries the full
+> primitive → semantic mapping.
+
 | Role | Token | Hex | ANSI-256 | 16-colour | Ratio |
 |---|---|---|---|---|---|
 | Primary text | `--z-text` | `#E9EEF5` | **255** | `bright white` | **16.65** AAA |
@@ -364,6 +374,18 @@ monochrome terminal, a screenshot in a bug report, and colour-vision deficiency 
 **25.8**. It must never be "corrected" back toward blue. The tightest surviving pair is
 **zerado × abandoned at ΔE 11.9 under deuteranopia** — the floor to protect, and the one place
 where glyph and label genuinely carry load rather than merely reinforce.
+
+> **On those ΔE digits, stated at the same standard this document holds elsewhere.** They are
+> **the brand manual's figures** (§4.4), reproduced — not independently recomputed here. An
+> independent implementation of Viénot/Brettel/Mollon + CIEDE2000 returned **11.02** for the
+> rejected `#9FB0C6` and **12.07** for the shipping floor, against the manual's 8.8 and 11.9.
+>
+> **The load-bearing claims survive that gap intact:** `zerado × abandoned` really is the tightest
+> pair, the warm grey really does separate far better than the blue-cast grey, and every pair
+> clears the ΔE ≥ 10 bar under both implementations. **What is not reproducible is the exact
+> digit**, because the manual does not pin the model variant or the white point. Pinning them is
+> `fft-brand-architect`'s, upstream. Cite these as the manual's figures, not as measurements of
+> your own — the same rule this document applies to contrast ratios.
 
 ### 3.3 · Casing — where `ZERADO` and `zerado` each belong
 

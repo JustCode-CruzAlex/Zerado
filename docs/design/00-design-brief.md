@@ -58,11 +58,18 @@ retro-nostalgia.
 | **Apple HIG** | `https://developer.apple.com/design/human-interface-guidelines` | **Phase 4 only** — §6. |
 | **Material 3** | `https://m3.material.io` | **Phase 4 only** — §6. |
 
-> **Anti-fabrication standing rule.** Never assert a clause number, a contrast ratio, or a
-> platform minimum from memory. Every ratio printed in Zerado design documents must be one
-> read from the brand manual's measured table. If a pair is not in that table, it is
-> **unmeasured** — say so and flag it for measurement. Guessing a ratio is a defect, not a
-> shortcut. §9 lists the values currently unmeasured.
+> **Anti-fabrication standing rule.** Never assert a clause number, a contrast ratio, a **ΔE
+> separation**, or a platform minimum from memory. Every such figure printed in Zerado design
+> documents must be one read from the brand manual's measured table, and cited as the manual's
+> figure rather than as a measurement of our own. If a pair is not in that table, it is
+> **unmeasured** — say so and flag it for measurement. Guessing is a defect, not a shortcut.
+> §9 lists the values currently unmeasured.
+>
+> **The ΔE figures carry one caveat worth knowing:** the manual does not pin the CVD model variant
+> or the white point, so its digits are **not independently reproducible** — an independent
+> implementation returns 11.02 and 12.07 where the manual records 8.8 and 11.9. The ordering
+> claims those numbers support all hold; only the digits move. Pinning the model is
+> `fft-brand-architect`'s, upstream. See `01-design-system.md` §3.2.
 
 ---
 
@@ -323,18 +330,35 @@ The brand's derived ANSI-256 table (§5.1) and `tokens.css` cover: surface `232`
 border `236` · border-strong `67` · text `255` · text-secondary `249` · steel `247` ·
 amber `214` · cyan `45` · orchid `177` · scanner `9`.
 
-These tokens are needed by the terminal design system and have **no derived ANSI-256 index**:
+These tokens are needed by the terminal design system and have **no derived ANSI-256 index**.
 
-| Token | Hex | Needed for |
-|---|---|---|
-| `--z-scanner-300` | `#FF6B6B` | error text (contrast **6.99**, AA — measured) |
-| `--z-scanner-900` | `#5C1414` | the scanner track |
-| `--z-amber-900` | `#8A5E00` | unlit/inert progress track |
-| `--z-text-tertiary` | `#8492A8` | tertiary text (contrast **6.15** — measured) |
-| `--z-amber-400` | `#FFC94D` | highlight |
-| `--z-cyan-300` | `#8CF0FF` | highlight |
-| `--z-surface-overlay` | `#1D2532` | overlay surfaces |
-| `--z-cyan-900` · `--z-orchid-900` | `#0B6C7D` · `#4A2A63` | unlit variants |
+> **This list names PRIMITIVES, and that is deliberate.** An ANSI-256 index is derived by
+> nearest-neighbour search against a **raw hex value**, and under brand §10's three layers the raw
+> value lives in the primitive — the semantic is a `var()` reference to it, carrying meaning
+> rather than a value. So a derivation list names primitives by construction.
+>
+> `01-design-system.md` §1.4 names the **semantic** for the same colours, equally correctly: it is
+> a component-facing table, and brand §10 states a primitive is *"never referenced by a
+> component."* **The two names are two layers of one token, not two competing vocabularies.**
+> The Semantic column below makes the mapping explicit so neither list has to be read against the
+> other.
+
+| Primitive (carries the hex) | Semantic (what components reference) | Hex | Needed for |
+|---|---|---|---|
+| `--z-scanner-300` | *none defined* | `#FF6B6B` | error text (contrast **6.99**, AA — measured) |
+| `--z-scanner-900` | `--z-scanner-track` | `#5C1414` | the scanner track |
+| `--z-amber-900` | `--z-primary-muted` | `#8A5E00` | unlit/inert progress track |
+| `--z-chrome-500` | `--z-text-tertiary` | `#8492A8` | tertiary text (contrast **6.15** — measured) |
+| `--z-amber-400` | `--z-primary-hover` | `#FFC94D` | highlight |
+| `--z-cyan-300` | `--z-accent-hover` · `--z-text-link-hover` | `#8CF0FF` | highlight |
+| `--z-black-700` | `--z-surface-overlay` | `#1D2532` | overlay surfaces |
+| `--z-cyan-900` | `--z-accent-muted` | `#0B6C7D` | unlit cyan |
+| `--z-orchid-900` | *none defined* | `#4A2A63` | unlit orchid |
+
+Verified against `tokens.css` at source: primitives at lines 46–75, semantics at lines 89–116.
+Two rows were corrected while adding this column — `#8492A8` and `#1D2532` were previously listed
+under their semantic names (`--z-text-tertiary`, `--z-surface-overlay`), which contradicted the
+rule stated just above. Where no semantic exists, the primitive is the only name there is.
 
 **Required action, not optional:** derive each by nearest-neighbour search in CIELAB against the
 xterm 256 cube, exactly as brand §5.1 was derived, and add them to `tokens.css` **and**
