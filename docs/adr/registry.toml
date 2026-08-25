@@ -1,5 +1,0 @@
-# FlowForge ADR allocation ledger — DO NOT hand-edit the [[alloc]] block.
-# Allocations are n-sorted (ascending by `n`); `next_free` is the high-water mark.
-schema_version = 1
-project_epoch = "2026-08-25T05:40:58Z"
-next_free = 1
