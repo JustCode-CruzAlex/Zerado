@@ -34,7 +34,7 @@ One brand, three surfaces with almost nothing technically in common:
 | Type control | full | one monospaced grid | full, platform metrics |
 | Motion | CSS, 60 fps | redraw budget | platform animation |
 | Logo | `logo.svg` | `[0]` | `logo-mark.svg` |
-| Audio | none | opt-in, bundled, `ZERADO_NO_AUDIO` | opt-in, platform audio session |
+| Audio | none | opt-in; local FX + streamed stations; `ZERADO_NO_AUDIO` | opt-in, platform audio session |
 
 **The terminal is the product's home.** When web and terminal conflict, the terminal wins
 (brand §9). The phone is neither — it is a third expression that must be recognisably the same
@@ -371,10 +371,15 @@ the **Phase 1 spine**, and belong in `fft-tui-architect`'s deliverable.
 4. **The SQLite file is the Phase 4 sync boundary.** Phase 4 must not require re-modelling
    states or re-deriving history — and the ratified promise stands until then: **no Zerado-run
    server before Phase 4**, and the library remains one file the player owns.
-5. **The metadata seam stays swappable.** IGDB is free for **non-commercial use only** and
-   Zerado's funding model is affiliate commission, which is commercial. Cover art and *sinopse*
-   are the visual backbone of a phone app far more than of a terminal — so the phone is the
-   surface most exposed if IGDB says no. Design the seam so the provider can change.
+5. **The metadata seam stays swappable.** IGDB is free for **non-commercial use only**, and since
+   founder direction on 2026-08-25 **dropped affiliate links entirely** — making Zerado cleanly
+   non-commercial: free software, donation-supported, **zero revenue** — that specific blocker is
+   closed (`ADR-0001` D1). **Do not restate the old premise in the present tense**: a document
+   that says Zerado's funding is commercial re-opens a question the bundle reports as answered.
+   The seam stays swappable anyway, on engineering grounds — cover art and *sinopse* are the
+   visual backbone of a phone app far more than of a terminal, so the phone is the surface most
+   exposed if IGDB says no for any other reason. Designing as if IGDB is guaranteed would be
+   designing on a maybe.
 6. **No named community source.** The ratified decision stands on every surface, including a
    phone screen.
 7. **Audio settings and cue events are data, not code.** The opt-in flag, the two per-channel

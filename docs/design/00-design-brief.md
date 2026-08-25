@@ -31,13 +31,25 @@ Corpora disagree. When they do, this order decides, top wins, no discussion at t
 
 | # | Authority | Why it sits here |
 |---|---|---|
-| **1** | **The ratified public promises** — `ratification/decisions.md` + `content/landing-copy.md` | These are *published*. A design that contradicts them does not lose an argument, it makes the product a liar. Local-first, one SQLite file, no Zerado server before Phase 4, the user's own keys, no named community source, the affiliate disclosure. |
+| **1** | **The ratified public promises** — `ratification/decisions.md` + `content/landing-copy.md` | These are *published*. A design that contradicts them does not lose an argument, it makes the product a liar. Local-first, one SQLite file, no Zerado server before Phase 4, the user's own keys, no named community source, and **donation-only funding with no affiliate commission**. |
 | **2** | **WCAG 2.2 Level AA** | The floor, not the ceiling. Non-negotiable on every surface. The brand already subordinates itself here by construction (brand manual §4.2: where a pairing failed, *the colour changed*), so 1 and 2 collide rarely — but if they ever do, AA wins and the fix goes through brand governance (§10), never through an exception. |
 | **3** | **`brand/tokens.css` + `brand/tokens.json`** | The brand manual's own preamble: *"Those files are the implementation; this document is the reasoning. Where the two disagree, the tokens are what ships."* |
 | **4** | **`brand/brand-manual.md` + `brand/naming.md`** | The identity authority. Wins on colour, glyph, type, voice, motion, casing. Carries §9's own tiebreak: **the terminal is the product's home — when web and terminal conflict, the terminal wins.** |
 | **5** | **FlowForge TUI Spacing Canon (#2435)** | Adopted verbatim (§5 below). Spacing is a solved problem; Zerado does not re-solve it. |
 | **6** | **FlowForge TUI Design Manual (#2371)** | The terminal craft bar, minus its FlowForge-internal rules (§4 below). |
 | **7** | **Apple HIG · Material 3** | Phase 4 platform surfaces only. **Silent on the terminal** — they have no jurisdiction over a character grid, and citing them there would be cargo cult. |
+
+> **When a founder amendment postdates the published page, the amendment governs — and the page
+> becomes a defect to fix, not a source to follow.** Authority #1 is the *ratified promise set*,
+> not the page's current bytes. The 2026-08-25 amendment dropped affiliate links and the premium
+> tier; **`content/landing-copy.md` has not yet caught up** — §14 and §16 still disclose an
+> affiliate commission and a premium account (verified at source 2026-08-25). Design against the
+> amendment.
+>
+> This one is worth escalating rather than absorbing: a stale money claim on a public page is not
+> a documentation lag, it is the page telling visitors the product earns a commission it has
+> decided not to earn. Owner: whoever holds the published copy. **Until it is corrected, the page
+> and the promise set disagree, and this brief follows the promise set.**
 
 **The tiebreak when the order does not resolve it** is the brand manual's own (§1):
 *which option makes the product's own argument more clearly?* The argument is an expensive

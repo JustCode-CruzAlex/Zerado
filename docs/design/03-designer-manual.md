@@ -104,12 +104,14 @@ question means the screen gets built twice.
 
 ### The Phase 1 screen set
 
-Confirmed or amended by `fft-tui-architect` in the spine; the amendment is part of what gets
-ratified.
+**The inventory lives in the spine and is not restated here** —
+[`01-screen-inventory.md`](../blueprint/01-screen-inventory.md) §2 is the single source, owned by
+`fft-tui-architect`, and amendments to it are part of what gets ratified. Phase 1 is currently
+**twelve screens**, `Z-01`…`Z-11` plus `Z-15`.
 
-First run and setup (Steam key and Steam ID, with the public-profile requirement explained
-*where the player hits it*) · sync in progress · **the library deck** · game detail · mark or
-change status · search and filter · settings · help and key map · error and offline states.
+A prose copy of that list used to sit here and had already gone stale by three screens. Pointing
+is the fix: a list restated in two places is a list that disagrees with itself, which is the
+defect class this manual exists to prevent.
 
 > **The honest screens are not optional.** First run before any data exists. A sync that fails
 > halfway. A private Steam profile that returns nothing. Four hundred games on a forty-column
@@ -228,8 +230,8 @@ clause, then used normally. **Never claim what isn't built.**
 
 Local-first · one SQLite file the player owns · no account to use it · works with the network
 off · the only network traffic is the services the player connected, using their own keys · no
-Zerado-run server before Phase 4 · the affiliate disclosure · **no named community source** ·
-English page with Portuguese words kept. The four-phase roadmap and the FAQ in
+Zerado-run server before Phase 4 · **donation-only funding, no affiliate commission** ·
+**no named community source** · English page with Portuguese words kept. The four-phase roadmap and the FAQ in
 `content/landing-copy.md` are **published and binding** — no screen may contradict them, and
 nothing unbuilt may be presented as working.
 
@@ -269,14 +271,15 @@ other three stand.**
 >
 > **Why the objections no longer refuse it.** What ships is **not the thing that was rejected.**
 > The rejected object was a *network streamer, always on*; the shipped object is a **local,
-> bundled, opt-in subsystem that is off by default and degrades to silence**. On that reading:
+> opt-in subsystem that is off by default and degrades to silence** — and whose music is **somebody
+> else's radio station, streamed and never bundled**. On that reading:
 >
 > | Original objection | Status |
 > |---|---|
-> | Contradicts local-first / works-offline / no background telemetry | **Dissolved** — bundled and local; audio makes no network request |
+> | Contradicts local-first / works-offline / no background telemetry | **Retired — the object changed.** A station the player chose and can stop in one keystroke is a *connected service*, not background telemetry; and *"works with the network off"* is a promise about the **library**, not about every feature. Interface FX are local and always work; radio needs the network and simply stops without it (`12-audio.md` §3) |
 > | Audio-device dependency vs "starts instantly" | **Dissolved** — off by default; absent device, SSH and CI all degrade to silence with no error and no delay |
 > | Burns the redraw budget | **Dissolved** — audio is not a redraw concern. The related cost survives as an implementation constraint: no leaked goroutine, no device handle held while muted |
-> | **Music-rights surface** | **SURVIVES — still live.** Bundled music must be DRM-free and licensed for commercial redistribution. A founder decision, recorded in the spine's ADR, not dissolved by this reversal |
+> | **Music-rights surface** | **CLOSED — by removing its cause (2026-08-25).** Nothing is bundled, so there is nothing to license, attribute or carry in the binary. Zerado **streams; it does not host, cache or redistribute.** The default station list ships as **data, user-editable, not compiled in**, with every default URL verified to resolve before it ships. This constraint was recorded as *still live* in an earlier revision of this manual; it is not |
 > | **Nostalgia-kitsch risk** | **SURVIVES — still live.** Now enforced as a design rule rather than a refusal: the DeLorean-and-KITT bar governs sound as it governs pixels (`01-design-system.md` §15.4). Chiptune jingles, coin-drop and level-up stings remain a MISS, not a variation |
 >
 > **The two that survive are binding.** The reversal changed the verdict, not those constraints.
