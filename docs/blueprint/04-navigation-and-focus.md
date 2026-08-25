@@ -110,6 +110,7 @@ is literal text and only the modified keys survive.
 | `r` | Re-sync | From `Z-04` and `Z-05` |
 | `s` | Set status (`Z-06`) | From `Z-04` and `Z-05` |
 | `a` | Add a game by hand (`Z-08`) | From `Z-04` |
+| `c` | Connect a store (`Z-02`) | From `Z-04`'s empty state and from `Z-09`. See §3.2 |
 | `/` | Filter and search (`Z-07`) | From `Z-04` |
 | `,` | Settings (`Z-09`) | From anywhere |
 | `m` | Toggle mute | **Only when audio is enabled** — see [`12-audio.md`](./12-audio.md). Absent from the footer otherwise, because there is nothing to mute |
@@ -127,7 +128,24 @@ memory.
 Also reserved, unbound: `1`–`9` (quick filters), `n` / `p` (next / previous item from within the
 detail view — Phase 2, when there is enough in the detail view to make paging worthwhile).
 
-### 3.2 · Why `q` does not confirm
+### 3.2 · Why connect-a-store is `c` and not `s`
+
+`s` was initially bound to *set status* on a populated library **and** to *connect a store* on an
+empty one. That is not a live ambiguity — an empty library has no game whose status could be set —
+but it is two meanings for one key on the product's most-used screen, and it forces `Z-10 Help` to
+print different text depending on how full the library is.
+
+**`s` means set-status everywhere, always, in every state.** Connect binds to `c`, which was
+unbound, unreserved and mnemonic.
+
+The cost of the collision was small and the cost of removing it was one character, which is the
+whole argument. Muscle memory is built on a key meaning one thing; a key that means two things is a
+key the player has to think about, and thinking about the key is the failure.
+
+*(Found by `fft-tui-designer` while writing the `Z-04` spec, and resolved here because the key map
+is the spine's, not a screen's.)*
+
+### 3.3 · Why `q` does not confirm
 
 Every mutation Zerado makes is committed when it is made — a status change writes to SQLite
 before the overlay closes. There is no unsaved state, so there is nothing for a confirmation to

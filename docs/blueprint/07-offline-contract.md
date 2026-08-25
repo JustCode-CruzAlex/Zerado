@@ -51,7 +51,7 @@ screen is `WORKS`, it works with the machine in a Faraday cage.
 |---|---|---|
 | Browse the library (`Z-04`) | **WORKS** | Identical. Every row, every state, every count |
 | Filter and search (`Z-07`) | **WORKS** | Identical — it is a `WHERE` clause |
-| Sort | **WORKS** | Identical |
+| Ordering | **WORKS** | Identical — and **fixed**: title A→Z, with no sort control in Phase 1. A list must have an order, and naming it is honest; an on-screen sort indicator would imply a control that does not exist |
 | Read a game's detail (`Z-05`) | **WORKS** | Every locally-known field |
 | Set a status (`Z-06`) | **WORKS** | Writes immediately. This is the product's core action and it has never needed a network |
 | Add a game by hand (`Z-08`) | **WORKS** | The whole point of a physical shelf |
@@ -171,7 +171,12 @@ arrive in the same value.
 timestamp is available in the detail view for anyone who wants it.
 
 Past **90 days**, an age stops being reassuring and becomes a warning; the banner changes from
-chrome to amber and reads `Last synced in May. Prices this old are not useful. r to sync.`
+chrome to amber. **In Phase 1** it reads `Last synced in May. Anything you have played since then
+is missing. r to sync.` — the library is the only thing there is to be stale about.
+
+From Phase 3, when there are prices, the copy names them instead, because a stale price is worse
+than a stale playtime count. **It must not name them before then:** copy that mentions a capability
+the build does not have presents something unbuilt as working.
 
 ---
 
