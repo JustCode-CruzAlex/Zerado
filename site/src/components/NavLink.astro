@@ -1,0 +1,36 @@
+---
+/**
+ * NavLink — the nav's GitHub link. Ref: design/blueprint.md §6.2.
+ *
+ * @prop {string} href
+ * @prop {string} label
+ * @prop {boolean} [rel] — adds rel="noopener noreferrer"
+ */
+interface Props {
+  href: string;
+  label: string;
+  rel?: boolean;
+}
+
+const { href, label, rel = false } = Astro.props;
+---
+
+<a class="z-nav-link" href={href} rel={rel ? 'noopener noreferrer' : undefined}>{label}</a>
+
+<style>
+  .z-nav-link {
+    font-size: var(--z-text-sm);
+    color: var(--z-text-secondary);
+    text-underline-offset: 4px;
+    text-decoration-color: transparent;
+    transition:
+      color var(--z-duration-fast) var(--z-ease-standard),
+      text-decoration-color var(--z-duration-fast) var(--z-ease-standard);
+  }
+
+  .z-nav-link:hover {
+    color: var(--z-text);
+    text-decoration: underline;
+    text-decoration-color: var(--z-primary);
+  }
+</style>

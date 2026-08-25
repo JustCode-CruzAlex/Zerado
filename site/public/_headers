@@ -1,0 +1,64 @@
+# Cache-Control policy for the Zerado landing page static build.
+# Netlify / Cloudflare Pages read this file natively (`_headers`, copied
+# verbatim from public/ into dist/ by the Astro build). See README.md
+# "Cache policy" for what a different host (Vercel / S3+CloudFront) needs
+# instead, since neither reads this file.
+#
+# Rule of thumb applied below: only a content-hashed path may take a
+# year-long `immutable` cache — a regenerated file under an unchanged name
+# would otherwise be served stale for as long as the cache lives (perf F5).
+
+# ---------------------------------------------------------------------------
+# Security headers — every route.
+#
+# Netlify and Cloudflare Pages apply ALL matching blocks, so this `/*` rule and
+# the per-path Cache-Control rules below compose: `/*` supplies the security
+# headers everywhere, the specific blocks supply the caching.
+#
+# This set is the counterpart of docs/deploy/nginx/snippets/zerado-headers.conf,
+# so the two host configs are genuine ports of one another rather than one being
+# caching-only. Keep them in step.
+#
+# The page is same-origin by construction: no client-side JavaScript, no
+# external requests, self-hosted fonts, inline SVG. `unsafe-inline` for
+# style-src is required because Astro inlines the critical stylesheet.
+# `preload` is declared but the domain is NOT submitted to the HSTS preload list
+# until the deploy has been stable for a while — preload is irreversible.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+
+# ---------------------------------------------------------------------------
+# Cache policy
+# ---------------------------------------------------------------------------
+
+# Astro's own bundle — filename changes when the bytes change.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts are NOT content-hashed today. A short max-age with
+# stale-while-revalidate lets a CDN keep serving the cached file instantly
+# while it revalidates in the background, without risking a year-long stale
+# font if a subset is ever regenerated under the same filename.
+/fonts/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# Same-origin marks/icons — also unhashed, same reasoning, shorter floor
+# since these are tiny and revalidation is cheap.
+/*.svg
+  Cache-Control: public, max-age=604800
+
+/og-card.png
+  Cache-Control: public, max-age=604800
+
+# The document itself must always be revalidated so a new deploy is picked
+# up immediately — it is what references the hashed /_astro/* bundle.
+/index.html
+  Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache

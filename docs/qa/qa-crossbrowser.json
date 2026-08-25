@@ -1,0 +1,1421 @@
+{
+  "chromium": {
+    "version": "151.0.7922.34",
+    "viewports": {
+      "375": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "overflowPass": true,
+        "docHeight": 15052,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": true,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, \"Arial Black\", syste",
+          "fontSize": "30.0007px",
+          "lineHeight": "32.4007px",
+          "fontWeight": "700",
+          "w": 335,
+          "h": 97
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "flex",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 1246,
+            "w": 375
+          },
+          {
+            "id": "maker-line",
+            "h": 253,
+            "w": 375
+          },
+          {
+            "id": "the-problem",
+            "h": 405,
+            "w": 375
+          },
+          {
+            "id": "moods",
+            "h": 1655,
+            "w": 375
+          },
+          {
+            "id": "states",
+            "h": 1017,
+            "w": 375
+          },
+          {
+            "id": "one-collection",
+            "h": 1732,
+            "w": 375
+          },
+          {
+            "id": "price-intelligence",
+            "h": 957,
+            "w": 375
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 670,
+            "w": 375
+          },
+          {
+            "id": "terminal-first",
+            "h": 1086,
+            "w": 375
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 1038,
+            "w": 375
+          },
+          {
+            "id": "community",
+            "h": 1324,
+            "w": 375
+          },
+          {
+            "id": "roadmap",
+            "h": 1211,
+            "w": 375
+          },
+          {
+            "id": "after-phase-4",
+            "h": 562,
+            "w": 375
+          },
+          {
+            "id": "faq",
+            "h": 848,
+            "w": 375
+          },
+          {
+            "id": "closing-cta",
+            "h": 369,
+            "w": 375
+          },
+          {
+            "id": "footer",
+            "h": 578,
+            "w": 375
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "768": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "overflowPass": true,
+        "docHeight": 11731,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": true,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, \"Arial Black\", syste",
+          "fontSize": "39.5541px",
+          "lineHeight": "42.7184px",
+          "fontWeight": "700",
+          "w": 720,
+          "h": 128
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "flex",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 869,
+            "w": 768
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 768
+          },
+          {
+            "id": "the-problem",
+            "h": 405,
+            "w": 768
+          },
+          {
+            "id": "moods",
+            "h": 1056,
+            "w": 768
+          },
+          {
+            "id": "states",
+            "h": 710,
+            "w": 768
+          },
+          {
+            "id": "one-collection",
+            "h": 1471,
+            "w": 768
+          },
+          {
+            "id": "price-intelligence",
+            "h": 807,
+            "w": 768
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 479,
+            "w": 768
+          },
+          {
+            "id": "terminal-first",
+            "h": 882,
+            "w": 768
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 954,
+            "w": 768
+          },
+          {
+            "id": "community",
+            "h": 923,
+            "w": 768
+          },
+          {
+            "id": "roadmap",
+            "h": 813,
+            "w": 768
+          },
+          {
+            "id": "after-phase-4",
+            "h": 470,
+            "w": 768
+          },
+          {
+            "id": "faq",
+            "h": 789,
+            "w": 768
+          },
+          {
+            "id": "closing-cta",
+            "h": 373,
+            "w": 768
+          },
+          {
+            "id": "footer",
+            "h": 474,
+            "w": 768
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "1280": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "overflowPass": true,
+        "docHeight": 11473,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": true,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, \"Arial Black\", syste",
+          "fontSize": "52px",
+          "lineHeight": "56.16px",
+          "fontWeight": "700",
+          "w": 650,
+          "h": 168
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "flex",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 989,
+            "w": 1280
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 1280
+          },
+          {
+            "id": "the-problem",
+            "h": 441,
+            "w": 1280
+          },
+          {
+            "id": "moods",
+            "h": 966,
+            "w": 1280
+          },
+          {
+            "id": "states",
+            "h": 622,
+            "w": 1280
+          },
+          {
+            "id": "one-collection",
+            "h": 1194,
+            "w": 1280
+          },
+          {
+            "id": "price-intelligence",
+            "h": 848,
+            "w": 1280
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 421,
+            "w": 1280
+          },
+          {
+            "id": "terminal-first",
+            "h": 976,
+            "w": 1280
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 990,
+            "w": 1280
+          },
+          {
+            "id": "community",
+            "h": 891,
+            "w": 1280
+          },
+          {
+            "id": "roadmap",
+            "h": 676,
+            "w": 1280
+          },
+          {
+            "id": "after-phase-4",
+            "h": 511,
+            "w": 1280
+          },
+          {
+            "id": "faq",
+            "h": 825,
+            "w": 1280
+          },
+          {
+            "id": "closing-cta",
+            "h": 405,
+            "w": 1280
+          },
+          {
+            "id": "footer",
+            "h": 466,
+            "w": 1280
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "1920": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "overflowPass": true,
+        "docHeight": 11473,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": true,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, \"Arial Black\", syste",
+          "fontSize": "52px",
+          "lineHeight": "56.16px",
+          "fontWeight": "700",
+          "w": 650,
+          "h": 168
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "flex",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 989,
+            "w": 1920
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 1920
+          },
+          {
+            "id": "the-problem",
+            "h": 441,
+            "w": 1920
+          },
+          {
+            "id": "moods",
+            "h": 966,
+            "w": 1920
+          },
+          {
+            "id": "states",
+            "h": 622,
+            "w": 1920
+          },
+          {
+            "id": "one-collection",
+            "h": 1194,
+            "w": 1920
+          },
+          {
+            "id": "price-intelligence",
+            "h": 848,
+            "w": 1920
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 421,
+            "w": 1920
+          },
+          {
+            "id": "terminal-first",
+            "h": 976,
+            "w": 1920
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 990,
+            "w": 1920
+          },
+          {
+            "id": "community",
+            "h": 891,
+            "w": 1920
+          },
+          {
+            "id": "roadmap",
+            "h": 676,
+            "w": 1920
+          },
+          {
+            "id": "after-phase-4",
+            "h": 511,
+            "w": 1920
+          },
+          {
+            "id": "faq",
+            "h": 825,
+            "w": 1920
+          },
+          {
+            "id": "closing-cta",
+            "h": 405,
+            "w": 1920
+          },
+          {
+            "id": "footer",
+            "h": 466,
+            "w": 1920
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      }
+    }
+  },
+  "firefox": {
+    "version": "153.0",
+    "viewports": {
+      "375": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "overflowPass": true,
+        "docHeight": 15109,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "\"Orbitron\", \"Michroma\", \"Arial Black\", s",
+          "fontSize": "30px",
+          "lineHeight": "32.4px",
+          "fontWeight": "700",
+          "w": 335,
+          "h": 97
+        },
+        "details": {
+          "listStyle": "none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 1247,
+            "w": 375
+          },
+          {
+            "id": "maker-line",
+            "h": 253,
+            "w": 375
+          },
+          {
+            "id": "the-problem",
+            "h": 405,
+            "w": 375
+          },
+          {
+            "id": "moods",
+            "h": 1683,
+            "w": 375
+          },
+          {
+            "id": "states",
+            "h": 1017,
+            "w": 375
+          },
+          {
+            "id": "one-collection",
+            "h": 1760,
+            "w": 375
+          },
+          {
+            "id": "price-intelligence",
+            "h": 957,
+            "w": 375
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 670,
+            "w": 375
+          },
+          {
+            "id": "terminal-first",
+            "h": 1086,
+            "w": 375
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 1039,
+            "w": 375
+          },
+          {
+            "id": "community",
+            "h": 1324,
+            "w": 375
+          },
+          {
+            "id": "roadmap",
+            "h": 1211,
+            "w": 375
+          },
+          {
+            "id": "after-phase-4",
+            "h": 562,
+            "w": 375
+          },
+          {
+            "id": "faq",
+            "h": 848,
+            "w": 375
+          },
+          {
+            "id": "closing-cta",
+            "h": 369,
+            "w": 375
+          },
+          {
+            "id": "footer",
+            "h": 578,
+            "w": 375
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "768": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "overflowPass": true,
+        "docHeight": 11757,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "\"Orbitron\", \"Michroma\", \"Arial Black\", s",
+          "fontSize": "39.5515px",
+          "lineHeight": "42.7167px",
+          "fontWeight": "700",
+          "w": 720,
+          "h": 128
+        },
+        "details": {
+          "listStyle": "none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 869,
+            "w": 768
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 768
+          },
+          {
+            "id": "the-problem",
+            "h": 405,
+            "w": 768
+          },
+          {
+            "id": "moods",
+            "h": 1056,
+            "w": 768
+          },
+          {
+            "id": "states",
+            "h": 735,
+            "w": 768
+          },
+          {
+            "id": "one-collection",
+            "h": 1471,
+            "w": 768
+          },
+          {
+            "id": "price-intelligence",
+            "h": 808,
+            "w": 768
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 479,
+            "w": 768
+          },
+          {
+            "id": "terminal-first",
+            "h": 882,
+            "w": 768
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 954,
+            "w": 768
+          },
+          {
+            "id": "community",
+            "h": 923,
+            "w": 768
+          },
+          {
+            "id": "roadmap",
+            "h": 814,
+            "w": 768
+          },
+          {
+            "id": "after-phase-4",
+            "h": 470,
+            "w": 768
+          },
+          {
+            "id": "faq",
+            "h": 789,
+            "w": 768
+          },
+          {
+            "id": "closing-cta",
+            "h": 373,
+            "w": 768
+          },
+          {
+            "id": "footer",
+            "h": 474,
+            "w": 768
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "1280": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "overflowPass": true,
+        "docHeight": 11474,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "\"Orbitron\", \"Michroma\", \"Arial Black\", s",
+          "fontSize": "51.9848px",
+          "lineHeight": "56.15px",
+          "fontWeight": "700",
+          "w": 650,
+          "h": 168
+        },
+        "details": {
+          "listStyle": "none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 989,
+            "w": 1280
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 1280
+          },
+          {
+            "id": "the-problem",
+            "h": 441,
+            "w": 1280
+          },
+          {
+            "id": "moods",
+            "h": 966,
+            "w": 1280
+          },
+          {
+            "id": "states",
+            "h": 622,
+            "w": 1280
+          },
+          {
+            "id": "one-collection",
+            "h": 1194,
+            "w": 1280
+          },
+          {
+            "id": "price-intelligence",
+            "h": 848,
+            "w": 1280
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 421,
+            "w": 1280
+          },
+          {
+            "id": "terminal-first",
+            "h": 976,
+            "w": 1280
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 990,
+            "w": 1280
+          },
+          {
+            "id": "community",
+            "h": 891,
+            "w": 1280
+          },
+          {
+            "id": "roadmap",
+            "h": 676,
+            "w": 1280
+          },
+          {
+            "id": "after-phase-4",
+            "h": 511,
+            "w": 1280
+          },
+          {
+            "id": "faq",
+            "h": 825,
+            "w": 1280
+          },
+          {
+            "id": "closing-cta",
+            "h": 405,
+            "w": 1280
+          },
+          {
+            "id": "footer",
+            "h": 466,
+            "w": 1280
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "1920": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "overflowPass": true,
+        "docHeight": 11474,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "\"Orbitron\", \"Michroma\", \"Arial Black\", s",
+          "fontSize": "52px",
+          "lineHeight": "56.1667px",
+          "fontWeight": "700",
+          "w": 650,
+          "h": 169
+        },
+        "details": {
+          "listStyle": "none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 989,
+            "w": 1920
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 1920
+          },
+          {
+            "id": "the-problem",
+            "h": 441,
+            "w": 1920
+          },
+          {
+            "id": "moods",
+            "h": 966,
+            "w": 1920
+          },
+          {
+            "id": "states",
+            "h": 622,
+            "w": 1920
+          },
+          {
+            "id": "one-collection",
+            "h": 1194,
+            "w": 1920
+          },
+          {
+            "id": "price-intelligence",
+            "h": 848,
+            "w": 1920
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 421,
+            "w": 1920
+          },
+          {
+            "id": "terminal-first",
+            "h": 976,
+            "w": 1920
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 990,
+            "w": 1920
+          },
+          {
+            "id": "community",
+            "h": 891,
+            "w": 1920
+          },
+          {
+            "id": "roadmap",
+            "h": 676,
+            "w": 1920
+          },
+          {
+            "id": "after-phase-4",
+            "h": 511,
+            "w": 1920
+          },
+          {
+            "id": "faq",
+            "h": 825,
+            "w": 1920
+          },
+          {
+            "id": "closing-cta",
+            "h": 405,
+            "w": 1920
+          },
+          {
+            "id": "footer",
+            "h": 466,
+            "w": 1920
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      }
+    }
+  },
+  "webkit": {
+    "version": "26.5",
+    "viewports": {
+      "375": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "overflowPass": true,
+        "docHeight": 15080,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, Arial Black, system-",
+          "fontSize": "30.000675px",
+          "lineHeight": "32.40073px",
+          "fontWeight": "700",
+          "w": 335,
+          "h": 97
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 1246,
+            "w": 375
+          },
+          {
+            "id": "maker-line",
+            "h": 253,
+            "w": 375
+          },
+          {
+            "id": "the-problem",
+            "h": 405,
+            "w": 375
+          },
+          {
+            "id": "moods",
+            "h": 1655,
+            "w": 375
+          },
+          {
+            "id": "states",
+            "h": 1017,
+            "w": 375
+          },
+          {
+            "id": "one-collection",
+            "h": 1760,
+            "w": 375
+          },
+          {
+            "id": "price-intelligence",
+            "h": 957,
+            "w": 375
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 670,
+            "w": 375
+          },
+          {
+            "id": "terminal-first",
+            "h": 1086,
+            "w": 375
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 1038,
+            "w": 375
+          },
+          {
+            "id": "community",
+            "h": 1324,
+            "w": 375
+          },
+          {
+            "id": "roadmap",
+            "h": 1211,
+            "w": 375
+          },
+          {
+            "id": "after-phase-4",
+            "h": 562,
+            "w": 375
+          },
+          {
+            "id": "faq",
+            "h": 848,
+            "w": 375
+          },
+          {
+            "id": "closing-cta",
+            "h": 369,
+            "w": 375
+          },
+          {
+            "id": "footer",
+            "h": 578,
+            "w": 375
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "768": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "overflowPass": true,
+        "docHeight": 11732,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, Arial Black, system-",
+          "fontSize": "39.554111px",
+          "lineHeight": "42.718441px",
+          "fontWeight": "700",
+          "w": 720,
+          "h": 128
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 869,
+            "w": 768
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 768
+          },
+          {
+            "id": "the-problem",
+            "h": 405,
+            "w": 768
+          },
+          {
+            "id": "moods",
+            "h": 1056,
+            "w": 768
+          },
+          {
+            "id": "states",
+            "h": 710,
+            "w": 768
+          },
+          {
+            "id": "one-collection",
+            "h": 1471,
+            "w": 768
+          },
+          {
+            "id": "price-intelligence",
+            "h": 808,
+            "w": 768
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 479,
+            "w": 768
+          },
+          {
+            "id": "terminal-first",
+            "h": 882,
+            "w": 768
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 954,
+            "w": 768
+          },
+          {
+            "id": "community",
+            "h": 923,
+            "w": 768
+          },
+          {
+            "id": "roadmap",
+            "h": 813,
+            "w": 768
+          },
+          {
+            "id": "after-phase-4",
+            "h": 470,
+            "w": 768
+          },
+          {
+            "id": "faq",
+            "h": 789,
+            "w": 768
+          },
+          {
+            "id": "closing-cta",
+            "h": 373,
+            "w": 768
+          },
+          {
+            "id": "footer",
+            "h": 474,
+            "w": 768
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "1280": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "overflowPass": true,
+        "docHeight": 11474,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, Arial Black, system-",
+          "fontSize": "52px",
+          "lineHeight": "56.16px",
+          "fontWeight": "700",
+          "w": 650,
+          "h": 168
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 989,
+            "w": 1280
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 1280
+          },
+          {
+            "id": "the-problem",
+            "h": 441,
+            "w": 1280
+          },
+          {
+            "id": "moods",
+            "h": 966,
+            "w": 1280
+          },
+          {
+            "id": "states",
+            "h": 622,
+            "w": 1280
+          },
+          {
+            "id": "one-collection",
+            "h": 1194,
+            "w": 1280
+          },
+          {
+            "id": "price-intelligence",
+            "h": 848,
+            "w": 1280
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 421,
+            "w": 1280
+          },
+          {
+            "id": "terminal-first",
+            "h": 976,
+            "w": 1280
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 990,
+            "w": 1280
+          },
+          {
+            "id": "community",
+            "h": 891,
+            "w": 1280
+          },
+          {
+            "id": "roadmap",
+            "h": 676,
+            "w": 1280
+          },
+          {
+            "id": "after-phase-4",
+            "h": 511,
+            "w": 1280
+          },
+          {
+            "id": "faq",
+            "h": 825,
+            "w": 1280
+          },
+          {
+            "id": "closing-cta",
+            "h": 405,
+            "w": 1280
+          },
+          {
+            "id": "footer",
+            "h": 466,
+            "w": 1280
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      },
+      "1920": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "overflowPass": true,
+        "docHeight": 11474,
+        "supports": {
+          "clamp": true,
+          "aspectRatio": true,
+          "backdropFilter": true,
+          "interpolateSize": false,
+          "detailsContent": null,
+          "hasSel": true
+        },
+        "h1": {
+          "fontFamily": "Orbitron, Michroma, Arial Black, system-",
+          "fontSize": "52px",
+          "lineHeight": "56.16px",
+          "fontWeight": "700",
+          "w": 650,
+          "h": 168
+        },
+        "details": {
+          "listStyle": "outside none none",
+          "display": "flex",
+          "markerHidden": "",
+          "h": 56
+        },
+        "coverTile": null,
+        "backdropFilterUsers": 0,
+        "gradientUsers": 12,
+        "scriptTags": 1,
+        "fontsLoaded": 5,
+        "secs": [
+          {
+            "id": "hero",
+            "h": 989,
+            "w": 1920
+          },
+          {
+            "id": "maker-line",
+            "h": 159,
+            "w": 1920
+          },
+          {
+            "id": "the-problem",
+            "h": 441,
+            "w": 1920
+          },
+          {
+            "id": "moods",
+            "h": 966,
+            "w": 1920
+          },
+          {
+            "id": "states",
+            "h": 622,
+            "w": 1920
+          },
+          {
+            "id": "one-collection",
+            "h": 1194,
+            "w": 1920
+          },
+          {
+            "id": "price-intelligence",
+            "h": 848,
+            "w": 1920
+          },
+          {
+            "id": "yours-and-offline",
+            "h": 421,
+            "w": 1920
+          },
+          {
+            "id": "terminal-first",
+            "h": 976,
+            "w": 1920
+          },
+          {
+            "id": "and-on-your-phone",
+            "h": 990,
+            "w": 1920
+          },
+          {
+            "id": "community",
+            "h": 891,
+            "w": 1920
+          },
+          {
+            "id": "roadmap",
+            "h": 676,
+            "w": 1920
+          },
+          {
+            "id": "after-phase-4",
+            "h": 511,
+            "w": 1920
+          },
+          {
+            "id": "faq",
+            "h": 825,
+            "w": 1920
+          },
+          {
+            "id": "closing-cta",
+            "h": 405,
+            "w": 1920
+          },
+          {
+            "id": "footer",
+            "h": 466,
+            "w": 1920
+          }
+        ],
+        "pageErrors": [],
+        "badResponses": []
+      }
+    }
+  }
+}

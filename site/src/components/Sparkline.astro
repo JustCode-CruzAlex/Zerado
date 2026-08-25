@@ -1,0 +1,44 @@
+---
+/**
+ * Sparkline — 16 CSS bars, decorative, carries no information not already
+ * in text. Ref: design/blueprint.md §2 (§07).
+ */
+// Relative bar heights (%) — a plausible price-history shape with the two
+// extremes ("today" and "all-time low") called out by the two lit bars.
+const BARS = [55, 62, 58, 66, 72, 60, 48, 100, 88, 70, 52, 40, 45, 58, 22, 56];
+const LOW_INDEX = 14;
+const TODAY_INDEX = 15;
+---
+
+<div class="z-sparkline" aria-hidden="true">
+  {BARS.map((h, i) => (
+    <span
+      class={`z-sparkline__bar ${i === TODAY_INDEX ? 'z-sparkline__bar--today' : ''} ${i === LOW_INDEX ? 'z-sparkline__bar--low' : ''}`}
+      style={`--z-bar-h: ${h}%`}
+    ></span>
+  ))}
+</div>
+
+<style>
+  .z-sparkline {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    block-size: 40px;
+  }
+
+  .z-sparkline__bar {
+    flex: 1;
+    block-size: var(--z-bar-h);
+    background: var(--z-amber-900);
+    border-radius: 1px;
+  }
+
+  .z-sparkline__bar--today {
+    background: var(--z-primary);
+  }
+
+  .z-sparkline__bar--low {
+    background: var(--z-steel);
+  }
+</style>

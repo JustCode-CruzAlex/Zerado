@@ -1,0 +1,100 @@
+name: guardrails
+
+# Repository-wide checks. Deliberately NOT path-filtered: a pull request that
+# touches only README.md, docs/**, CONTRIBUTING.md or .do/** must still be
+# scanned, which is exactly the coverage gap that existed when these checks
+# lived inside the path-filtered site workflow.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guardrails-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardrails:
+    name: guardrails
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poppler-utils (PDF text extraction)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      # ---- Ratified decision Q4: the banned community-source name appears
+      # nowhere. The pattern is assembled at runtime so the literal never
+      # appears in this repository — otherwise the guard would trip on itself.
+      # See docs/REDACTIONS.md.
+      - name: The banned community-source name appears nowhere — text
+        run: |
+          pattern="$(printf 're%s' 'ddit')"
+          echo "Scanning every tracked text file, case-insensitively…"
+          if grep -ril --exclude-dir=.git --exclude-dir=node_modules -e "$pattern" . ; then
+            echo "::error::Ratified decision Q4 violated — the name appears in the files above."
+            exit 1
+          fi
+          echo "OK — zero occurrences."
+
+      - name: The banned community-source name appears nowhere — PDFs
+        run: |
+          pattern="$(printf 're%s' 'ddit')"
+          fail=0
+          shopt -s nullglob
+          for f in docs/pdf/*.pdf; do
+            n=$(pdftotext "$f" - 2>/dev/null | grep -ic -e "$pattern" || true)
+            echo "  ${n}  ${f}"
+            [ "$n" != "0" ] && { echo "::error::${f} contains the banned name."; fail=1; }
+          done
+          exit $fail
+
+      # ---- Backup and editor droppings must not be tracked. A committed .bak
+      # is a second, unmaintained copy of a file that was fixed — it outlives
+      # the fix and gets copied from.
+      - name: No backup or editor files are tracked
+        run: |
+          if git ls-files | grep -iE '\.(bak|orig|old|save|swp|tmp)$|~$' ; then
+            echo "::error::Backup files above are tracked. Git is the backup — delete them."
+            exit 1
+          fi
+          echo "OK — none tracked."
+
+      - name: No build output or dependencies are tracked
+        run: |
+          if git ls-files | grep -E '(^|/)(node_modules|dist)/' ; then
+            echo "::error::Build output or dependencies are tracked."
+            exit 1
+          fi
+          echo "OK — none tracked."
+
+      # ---- The App Platform spec is the deploy's single entry point and the
+      # one artefact that cannot be smoke-tested without DigitalOcean
+      # credentials. Assert its shape so a malformed spec cannot reach main.
+      - name: The App Platform spec has its fields at the document root
+        run: |
+          python3 - <<'PY'
+          import sys, yaml
+          d = yaml.safe_load(open('.do/app.yaml'))
+          errs = []
+          if 'spec' in d:
+              errs.append("`.do/app.yaml` nests everything under a top-level `spec:` key. "
+                          "That wrapper belongs to the API request body, never to the file "
+                          "consumed by `doctl apps create --spec` or auto-detected at .do/app.yaml.")
+          for k in ('name', 'region', 'static_sites', 'domains'):
+              if k not in d:
+                  errs.append(f"missing required root field: {k}")
+          site = (d.get('static_sites') or [{}])[0]
+          if not site.get('github', {}).get('deploy_on_push'):
+              errs.append("deploy_on_push must stay true — a push to main has to republish "
+                          "with no manual step.")
+          for e in errs:
+              print(f"::error::{e}")
+          sys.exit(1 if errs else 0)
+          PY
+          echo "OK — spec shape valid."

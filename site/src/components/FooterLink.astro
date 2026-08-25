@@ -1,0 +1,35 @@
+---
+/**
+ * FooterLink — cyan link, underline on hover. Ref: design/blueprint.md §6.2.
+ *
+ * @prop {string} href
+ * @prop {string} label
+ * @prop {boolean} [rel] — adds rel="noopener noreferrer"
+ */
+interface Props {
+  href: string;
+  label: string;
+  rel?: boolean;
+}
+
+const { href, label, rel = false } = Astro.props;
+---
+
+<a class="z-footer-link" href={href} rel={rel ? 'noopener noreferrer' : undefined}>{label}</a>
+
+<style>
+  .z-footer-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    color: var(--z-text-link);
+    font-size: var(--z-text-sm);
+    text-decoration: none;
+    transition: color var(--z-duration-fast) var(--z-ease-standard);
+  }
+
+  .z-footer-link:hover {
+    color: var(--z-text-link-hover);
+    text-decoration: underline;
+  }
+</style>

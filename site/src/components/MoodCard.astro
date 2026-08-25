@@ -1,0 +1,58 @@
+---
+/**
+ * MoodCard — non-interactive, no hover state (design/blueprint.md §6.1).
+ * Ref: design/blueprint.md §2 (§04), §6.3.
+ *
+ * @prop {number} index — 1-4, rendered as a zero-padded mono readout
+ * @prop {string} title
+ * @prop {string} body
+ */
+interface Props {
+  index: number;
+  title: string;
+  body: string;
+}
+
+const { index, title, body } = Astro.props;
+const padded = String(index).padStart(2, '0');
+---
+
+<div class="z-mood-card">
+  <span class="z-mood-card__index" aria-hidden="true">{padded}</span>
+  <p class="z-mood-card__title">{title}</p>
+  <p class="z-mood-card__body">{body}</p>
+</div>
+
+<style>
+  .z-mood-card {
+    position: relative;
+    background: var(--z-surface-raised);
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-radius-md);
+    padding: var(--z-space-5);
+  }
+
+  .z-mood-card__index {
+    position: absolute;
+    top: var(--z-space-4);
+    right: var(--z-space-4);
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-caption);
+    color: var(--z-text-tertiary);
+  }
+
+  .z-mood-card__title {
+    font-family: var(--z-font-body);
+    font-weight: var(--z-weight-bold);
+    font-size: var(--z-text-h3);
+    color: var(--z-text);
+    padding-inline-end: 3ch;
+    margin-block-end: var(--z-space-3);
+  }
+
+  .z-mood-card__body {
+    font-size: var(--z-text-base);
+    line-height: var(--z-leading-normal);
+    color: var(--z-text-secondary);
+  }
+</style>

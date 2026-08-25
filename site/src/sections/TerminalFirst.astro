@@ -1,0 +1,92 @@
+---
+/**
+ * Section 09 — terminal-first. Body cols 1-6 (≥1280) + TF-3 "game detail"
+ * terminal frame. Ref: design/blueprint.md §2 (§09); content/landing-copy.md §09.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
+import MockupCaption from '../components/MockupCaption.astro';
+---
+
+<section id="terminal-first" aria-labelledby="terminal-first-heading" class="z-section z-section--bg">
+  <div class="z-container">
+    <div class="z-grid-12">
+      <div class="z-cols-1-7 z-terminal-first__copy">
+        <SectionEyebrow index={9} id="terminal-first" />
+        <SectionHeading id="terminal-first-heading" text="Built for the terminal, on purpose" />
+        <p class="z-body-lg">
+          It's a text program. It starts instantly, holds your whole library in memory, and
+          fetches from every connected source at once instead of making you wait on each one in
+          turn. No mouse required, no page to load, no telemetry running in the background.
+        </p>
+      </div>
+    </div>
+
+    <figure class="z-terminal-first__frame">
+      {/* role="img" lives on this wrapper, not on the <figure>: ARIA-in-HTML
+           does not allow role=img on <figure>, and Chromium consequently does NOT
+           apply the presentational-children rule — the whole mockup's fabricated
+           library ("Celeste … ZERADO", "412 games") was being read out to screen
+           readers as if it were real content. On a div the role is valid and the
+           subtree collapses to the caption, which is the only honest reading. */}
+      <div class="z-mockup-frame" role="img" aria-labelledby="terminal-first-caption">
+      <TerminalFrame
+        variant="still"
+        title="zerado — Hollow Knight"
+        counter="steam"
+        keybar="e edit · m mood · p price history · q back"
+      >
+        <div class="z-detail">
+          <p><span class="z-detail__state">◐ IN PROGRESS</span><span class="z-detail__meta">  42h played</span></p>
+          <p class="z-detail__row"><span class="z-detail__label">MOODS</span>  tactical, full focus · story rich</p>
+          <p class="z-detail__row"><span class="z-detail__label">PRICE</span>  $15 today   ·   low $8 (3 months ago)</p>
+          <p class="z-detail__verdict">          maybe wait</p>
+          <p class="z-detail__row"><span class="z-detail__label">SINOPSE</span>  A short plot summary lands here once</p>
+          <p class="z-detail__continued">           enrichment is wired in.</p>
+        </div>
+      </TerminalFrame>
+      </div>
+      <MockupCaption
+        id="terminal-first-caption"
+        text="Mockup of a game's detail page in the terminal, showing its status, mood tags and price history in one screen."
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .z-terminal-first__copy {
+    margin-block-end: var(--z-space-6);
+  }
+
+  .z-terminal-first__copy .z-body-lg {
+    max-inline-size: var(--z-container-narrow-px);
+    color: var(--z-text-secondary);
+  }
+
+  .z-detail {
+    white-space: pre-wrap;
+  }
+
+  .z-detail__state {
+    color: var(--z-primary);
+  }
+
+  .z-detail__meta,
+  .z-detail__continued {
+    color: var(--z-text-tertiary);
+  }
+
+  .z-detail__row {
+    margin-block-start: var(--z-space-3);
+  }
+
+  .z-detail__label {
+    color: var(--z-text-tertiary);
+  }
+
+  .z-detail__verdict {
+    color: var(--z-primary);
+  }
+</style>

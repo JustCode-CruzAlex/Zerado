@@ -1,0 +1,60 @@
+---
+/**
+ * StoreRow — one connected-store row. live = synced today; planned = coming
+ * later. Ref: design/blueprint.md §2 (§06), §8.3 (rejected --z-cyan-900 pair).
+ *
+ * Co-render rule (brand-manual.md §3): colour + glyph + LABEL. The glyph is
+ * `aria-hidden` because it is decorative punctuation, which used to leave the
+ * status carried by colour alone — a screen reader heard four identical rows,
+ * one per store. The visually-hidden status word is what actually satisfies the
+ * rule, and it is what keeps the row meaningful under `forced-colors` too.
+ *
+ * `live` is currently used by nothing: no store syncs yet, because there is no
+ * Go code. It is kept rather than deleted because it is exactly what Phase 1
+ * flips on when Steam sync ships — see content/landing-copy.md §06.
+ *
+ * @prop {"live" | "planned"} status
+ * @prop {string} label — store name
+ */
+interface Props {
+  status: 'live' | 'planned';
+  label: string;
+}
+
+const { status, label } = Astro.props;
+
+const STATUS_WORD: Record<Props['status'], string> = {
+  live: 'synced',
+  planned: 'planned'
+};
+---
+
+<div class={`z-store-row z-store-row--${status}`}>
+  <span class="z-store-row__glyph" aria-hidden="true">{status === 'live' ? '◉' : '○'}</span>
+  <span class="z-store-row__label">{label}</span>
+  <span class="z-visually-hidden">— {STATUS_WORD[status]}</span>
+</div>
+
+<style>
+  .z-store-row {
+    display: flex;
+    align-items: center;
+    gap: var(--z-space-3);
+    padding-block: var(--z-space-2);
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-sm);
+  }
+
+  .z-store-row--live {
+    color: var(--z-accent);
+  }
+
+  .z-store-row--planned {
+    color: var(--z-text-tertiary);
+  }
+
+  .z-store-row__label {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>

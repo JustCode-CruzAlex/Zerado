@@ -1,0 +1,80 @@
+name: 🐛 Bug report
+description: Something on zerado.app or in this repository is broken.
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. One thing before you start:
+
+        **Zerado the program does not exist yet** — it is pre-alpha and there is no
+        binary. If you are reporting something about a `zerado` command, it is not
+        a bug, it is Phase 1. See the [roadmap](https://github.com/JustCode-CruzAlex/Zerado#roadmap).
+
+        **Never report a security vulnerability here.**
+        Use a [private advisory](https://github.com/JustCode-CruzAlex/Zerado/security/advisories/new) instead.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where is it?
+      options:
+        - The landing page (zerado.app)
+        - Building the site from source (site/)
+        - Documentation (README, docs/**)
+        - Repository / CI
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you saw, and what you expected instead.
+      placeholder: |
+        Expected: …
+        Actually happened: …
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open https://zerado.app at 375 px wide
+        2. Scroll to "…"
+        3. …
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      description: Skip if this is not a page bug.
+      placeholder: Firefox 142 on macOS 15.6
+  - type: input
+    id: viewport
+    attributes:
+      label: Viewport width
+      description: A layout defect is almost always specific to a width — this is the single most useful field.
+      placeholder: "375"
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshot or console output
+      description: Paste or drag an image in. For a build failure, paste the full output.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I checked that this is not already reported in the open issues.
+          required: true
+        - label: This is not a security vulnerability (those go in a private advisory).
+          required: true

@@ -1,0 +1,50 @@
+---
+/**
+ * Section 03 — the-problem. Heading rendered small ("optional" per copy).
+ * Three-line ProblemStack with a single amber vertical rule.
+ * Ref: design/blueprint.md §2 (§03); content/landing-copy.md §03.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+---
+
+<section id="the-problem" aria-labelledby="the-problem-heading" class="z-section z-section--bg">
+  <div class="z-container-narrow">
+    <SectionEyebrow index={3} id="the-problem" />
+    <SectionHeading id="the-problem-heading" text="The problem" quiet />
+    <div class="z-problem-stack">
+      <div class="z-problem-stack__rule" aria-hidden="true"></div>
+      <div class="z-problem-stack__lines">
+        <p class="z-body-lg z-problem-stack__line">You own 400 games.</p>
+        <p class="z-body-lg z-problem-stack__line">You've finished six.</p>
+        <p class="z-body-lg z-problem-stack__line">
+          Most nights, you scroll for twenty minutes and start something you've already seen.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .z-problem-stack {
+    display: flex;
+    gap: var(--z-space-5);
+  }
+
+  .z-problem-stack__rule {
+    flex-shrink: 0;
+    inline-size: 2px;
+    background: var(--z-primary);
+    align-self: stretch;
+  }
+
+  .z-problem-stack__lines {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-3);
+  }
+
+  .z-problem-stack__line {
+    color: var(--z-text);
+  }
+</style>

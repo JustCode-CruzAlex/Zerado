@@ -1,0 +1,30 @@
+---
+/**
+ * SectionHeading — the H2 for every ratified section, with an optional
+ * emphasised trailing clause (§11 lifts it amber, §13 lowers it to secondary).
+ * Ref: design/blueprint.md §6.3, §8.4.
+ *
+ * @prop {string} id — element id, target of aria-labelledby on the <section>
+ * @prop {string} text — the heading's main text (without the emphasised clause)
+ * @prop {string} [emphasis] — the emphasised trailing clause, rendered inline
+ * @prop {"primary" | "secondary"} [emphasisTone] — colour of the clause
+ * @prop {boolean} [quiet] — §03's small H2 variant
+ */
+interface Props {
+  id: string;
+  text: string;
+  emphasis?: string;
+  emphasisTone?: 'primary' | 'secondary';
+  quiet?: boolean;
+}
+
+const { id, text, emphasis, emphasisTone = 'primary', quiet = false } = Astro.props;
+---
+
+<h2 id={id} class={`z-h2 ${quiet ? 'z-h2--quiet' : ''}`}>
+  {text}{emphasis && (
+    <span class={emphasisTone === 'primary' ? 'z-h2__emphasis' : 'z-h2__emphasis--muted'}>
+      {' '}{emphasis}
+    </span>
+  )}
+</h2>

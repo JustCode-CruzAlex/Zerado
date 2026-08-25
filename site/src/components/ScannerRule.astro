@@ -1,0 +1,17 @@
+---
+/**
+ * ScannerRule — the brand's one signature motion (live) and its parked
+ * siblings. Ref: design/blueprint.md §7.6, brand/tokens.css §11.
+ *
+ * @prop {"live" | "parked"} variant
+ */
+interface Props {
+  variant: 'live' | 'parked';
+}
+
+const { variant } = Astro.props;
+---
+
+<div class={`z-scanner-track z-scanner-track--${variant}`} aria-hidden="true">
+  <div class="z-scanner-track__pip"></div>
+</div>

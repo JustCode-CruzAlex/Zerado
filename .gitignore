@@ -1,0 +1,46 @@
+# ---- site build ----
+site/dist/
+site/.astro/
+site/node_modules/
+
+# ---- node ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---- QA harness (re-installable from its own package-lock.json) ----
+docs/qa/harness/node_modules/
+
+# ---- Go (Phase 1 onward) ----
+/zerado
+/bin/
+*.test
+*.out
+
+# ---- local data ----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- editors / OS ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.bak
+*.orig
+*~
+
+# ---- secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- FlowForge local session state ----
+.flowforge/local/
+.flowforge/sessions/
+.flowforge/logs/
+.flowforge/developers/
+.flowforge/blueprint-gate/

@@ -1,0 +1,80 @@
+---
+/**
+ * PhoneFrame — CSS-only hardware depiction. --z-phone-radius (28px) is a
+ * declared exception to the machined radius scale. Ref: design/blueprint.md
+ * §2 (§10), §6.3.
+ *
+ * @prop {boolean} [rear] — true renders the offset rear frame (≥768 only)
+ */
+import PhaseBadge from './PhaseBadge.astro';
+import { STATES, STATE_ORDER } from '../data/states';
+
+interface Props {
+  rear?: boolean;
+}
+
+const { rear = false } = Astro.props;
+const rows = STATE_ORDER.concat(['notStarted']).slice(0, 5) as (keyof typeof STATES)[];
+---
+
+<div class={`z-phone ${rear ? 'z-phone--rear' : ''}`} aria-hidden={rear ? 'true' : undefined}>
+  <div class="z-phone__badge"><PhaseBadge text="PHASE 4" /></div>
+  <ul class="z-phone__list">
+    {rows.map((key) => {
+      const def = STATES[key];
+      return (
+        <li class="z-phone__row" style={`--z-row-color: var(${def.token})`}>
+          <span aria-hidden="true">{def.glyph}</span>
+          <span class="z-phone__row-label">{def.label}</span>
+        </li>
+      );
+    })}
+  </ul>
+</div>
+
+<style>
+  .z-phone {
+    position: relative;
+    inline-size: 240px;
+    block-size: 480px;
+    background: var(--z-surface);
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-phone-radius);
+    padding: calc(var(--z-phone-radius) * 0.4);
+    box-shadow: inset 0 0 0 3px var(--z-void);
+  }
+
+  .z-phone--rear {
+    /* Painted first in DOM order, so the front frame (which follows it)
+       naturally stacks above it — no z-index needed. A negative z-index
+       here would sink it below the section's own painted background
+       instead of just behind its sibling. */
+    position: absolute;
+    inset-inline-start: 32px;
+    inset-block-start: 24px;
+    opacity: 0.85;
+  }
+
+  .z-phone__badge {
+    margin-block-end: var(--z-space-4);
+  }
+
+  .z-phone__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-3);
+  }
+
+  .z-phone__row {
+    display: flex;
+    align-items: center;
+    gap: var(--z-space-2);
+    font-family: var(--z-font-mono);
+    font-size: 13px;
+    color: var(--z-row-color);
+  }
+
+  .z-phone__row-label {
+    color: var(--z-text-secondary);
+  }
+</style>

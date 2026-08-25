@@ -1,0 +1,158 @@
+{
+  "url": "http://localhost:4321/",
+  "generatedAt": "2026-08-25T03:14:47.761Z",
+  "viewports": {
+    "375": {
+      "overflow": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "bodyScrollWidth": 375,
+        "bodyClientWidth": 375,
+        "pass": true,
+        "documentScrollEqualsClient": true,
+        "offenders": [],
+        "offenderCount": 0,
+        "scrollers": [
+          {
+            "tag": "div",
+            "cls": "z-frame__watermark-clip",
+            "id": null,
+            "scrollWidth": 490,
+            "clientWidth": 333,
+            "tabindex": null,
+            "overflowX": "hidden"
+          }
+        ]
+      },
+      "axe": {
+        "violations": [],
+        "violationCount": 0,
+        "passCount": 28,
+        "incompleteCount": 1,
+        "incomplete": [
+          {
+            "id": "color-contrast",
+            "impact": "serious",
+            "nodes": 30,
+            "help": "Elements must meet minimum color contrast ratio thresholds"
+          }
+        ],
+        "inapplicableCount": 35
+      }
+    },
+    "768": {
+      "overflow": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "bodyScrollWidth": 768,
+        "bodyClientWidth": 768,
+        "pass": true,
+        "documentScrollEqualsClient": true,
+        "offenders": [],
+        "offenderCount": 0,
+        "scrollers": [
+          {
+            "tag": "div",
+            "cls": "z-frame__watermark-clip",
+            "id": null,
+            "scrollWidth": 888,
+            "clientWidth": 718,
+            "tabindex": null,
+            "overflowX": "hidden"
+          }
+        ]
+      },
+      "axe": {
+        "violations": [],
+        "violationCount": 0,
+        "passCount": 28,
+        "incompleteCount": 1,
+        "incomplete": [
+          {
+            "id": "color-contrast",
+            "impact": "serious",
+            "nodes": 41,
+            "help": "Elements must meet minimum color contrast ratio thresholds"
+          }
+        ],
+        "inapplicableCount": 35
+      }
+    },
+    "1280": {
+      "overflow": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "bodyClientWidth": 1280,
+        "pass": true,
+        "documentScrollEqualsClient": true,
+        "offenders": [],
+        "offenderCount": 0,
+        "scrollers": [
+          {
+            "tag": "div",
+            "cls": "z-frame__watermark-clip",
+            "id": null,
+            "scrollWidth": 1357,
+            "clientWidth": 1130,
+            "tabindex": null,
+            "overflowX": "hidden"
+          }
+        ]
+      },
+      "axe": {
+        "violations": [],
+        "violationCount": 0,
+        "passCount": 28,
+        "incompleteCount": 1,
+        "incomplete": [
+          {
+            "id": "color-contrast",
+            "impact": "serious",
+            "nodes": 41,
+            "help": "Elements must meet minimum color contrast ratio thresholds"
+          }
+        ],
+        "inapplicableCount": 35
+      }
+    },
+    "1920": {
+      "overflow": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "bodyScrollWidth": 1920,
+        "bodyClientWidth": 1920,
+        "pass": true,
+        "documentScrollEqualsClient": true,
+        "offenders": [],
+        "offenderCount": 0,
+        "scrollers": [
+          {
+            "tag": "div",
+            "cls": "z-frame__watermark-clip",
+            "id": null,
+            "scrollWidth": 1357,
+            "clientWidth": 1130,
+            "tabindex": null,
+            "overflowX": "hidden"
+          }
+        ]
+      },
+      "axe": {
+        "violations": [],
+        "violationCount": 0,
+        "passCount": 28,
+        "incompleteCount": 1,
+        "incomplete": [
+          {
+            "id": "color-contrast",
+            "impact": "serious",
+            "nodes": 41,
+            "help": "Elements must meet minimum color contrast ratio thresholds"
+          }
+        ],
+        "inapplicableCount": 35
+      }
+    }
+  }
+}
