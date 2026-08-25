@@ -8,6 +8,34 @@
 # year-long `immutable` cache — a regenerated file under an unchanged name
 # would otherwise be served stale for as long as the cache lives (perf F5).
 
+# ---------------------------------------------------------------------------
+# Security headers — every route.
+#
+# Netlify and Cloudflare Pages apply ALL matching blocks, so this `/*` rule and
+# the per-path Cache-Control rules below compose: `/*` supplies the security
+# headers everywhere, the specific blocks supply the caching.
+#
+# This set is the counterpart of docs/deploy/nginx/snippets/zerado-headers.conf,
+# so the two host configs are genuine ports of one another rather than one being
+# caching-only. Keep them in step.
+#
+# The page is same-origin by construction: no client-side JavaScript, no
+# external requests, self-hosted fonts, inline SVG. `unsafe-inline` for
+# style-src is required because Astro inlines the critical stylesheet.
+# `preload` is declared but the domain is NOT submitted to the HSTS preload list
+# until the deploy has been stable for a while — preload is irreversible.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+
+# ---------------------------------------------------------------------------
+# Cache policy
+# ---------------------------------------------------------------------------
+
 # Astro's own bundle — filename changes when the bytes change.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable

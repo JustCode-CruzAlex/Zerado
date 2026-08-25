@@ -2,16 +2,22 @@ name: site
 
 # Gating CI for the landing page. A pull request that breaks `npm run build`
 # fails here by design — see CONTRIBUTING.md, "The review bar".
+#
+# This workflow is path-filtered to site/**, because everything it does needs a
+# built page. The checks that must run on EVERY pull request regardless of what
+# it touched live in guardrails.yml, which carries no paths filter.
 on:
   pull_request:
     branches: [main]
     paths:
       - 'site/**'
+      - 'scripts/check-page.mjs'
       - '.github/workflows/site.yml'
   push:
     branches: [main]
     paths:
       - 'site/**'
+      - 'scripts/check-page.mjs'
       - '.github/workflows/site.yml'
   workflow_dispatch:
 
@@ -29,10 +35,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Astro 7 requires >=22.12.0; site/package.json declares it under engines.
         node: ['22', '24']
-    defaults:
-      run:
-        working-directory: site
     steps:
       - uses: actions/checkout@v4
 
@@ -45,20 +49,17 @@ jobs:
       # `npm ci` installs strictly from the lockfile: the build must succeed
       # from a clean checkout with no network access beyond the npm registry.
       - name: Install
+        working-directory: site
         run: npm ci
 
       - name: Build
+        working-directory: site
         run: npm run build
 
-      - name: Assert the build actually produced a page
-        run: |
-          test -f dist/index.html || { echo "::error::dist/index.html was not produced"; exit 1; }
-          test -f dist/_headers  || { echo "::error::dist/_headers is missing — the cache policy would not ship"; exit 1; }
-          bytes=$(wc -c < dist/index.html)
-          echo "dist/index.html: ${bytes} bytes"
-          if [ "$bytes" -lt 20000 ]; then
-            echo "::error::dist/index.html is only ${bytes} bytes — the 16-section page did not render"; exit 1
-          fi
+      # Every assertion in here is a ratified decision or a load-bearing page
+      # guarantee, and each one is mutation-tested — see the script's header.
+      - name: Page invariants
+        run: node scripts/check-page.mjs site/dist/index.html
 
       - name: Upload the build
         if: matrix.node == '24'
@@ -67,70 +68,3 @@ jobs:
           name: site-dist
           path: site/dist
           retention-days: 7
-
-  guardrails:
-    name: guardrails
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: site-dist
-          path: dist
-
-      # ---- Ratified decision Q4: the banned community-source name appears nowhere.
-      # The pattern is assembled at runtime so the literal never appears in this
-      # repository — otherwise the guard would trip on itself. See docs/REDACTIONS.md.
-      - name: The banned community-source name appears nowhere
-        run: |
-          pattern="$(printf 're%s' 'ddit')"
-          echo "Scanning the built page and the repository (case-insensitive)…"
-          if grep -ril --exclude-dir=.git --exclude-dir=node_modules -e "$pattern" . ; then
-            echo "::error::Ratified decision Q4 violated — the banned community-source name appears above."
-            exit 1
-          fi
-          echo "OK — zero occurrences."
-
-      # ---- Ratified decision Q6: disclosure, never an ask. Zero money buttons.
-      - name: No donate / sponsor control on the page
-        run: |
-          if grep -oiE 'donate|sponsor|patreon|ko-?fi' dist/index.html ; then
-            echo "::error::Ratified decision Q6 violated — a funding control reached the page."
-            exit 1
-          fi
-          echo "OK — zero funding controls."
-
-      # ---- The page's load-bearing guarantees.
-      - name: Zero client-side JavaScript, zero external requests
-        run: |
-          fail=0
-          # -F: the exclusion is a fixed string. In a basic regex `\+` would mean
-          # "one or more d", not a literal plus, and the JSON-LD block would slip past.
-          if grep -oE '<script[^>]*>' dist/index.html | grep -vF 'type="application/ld+json"' ; then
-            echo "::error::A <script> other than the JSON-LD block reached the page."; fail=1
-          fi
-          if grep -oE '(src|href)="https?://[^"]*"' dist/index.html \
-             | grep -vE 'https://(zerado\.app|github\.com/JustCode-CruzAlex/Zerado|www\.flowforgesoft\.com|schema\.org)' ; then
-            echo "::error::An unexpected external request reached the page."; fail=1
-          fi
-          exit $fail
-
-      - name: No placeholder text in shipped output
-        run: |
-          if grep -oiE 'lorem ipsum|\[TBD\]|\bFIXME\b|\{\{' dist/index.html ; then
-            echo "::error::Placeholder text reached the page."
-            exit 1
-          fi
-          echo "OK — no placeholders."
-
-      - name: Every roadmap phase still reads Planned
-        run: |
-          n=$(grep -o 'PLANNED' dist/index.html | wc -l | tr -d ' ')
-          echo "PLANNED markers found: ${n:-0}"
-          if grep -oiE '>\s*(shipped|done|complete[d]?|released)\s*<' dist/index.html ; then
-            echo "::error::A roadmap phase is marked done. No phase is done — see README 'Status'."
-            exit 1
-          fi
-          echo "OK."

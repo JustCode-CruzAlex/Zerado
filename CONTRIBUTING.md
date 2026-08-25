@@ -69,6 +69,22 @@ is kept deliberately small.
 > Astro emits root-absolute asset paths; the page will render unstyled and
 > font-less and look broken when it is fine. Always use `npm run preview`.
 
+### The page invariants
+
+Every ratified decision that can be checked against a built page is checked by
+one script, with no dependencies:
+
+```bash
+cd site && npm ci && npm run build && cd ..
+node scripts/check-page.mjs site/dist/index.html
+```
+
+It asserts zero client-side JavaScript, zero unexpected external requests, no
+funding control, no placeholder text, and that the roadmap renders exactly four
+status markers all reading *Planned*. Each assertion names the decision it
+defends, and each one is mutation-tested — a guard that has never failed is not
+a guard. CI runs the same script.
+
 ### The QA harness
 
 The accessibility and content checks that produced
@@ -150,8 +166,10 @@ should carry:
 
 A pull request is merged when it clears all of these:
 
-1. **CI is green.** The site build workflow must pass — a broken `npm run build`
-   fails the pull request by design.
+1. **CI is green.** Two workflows gate a pull request: `site` builds the page on
+   Node 22 and 24 and runs `scripts/check-page.mjs` against the result, and
+   `guardrails` runs repository-wide checks on **every** pull request, whatever
+   it touched. A broken `npm run build` fails the pull request by design.
 2. **It does what it says**, and nothing else. Unrelated changes get split out.
 3. **It does not regress the page's guarantees**, which are load-bearing and
    measured: zero client-side JavaScript, zero external network requests, zero

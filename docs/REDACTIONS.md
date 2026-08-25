@@ -50,15 +50,22 @@ was kept working:
 | `qa/harness/run-content.mjs` | The forbidden-token regex is assembled at runtime from fragments. **The check is unchanged and still fails on a real occurrence** — only the literal is gone from the source file. |
 | `qa/qa-report.md` | Three references reworded; the recorded results (`0` hits) are untouched. |
 | `review/review.md` | One row in the ratification-compliance table reworded; the verdict is untouched. |
-| `.github/workflows/site.yml` | The CI guardrail builds the same pattern with `printf`, for the same reason. |
+| `.github/workflows/guardrails.yml` | The CI guardrail builds the same pattern with `printf`, for the same reason. |
+| `scripts/check-page.mjs` | The page invariant assembles it the same way. |
 
 `docs/pdf/blueprint.pdf`, `docs/pdf/qa-report.pdf` and `docs/pdf/review.pdf`
 were **re-rendered from the redacted sources** so the PDFs and the Markdown do
 not disagree. The other six PDFs were not touched.
 
 **No measurement, result, score or verdict was altered.** The QA report still
-records zero occurrences, the review verdict is still GOLDEN with 0 blocking and
-0 major, and the CI guardrail in `.github/workflows/site.yml` now enforces the
-same rule on every build.
+records zero occurrences, and the review verdict is still GOLDEN with 0 blocking
+and 0 major.
+
+The rule is now enforced in CI by [`.github/workflows/guardrails.yml`](../.github/workflows/guardrails.yml),
+which runs on **every** pull request and every push to `main` with no `paths:`
+filter — scanning every tracked text file *and* extracting text from all nine
+PDFs. It deliberately carries no path filter: when these checks lived inside the
+path-filtered site workflow, a pull request touching only `README.md` or
+`docs/**` never triggered them at all.
 
 The day that source is named publicly, this is a one-line change in each file.

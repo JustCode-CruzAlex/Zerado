@@ -128,6 +128,11 @@ token is ever stored in this repository**. Install it once:
 Then:
 
 ```bash
+# Validate the spec BEFORE creating anything — this is the deploy's single
+# entry point and the one artefact that cannot be smoke-tested without
+# credentials. CI asserts its shape; this asserts it against the real API.
+doctl apps spec validate .do/app.yaml
+
 doctl apps create --spec .do/app.yaml
 doctl apps list --format ID,Spec.Name          # note the APP_ID
 doctl apps logs <APP_ID> --type build --follow # watch the first build
@@ -198,7 +203,11 @@ mkdir -p /var/www/zerado /var/www/certbot
 cd site && npm ci && npm run build
 rsync -av --delete dist/ root@"$IP":/var/www/zerado/
 
-# 5. Config and certificate.
+# 5. Config and certificate. The snippet is NOT optional: nginx drops every
+#    inherited add_header in any location that sets one of its own, so each
+#    location re-includes the full header set from this file.
+ssh root@"$IP" 'mkdir -p /etc/nginx/snippets'
+scp docs/deploy/nginx/snippets/zerado-headers.conf root@"$IP":/etc/nginx/snippets/
 scp docs/deploy/nginx/zerado.app.conf root@"$IP":/etc/nginx/sites-available/zerado.app
 ssh root@"$IP" 'ln -sf /etc/nginx/sites-available/zerado.app /etc/nginx/sites-enabled/ \
   && rm -f /etc/nginx/sites-enabled/default && nginx -t && systemctl reload nginx'
@@ -218,6 +227,14 @@ This is the acceptance checklist. None of it can be run until the site is
 actually served.
 
 ```bash
+# Path B only — confirm the headers survived on EVERY route, not just `/`.
+# This is the check that catches nginx's all-or-nothing add_header inheritance.
+for p in / /index.html /logo.svg; do
+  echo "== $p"
+  curl -sI "https://zerado.app$p" \
+    | grep -iE 'cache-control|strict-transport|content-security|x-frame|referrer-policy'
+done
+
 # 200 on both hostnames, valid TLS
 curl -sI https://zerado.app     | head -20
 curl -sI https://www.zerado.app | head -20
