@@ -21,7 +21,7 @@ Every contradiction the three deliverables found in each other, enumerated so th
 > too: it is **29**, not 25. The original figure double-counted two items and omitted the six the
 > design architect found.
 
-**35 findings: 29 from the cross-check (all closed), 6 more from building D7's theme gate (4 closed, 2 open upstream).**
+**38 findings: 29 from the cross-check (all closed), 6 from building D7's theme gate (4 closed, 2 open upstream), and 3 from auditing the checkers themselves (all closed).**
 
 Two of them — #15 and #17 — were briefly marked *reopened* and *partial* after `fft-tui-designer`
 read this register against head and found it over-claiming. Both were then closed by commit
@@ -121,6 +121,7 @@ down instead. Each of these is a one-liner against a clean checkout.
 | **Every doc carries an archetype** | `grep -L '^archetype:' docs/**/*.md` → empty |
 | **Offline invariant** | In `07-offline-contract.md` §2's Phase 1 table, extract `` `Z-NN` `` from column 1 and the class word from column 2 → **12 rows, 12 distinct, 9 `WORKS` · 2 `NEEDS THE NETWORK` · 1 `DEGRADES`** |
 | **Mockup widths** | For every ```` ```text ```` block bound to a `RENDER W×H` heading, measure each non-blank line with `east_asian_width`, counting `W`/`F` as 2 and **Ambiguous as 1** (the design system §1.2 rule) → no line exceeds its declared `W` |
+| **Mockup HEIGHT and frame extent** | The width check cannot see a frame that is internally consistent but wrong **as a whole** — too few rows for its viewport, or a frame narrower than the terminal it claims. Count rows against declared `H` and frame width against declared `W`. **Four real defects survived the other checks through this gap.** The check must know **two conventions** or it reports false positives: a block's first line is a **ruler**, not a terminal row; and **`Z-11` is exempt** — in EXIT mode it has already left the alternate screen, so its message is allowed to outrun the window and scroll. A naive version of this check flagged three blocks, and all three were the conventions, not defects |
 | **Title-block overrun** | For each rendered SVG, find the `[titleblock].description` text run and the **cell** rules (short vertical lines inside the title band — *not* the cyanotype theme's full-height graticule) → the run ends before the next cell rule |
 | **Charts are live, not stale exports** | Re-run `flowforge chart render` on all ten specs and diff the SVGs; the only permitted difference is the `RENDERED FROM` path prefix, which reflects the invocation directory |
 
@@ -130,6 +131,21 @@ things. The reproducible figures are: **72** fenced `text` blocks across the ele
 **16** are bound to an explicit `RENDER W×H` heading — **158 lines measured, 0 over.** An
 independent re-measurement of all render-shaped blocks against each block's own ruler also found
 **0 overruns**.
+
+---
+
+## E · Found by the checkers themselves — 3
+
+| # | Finding | State |
+|---|---|---|
+| **36** | **The mockup checker could not see frame height.** A block whose lines are each within their declared width can still have the wrong *number* of them, or a frame narrower than the terminal it claims. Four defects reached a GOLDEN head through this gap — an ExtraWide frame 2 columns short and one row too tall, a Tiny render with 20 body rows where its own table said 21, a pane with 31 content rows where the table said 30, and a mockup that was **never fenced** and so escaped the checker entirely | **CLOSED** — height and frame-extent added to the recipe above |
+| **37** | **A cross-reference that was true when written, made false by a decision two documents away.** `Z-15` §5.4 said a capability fact *"stays available in `Z-10 Help`"*. `Z-10` is **generated from the key registry**, so once `v` retires the key cannot be listed — the claim goes false at exactly the moment it matters. The remedy was not to reword it: the fact needed a **durable home**, which is `Z-09 § DISPLAY`'s `Images` row | **CLOSED** — and the row is now required, not optional |
+| **38** | **A bound key was missing from a golden.** `Z-10` §9's Tiny render omitted `g G first · last` — a key the registry binds and the help screen did not show. That is the precise failure `Z-10` exists to prevent, sitting inside `Z-10` | **CLOSED** |
+
+**#36 is the one worth keeping.** Every other finding in this register was caught by a person or a
+specialist reading something. #36 was caught by asking *what can my checkers not see* — and the
+answer was a whole dimension. A verification suite that has never been audited is a set of
+assumptions wearing a green tick.
 
 ---
 

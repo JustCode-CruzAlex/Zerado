@@ -602,7 +602,21 @@ in the footer, per [`07-offline-contract.md`](../../blueprint/07-offline-contrac
 | **`Esc`?** | **No.** `Esc` on the root means *nothing* and [`Z-04-library.md`](./Z-04-library.md) §13.4 documents that exhaustively. A note is not a mode and does not take focus, so binding `Esc` to it would make the root's `Esc` conditional — the one thing that table exists to prevent |
 | **Persisted** | `setting('covers.note_dismissed', 'true')` — one row in the settings table ([`09-erd.md`](../../blueprint/09-erd.md) §1), written on the keystroke like every other mutation in this product. **It is never shown again**, in this session or any other |
 | **Then `v` retires** | With the note dismissed on a terminal that draws no images, `v` is **unbound and absent from the footer**, and `Z-04`'s Wide footer returns to its ratified **73**-cell string. The precedent is `c` on `Z-04`, which is live only on an empty library (§9 there) |
-| **Nothing is lost** | The fact stays available in `Z-10 Help`, which describes what `v` does and which terminals draw covers |
+| **Nothing is lost** | The fact stays available in **`Z-09 Settings § DISPLAY`**, on the read-only `Images` row — see the note below |
+
+> **Correction, recorded rather than quietly fixed.** An earlier draft of this row said the fact
+> stays in `Z-10 Help`. **It cannot.** `Z-10` is *generated* from the key registry (`Z-10` D-10-1),
+> and a key that is not bound cannot be listed — that is the property which makes help unable to
+> drift. So at exactly the moment `v` retires, `Z-10` stops mentioning it, and the sentence claiming
+> the fact survives becomes false at the instant it matters.
+>
+> **`Z-09 Settings § DISPLAY`'s `Images` row is therefore not optional — it is the only durable home
+> left.** It is a read-only capability readout, exactly like `Colour`: it says what Zerado actually
+> resolved, so a player who dismissed the note six months ago can still find out why they have no
+> covers.
+>
+> *(Found by `fft-tui-designer` while writing `Z-10` rev B: a cross-reference that was true when
+> written and was made false by a decision two documents away.)*
 
 **Why `v` retires rather than staying bound and doing nothing.** A key that is listed and does
 nothing is anti-pattern *"a footer that lies"*; a key that is bound and silent is the pattern
@@ -1387,6 +1401,14 @@ Beyond [`../00-design-brief.md`](../00-design-brief.md) §10 and
 14. **At Tiny, `v` is unbound, absent from the footer, and silent.** Resize from 80 to 32 with
     the deck open and assert the list renders, the same game is focused, and **no line is printed
     about covers**.
+
+    > **Why silence is the right answer here, and not an omission.** Ruled by `fft-tui-architect`.
+    > At Tiny the body is **30 columns**, and the recommendation note costs **two rows** — to tell a
+    > player something they cannot act on without changing their terminal *and* resizing the window.
+    > Everywhere else in this bundle the rule is *shed columns before you shed meaning*; here the
+    > meaning has no action attached, so the rows are the more honest thing to keep. Recorded
+    > because a future reviewer will otherwise read the silence as a gap — which is exactly what it
+    > looks like without this paragraph.
 15. **`ZERADO_NO_IMAGES=1` draws no image at all** — not fewer, none — and the screen is
     identical to the no-support render.
 16. **Artifacts:** the eight of [`03-responsive.md`](../../blueprint/03-responsive.md) §7,
