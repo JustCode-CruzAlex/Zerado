@@ -207,45 +207,51 @@ gradients and became load-bearing the moment real third-party artwork shipped �
 both fixed here, because this change is what made them matter. The third is not
 this ticket's and is recorded rather than fixed.
 
-### 6.1 · The rights-holder withdrawal path was blocked by the build gate — FIXED
+### 6.1 · The rights-holder withdrawal path was blocked by the build gate — FIXED (at the second attempt)
 
 `docs/legal/igdb-image-licence-finding.md` §7 names, as a reversal path, "a
 rights-holder objecting to a specific cover, in which case that row loses its
 image and the tile treatment renders in its place — **a data-only change**."
 
-**It was not a data-only change.** Deleting one cover's files and rebuilding:
+**It was not a data-only change.** Deleting one cover's files and rebuilding
+failed `check-page.mjs`: the assertion handled the all-absent case but not the
+partial one, which is exactly the rights-holder case. The two directions were
+being treated as one, and they are not symmetric — a rendered alt the copy file
+never declared is always drift and always fails, while a declared alt the page
+did not render is a failure only if that row's cover actually shipped.
 
-```
-FAIL  the copy file and the page agree on every cover alt string
-      12 declared, 11 rendered; missing: Bloodborne — cover art, …
-26/27 page invariants hold.
-```
+**The first fix was incomplete, and the verification is why it got through.**
+The same commit that unblocked `check-page.mjs` added
+`scripts/fetch-covers.test.mjs` to the *same* `site.yml` job, six lines below,
+carrying `assert.equal(shipped.length, 12)` — which skips at 0, passes at 12 and
+**fails at 1–11**. 1–11 is the rights-holder case. Both steps run in the same
+`build` job, so the job still went red: the block had moved, not lifted. The
+four-direction table published with that commit checked the assertion that had
+changed and not the CI job that had changed alongside it, and reported the path
+as restored when it was not.
 
-The remedy the project would need to execute *fastest, under legal pressure*,
-failed its own gate. The assertion handled the all-absent case and not the
-partial one — which is exactly the rights-holder case.
+The correction: **`check-page.mjs` is the single authority on partiality.** Two
+gates adjudicating "how many covers may ship" by different rules is what
+produced the defect; the test file now confines itself to per-file integrity and
+takes no view on the count.
 
-The two directions were being treated as one, and they are not symmetric. A
-rendered alt the copy file never declared is always drift and always fails: the
-page may not invent alt text. A declared alt the page did not render now fails
-only when that row's cover **actually shipped**; a row whose files are genuinely
-absent renders its art-directed tile, contributes no `<img>`, and is excused.
+**Re-verified as the JOB — both gates, the pair CI actually runs — not one:**
 
-Verified in all four directions:
+| # | State | check-page | `node --test` | Job | Expected |
+|---|---|---|---|---|---|
+| 1 | All twelve ship | PASS | PASS | 🟢 GREEN | GREEN ✅ |
+| 2 | One cover withdrawn | PASS | PASS | 🟢 GREEN | GREEN ✅ |
+| 3 | Cover file present, row not rendered | FAIL | FAIL | 🔴 RED | RED ✅ |
+| 4 | Page renders an undeclared alt | FAIL | PASS | 🔴 RED | RED ✅ |
+| 5 | Shipped cover missing from provenance | PASS | FAIL | 🔴 RED | RED ✅ |
+| 6 | Restored | PASS | PASS | 🟢 GREEN | GREEN ✅ |
 
-| Case | Expected | Result |
-|---|---|---|
-| All twelve ship | pass | ✅ 27/27, `withdrawn: 0` |
-| One cover withdrawn (files removed) | pass | ✅ 27/27, `withdrawn: 1` |
-| Cover file present but its row did not render | **fail** | ✅ FAIL, `unexplained: Bloodborne …` |
-| Page renders an alt the copy file never declared | **fail** | ✅ FAIL, `unlisted: … INVENTED STRING` |
-
-The excuse is narrow and the contract keeps its teeth. The excuse resolves
-alt → slug with a regex over `coverGrid.ts` that assumes `slug:` sits
-immediately before `alt:`; reorder those two fields and the map returns empty,
-nothing is ever excused, and the path silently re-blocks. That assumption is
-pinned by a test (`every row's alt maps back to its slug`) rather than left to
-be rediscovered the next time someone needs the remedy in a hurry.
+Row 2 is the remedy; rows 3–5 are the three ways this could go wrong silently,
+and each is still caught. The excuse in `check-page.mjs` resolves alt → slug
+with a regex assuming `slug:` sits immediately before `alt:`; reorder those two
+fields and the map returns empty, nothing is excused, and the path silently
+re-blocks — pinned by a test rather than left to be rediscovered by whoever
+needs the remedy in a hurry.
 
 ### 6.2 · The licence finding pointed at the wrong file for provenance — FIXED
 
@@ -257,9 +263,28 @@ not, and never were** — that file has no such fields; it carries the row's
 This is the section a rights-holder question gets answered from, so it stopped
 being harmless the moment twelve real covers shipped. §8 now points at
 `docs/legal/cover-provenance.json` — IGDB game id, slug, name, release year,
-cover image id and exact source URL, per file — which is **generated by the
-fetch** rather than maintained by hand, so it cannot drift from what was
-actually downloaded.
+cover image id and exact source URL, per file.
+
+**And the record could be truncated, which §8 asserts cannot happen.**
+`fetch-covers.mjs` rebuilt `provenance.covers` from scratch every run and pushed
+only rows that resolved, while a failed row's previously-downloaded files were
+left on disk untouched — the "pin them by hand" case the script itself prints.
+A partial re-run therefore dropped rows from the legal record while their covers
+stayed shipped, breaking the one invariant §8 states: *every file under
+`site/public/covers/` appears there*. True in the committed state, unenforced in
+the code.
+
+Fixed at the source — rows that fail a run but whose files are still shipped are
+carried forward — and now asserted rather than trusted (`every shipped cover has
+a provenance row`, one direction only: a provenance row with **no** file is a
+withdrawn cover, the sanctioned §7 state, not a defect).
+
+Verified end to end, not just by its guard: one row was made deliberately
+unresolvable and a real fetch run against the live IGDB API was allowed to fail
+on it. The run reported `↻ 1 row(s) carried forward from the previous record
+(files still shipped)`, exited 1 as it should, and left the record at all twelve
+rows with the failed row's entry intact. Row 5 of the table above is the same
+invariant checked from the failing side.
 
 ### 6.3 · A pre-existing contrast node — recorded, not fixed
 

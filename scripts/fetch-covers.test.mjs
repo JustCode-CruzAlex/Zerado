@@ -139,11 +139,19 @@ test('every shipped cover is exactly the box the page reserves', async (t) => {
   // TRUE intrinsic size. check-page.mjs asserts the attributes are present;
   // this asserts the pixels behind them. Covers are a valid absent state
   // (licence finding §7), so skip rather than fail when none shipped.
+  //
+  // This test deliberately does NOT judge HOW MANY covers ship.
+  //
+  // It used to: `assert.equal(shipped.length, 12)`. 0 skipped, 12 passed, and
+  // 1–11 failed — which is exactly the rights-holder withdrawal of §7. The
+  // commit that unblocked that path in check-page.mjs added this assertion to
+  // the SAME site.yml job six lines below, so the job still went red and the
+  // block moved rather than lifted. Two gates adjudicating partiality by
+  // different rules is what produced that; `check-page.mjs` is now the single
+  // authority on it, and this file sticks to per-file integrity.
   const list = await rows();
   const shipped = list.filter((r) => existsSync(new URL(`${r.slug}.jpg`, COVERS)));
   if (shipped.length === 0) return t.skip('no covers in this build — the fallback state');
-
-  assert.equal(shipped.length, 12, 'a partial set leaves rows on the art-directed tile');
 
   const grid = readFileSync(fileURLToPath(new URL('site/src/data/coverGrid.ts', ROOT)), 'utf8');
   const w = Number(grid.match(/COVER_WIDTH\s*=\s*(\d+)/)[1]);
@@ -185,4 +193,45 @@ test('every row’s alt maps back to its slug', async () => {
     assert.ok(alt.trim().length > 0, `${slug} has an empty alt`);
   }
   assert.equal(new Set(pairs.map((m) => m[2])).size, 12, 'alt strings are distinct');
+});
+
+// --- §8: the legal record covers everything that ships --------------------
+
+test('every shipped cover has a provenance row', async () => {
+  // `docs/legal/igdb-image-licence-finding.md` §8 states it as an invariant:
+  // "Every file under `site/public/covers/` appears there." It is the section a
+  // rights-holder question gets answered from, so a shipped image with no
+  // recorded origin is the one state that must never reach main.
+  //
+  // It was reachable. `fetch-covers.mjs` rebuilds `provenance.covers` from
+  // scratch each run and pushes only rows that resolve, while a failed row's
+  // previously-downloaded files stay on disk untouched — so a partial re-run
+  // (the "pin them by hand" case the script itself prints) silently dropped
+  // rows from the record while their covers stayed shipped. The script now
+  // carries those rows forward; this asserts the result rather than trusting it.
+  //
+  // One direction only, on purpose: a provenance row with no file is a
+  // WITHDRAWN cover, which is the sanctioned §7 state and not a defect.
+  const provPath = fileURLToPath(new URL('docs/legal/cover-provenance.json', ROOT));
+  const list = await rows();
+  const shipped = list.filter((r) => existsSync(new URL(`${r.slug}.jpg`, COVERS)));
+  if (shipped.length === 0) return;
+
+  assert.ok(existsSync(provPath), 'covers ship but docs/legal/cover-provenance.json is missing');
+  const recorded = new Map(
+    JSON.parse(readFileSync(provPath, 'utf8')).covers.map((c) => [c.slug, c])
+  );
+
+  const undocumented = shipped.map((r) => r.slug).filter((slug) => !recorded.has(slug));
+  assert.deepEqual(undocumented, [], 'shipped cover(s) with no recorded IGDB origin');
+
+  for (const r of shipped) {
+    const c = recorded.get(r.slug);
+    for (const field of ['igdbGameId', 'igdbSlug', 'igdbName', 'igdbCoverImageId', 'sourceUrl']) {
+      assert.ok(c[field] !== undefined && c[field] !== null && c[field] !== '',
+        `${r.slug}: provenance is missing ${field}`);
+    }
+    assert.match(c.sourceUrl, /^https:\/\/images\.igdb\.com\//,
+      `${r.slug}: provenance sourceUrl is not an IGDB image URL`);
+  }
 });

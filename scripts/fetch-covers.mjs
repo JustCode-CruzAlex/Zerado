@@ -23,7 +23,7 @@
  * site/package-lock.json. Nothing new enters the dependency tree for this.
  */
 import { createRequire } from 'node:module';
-import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const require = createRequire(new URL('../site/package.json', import.meta.url));
@@ -224,6 +224,38 @@ async function main() {
       sourceUrl: src
     });
     console.log(`✓ ${row.slug}  ← ${game.name} [${yearOf(game)}]  ${game.cover.image_id}`);
+  }
+
+  // Carry forward the rows this run did NOT resolve but whose files are still
+  // on disk.
+  //
+  // `provenance.covers` starts empty every run and only rows that resolve are
+  // pushed, while a failed row's previously-downloaded files are left exactly
+  // where they are — the script tells you to "pin them by hand" rather than
+  // loosening the match, which means living with a partial run. Writing the
+  // fresh list unconditionally therefore DROPPED those rows from the legal
+  // record while their covers stayed shipped, breaking the one invariant §8 of
+  // the licence finding states: every file under site/public/covers/ appears
+  // here. The record has to describe what is shipped, not what this particular
+  // run happened to re-download.
+  const resolved = new Set(provenance.covers.map((c) => c.slug));
+  let carried = 0;
+  if (existsSync(fileURLToPath(PROVENANCE))) {
+    try {
+      const prior = JSON.parse(readFileSync(fileURLToPath(PROVENANCE), 'utf8'));
+      for (const c of prior.covers ?? []) {
+        if (resolved.has(c.slug)) continue;
+        if (!existsSync(fileURLToPath(new URL(`${c.slug}.jpg`, OUT_DIR)))) continue;
+        provenance.covers.push(c);
+        carried++;
+      }
+    } catch {
+      // An unreadable prior record must not take the fresh one down with it.
+      console.error('! existing cover-provenance.json could not be parsed — not carried forward');
+    }
+  }
+  if (carried) {
+    console.log(`↻ ${carried} row(s) carried forward from the previous record (files still shipped)`);
   }
 
   provenance.covers.sort((a, b) => a.slug.localeCompare(b.slug));
