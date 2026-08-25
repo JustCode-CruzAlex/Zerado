@@ -2,7 +2,7 @@
 title: Zerado — Z-10 Help and key map
 discipline: SCREEN SPEC
 doc-no: ZRD-SCREEN-10
-rev: A
+rev: B
 date: 2026-08-25
 status: draft — for founder ratification
 archetype: component-variants
@@ -18,7 +18,7 @@ ticket: "#2"
 
 **Canon that governs this screen:** `00-design-brief.md` §10 · §3.1 (SC 3.2.6 Consistent Help,
 1.3.2 Meaningful Sequence, 2.4.6 Headings and Labels) · `01-design-system.md` §2 (band) ·
-§1.5 (readout role) · `02-colour-budget.md` §10 · `03-designer-manual.md` §3 ·
+`01-design-system.md` §1.5 (readout role) · `02-colour-budget.md` §10 · `03-designer-manual.md` §3 ·
 `02-composition.md` §2 (single-pane table in a viewport) · `03-responsive.md` §3 ·
 **`04-navigation-and-focus.md` §1 rule 3 (unwind, never stack) · §3 (the global key table) ·
 §3.1 (reserved and unbound) · §5 (`Esc`) · §6 (the footer)** ·
@@ -72,9 +72,19 @@ and getting silence is an answered question rather than a bug.
 > 1. A binding carries its own one-line description, its display form and its **scope**
 >    (`screen` · `mode` · `global` · `reserved`).
 > 2. A binding may declare an **availability predicate** — `s` on `Z-04` is live only when a row
->    exists, and `c` only when the library is empty. `Z-10` asks the origin, in its current
->    state, and lists what is live. `04-navigation-and-focus.md` §5b names this the registry's
->    own mechanism and §5c uses it for `?`.
+>    exists, `c` only when the library is empty, `m` only when audio has been enabled, **`v`
+>    only when the deck is reachable, and `x` only while the capability note is showing**.
+>    `Z-10` asks the origin, in its current state, and lists what is live.
+>    `04-navigation-and-focus.md` §5b names this the registry's own mechanism and §5c uses it
+>    for `?`. **Rev B added no mechanism — `v` and `x` arrived and the screen already knew what
+>    to do with them**, which is the property D-10-1 was bought for.
+> 2b. A binding's **description may differ by state**, and the registry expresses that as **two
+>    entries with mutually exclusive predicates**, never as one entry with a conditional string
+>    (**D-10-8**). `v` is the first: `see the covers` in list mode, `back to the list` in cover
+>    mode, exactly matching the two footer hints `v covers` and `v list`
+>    (`Z-15-cover-deck.md` §10.2). One entry with a string chosen at render time would put the
+>    footer's wording and the help's wording back in two places — the drift D-10-1 abolishes.
+>    **Exactly one of the two is ever live, so block 1 gains exactly one row, never two.**
 > 3. **Nothing on this screen is a string literal in `Z-10`'s own code** except the four block
 >    headings.
 
@@ -95,10 +105,15 @@ answer, and it is the cheapest possible way to keep the promise.
 
 ---
 
-## 4 · Mockup — 80 × 24, pushed from a populated Library
+## 4 · Mockup — 80 × 24, pushed from a populated Library with a filter applied
 
 `tier = Wide` · `leftInset = 3` · **body = 74 × 16** · content begins at **column 4**.
-15 content rows + 1 position row. **33 lines in total, so it scrolls.**
+15 content rows + 1 position row. **34 lines in total, so it scrolls.**
+
+**Rev B: block 1 gained `v`.** [`04-navigation-and-focus.md`](../../blueprint/04-navigation-and-focus.md)
+§5b's registry gained the cover-deck toggle ([`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §10),
+so this screen gained a row without a line of `Z-10` changing — which is D-10-1 working. Every
+drawn count below moved with it.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -119,11 +134,11 @@ answer, and it is the cheapest possible way to keep the promise.
 │   f             filter by state                                                │
 │   a             add a game by hand                                             │
 │   r             sync with Steam                                                │
+│   v             see the covers                                                 │
 │                                                                                │
 │   IN FILTER MODE                                                               │
 │                                                                                │
-│   esc           leave the editor, keep the filter                              │
-│   ROWS  1–15 of 33                                                             │
+│   ROWS  1–15 of 34                                                             │
 │   ↑↓ scroll   esc back   q quit                                                │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
@@ -131,7 +146,34 @@ answer, and it is the cheapest possible way to keep the promise.
 
 **Character counts:** body **74 × 16** · key field **12** + gutter **2**, so every description
 begins at body column **15** · the widest description row is 50 cells
-(`?  this key map — you are looking at it`) · position row **18** · footer **29**.
+(`?             this key map — you are looking at it`) · position row **16** · footer **29**.
+*(Rev A printed the position row as 18; measured width-aware with Ambiguous = 1 it is 16, and
+`–` U+2013 is the only Ambiguous character in it.)*
+
+> **The viewport ends on an orphaned heading, and that is correct — D-10-10.** With `v` present,
+> `IN FILTER MODE` is document line 14 and its respiro is line 15, so the last two visible rows
+> are a heading and a blank. **A scroll region must never re-flow its cut point to avoid this.**
+> The moment the viewport pages by anything other than one line per `↓`, the position readout
+> stops describing the document and starts describing a pagination the player cannot predict.
+> The heading is not orphaned in the document; it is orphaned in a *window*, and the window is
+> labelled — `ROWS  1–15 of 34`, with `↑↓ scroll` in the footer.
+
+### 4.0 · Every count on this screen, and what moves it
+
+The document's length is not a property of `Z-10`. It is the number of live bindings on the
+origin, which is why every figure here is derived rather than declared.
+
+| Origin, in the state it is in | Blocks | Lines | Drawn at |
+|---|---|---|---|
+| Populated Library, audio enabled | 1 · 3 · 4 | **27** | §13.1 minus block 2 |
+| …with a filter applied, editor blurred | 1 · 2 · 3 · 4 | **34** | **§4** · §13.1 |
+| …with the capability note showing | 1 (+ `x`) · 2 · 3 · 4 | **35** | §13.1's addendum |
+| …audio never enabled | as above, minus `m` | **one less** | — |
+| Empty library | 1 · 3 · 4, `v` not bound | **20** | §6 · §13.2 |
+| From `Z-06` at Tiny, short forms | 1 · 3 · 4 | **21** | §9 |
+
+**None of these numbers may be hard-coded.** They are here so a reviewer can check the drawn
+goldens, and every one of them is an assertion the registry can be made to prove (§24 criterion 2).
 
 ### 4.1 · Row map — 80 × 24
 
@@ -168,7 +210,7 @@ that.
 ### 4.3 · The position readout
 
 ```
-ROWS  1–15 of 33
+ROWS  1–15 of 34
 ```
 
 Pinned outside the viewport, exactly as `Z-04`'s is — the same component, the same wording, the
@@ -184,7 +226,10 @@ same place. It is what tells a player there is more below.
 
 ## 5 · Mockup — scrolled to the end
 
-Lines 19–33 of 33. The global and reserved blocks.
+Lines 20–34 of 34. The global and reserved blocks. **Every visible row is byte-identical to
+rev A's** — `v` landed in block 1, fifteen lines above the fold, so the only thing that moved
+here is the readout. That is worth seeing: a registry change does not repaint a screen, it
+repaints the part of the document the change is in.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -209,7 +254,7 @@ Lines 19–33 of 33. The global and reserved blocks.
 │   :   ^k        the command palette — Phase 2                                  │
 │   1 – 9         quick filters — Phase 2                                        │
 │   n   p         next · previous game — Phase 2                                 │
-│   ROWS  19–33 of 33                                                            │
+│   ROWS  20–34 of 34                                                            │
 │   ↑↓ scroll   esc back   q quit                                                │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
@@ -225,6 +270,29 @@ Lines 19–33 of 33. The global and reserved blocks.
 > **`m` is present only when audio has been enabled.** When it has never been enabled the
 > binding is not live, so `Z-10` does not list it and the footer does not carry it — because
 > there is nothing to mute. This falls out of D-10-1; it is not a special case.
+
+> **And `x` is the same mechanism, which answers the question rev B was opened to answer —
+> D-10-9.** `x dismiss` ([`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §5.4) is bound **only while
+> the capability note is showing**. That is an availability predicate in exactly the sense
+> D-10-1 consequence 2 means it, so **`Z-10` excludes `x` from the default render precisely the
+> way it excludes `m` when audio has never been enabled** — same field on the same registry
+> entry, no second mechanism, no special case in this screen's code. **The default document is
+> therefore 34 lines, not 35.**
+>
+> **The state where it does render is real and must be drawn as such.** The note lives on body
+> row 1 of `Z-04`; it is not an overlay and it does not take focus
+> ([`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §5.4), so it does not make `?` inert —
+> [`04-navigation-and-focus.md`](../../blueprint/04-navigation-and-focus.md) §5c names only a
+> text input and an open overlay. A player on Terminal.app can press `v`, see the note, and
+> press `?`. In that state block 1 carries **both** `v` and `x` and the document is **35** lines
+> (§13.1's addendum, state **H13**).
+>
+> **The alternative — listing `x` always — is the defect this screen exists to prevent.** It
+> would put a key in the map that does nothing on nine renders out of ten, and the player who
+> pressed it would get the silence `Z-10` was built to abolish. **The alternative in the other
+> direction — never listing it — is the same defect wearing the opposite coat**: a bound key
+> omitted, which D-10-1 forbids in the same sentence. The predicate is the only answer that is
+> right in both states, and it is already in the registry.
 
 ---
 
@@ -264,8 +332,14 @@ and adds, which is the whole point of an availability predicate.
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Note what is gone:** `↑ ↓`, `g`/`G`, `^d`/`^u`, `⏎`, **`s`**, `/`, `f`, `r` — every one of
-them needs a row, and there are none. **`s` is gone with the rest**: it means *set this game's
+> **This render did not move in rev B, and that is the demonstration.** The same amendment that
+> took the populated document from 33 lines to 34 leaves this one at **20**, because `v` is not
+> bound on an empty library ([`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §10.1 — *"library empty
+> → no, and not in the footer"*; C12/C13 there). **There is no deck of nothing.** One registry
+> change, two origins, two different right answers, and neither of them written by hand.
+
+**Note what is gone:** `↑ ↓`, `g`/`G`, `^d`/`^u`, `⏎`, **`s`**, `/`, `f`, `r`, **`v`** — every
+one of them needs a row, and there are none. **`s` is gone with the rest**: it means *set this game's
 status* everywhere, always (`04-navigation-and-focus.md` §3.2), and there is no game.
 **Note what appeared:** `c  connect a store`, which is **not** in the populated list — it is live
 only here. **`m` is gone** because audio has never been enabled in this render.
@@ -289,57 +363,74 @@ Nothing is in the library yet, so most keys do nothing here.
 
 ## 7 · Mockup — ExtraWide, 120 × 40: two key columns
 
-`leftInset = 4` · **body = 112 × 32** · two columns of **52** with an **8**-column gutter.
-The whole map fits without scrolling.
+`leftInset = 4` · **body = 112 × 32** · two columns of **52** with an **8**-column gutter:
+`4 + 52 + 8 + 52 + 4 = 120`, the two 4s being `OuterMarginX` 2 + `InnerPaddingX` 2 on each side.
+The whole map fits without scrolling — **21 of the body's 32 rows are used.**
+
+**Every description here is §13.1's long form**, because the 38-cell description field holds all
+of them (`this key map — you are looking at it` is 36). **Three rev-A errors are corrected in
+this render** and each is the kind only a redraw finds: the frame was **2 columns short** (118
+inside, for a 120-column terminal); `f  filter by state` was **missing from block 1** and a
+second `f` appeared in block 2, which is not where
+[`Z-07-filter-and-search.md`](./Z-07-filter-and-search.md) puts it; and the footer carried
+`↑↓ scroll` **on the one render that does not scroll** — the *"footer that lies"* this screen
+exists to make impossible. The footer is now `esc back   m mute   q quit`, **26 cells** (§11.1).
 
 ```
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                                                      │
-│    Zerado ✦ Help                                                                                                     │
-│                                                                                                                      │
-│    HELP                                                                                                              │
-│                                                                                                                      │
-│                                                                                                                      │
-│    ON THIS SCREEN — LIBRARY                                    IN FILTER MODE                                        │
-│                                                                                                                      │
-│    ↑ ↓  k j      move the cursor                               esc           leave the editor, keep the filter       │
-│    g   G         first row · last row                          esc esc       clear the filter                        │
-│    ^d  ^u        half a page down · up                         tab           move to the state chips                 │
-│    ⏎             open this game                                f             jump to the state chips                 │
-│    s             set this game's status                        space         toggle the chip under the cursor        │
-│    /             filter and search                                                                                   │
-│    a             add a game by hand                                                                                  │
-│    r             sync with Steam                                                                                     │
-│                                                                                                                      │
-│    EVERYWHERE                                                  RESERVED — NOT BOUND YET                              │
-│                                                                                                                      │
-│    ?             this key map                                  :   ^k        the command palette — Phase 2           │
-│    ,             settings                                      1 – 9         quick filters — Phase 2                 │
-│    m             mute or unmute the audio                      n   p         next · previous game — Phase 2          │
-│    esc           back one level                                                                                      │
-│    q             quit                                                                                                │
-│    ^c            quit, from anywhere, always                                                                         │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│                                                                                                                      │
-│    ↑↓ scroll   esc back   m mute   q quit                                                                            │
-│                                                                                                                      │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                                        │
+│    Zerado ✦ Help                                                                                                       │
+│                                                                                                                        │
+│    HELP                                                                                                                │
+│                                                                                                                        │
+│                                                                                                                        │
+│    ON THIS SCREEN — LIBRARY                                    IN FILTER MODE                                          │
+│                                                                                                                        │
+│    ↑ ↓  k j      move the cursor                               esc           leave the editor, keep the filter         │
+│    g   G         first row · last row                          esc esc       clear the filter                          │
+│    ^d  ^u        half a page down · up                         tab           move between editor, chips and list       │
+│    ⏎             open this game                                space         toggle the chip you are on                │
+│    s             set this game's status                                                                                │
+│    /             filter and search                                                                                     │
+│    f             filter by state                                                                                       │
+│    a             add a game by hand                                                                                    │
+│    r             sync with Steam                                                                                       │
+│    v             see the covers                                                                                        │
+│                                                                                                                        │
+│    EVERYWHERE                                                  RESERVED — NOT BOUND YET                                │
+│                                                                                                                        │
+│    ?             this key map — you are looking at it          :   ^k        the command palette — Phase 2             │
+│    ,             settings                                      1 – 9         quick filters — Phase 2                   │
+│    m             mute or unmute the audio                      n   p         next · previous game — Phase 2            │
+│    esc           back one level                                                                                        │
+│    q             quit                                                                                                  │
+│    ^c            quit, from anywhere, always                                                                           │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│                                                                                                                        │
+│    esc back   m mute   q quit                                                                                          │
+│                                                                                                                        │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**The position row is absent** because nothing is scrolled — `ROWS 1–24 of 24` would be
-furniture. It appears the moment the content exceeds the viewport.
+**The position row is absent** because nothing is scrolled — `ROWS 1–21 of 21` would be
+furniture. It appears the moment the content exceeds the viewport. **The `↑↓ scroll` hint goes
+with it**, which is why this tier's footer is 26 cells and not 38.
+
+> **The count that would appear is 21, not 34.** At ExtraWide the document is not a 34-line
+> stream; it is the same four blocks laid into two columns, and the taller column decides the
+> height. A position readout counts **rendered rows**, never document lines — which is the same
+> rule [`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §11.5 states for `COVERS` over a grid: the
+> label word and the unit change with the composition, because a number that describes nothing
+> on screen is worse than no number.
 
 > **D-10-3 · Two columns are safe here under WCAG 1.3.2, and here is the argument.**
 > *"A screen's reading order for anything consuming the output stream is byte order. Two panes
@@ -369,6 +460,7 @@ list is owned by that origin's spec, not by this one.
 | **`Z-05` Game detail** | `ON THIS SCREEN — GAME DETAIL` | `Z-05-game-detail.md` §14 |
 | **`Z-06` Set status** | `ON THIS SCREEN — SET STATUS` | `Z-06-set-status.md` §11 — **Tiny only**, see below |
 | **`Z-07` Filter mode** | `ON THIS SCREEN — LIBRARY` **plus block 2** `IN FILTER MODE` | `Z-07-filter-and-search.md` §14 |
+| **`Z-15` Cover deck** | `ON THIS SCREEN — LIBRARY` — **block 1's contents change; there is no block 2** | `Z-15-cover-deck.md` §10 |
 | `Z-08` Add a game by hand | `ON THIS SCREEN — ADD A GAME BY HAND` | `Z-08-…md` §"key map" |
 | `Z-09` Settings | `ON THIS SCREEN — SETTINGS` | `Z-09-…md` §"key map" |
 | `Z-11` Fatal error | **unreachable** | `?` is not bound there; only `q` and `Ctrl-C` work |
@@ -385,6 +477,20 @@ list is owned by that origin's spec, not by this one.
   while the query editor holds focus it types nothing and does nothing**, because single-key
   shortcuts do not fire in a text input (WCAG 2.1.4); the player must leave the editor first,
   and `Z-07`'s footer says how.
+- **`Z-15`** is also a mode of `Z-04` — and it gets **no block 2**, which is the distinction
+  **D-10-11** draws. Cover mode **swaps the body renderer**, so `↑ ↓` no longer means *move the
+  cursor*, it means *move a row of covers*, and `← → h l` become live. Those are not extra keys
+  on top of the list's; they are the list's keys **meaning something else**. Block 1 therefore
+  renders the deck's descriptions in place of the list's, and `v` reads `back to the list`. The
+  heading is still `LIBRARY`, because that is where the player is.
+
+> **D-10-11 · A mode earns block 2 only when it is *additive*.** `Z-07` adds an editor and a
+> chip row **on top of** the list: every list key still works and still means what it meant, so
+> the mode's own keys are genuinely extra and belong in a block of their own. `Z-15` **replaces**
+> the list, so listing `↑ ↓  move the cursor` in block 1 and `↑ ↓  move a row of covers` in
+> block 2 would hand the player two contradictory descriptions of one key on one screen. **A
+> substitutive mode rewrites block 1; an additive mode adds block 2.** This is the rule for
+> every mode Phase 2 brings, and it is decided here because `v` is the first key that forced it.
 
 ---
 
@@ -401,6 +507,7 @@ outer margins **0**, band collapsed to the title row. Key field shortens to **8*
 │ SET STATUS                     │
 │                                │
 │ ↑↓ k j    move                 │
+│ g  G      first · last         │
 │ ⏎         apply                │
 │ esc       cancel               │
 │                                │
@@ -416,15 +523,30 @@ outer margins **0**, band collapsed to the title row. Key field shortens to **8*
 │                                │
 │ :  ^k     palette, P2          │
 │ 1 – 9     filters, P2          │
-│ n  p      paging, P2           │
-│ ROWS  1–20 of 22               │
+│ ROWS  1–20 of 21               │
 │ ↑↓ scroll  esc back            │
 └────────────────────────────────┘
 ```
 
 **What shortens at Tiny, and nothing else:** the block-1 heading wraps to two lines rather than
 truncating; the key field goes 12 → **8**; descriptions shorten to their **declared short form**
-(`quit, always`, `palette, P2`); the heading `RESERVED — NOT BOUND YET` shortens to `RESERVED`.
+(`quit, always`, `palette, P2`, `first · last`); the heading `RESERVED — NOT BOUND YET` shortens
+to `RESERVED`.
+
+**`v` and `x` are absent from this render and from every Tiny render**, and neither is a
+shortening: `v` is **unbound below 40 columns** (`Z-15-cover-deck.md` **D-15-8**), so the note it
+raises cannot exist there either, so `x` cannot either. Nothing is printed about any of it —
+which is `Z-15` §12.2's silence, honoured here rather than re-argued.
+
+> **Rev B corrected this golden twice, and the two corrections are the same defect.**
+> **`g  G  first · last` was missing.** `Z-06` §11 binds `g` / `G` to *first / last item*, and
+> **a bound key that is not listed is the exact failure this screen exists to prevent** —
+> D-10-1's second half, caught in `Z-10`'s own drawing. It is restored, which makes the document
+> **21** lines. **The readout said `of 22`.** It is now `ROWS  1–20 of 21`, and the arithmetic
+> closes for the first time: body **30 × 21**, viewport **20**, position row pinned at body row
+> 21, document 21 — so it overflows by exactly one line, `n  p  paging, P2` sits below the fold,
+> and the readout and the `↑↓ scroll` hint are both **earned**. At 20 lines they were furniture,
+> and §12 **H7** would have required both to disappear.
 
 > **D-10-4 · Every binding carries a long description and a short one; the short one is used
 > below Standard.** It is declared at the binding, beside the long one, so it can never be a
@@ -476,9 +598,14 @@ Short by design, and every line true.
 |---|---|---|
 | Wide, scrolling | `↑↓ scroll   esc back   q quit` | **29** |
 | Wide, audio enabled | `↑↓ scroll   esc back   m mute   q quit` | **38** |
-| ExtraWide | `↑↓ scroll   esc back   m mute   q quit` | 38 ≤ 112 |
 | Tiny | `↑↓ scroll  esc back` | **19** |
-| No overflow (ExtraWide) | `esc back   q quit` | 17 |
+| No overflow, audio never enabled | `esc back   q quit` | 17 |
+| **No overflow, audio enabled — §7's ExtraWide render** | **`esc back   m mute   q quit`** | **26** ≤ 112 |
+
+**Rev B struck the row that read `ExtraWide → ↑↓ scroll   esc back   m mute   q quit`.** At
+ExtraWide the map fits, so nothing scrolls, so `↑↓ scroll` is a key that does nothing there —
+and the rule two paragraphs down is that keys that do nothing here are not listed. The tier does
+not decide the footer; **overflow does**, and the two are not the same question.
 
 **`? help` is absent from every one of them.** It is the smallest possible demonstration of
 `04-navigation-and-focus.md` §6 — *"keys that do nothing here are not listed"* — applied to the
@@ -492,8 +619,9 @@ any hint drops.
 | # | State | Trigger | Composition | Copy |
 |---|---|---|---|---|
 | **H1** | **First run** — pushed from an empty `Z-04`, or from `Z-01` | Library empty | §6. Block 1 lists only the bindings that are live, with the prose line explaining why there are two | §13.2 |
-| **H2** | **From a populated Library** | The default | §4 | §13.1 |
-| **H3** | **From filter mode** | `?` pressed with the filter applied and the **editor blurred** | Block 1 = `LIBRARY`, block 2 = `IN FILTER MODE` | §13.1 |
+| **H2** | **From a populated Library** | The default | Blocks 1, 3, 4. Block 2 is **absent** — it needs an *active* mode (§3.1). **27 lines** | §13.1 minus block 2 |
+| **H3** | **From filter mode** | `?` pressed with the filter applied and the **editor blurred** | Block 1 = `LIBRARY`, block 2 = `IN FILTER MODE`. **34 lines** — **§4 draws this one** | §13.1 |
+| **H3c** | **From cover mode** | `?` pressed after `v` | Block 1 = `LIBRARY` with the **deck's** descriptions; **no block 2** (**D-10-11**); `v` reads `back to the list` | §8 |
 | **H3b** | **`?` pressed while the query editor has focus** | — | **Nothing happens.** `?` is a literal character the editor does not consume as a shortcut (WCAG 2.1.4). `Z-10` is not pushed | — |
 | **H4** | **From `Z-05`** | `?` on the detail view, either host | Block 1 = `GAME DETAIL` | — |
 | **H5** | **From `Z-06` at Tiny** | `?` on the set-status **route** | §9 | — |
@@ -505,6 +633,9 @@ any hint drops.
 | **H10** | **From `Z-11 Fatal error`** | — | **Unreachable.** `?` is not bound there | — |
 | **H11** | **Tiny** | `< 40` cols | §9 — short descriptions, 8-cell key field, wrapped heading | §13.4 |
 | **H12** | **Below the refusal floor** | `< 24` cols or `< 8` rows | The program refuses — `Z-04-library.md` §11.3 | — |
+| **H13** | **The capability note is showing** | `v` pressed on a terminal that draws no images, note not yet dismissed (`Z-15` §5) | Block 1 carries **both `v` and `x`**. **35 lines.** `?` is not inert — the note is not an overlay and takes no focus | §13.1's addendum |
+| **H14** | **The note has been dismissed on a terminal that draws no images** | `covers.note_dismissed` | **`v` is unbound, so it is not listed and neither is `x`** — back to **27** (or 34 in filter mode). See §21 finding 3: this is where `Z-15` §5.4 expects a fact that D-10-1 cannot carry | — |
+| **H15** | **`v` is bound below 40 columns** | — | **Unreachable.** `v` is unbound at Tiny (**D-15-8**), so neither it nor `x` can appear in any Tiny render | — |
 
 > **H9 is worth stating explicitly** even though it is a non-event. `07-offline-contract.md` §2
 > classifies `Z-10` as **WORKS** and the class rule is *"Nothing. No banner, no notice, no
@@ -529,6 +660,7 @@ s             set this game's status
 f             filter by state
 a             add a game by hand
 r             sync with Steam
+v             see the covers
 
 IN FILTER MODE
 
@@ -553,7 +685,25 @@ RESERVED — NOT BOUND YET
 n   p         next · previous game — Phase 2
 ```
 
-**33 lines.** At Wide the viewport shows 15 of them.
+**34 lines.** At Wide the viewport shows 15 of them. **Without block 2 — the plain populated
+Library, H2 — it is 27**; block 2 costs seven lines (its heading, its respiro, its four keys and
+the gap that separates it from block 3).
+
+**When the capability note is showing (H13), block 1 carries one more row and the document is
+35 lines.** Only the tail of block 1 changes; nothing else moves:
+
+```
+r             sync with Steam
+v             see the covers
+x             dismiss the note about cover art
+```
+
+**`v`'s description does not change on a terminal that cannot draw images**, and that is
+deliberate: pressing `v` there is still how a player asks for the covers, and the note is
+Zerado's answer — *"the note answers; it never announces"* (`Z-15-cover-deck.md` **D-15-6**). A
+description that hedged with *"if your terminal can"* would put a fact about the terminal in the
+one column that is supposed to say what a key **does**, and it would say it on every terminal
+that does not need it.
 
 ### 13.2 · The empty-library variant
 
@@ -569,8 +719,9 @@ a             add a game by hand
 ### 13.3 · The position readout
 
 ```
-ROWS  1–15 of 33
-ROWS  19–33 of 33
+ROWS  1–15 of 34
+ROWS  20–34 of 34
+ROWS  1–20 of 21
 ```
 
 Absent when nothing is scrolled.
@@ -587,7 +738,16 @@ Absent when nothing is scrolled.
 | `m` | `mute or unmute the audio` | `mute` |
 | `esc esc` | `clear the filter` | `clear filter` |
 | `space` | `toggle the chip you are on` | `toggle chip` |
+| **`g` / `G`** | `first row · last row` (`Z-04`) · `first item · last item` (`Z-06`) | **`first · last`** |
+| **`x`** | `dismiss the note about cover art` | **`dismiss the note`** |
 | heading | `RESERVED — NOT BOUND YET` | `RESERVED` |
+
+**Two notes on the rev-B rows.** `g` / `G` shows the mechanism plainly: **the long description
+belongs to the origin's binding, not to this screen**, so `Z-04` and `Z-06` declare different
+ones and share a short form. And `x`'s short form is used at **Narrow**, not at Tiny — its long
+form is 32 cells against Narrow's 24-cell description field, and `x` cannot occur at Tiny at all
+(§9). **`v` declares no short form and needs none**: `see the covers` is 14 cells and fits every
+field at every tier where `v` is bound.
 
 ### 13.5 · Copy notes
 
@@ -765,11 +925,11 @@ Zero SGR sequences. §4, character for character:
 │   f             filter by state                                                │
 │   a             add a game by hand                                             │
 │   r             sync with Steam                                                │
+│   v             see the covers                                                 │
 │                                                                                │
 │   IN FILTER MODE                                                               │
 │                                                                                │
-│   esc           leave the editor, keep the filter                              │
-│   ROWS  1–15 of 33                                                             │
+│   ROWS  1–15 of 34                                                             │
 │   ↑↓ scroll   esc back   q quit                                                │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
@@ -780,7 +940,7 @@ Zero SGR sequences. §4, character for character:
 | Which block is which | The **UPPERCASE headings**, and the `InterElementGap` above each |
 | Key versus description | **Case** — `^d  ^u` against `half a page down · up` — plus the fixed column edge at 15 |
 | That the reserved keys are different | The heading `RESERVED — NOT BOUND YET`, the `— Phase 2` stamp on every row, and **position** — they are last |
-| Where you are in the document | `ROWS  1–15 of 33` |
+| Where you are in the document | `ROWS  1–15 of 34` |
 | That `?` does nothing here | The words `you are looking at it` |
 | Audio | `▮ AUDIO` / `▯ MUTED` — glyph **and** word |
 
@@ -823,8 +983,11 @@ at scale. **Not used:** 3 the `IN PROGRESS` state — no chip renders here · 4 
 8 the filter sigil.
 
 **Amber ceiling:** at 80 × 24 = 1920 cells the ceiling is **192**. §4's render spends 4 (`HELP`)
-+ 24 + 14 (two headings) + ~40 (the key column) ≈ **82**. The key column is the largest single
-amber spend on any screen in this bundle and it is still well under half the ceiling — but it is
++ 24 + 14 (two headings) + **26** (the key column — the keys themselves, never the padding that
+straightens the field) = **68**. *Rev A estimated the key column at "~40" and the figure is now
+counted rather than guessed; adding `v` moved it by exactly 1 cell.* The key column is the
+largest single amber spend on any screen in this bundle and it is still nowhere near the ceiling
+— but it is
 the screen to re-measure if a block is ever added.
 
 **Red: none.** No scanner, no annunciator, no error text. **`--z-border` is not used at all** —
@@ -838,7 +1001,7 @@ every colour depth because it is made of nothing.
 
 | Element | Verdict | Why |
 |---|---|---|
-| Scroll body | **`bubbles/viewport` — direct fit** | 33 lines into 15. This is exactly what the primitive is for |
+| Scroll body | **`bubbles/viewport` — direct fit** | 34 lines into 15. This is exactly what the primitive is for |
 | Key rows | Build fresh · `lipgloss` + the width-aware pad | Two padded columns. **`bubbles/table` does not fit** — it is the primitive that independently dropped the title, the scroll and the pinned footer on two FlowForge screens, and a key map needs none of its selection or column machinery |
 | **The key registry** | **Build fresh, once, and make it the single source for dispatch, the footer and this screen** | D-10-1. This is the reuse that matters on this screen: not a component, a **source of truth** |
 | Two-column layout (ExtraWide) | `lipgloss` join | |
@@ -861,13 +1024,16 @@ help describes itself, and the two places `?` is unavailable — are closed by *
 tabulates both *"so the conformance statement can be written once and honestly"*. Finding 6's
 audio half is closed (`03-designer-manual.md` §5.11, struck through and marked SUPERSEDED, #4)
 and its second half too: **`m` is in the global key table**, marked *"only when audio is
-enabled."* And the `s` collision is closed by decision — §3.2 binds connect-a-store to `c`, so
+enabled."* And the `s` collision is closed by decision — `04-navigation-and-focus.md` §3.2 binds connect-a-store to `c`, so
 `Z-10` no longer prints different text depending on how full the library is (§6).
 
 | # | Finding | Where | Owner |
 |---|---|---|---|
 | 1 | **`04-navigation-and-focus.md` §3 still lists no `f`.** `01-design-system.md` §7.3 binds it to the state filter chips (*"ExtraWide, or via `f`"*) and `Z-07` composes with it; this spec lists it under `Z-04` as `filter by state`. §5b now settles *where* a description lives but not *which bindings exist*, and **a key that is not in the registry cannot be listed here** — which is D-10-1 working as designed, and is exactly why the omission has to be fixed upstream rather than papered over in this screen | `04-navigation-and-focus.md` §3 | `fft-tui-architect` |
 | **2** | **`Z-07`'s absent facet is a control with no key**, by design (`Z-07-filter-and-search.md` D-07-8): `[ABSENT]` is toggled with `space` on the chip row, which is already bound. It therefore has **no row in this screen's block 1 or block 2**, and a player who has absent rows will find the facet on `Z-07` and not in Help. That is correct — Help lists *keys*, and this facet is not one — but it is the first Phase 1 affordance that Help cannot describe, and it is worth knowing before someone reads the omission as a bug | `06-data-seams.md` §2.4 · `Z-07` D-07-8 | `fft-tui-architect` |
+| **3** | **`Z-15` §5.4 names this screen as the durable home for a fact D-10-1 forbids it to carry.** Its dismissal table reads *"Nothing is lost — the fact stays available in `Z-10 Help`, which describes what `v` does and which terminals draw covers"*, and `Z-15` §5.3 puts *"the protocol name in the two durable homes — `Z-10 Help`'s description of `v`, and `Z-09 Settings § DISPLAY`"*. But `Z-15` §10.1 unbinds `v` once the note is dismissed — and **a key that is not bound cannot be listed** (D-10-1). So at exactly the moment `Z-15` says the fact survives here, this screen has stopped mentioning `v` at all (state **H14**). **The consequence is that `Z-15` §17 finding 6 — the `Images` row of `Z-09 § DISPLAY` — is not optional; it is the only durable home left**, and `Z-15` §5.4's reassurance should point there instead. `Z-10` will not grow a fifth block for retired keys: block 4 is *reserved*, meaning *not bound yet*, and a key the player has explicitly finished with is not that | `Z-15-cover-deck.md` §5.3 · §5.4 · §17 finding 6 · `Z-09-settings.md` §10.4 | `fft-tui-designer` — **`Z-15` next pass**, then founder on the `Images` row |
+| **4** | **`Z-15` §10 gives `g` / `G` and `Ctrl-D` / `Ctrl-U` the scope `global`**; this screen's §3.1 puts movement in **block 1** (`screen` scope) and its `EVERYWHERE` block is declared as exactly `?` `,` `m` `esc` `q` `^c`. Both cannot be true of one registry field. **`screen` is the right answer** — *first* and *last* mean a row on `Z-04`, a tile on `Z-15` and an item on `Z-06`, so the description is owned by the origin, which is what `screen` scope means. The renders in both specs already behave this way; only the label in `Z-15`'s table is wrong | `Z-15-cover-deck.md` §10 | `fft-tui-designer` — **`Z-15` next pass** |
+| **5** | **`Z-04` §4's ExtraWide frame is 2 columns short.** Its `120 × 40` render draws a 120-cell frame line, which is **118** columns of terminal; `Z-15` §4's equivalent is 122 and correct. This screen's §7 carried the identical defect and rev B fixed it — which is why it is worth reporting rather than assuming it is a house convention. The internal-consistency checker cannot see it, because every line in the block agrees with every other. Not fixed here: `Z-04` is not this pass's to edit | `Z-04-library.md` §4 (the `120 × 40` render, frame line 148) | `fft-tui-designer` — **`Z-04` next pass** |
 
 ---
 
@@ -898,6 +1064,10 @@ enabled."* And the `s` collision is closed by decision — §3.2 binds connect-a
 | **D-10-5** | No per-row cursor; the viewport is the focused thing (§16.1) | A cursor would imply `⏎` does something. The keys are pressed elsewhere — that is the premise of the screen |
 | **D-10-6** | The reserved block's key column is `--z-text-tertiary`, not amber (§15) | Amber is the machine speaking; a key that does nothing is the machine listing what it will say later. Equal amber would deny the one distinction the block exists to make |
 | **D-10-7** | `?` is described as `this key map — you are looking at it` (§5) | It is a no-op here, and the one screen whose job is not lying cannot list itself without a qualifier |
+| **D-10-8** | A binding whose **description differs by state** is **two registry entries with mutually exclusive predicates**, never one entry with a conditional string (§3, consequence 2b) | `v` is the first — `see the covers` / `back to the list`, matching the two footer hints exactly. One entry choosing a string at render time puts the footer's wording and the help's wording back in two places, which is the drift D-10-1 abolishes. Exactly one is ever live, so block 1 gains exactly one row |
+| **D-10-9** | **`x dismiss` is excluded from the count by its availability predicate, exactly as `m` is** — default 34 lines, 35 while the capability note is showing (§5, state H13) | Listing it always puts a dead key in the map on nine renders out of ten; never listing it omits a bound key. The predicate is the only answer that is right in both states, and the registry already carries the field |
+| **D-10-10** | **The viewport never re-flows its cut point** to avoid an orphaned heading at the fold (§4) | The moment paging is anything other than one line per `↓`, the position readout stops describing the document and starts describing a pagination the player cannot predict. The heading is orphaned in a *window*, and the window is labelled |
+| **D-10-11** | **A mode earns block 2 only when it is *additive*; a substitutive mode rewrites block 1** (§8) | `Z-07` adds an editor and chips on top of the list, so its keys are genuinely extra. `Z-15` replaces the list, so `↑ ↓` **means something else** — listing both descriptions would hand the player two contradictory accounts of one key on one screen |
 
 ---
 
@@ -910,7 +1080,10 @@ Beyond `00-design-brief.md` §10 and `02-colour-budget.md` §10, both of which a
 2. **Every key that fires on the origin is listed.** The inverse test, and the one that catches
    drift. **Automatable against the registry** — a test that asserts *the set of live bindings
    equals the set of rendered rows* is the acceptance criterion this screen is designed to make
-   possible.
+   possible. **It subsumes every line count in §4.0**, which is why none of them may be
+   hard-coded: assert `len(rendered) == len(live)`, never `== 34`. *Rev B exists because two
+   drawn goldens had drifted from the registry — `v` missing from all of them and `g` / `G`
+   missing from §9 — and no test could have failed.*
 3. **Opened from an empty library, block 1 lists two keys, not eleven**, and carries the prose
    line.
 4. **Opened from filter mode, block 2 is present**; opened from anywhere else, it is absent.
@@ -922,6 +1095,16 @@ Beyond `00-design-brief.md` §10 and `02-colour-budget.md` §10, both of which a
    the declared strings, not clipped long ones.
 9. **The position readout is present when the content overflows and absent when it does not.**
 10. **The `m` row and the footer's `m mute` are present if and only if audio has been enabled.**
+10b. **The `v` row is present if and only if `v` is bound on the origin** — absent on an empty
+    library, absent below 40 columns, absent once the capability note has been dismissed on a
+    terminal that draws no images (`Z-15` §10.1's five rows, asserted one at a time).
+10c. **The `x` row is present if and only if the capability note is showing** — the same
+    assertion as 10, against the same registry field. Press `v` on a terminal with no image
+    support, then `?`: block 1 ends `r` · `v` · `x` and the document is **35** lines. Press
+    `Esc`, `x`, `?`: `v` and `x` are both gone and it is **27**.
+10d. **From cover mode, block 1 carries the deck's descriptions and there is no block 2**
+    (D-10-11). Assert that no render ever contains both `move the cursor` and a covers-movement
+    description for the same key.
 11. **There is zero cyan on this screen**, of any class, in any state — by the
     `02-colour-budget.md` §3.1 machine method.
 12. **Amber cells are ≤ 10 % of the viewport**, measured — this screen has the largest amber

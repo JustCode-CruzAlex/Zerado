@@ -2,7 +2,7 @@
 title: Zerado — Z-05 Game detail
 discipline: SCREEN SPEC
 doc-no: ZRD-SCREEN-05
-rev: A
+rev: B
 date: 2026-08-25
 status: draft — for founder ratification
 archetype: component-variants
@@ -85,9 +85,19 @@ know marked as *which kind* of not-knowing it is.
 
 `tier = Wide` · `leftInset = 3` · **body = 74 × 16** · every visible row begins at **column 4**.
 
-**This is the normal Phase 1 state, not a degraded one.** Phase 1 has no cover art, no *sinopse*
-and no mood tags, so this composition — five facts about the game, two about its status, one
-about the data's age — is the screen, designed as such.
+**This is the normal Phase 1 state, not a degraded one.** Phase 1 has no *sinopse* and no mood
+tags, so this composition — four facts about the game, two about where its status came from, two
+about the age of what is on screen — is the screen, designed as such.
+
+> **Rev B: Phase 1 has cover art, and this screen gained the `COVER` row.**
+> [`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §9.1 routed it here with the reason:
+> [`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §4 requires every
+> **network-derived value** to render with its age, and **a cover's age is not `LAST SYNCED`'s**
+> — the row synced three hours ago and the picture was fetched two days ago. One age row could
+> not tell the truth about both. **`Z-15` draws no age on a tile and never will** (`Z-15` §8.1:
+> *Zerado never draws a mark on a cover*), so the detail view is the only surface where the
+> cover's provenance can be stated at all. §9.7 maps every one of `Z-15`'s seven picture states
+> onto what this row says.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -111,7 +121,7 @@ about the data's age — is the screen, designed as such.
 │                                                                                │
 │                                                                                │
 │                                                                                │
-│                                                                                │
+│   COVER        cached, 2 days ago                                              │
 │   LAST SYNCED  3 hours ago                                                     │
 │   ↑↓ scroll   s status   r sync   esc back   ? help   q quit                   │
 │                                                                                │
@@ -136,8 +146,8 @@ gutter **2**, so every value begins at body column **14** · footer **58** · ti
 | 11–14 | 5–8 | **block 1 — the game** |
 | 15 | 9 | `InterElementGap` |
 | 16–17 | 10–11 | **block 2 — where the status came from** |
-| 18–21 | 12–15 | blank |
-| 22 | 16 | **block 3 — the age of the data**, bottom-anchored |
+| 18–20 | 12–14 | blank |
+| 21–22 | 15–16 | **block 3 — the age of what is on screen**, bottom-anchored: `COVER`, then `LAST SYNCED` |
 | 23 | — | footer, the reserved frame row |
 | 24 | — | blank · `OuterMarginY` = 1 |
 
@@ -147,11 +157,23 @@ gutter **2**, so every value begins at body column **14** · footer **58** · ti
 |---|---|---|
 | **1 · the game** | `PLAYTIME` · `LAST PLAYED` · `ADDED` · `SOURCE` | *What is this thing?* |
 | **2 · the status** | `SET BY` · `<PROVIDER> SAYS` | *Why does it say `ZERADO`, and what would happen if I cleared that?* |
-| **3 · the age** | `LAST SYNCED` | *How old is what I am reading?* — `07-offline-contract.md` §4, and it is mandatory |
+| **3 · the age** | `COVER` · `LAST SYNCED` | *How old is what I am reading — and what I am looking at?* — `07-offline-contract.md` §4, and both rows are mandatory when the source is live |
 
 Block 2 is the reason `Z-06`'s fifth item is comprehensible: it names, in advance, exactly what
 *Clear override* will restore. Block 3 is the age rule, which is *"the rule most likely to be
 lost during a build, because dropping the age always makes the layout tidier."*
+
+> **There are still three blocks, and `COVER` did not make a fourth.** It answers block 3's
+> question — *how old is this?* — about the one thing on this screen that has an age of its own.
+> A fourth block would have cost a fourth `InterElementGap` and put the mandatory `LAST SYNCED`
+> row into competition with it; joining block 3 costs **one row**, taken from the three blank
+> rows that separate block 2 from the anchored block, and leaves three of them at four. And it
+> puts the picture's age and the row's age on adjacent lines, where the difference between
+> *two days* and *three hours* is the point.
+>
+> **`COVER` sits above `LAST SYNCED`, never below.** `LAST SYNCED` stays the view's last line in
+> every state, exactly as in rev A, so **D-05-4's anchor did not move** — the block grew upward.
+> A builder who bottom-anchors block 3 gets the same final row they got before.
 
 > **D-05-4 · Block 3 is bottom-anchored** to the view's last row when at least one blank row
 > would otherwise separate it from the flowed content; otherwise it flows immediately after
@@ -165,6 +187,10 @@ lost during a build, because dropping the age always makes the layout tidier."*
 44 × 32 (border 1 + inset 2 + **content 38** + inset 2 + border 1), sitting in `Z-04`'s
 `112 × 32` body after a 2-column gutter. **Identical content, identical block order, identical
 label field. Only the rectangle changed.**
+
+*Rev B redrew this render for two reasons: it gained the `COVER` row, and it had **31** content
+rows where §6's table says **30**. It is now 30 — border 1 + 30 + border 1 = the 32 rows `Z-04`'s
+body has — with `COVER` and `LAST SYNCED` on rows 29 and 30 and seventeen blank rows above them.*
 
 ```
 ┌ DETAIL ──────────────────────────────────┐
@@ -196,15 +222,17 @@ label field. Only the rectangle changed.**
 │                                          │
 │                                          │
 │                                          │
-│                                          │
-│                                          │
+│  COVER        cached, 2 days ago         │
 │  LAST SYNCED  3 hours ago                │
 └──────────────────────────────────────────┘
 ```
 
 **When the pane holds focus** — `Tab` or `⏎` from the ledger. The border goes **heavy**; the
 pane title goes amber. Under `NO_COLOR` the box weight alone still says which region has focus
-(`04-navigation-and-focus.md` §4.2).
+(`04-navigation-and-focus.md` §4.2). **This is an excerpt, not a golden — the top 12 of the
+pane's 30 content rows.** Every row below it, including the bottom-anchored block 3, is
+byte-identical to the render above; the border weight and the title's colour are the whole of
+the difference.
 
 ```
 ┏ DETAIL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -231,7 +259,7 @@ pane title goes amber. Under `NO_COLOR` the box weight alone still says which re
 > resized rather than designed. **Now a spine token:** `02-composition.md` names `BorderInsetX`
 > = **2** columns each side and `BorderInsetY` = **0** rows (`14-contradictions-closed.md` #16).
 
-> **The pane is 30 content rows and Phase 1 fills 12 of them.** That is not an unfinished
+> **The pane is 30 content rows and Phase 1 fills 13 of them.** That is not an unfinished
 > screen; it is the honest amount Phase 1 knows, with block 3 anchored to the last row so the
 > box reads as a bounded readout rather than a half-filled container. Phase 2's *sinopse* lands
 > in exactly this space, rendered by `glamour` **restyled to Zerado tokens** — never glamour's
@@ -294,7 +322,7 @@ component's declared geometry (§7.1); `ReadoutBesideMin = 38` is a named thresh
 
 ## 7 · Colour, glyph and label for everything shown
 
-Ratios read from the brand manual's measured table (§4.2). None estimated.
+Ratios read from the brand manual's measured table (`brand-manual.md` §4.2). None estimated.
 
 | Element | Token | Hex | ANSI-256 | 16-colour | Ratio |
 |---|---|---|---|---|---|
@@ -303,6 +331,8 @@ Ratios read from the brand manual's measured table (§4.2). None estimated.
 | Readout labels (UPPER) | `--z-text-secondary` | `#A9B5C7` | **249** | `white` | **9.36** AAA |
 | Explanatory prose | `--z-text-secondary` | `#A9B5C7` | **249** | `white` | **9.36** AAA |
 | `—` · `not tracked` · `never` | `--z-text-tertiary` | `#8492A8` | ***underived*** | `white` | **6.15** AA |
+| **`COVER` value — `cached, 2 days ago`** | `--z-text` | `#E9EEF5` | **255** | `bright white` | **16.65** AAA |
+| **`COVER` value — `not fetched` · `nothing found`** | `--z-text-tertiary` | `#8492A8` | ***underived*** | `white` | **6.15** AA |
 | Screen title `GAME DETAIL` (host A) | `--z-primary` | `#FFB000` | **214** | `bright yellow` | **10.59** AAA |
 | Pane title `DETAIL`, focused | `--z-primary` | `#FFB000` | **214** | `bright yellow` | **10.59** AAA |
 | Pane title `DETAIL`, unfocused | `--z-text-secondary` | `#A9B5C7` | **249** | `white` | **9.36** AAA |
@@ -376,7 +406,16 @@ The whole screen is a state table; §9 draws the ones that matter.
 | **D11** | **The title overflows the host** | Any host | **Wraps at a word boundary. Never truncated.** It is the identity (R-10(a)) and, unlike a ledger row, there is room | §9.3 |
 | **D12** | **Content taller than the host** | Narrow · Tiny · a long title | `bubbles/viewport` scrolls it. The footer says `↑↓ scroll` | — |
 | **D13** | **Below the refusal floor** | `< 24` cols or `< 8` rows | The frame refuses for the whole program — `Z-04-library.md` §11.3 | — |
-| **D14** | **The game is absent — a sync stopped returning it** | `absent_since IS NOT NULL` (`06-data-seams.md` §2.4) | §9.6. `SOURCE` carries `<Provider> — absent since <date>`; a **two-line prose block** after block 2 says why. **No banner, no retry, no red, no fifth state.** Every other value renders exactly as D2 | §10.8 |
+| **D14** | **The game is absent — a sync stopped returning it** | `absent_since IS NOT NULL` (`06-data-seams.md` §2.4) | §9.6. `SOURCE` carries `<Provider> — absent since <date>`; a **two-line prose block** after block 2 says why. **No banner, no retry, no red, no fifth state.** Every other value renders exactly as D2, and **block 3 is `LAST SYNCED` alone** — D-05-8 | §10.8 |
+| **D15** | **A cover is cached** | `metadata.cover_ref` resolves on disk | `COVER  cached, 2 days ago` — **the age, in the register `LAST SYNCED` uses**. `--z-text`, because it is a value Zerado has | §9.7 |
+| **D16** | **A cover has not been fetched** | `cover_ref IS NULL` and never attempted · a fetch errored · the OS evicted the cache | `COVER  not fetched` — `--z-text-tertiary`. **`r` is offered**, and this is the only cover state the player can act on | §9.7 |
+| **D17** | **The provider has no art for this game** | the fetch succeeded and returned nothing | `COVER  nothing found` — `--z-text-tertiary`. **No retry**, no apology, nothing wrong. The provider answered | §9.7 |
+
+> **D15–D17 are three facts, and the player can act on exactly one of them.** That is the same
+> shape as `—` versus `0h` versus `not tracked` in §9.3, and it is carried the same way: **in
+> words**, in the same three words the deck's tiles use, so the vocabulary is one product's and
+> not one screen's. **A fourth fact — a game that will never have a cover — has no `COVER` row
+> at all**, because `SOURCE  Added by hand` already is that row (D4, and **D-05-8**).
 
 > **D1 is the honest first-run row, and it is a *nothing*.** The manual demands a first-run row
 > on every screen; the truthful one here is that this screen has no first-run appearance,
@@ -423,9 +462,17 @@ is not unknown, not zero, and not pending: **there is nothing that could report 
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Block 3 is absent.** A provider that is not a `Syncer` has no last-sync time, and labelling one
-`never` would invite a retry that cannot exist. *Omit the block; do not label it empty.*
-**`r` is not in the footer** on this state, for the same reason.
+**Block 3 is absent — both rows of it.** A provider that is not a `Syncer` has no last-sync time,
+and labelling one `never` would invite a retry that cannot exist. *Omit the block; do not label
+it empty.* **`r` is not in the footer** on this state, for the same reason.
+
+**And that is where the deck's third word goes.** `Z-15` §11.2 puts `added by hand` on the tile,
+because a 17 × 6 tile has a caption and a chip and nothing else — it has no `SOURCE` row, so the
+word is the only way it can say what this is. **This screen already said it**, four rows up, in
+`SOURCE  Added by hand`. A `COVER  added by hand` row beneath it would be the same fact twice in
+one 16-row body, and the prose block already explains the whole of it: *a copy you added by hand
+has no store behind it.* **One fact, one row, and the row that owns it is the one that names the
+source** — which is D-05-7's rule, running in the other direction.
 
 **`SOURCE  Added by hand`** — the ratified phrasing (`01-design-system.md` §6.4). *"A physical
 copy isn't a second-class row in the list"* is a published promise; this screen keeps it by
@@ -456,7 +503,7 @@ smaller screen.
 │   SET BY       nobody yet                                                      │
 │                                                                                │
 │                                                                                │
-│                                                                                │
+│   COVER        not fetched                                                     │
 │   LAST SYNCED  never                                                           │
 │   ↑↓ scroll   r sync   s status   esc back   ? help   q quit                   │
 │                                                                                │
@@ -466,6 +513,14 @@ smaller screen.
 Banner **64** cells. **`r sync` is in the footer here and is not in §9.1's** — that single
 difference is the whole point of the distinction: the footer offers the retry exactly when a
 retry exists.
+
+**Block 3 says `not fetched` and `never` on the same two lines, and neither is redundant.**
+`LAST SYNCED  never` says *nobody has asked Steam about this row*; `COVER  not fetched` says
+*nobody has fetched the picture*. They agree here because one sync would fix both — but they are
+independent facts and they part company constantly: a library that syncs hourly and an
+enrichment run that failed gives `LAST SYNCED  3 hours ago` beside `COVER  not fetched`, which is
+**D16 arriving on an otherwise complete row**. That is why `r` is now offered on two conditions
+and not one (§14).
 
 ### 9.3 · The five renderings of *not a value* — the table this screen exists for
 
@@ -482,6 +537,16 @@ value above still renders normally; what changes is that `SOURCE` carries `— a
 and a prose block explains it. It belongs beside this table rather than in it, because the other
 five answer *"what does Zerado know about this field?"* and this one answers *"is this row still
 being reported?"*
+
+**And the seventh is not a value either — it is a fact about an ASSET** (D15–D17, §9.7). The
+`COVER` row does not answer *what does Zerado know about this field?*; it answers *does Zerado
+have this file, and how old is it?* **That is why it does not use `—`.** A `—` is the rendering
+for a value with a shape — a number, a date — that nobody has asked for yet; a cover is a file
+that either exists on disk or does not, and the deck already has three words for which kind of
+not-having it is. **The words win**, for the same reason `—` and `not tracked` beat a colour
+difference: `Z-15`'s tile cannot render `—` in a 15-column box without it reading as a dead
+cell, so if this screen used `—` the product would have two vocabularies for one fact. **One
+word, two surfaces.**
 
 **`—` versus `not tracked` is the load-bearing distinction on this screen**, and it is carried in
 **words**, so it survives `NO_COLOR`, a screenshot, and a screen reader reading the raw stream.
@@ -555,13 +620,20 @@ are below the fold; `↑↓` scrolls to them, and the footer says so.
 │ SET BY                         │
 │ you, 12 Aug 2026               │
 │                                │
-│                                │
+│ STEAM SAYS                     │
+│ IN PROGRESS                    │
 │ esc back  ? help  q quit       │
 └────────────────────────────────┘
 ```
 
 Body **30 × 21**. `OuterMarginX` and `OuterMarginY` shed to **0**; the band is the title row
 alone. The chip does **not** shrink and the label is **never** dropped.
+
+*Rev B redrew this render: it had **20** body rows where the table above says **21**, and it
+spent the last two on blanks. The twenty-first row is `STEAM SAYS  IN PROGRESS`'s value, so the
+fold now falls between block 2 and block 3 rather than inside a run of empty rows.* **`COVER`
+and `LAST SYNCED` are the next two readouts below it**, reached by `↓` — the same place block 3
+has always been at this width, and neither row is dropped (§11).
 
 ### 9.6 · D14 — the game is absent, which is a fact about the SOURCE
 
@@ -571,6 +643,7 @@ stopped returning it"* and *"the player no longer owns it"* are not the same fac
 first is observable. `Z-04` excludes the row from the default view; `Z-07`'s `[ABSENT]` chip is
 how the player got here; **this screen is the one that says plainly why.**
 
+```
 ┌────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                │
 │   Zerado ✦ Game detail                                                         │
@@ -597,6 +670,7 @@ how the player got here; **this screen is the one that says plainly why.**
 │   ↑↓ scroll   s status   r sync   esc back   ? help   q quit                   │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 > **D-05-7 · The absence is a value on the `SOURCE` row, not a banner — and the prose block does
 > the explaining.**
@@ -634,8 +708,23 @@ how the player got here; **this screen is the one that says plainly why.**
 | block 2 | 10–11 | 10 |
 | gap | 12 | 11 |
 | the prose block | 13–14 | 12–13 |
-| spare | 15 | 14–15 |
-| **block 3, bottom-anchored (D-05-4)** | **16** | **16** |
+| gap | 15 | 14–15 |
+| **block 3, bottom-anchored (D-05-4)** — **`LAST SYNCED` alone** | **16** | **16** |
+
+> **This render has no `COVER` row, and the reason is the age rule rather than the arithmetic —
+> D-05-8.** On an absent row the `SOURCE` line already carries an age, and it is the **outer**
+> one: `absent since 14 Aug 2026` bounds every fact on this screen. Nothing Steam holds about
+> this game has reached Zerado since that date — not the playtime, not the state, and not the
+> picture. `COVER  cached, 5 months ago` beneath it would state a second, narrower age inside
+> one the screen has already given.
+>
+> **The arithmetic is real too, and hiding it would be worse than stating it.** Rev A's D14 used
+> all 16 body rows with no slack — the row this table calls *spare* is the `InterElementGap`
+> between the prose and block 3, not a spare row at all. A second block-3 row therefore measures
+> **17 in a 16-row view**, and the line that falls below the fold is `LAST SYNCED` — *"the rule
+> most likely to be lost during a build."* **A spec that spends the mandatory row on a
+> redundant one has lost the argument twice.** Both reasons point the same way, which is why
+> this is a decision and not a concession.
 
 **Neither form scrolls at 80 × 24**, which is the whole reason the banner was declined. In host B
 (38 content columns) the prose re-wraps to four lines in a 32-row pane and is **never truncated**,
@@ -643,14 +732,64 @@ exactly as D4's block is.
 
 **`absent` is not a fifth state and this screen renders no fifth glyph.** *Alan Wake* is
 `◉ ZERADO` and its chip is byte-identical to any other `ZERADO` chip in the product — which is
-§2.4's point: *"a game you finished and no longer own is exactly the row you would be angriest to
+`06-data-seams.md` §2.4's point: *"a game you finished and no longer own is exactly the row you would be angriest to
 lose."* `STEAM SAYS  IN PROGRESS` still renders, because the provider's last answer is still a
 fact about where the status came from.
 
-**When it comes back, nothing announces it.** `absent_since` is cleared silently (§2.4): the
+**When it comes back, nothing announces it.** `absent_since` is cleared silently (`06-data-seams.md` §2.4): the
 `SOURCE` clause stops rendering, the prose block disappears, the row returns to `Z-04`'s default
 view, and the screen is D2 again. **No banner, no result line, no celebration** — the *zerado*
 line (`Z-04-library.md` §10.5) is the only moment Zerado announces, and this is not it.
+
+### 9.7 · The `COVER` row — every one of `Z-15`'s seven picture states, and what this screen says
+
+The deck and the detail view must never disagree about one game's cover, so the mapping is
+written out rather than left to be inferred. **The three words are
+[`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §11.2's, character for character** — this screen
+adopts them, it does not coin a fourth.
+
+| `Z-15` state | What the tile shows | **This screen's `COVER` row** | Colour | `r` offered? |
+|---|---|---|---|---|
+| **C3** image support, cover cached | the picture | **`cached, 2 days ago`** | `--z-text` | — |
+| **C4 / C10** not fetched yet · the OS evicted the cache | `not fetched` | **`not fetched`** | `--z-text-tertiary` | **yes** |
+| **C5** a fetch failed | `not fetched` | **`not fetched`** | `--z-text-tertiary` | **yes** |
+| **C6** the provider has no art | `nothing found` | **`nothing found`** | `--z-text-tertiary` | **no** |
+| **C7** a hand-added copy | `added by hand` | **no row at all** — `SOURCE  Added by hand` is it, and block 3 is absent (§9.1) | — | **no** |
+| **C8** offline, cover cached | the picture | **`cached, 2 days ago`** — unchanged; the cache is local | `--z-text` | — |
+| **C9** offline, cover not cached | `not fetched` | **`not fetched`**, with the `OFFLINE` banner naming why nothing new will arrive | `--z-text-tertiary` | **yes** |
+
+**`Z-15` has no picture state for an absent row**, because absence is a fact about the row and
+not about the picture — its **C24** says so outright (*"`absent` is not a fifth state and gets no
+fifth tile treatment"*). This screen has the same answer in the other direction: **D14 renders no
+`COVER` row**, because `SOURCE  Steam — absent since 14 Aug 2026` is already the outer age that
+bounds the picture's. §9.6 and **D-05-8**.
+
+**Three things this table settles, each of which someone would otherwise get wrong:**
+
+1. **A failed fetch says `not fetched`, not `failed`.** `Z-15` **D-15-10**: *"a failure is a
+   property of the network, not of the game"*, and it is screen-wide, so it is the banner's.
+   The `COVER` row states what is true **about this game** — the picture is not here — and never
+   blames the game for the connection. **C4, C5, C9 and C10 are one string** for exactly that
+   reason, and the four are told apart by the banner, not by the row.
+2. **The row is identical on a terminal that cannot draw images.** Whether *this* terminal can
+   paint a cached blob is a fact about the terminal, and it lives in the capability note and in
+   `Z-09 § DISPLAY` — never here. A blob on disk is cached whether or not anything can render
+   it, so **`COVER  cached, 2 days ago` renders on Terminal.app exactly as it does on Ghostty.**
+   This falls straight out of `Z-15` §8.1: because Zerado never draws a mark on a cover, a
+   cover's provenance is carried entirely in **text**, and text renders everywhere.
+3. **This screen never draws the picture.** It gained a **row**, not an image region. Whether
+   the detail pane ever paints a cover is a composition question — a new region inside a
+   bordered surface, in a view that is mounted in two hosts of different widths — and
+   composition belongs to `fft-tui-architect`. `Z-15` §4 keeps the pane at 44 × 32 with the
+   deck beside it and draws no cover in it; this spec follows that and proposes nothing.
+
+**And one thing it deliberately leaves alone: `Z-15` §12.2's silence at Tiny.** Cover *mode* is
+unavailable below 40 columns and nothing is printed about it. **The `COVER` row is not covered by
+that silence and renders at every tier**, because the two are different facts: the note is about
+the terminal — a thing the player cannot act on without changing both program and window — while
+this row is about the data, and `r` works at 32 columns exactly as it works at 120. At Tiny the
+row is below the fold in the stacked arrangement (§9.5) and one `↓` reaches it, which is where
+every block-2 and block-3 row already is.
 
 ---
 
@@ -671,6 +810,7 @@ SOURCE       Steam
 SET BY       you, 12 Aug 2026
 STEAM SAYS   IN PROGRESS
 
+COVER        cached, 2 days ago
 LAST SYNCED  3 hours ago
 ```
 
@@ -699,6 +839,7 @@ At 38 columns (host B) the prose re-wraps to five lines; it is **never truncated
 PLAYTIME     —
 LAST PLAYED  —
 
+COVER        not fetched
 LAST SYNCED  never
 ```
 
@@ -707,7 +848,13 @@ LAST SYNCED  never
 ```
 PLAYTIME     0h
 LAST PLAYED  never played
+
+COVER        nothing found
 ```
+
+**`nothing found` is D6's shape applied to an asset** — the provider answered, the answer was
+nothing, and there is nothing to retry. It is the cover's `never played`: two words that say a
+question was asked, so that silence does not have to be read as a gap.
 
 `never played` rather than `never`: `05-state-machine.md` §6 is explicit that a null
 `last_played_at` means *not reported*, not *never played*, so the two words are what separate the
@@ -741,7 +888,14 @@ PLAYTIME     —
 LAST PLAYED  —
 ADDED        —
 SOURCE       —
+
+COVER        —
+LAST SYNCED  —
 ```
+
+**`COVER` renders `—` while loading and only while loading** — the one moment the row does use
+the value vocabulary, because during a read Zerado genuinely does not yet know which of D15,
+D16 or D17 this game is in. The moment the read returns it becomes a word.
 
 The **title and the chip render immediately** — both came from the ledger row the player was
 already looking at. No spinner, no scanner: reading a local row is not an indeterminate wait.
@@ -757,7 +911,7 @@ The label carries the `…` until SQLite confirms. **Never an optimistic silent 
 ### 10.8 · D14 — the game is absent
 
 **The copy `06-data-seams.md` §2.4 authorises.** Rev A of this spec refused to write it, on the
-grounds that a decision about a player's own data is not a screen's to make. §2.4 makes it — *"a
+grounds that a decision about a player's own data is not a screen's to make. `06-data-seams.md` §2.4 makes it — *"a
 game a sync stops returning is tombstoned, never deleted"* — and names the refusal as the right
 call. This is the copy.
 
@@ -778,7 +932,7 @@ for the prose.** At 38 content columns (host B) the prose re-wraps to four lines
 | Clause | Why it is there | What it deliberately does not say |
 |---|---|---|
 | `absent since 14 Aug 2026` | **What happened, and when.** The date is the one fact the player can check against their own memory | Not `removed`, not `deleted`, not `missing` — none of those is observable |
-| `Zerado cannot tell whether you still own it` | **Why.** *"The provider stopped returning it"* and *"the player no longer owns it"* are not the same fact and only the first one is observable (§2.4) | It does not guess which. It does not list delistings, region changes and family shares — naming causes for *this* game would be a guess wearing a fact's clothes |
+| `Zerado cannot tell whether you still own it` | **Why.** *"The provider stopped returning it"* and *"the player no longer owns it"* are not the same fact and only the first one is observable (`06-data-seams.md` §2.4) | It does not guess which. It does not list delistings, region changes and family shares — naming causes for *this* game would be a guess wearing a fact's clothes |
 | `so it changed nothing` | **The consequence, stated as an action the product did not take.** *"Deletion is irreversible. Tombstoning is not"* | It does not apologise, and it does not ask the player to do anything |
 | `The row and its status stay` | **What it means for their data**, which is the sentence that had to be right | It says *its* status rather than *your* status, because a derived status is not theirs and this line must be true in both cases |
 | `out of the list` | Why they cannot find it on `Z-04` — the thing they will actually notice | |
@@ -789,7 +943,7 @@ consequence, in two short sentences. **No exclamation mark, no apology, no emoji
 is never told they did anything** — because they did not.
 
 **Nothing here claims an unbuilt capability.** There is no *"remove it"* affordance offered:
-§2.4 reserves deletion for when the **player** asks, and Phase 1 binds no key that asks. Offering
+`06-data-seams.md` §2.4 reserves deletion for when the **player** asks, and Phase 1 binds no key that asks. Offering
 one in copy would be anti-pattern 14.
 
 ### 10.9 · Copy notes
@@ -798,7 +952,13 @@ one in copy would be anti-pattern 14.
   `last June`. Never `2026-08-22T04:11:09Z`. The exact timestamp belongs in this view for anyone
   who wants it, and Phase 1's answer is that `ADDED` and `LAST PLAYED` are already the precise
   dates; only `LAST SYNCED` is relative, because relative is what "how stale is this" means.
-- **Say the number** — `9h`, `41 hours`, `147 of 247`.
+- **Say the number** — `9h`, `41 hours`, `147 of 247`, `2 days ago`.
+- **The three cover words are `Z-15` §11.2's, verbatim, and this screen coins nothing.**
+  `not fetched` · `nothing found` · `added by hand`. The tile and the detail row say the same
+  string about the same game, which is the `absent` lesson applied a second time: **one word,
+  every surface it appears on.** Their i18n hazard is the tile's, not this screen's — a
+  translator has 15 columns in a tile and 60 here — so the length budget that governs them lives
+  with the tighter field.
 - **No exclamation marks. No emoji. The user is never a "gamer".**
 - **Casing** — `Zerado` the product in prose and in the breadcrumb; `ZERADO` the chip; `zerado`
   never appears on this screen because there is no summary sentence here.
@@ -819,7 +979,9 @@ chip unchanged at its full 14 columns, blocks 2 and 3 reachable by scrolling.
 
 **Sheds at Narrow and below:** the beside arrangement (the label moves above the value).
 **Never sheds, at any width:** the state — glyph **and** label · the game's title · the
-degrade banner when one is active · the footer key line.
+degrade banner when one is active · the footer key line · **both rows of block 3**, `COVER` and
+`LAST SYNCED`, which go below the fold at Narrow and Tiny and are reached by `↓` — never dropped,
+never abbreviated, and never merged into one row.
 
 **32 × 24** is §9.5: body `30 × 21`, `leftInset` 1, band collapsed to the title row.
 
@@ -860,7 +1022,7 @@ Zero SGR sequences. The §3 screen, character for character:
 │                                                                                │
 │                                                                                │
 │                                                                                │
-│                                                                                │
+│   COVER        cached, 2 days ago                                              │
 │   LAST SYNCED  3 hours ago                                                     │
 │   ↑↓ scroll   s status   r sync   esc back   ? help   q quit                   │
 │                                                                                │
@@ -873,11 +1035,12 @@ Zero SGR sequences. The §3 screen, character for character:
 | Label vs value | **Case** — `PLAYTIME` against `9h` — plus the fixed column edge at 14 |
 | Block boundaries | `InterElementGap`, spacing, not colour |
 | **Not-fetched vs not-trackable** | The **words** `—` and `not tracked`, plus the presence or absence of block 3 and of `r sync` in the footer |
+| **Which kind of cover Zerado has** | The **words** `cached, 2 days ago` · `not fetched` · `nothing found`, plus the absence of the row entirely on a hand-added copy. **Colour carries nothing here** — the value/tertiary split is emphasis, and every distinction survives without it |
 | Which region has focus (host B) | `┏━┓` against `┌─┐` — box-drawing **weight** |
 | The banner class | The label word |
 | Screen title | UPPERCASE + bold, alone on its row |
 
-**Under `NO_COLOR` this screen loses nothing**, which is the §3.3 cross-check: run it with
+**Under `NO_COLOR` this screen loses nothing**, which is `02-colour-budget.md` §3.3's cross-check: run it with
 `NO_COLOR=1` and if any information disappears, the screen was encoding meaning in colour.
 
 **`ZERADO_ASCII=1`:**
@@ -944,7 +1107,7 @@ focus — cursor and offset are preserved by **game identity**, not by index.
 | `Ctrl-D` / `Ctrl-U` | Half a page | ✓ | ✓ | |
 | `g` / `G` | Top / bottom | ✓ | ✓ | |
 | `s` | Set this game's status → `Z-06` | ✓ | ✓ | The overlay is drawn over whichever host is rendering |
-| `r` | Re-sync → `Z-03` | ✓ | ✓ | **Listed only when a retry exists** — never on a hand-added copy (§9.1) |
+| `r` | Re-sync → `Z-03` | ✓ | ✓ | **Listed only when a retry exists** — never on a hand-added copy (§9.1). **Rev B: two conditions, not one** — a value that is `—`, **or** a `COVER` row reading `not fetched` (`Z-15` §10: `r` is *"also what refetches a `not fetched` cover"*). Never for `nothing found`, which is an answer |
 | `Tab` / `Shift-Tab` | Move between regions | **not bound** | ✓ | Host A has one region |
 | `⏎` | — | **not bound** | **not bound** | There is nothing to activate here in Phase 1 |
 | `,` | Settings → `Z-09` | ✓ | ✓ | Global |
@@ -984,6 +1147,7 @@ Separator 3 spaces, tightening to 2 before any hint drops; `? help` and `q quit`
 | D5 not fetched | 0 | none | **0** | **PASS** |
 | D7 offline | as D2 | none | **0** | **PASS** |
 | **D14 absent** | as D2 — the chip is unchanged | none | **0** | **PASS** |
+| **D15–D17 the `COVER` row** | 0 — a readout row has no chip | none | **0** | **PASS** |
 | Host B, pane focused | as D2 | the pane's border is `--z-border-strong`, **not cyan** | **0** | **PASS** |
 
 **`Z-05` spends ZERO chrome cyan in every state.** A detail view has nothing to urge — the
@@ -991,12 +1155,22 @@ player already chose this game. Zero is a pass (`02-colour-budget.md` §2.2), an
 answer here rather than a missed opportunity.
 
 **Amber allow-list entries used:** 1 the screen title (host A) / the focused pane title
-(host B) · 2 readout labels · 3 the `IN PROGRESS` state · 7 the action-required degrade banner.
-**Not used:** 4 progress fill · 5 key hints beyond the footer · 6 the terminal mark · 8 the
-filter sigil.
+(host B) · 3 the `IN PROGRESS` state · 7 the action-required degrade banner.
+**Not used:** 2 readout labels · 4 progress fill · 5 key hints beyond the footer · 6 the terminal
+mark · 8 the filter sigil.
 
-**Amber ceiling:** at 80 × 24 = 1920 cells, ceiling **192**. §3's render spends 11
-(`GAME DETAIL`) + 55 (readout labels) ≈ **66**.
+> **Rev B struck entry 2 from the *used* list, and corrected the count below it.** The
+> `02-colour-budget.md` §4.1 allow-list says where amber **may** appear, not where it must — and
+> §5 and §7 of this spec both put readout labels in `--z-text-secondary`, *"the cockpit
+> annotation register, present but subordinate."* Rev A's §15 counted them as amber anyway,
+> which contradicted its own token table twice over. **The verdict does not move** — it was a
+> PASS by a wide margin and is now a PASS by a wider one — but a number that disagrees with the
+> token table is a number a builder will implement.
+
+**Amber ceiling:** at 80 × 24 = 1920 cells, ceiling **192**. §3's render spends **11** —
+`GAME DETAIL`, and nothing else. The eight readout labels, `COVER` among them, are
+`--z-text-secondary`; the chip is cyan; the footer is chrome. **The `COVER` row costs zero amber
+and zero cyan**, which is what a readout row should cost.
 
 **Red: none, in any state.** No scanner — there is no indeterminate wait on this screen. No
 destructive confirmation — nothing here deletes anything, and marking `ABANDONED` is reversible
@@ -1040,6 +1214,9 @@ carries the resulting state row (**D14**), mockup (§9.6) and copy (§10.8).
 |---|---|---|---|
 | 1 | **`01-design-system.md` §6 still describes a detail pane the spine does not compose, in two different ways.** §6.2 is headed *"Anatomy — Wide tier, pane 28 cols"*, a composition §6.1 and `02-composition.md` §2.1 both rule out below 120 columns; and §6.1's own ExtraWide split reads `ledger 64 · gutter 2 · pane 46` where `02-composition.md` §2.3 binds **66 ∥ 2 ∥ 44**. Both sum to 112, which is the harder kind of disagreement — a builder following one and a reviewer following the other would each think the screen correct. **This spec follows the spine: pane 44, content 38.** `14-contradictions-closed.md` #15 already records this as closed with *"real pane is 44 wide, 38 content"*, so the design system is the document that has not caught up | `01-design-system.md` §6.1, §6.2 | `fft-design-architect` |
 | 2 | **`03-responsive.md` §3 specifies Z-05's readout arrangement by tier**, which a two-host view cannot use — the pane's 38 content columns fall *between* Narrow's 36 and Standard's 54. Resolved as the width threshold **D-05-2**, which agrees with the spine at the tested breakpoint | `03-responsive.md` §3 | `fft-tui-architect` |
+| 3 | **`Z-15` §9.1 asks for `COVER  cached, 2 days ago` "beside the other provenance", which reads as block 2.** It is in **block 3** instead, and the reason is `Z-15`'s own: the row was routed here because a cover is a **network-derived value that needs its age** (`07-offline-contract.md` §4), and block 3 is the age block. Block 2 is `SET BY` / `<PROVIDER> SAYS` and **D-05-3** makes it the block that renders *Clear override* predictable — a picture inside that argument would break it. Recorded because `Z-15` §17 finding 5 says *provenance block* and a reviewer holding both specs will look in the wrong one | `Z-15-cover-deck.md` §9.1 · §17 finding 5 | `fft-tui-designer` — **`Z-15` next pass**, wording only |
+| 4 | **`Z-15` §17 finding 5 also says this spec "currently states *no cover-art placeholder*", and it still does — correctly.** §10.9's copy note and **D-05-6** forbid a *placeholder*: an empty box, a `[cover]` label, a "coming in Phase 2" line. The `COVER` row is **not** a placeholder — it is a readout with a value in every state, and in the one state where it would have nothing true to say it is **absent** (D-05-8). The two rules do not collide and D-05-6 stands unamended; saying so here stops someone striking it | this spec §10.9 · D-05-6 | **closed in this pass** |
+| 5 | **Whether the detail pane ever *draws* a cover is undecided, and is not this spec's to decide.** `Z-15` §4 keeps the pane at 44 × 32 with no image region in it, and this spec adds a **row**, not a picture. An image region inside a bordered surface, in a view mounted in two hosts of different content widths (38 and 74), is a composition change of the same class as **D-15-7**. Flagged rather than proposed | `02-composition.md` §2.1 · §2.3 · `Z-15-cover-deck.md` §4 | `fft-tui-architect` |
 
 ---
 
@@ -1057,7 +1234,7 @@ carries the resulting state row (**D14**), mockup (§9.6) and copy (§10.8).
 > when it returns; excluded from `Z-04`'s default view; findable through `Z-07`'s facet; deleted
 > only when the player asks. The copy this spec refused to write before the decision is now
 > written — **§10.8**, with D14 and §9.6. *The refusal was the right call and the seam says so;
-> the sentence it produced is better than the one rev A sketched, because §2.4 decided the
+> the sentence it produced is better than the one rev A sketched, because `06-data-seams.md` §2.4 decided the
 > reason and not just the behaviour.*
 
 1. **The nine underived ANSI-256 indices.** This screen leans on `--z-text-tertiary` more than
@@ -1077,6 +1254,7 @@ carries the resulting state row (**D14**), mockup (§9.6) and copy (§10.8).
 | **D-05-5** | Five distinct renderings of *not a value*, carried in **words**: `9h` · `0h` / `never played` · `—` · `—` + banner · `not tracked` (§9.3) | `01-screen-inventory.md` §5 requires the distinction and the player can act on only two of the five; a colour-only difference would not survive `NO_COLOR`, a screenshot, or a screen reader |
 | **D-05-6** | No Phase 2 field labels, no "coming in Phase 2" line, no cover placeholder (§10.9) | Anti-pattern 14 — *omit the block, do not label it empty.* The roadmap is on the landing page, not in a detail view |
 | **D-05-7** | An absent row is announced on the **`SOURCE` value** plus a two-line prose block — **not** a banner (§9.6, §10.8) | A degrade banner's four mandatory parts (`07-offline-contract.md` §3) all fail here: nothing is unavailable, nothing is stale, and there is no retry. *The source stopped returning it* is a fact about the source, so it lands on the row that names the source — at **zero row cost**, which is what lets block 3 keep its respiro on the screen where the age matters most |
+| **D-05-8** | **The `COVER` row is block 3's *first* row, and it renders only when the source is live** (§3.2, §9.7). Present on a syncable row that the provider is still returning (D2, D3, D5, D6, D7, D10, D15–D17); **absent** on a hand-added copy (D4) and on an absent row (D14) | Three reasons, and they agree. **(1)** A cover is a network-derived value and `07-offline-contract.md` §4 requires its age — an age `LAST SYNCED` cannot give, because the row and the picture are fetched by different runs. **(2)** Where there is no live source, the `SOURCE` row already carries the fact and carries it better: `Added by hand` says no store will ever have art, and `absent since <date>` is an **outer** age that bounds the picture's along with everything else — a second, narrower age inside it is furniture. **(3)** D14 has no spare row: rev A used all 16 and the row that would fall below the fold is `LAST SYNCED`, the mandatory one. **`SOURCE` owns a cover's provenance when there is no live source; `COVER` owns its age when there is** |
 | **D-06-1** | A bordered surface is inset 2 columns each side and 0 rows, fixed at every tier (§4) | Read from `01-design-system.md` §6.2's ratified anatomy; **now a spine token** — `02-composition.md` names `BorderInsetX` = 2 and `BorderInsetY` = 0 |
 
 ---
@@ -1097,6 +1275,23 @@ Beyond `00-design-brief.md` §10 and `02-colour-budget.md` §10, both of which a
    side.
 5. **Block 3 is absent on a hand-added copy** and present on every syncable one. `LAST SYNCED`
    never reads `never` for a provider that cannot sync.
+5b. **The `COVER` row says exactly what the tile says, for the same game, in every one of
+   `Z-15`'s seven picture states** (§9.7). Render the deck and the detail view side by side and
+   assert the strings match — `not fetched`, `nothing found` — with two declared exceptions:
+   a cached cover, where the tile shows the picture and this row shows its **age**; and a
+   hand-added copy, where the tile says `added by hand` and this screen has **no `COVER` row**.
+   **No third vocabulary anywhere.**
+5c. **`r sync` is in the footer if and only if a retry exists** — now on two conditions: a `—`
+   value, or `COVER  not fetched`. Verified on a complete row whose enrichment failed
+   (`LAST SYNCED  3 hours ago` **and** `COVER  not fetched`, `r` present) and on `nothing found`
+   (`r` absent unless something else needs it).
+5d. **D14 and D4 render no `COVER` row**, in either host, at every tier — and D14 still closes
+   in 16 body rows without scrolling, in both the override and the no-override form
+   (criterion 14).
+5e. **The `COVER` row is byte-identical on a terminal with no image support.** Run with
+   `ZERADO_NO_IMAGES=1` and diff this screen against the same game on a terminal that draws
+   images: **zero differences.** A cover's provenance is text, and text does not need a
+   graphics protocol.
 6. **`⏎` on an empty ledger does not push this screen** and shows no error.
 7. **The chip renders before the values do**, on a cold open — title and state come from the
    ledger row already in memory.
