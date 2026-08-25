@@ -1,22 +1,41 @@
 ---
 /**
- * CoverTile — one art-directed tile of the twelve. No real cover art; four
- * CSS treatments × three hue keys. Non-interactive: no hover, no link.
- * Ref: design/blueprint.md §7.5.
+ * CoverTile — one row of the twelve.
+ *
+ * Renders the real IGDB cover when this row's image files are present, and the
+ * original art-directed CSS treatment when they are not. Both states are
+ * first-class: a cover withdrawn for any reason (see
+ * `docs/legal/igdb-image-licence-finding.md` §7) degrades to the tile it
+ * replaced without touching the layout.
+ *
+ * Non-interactive: no hover, no link, no lightbox.
+ * Ref: design/blueprint.md §7.5 (as amended 2026-08-25).
  *
  * @prop {import('../data/coverGrid').Treatment} treatment
  * @prop {import('../data/coverGrid').Hue} hue
  * @prop {import('../data/coverGrid').PlatformTagKind} platformTag
+ * @prop {string} slug  — basename of /covers/{slug}.avif|.webp|.jpg
+ * @prop {string} alt   — names the game and its platform; distinct per tile
+ * @prop {boolean} hasImage — whether this row's files exist in the build
+ * @prop {boolean} asListItem — <li> inside the <ul> when covers ship; <div>
+ *   inside the ratified role="img" container when they do not
  */
 import PlatformTag from './PlatformTag.astro';
+import { COVER_WIDTH, COVER_HEIGHT } from '../data/coverGrid';
 
 interface Props {
   treatment: 'A' | 'B' | 'C' | 'D';
   hue: 'amber' | 'cyan' | 'steel' | 'orchid';
   platformTag: 'STEAM' | 'GOG' | 'EA' | 'PS' | 'PHYSICAL';
+  slug: string;
+  alt: string;
+  hasImage: boolean;
+  asListItem: boolean;
 }
 
-const { treatment, hue, platformTag } = Astro.props;
+const { treatment, hue, platformTag, slug, alt, hasImage, asListItem } = Astro.props;
+
+const Tag = asListItem ? 'li' : 'div';
 
 const HUE_TOKEN: Record<string, string> = {
   amber: '--z-primary',
@@ -27,12 +46,43 @@ const HUE_TOKEN: Record<string, string> = {
 const hueVar = `var(${HUE_TOKEN[hue]})`;
 ---
 
-<div class={`z-tile z-tile--${treatment}`} style={`--z-tile-hue: ${hueVar}`} aria-hidden="true">
-  <div class="z-tile__art"></div>
-  <div class="z-tile__tag">
+{/* The tile is a list item so a screen reader is told how many covers there
+    are and can step past them; twelve loose images in a row is the thing that
+    makes a grid like this tedious to listen to. A tile with no image carries
+    no information at all, so it is hidden outright rather than announced as an
+    empty item. */}
+<Tag
+  class={`z-tile z-tile--${treatment}`}
+  style={`--z-tile-hue: ${hueVar}`}
+  aria-hidden={hasImage ? undefined : 'true'}
+>
+  {hasImage ? (
+    <picture>
+      <source srcset={`/covers/${slug}.avif`} type="image/avif" />
+      <source srcset={`/covers/${slug}.webp`} type="image/webp" />
+      {/* width/height are the files' true intrinsic size, and the tile box is
+          already reserved by `aspect-ratio` — between them CLS stays 0.000.
+          The grid sits in section 6 of 16, well below the fold on every
+          viewport, so every cover is lazy; nothing above the fold is. */}
+      <img
+        class="z-tile__img"
+        src={`/covers/${slug}.jpg`}
+        alt={alt}
+        width={COVER_WIDTH}
+        height={COVER_HEIGHT}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+  ) : (
+    <div class="z-tile__art"></div>
+  )}
+  {/* Decorative on purpose: the platform is already named in the cover's alt
+      text, so announcing the plate as well would say it twice. */}
+  <div class="z-tile__tag" aria-hidden="true">
     <PlatformTag kind={platformTag} />
   </div>
-</div>
+</Tag>
 
 <style>
   .z-tile {
@@ -41,11 +91,25 @@ const hueVar = `var(${HUE_TOKEN[hue]})`;
     background: var(--z-void);
     border-radius: var(--z-radius-sm);
     overflow: hidden;
+    list-style: none;
   }
 
   .z-tile__art {
     position: absolute;
     inset: 0;
+  }
+
+  /* Fills the ratified 3 / 4 box. The file is already cropped to 3 / 4 at fetch
+     time, so `cover` has nothing left to crop — it is here so a source that
+     ever arrives at a different ratio fills the box instead of distorting. */
+  .z-tile__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
   }
 
   .z-tile__tag {

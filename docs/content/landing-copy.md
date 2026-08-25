@@ -223,9 +223,45 @@ in §06 changed. Reverting is a one-line change the day Steam sync ships.)*
 
 **Image slot:**
 Cover-art grid, mixed synced and hand-added titles, one marked Physical.
-**Alt text:** "Mockup of a cover-art grid showing synced and manually-added games side by
-side, with one cover labelled 'Physical' to show a hand-entered disc or cartridge sitting in
-the same collection as everything else."
+**Alt text (the figure as a whole):** "Mockup of a cover-art grid showing synced and
+manually-added games side by side, with one cover labelled 'Physical' to show a hand-entered
+disc or cartridge sitting in the same collection as everything else."
+
+*(Unchanged. It describes the library **view**, which is still a mockup — there is no runnable
+TUI to screenshot. Only the covers inside it became real.)*
+
+**Caption line under the grid — two states, and the page picks the true one.**
+The build reads `site/public/covers/` and states what it actually contains, so there is no
+state in which the page shows one thing and says the other:
+
+> **When real covers ship:** Cover art from IGDB.com. The library view itself is a mockup.
+
+> **When no cover files are in the build:** Cover tiles are illustrative artwork, not real
+> game covers.
+
+*(Amended 2026-08-25, ticket #16. At rev A the grid was twelve art-directed CSS tiles and
+carried only the second line. The founder authorised real IGDB cover art the same day — see
+`docs/legal/igdb-image-licence-finding.md` for the terms relied on, quoted and dated. The
+second line is kept rather than deleted because it is still the honest caption whenever a
+cover is withdrawn and its tile renders instead.)*
+
+**Alt text, per cover.** Twelve distinct strings — the game and where the copy lives. The
+`PHYSICAL` row is a provenance label, not a different image source: its cover comes from IGDB
+exactly like the other eleven. These are mirrored verbatim in
+`site/src/data/coverGrid.ts` and asserted distinct by `scripts/check-page.mjs`.
+
+1. "Half-Life 2 — cover art, in the Steam part of the library"
+2. "Hades — cover art, in the Steam part of the library"
+3. "The Witcher 3: Wild Hunt — cover art, in the GOG part of the library"
+4. "Portal 2 — cover art, in the Steam part of the library"
+5. "Bloodborne — cover art, in the PlayStation part of the library"
+6. "Stardew Valley — cover art, in the Steam part of the library"
+7. "Dead Space — cover art, in the EA part of the library"
+8. "Celeste — cover art, in the Steam part of the library"
+9. "Super Metroid — cover art, a SNES cartridge added to the library by hand"
+10. "Baldur’s Gate II: Shadows of Amn — cover art, in the GOG part of the library"
+11. "God of War — cover art, in the PlayStation part of the library"
+12. "Hollow Knight — cover art, in the Steam part of the library"
 
 ---
 
@@ -443,6 +479,18 @@ affiliate model is dropped, so there is no commission to disclose — the band n
 money position that is actually true. The band itself is kept: removing it would leave a
 structural gap the ratified footer layout does not anticipate, and "we earn nothing" is a
 statement worth making explicitly on a page that used to say otherwise.)*
+
+**Cover-art attribution — present only when real covers ship:**
+> Game cover art on this page is from IGDB.com, used under the Twitch Developer Services
+> Agreement. Zerado is not affiliated with IGDB, Twitch, or any game publisher, and each cover
+> remains the property of its rights holder.
+
+*(Added 2026-08-25, ticket #16. IGDB attaches user-facing attribution to its commercial
+partnership, and Zerado is not in one — this is given anyway, in the "visible and in a static
+location" shape IGDB describes as fair attribution. Plain text, not a link: the page's
+zero-external-request guarantee is load-bearing. It renders only when cover files are actually
+in the build, so the page never credits a source it did not use. See
+`docs/legal/igdb-image-licence-finding.md` §6.)*
 
 **Company line:**
 > A FlowForgeSoft product.

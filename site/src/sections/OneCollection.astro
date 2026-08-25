@@ -8,6 +8,14 @@ import SectionEyebrow from '../components/SectionEyebrow.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import StoreRow from '../components/StoreRow.astro';
 import CoverGrid from '../components/CoverGrid.astro';
+import { hasRealCovers } from '../data/coverAssets';
+
+// The caption states what the build actually contains. With real covers it
+// credits IGDB (docs/legal/igdb-image-licence-finding.md §6 — visible, static,
+// the shape IGDB describes as fair attribution); with none it keeps the
+// original disclosure, which is the honest line for art-directed tiles. There
+// is no state in which the page shows one and says the other.
+const realCovers = hasRealCovers();
 ---
 
 <section id="one-collection" aria-labelledby="one-collection-heading" class="z-section z-section--surface">
@@ -53,7 +61,9 @@ import CoverGrid from '../components/CoverGrid.astro';
           same collection as everything else.
         </span>
         <span class="z-one-collection__tile-disclosure">
-          Cover tiles are illustrative artwork, not real game covers.
+          {realCovers
+            ? 'Cover art from IGDB.com. The library view itself is a mockup.'
+            : 'Cover tiles are illustrative artwork, not real game covers.'}
         </span>
       </figcaption>
     </figure>

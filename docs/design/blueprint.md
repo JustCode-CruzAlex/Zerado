@@ -1078,6 +1078,62 @@ left to right, top to bottom (also recorded in `blueprint.tokens.json` so the ga
   is the one string on the page not drawn from `content/landing-copy.md`. It exists because this
   decision requires disclosure. Content may re-word it; the requirement to disclose stays.
 
+**Amendment, 2026-08-25 — ticket #16. The grid now renders real game cover art.**
+
+*Decision 7.5 above is superseded on its central point and is kept in full, because the
+reasoning it records is still the reasoning that had to be answered.*
+
+**What changed, reason by reason.** Reason 1 cited copyright *and* an affiliate model; the
+affiliate model was dropped on 2026-08-25 (§1.0, Amendment 2), and the copyright half was then
+taken to the source rather than assumed. The finding —
+[`../legal/igdb-image-licence-finding.md`](../legal/igdb-image-licence-finding.md), with the
+terms quoted and dated — is that **IGDB and Twitch permit this use, including on a marketing
+page** (TDSA §II.A.1 defines an App to include a website; §II.B.2.i licenses use to
+"promote … Your Services"), while **neither clears the publisher's copyright in the artwork,
+and the TDSA assigns that residual to us**. The founder accepted that residual the same day, on
+Zerado's non-commercial, zero-revenue, donation-only, open-source posture. It is a
+risk-acceptance decision, recorded as one. Reason 2 is **satisfied, not waived**: the images are
+fetched through the API and served from this origin, so the page still makes zero external
+requests. Reason 3 is answered by the finding.
+
+**What did NOT change.** The composition is untouched: 3 / 4 tiles, 3 / 4 / 6 columns at
+375 / 768 / ≥1280, the same gaps, the same twelve positions, the same platform-tag distribution
+(6 STEAM · 2 GOG · 1 EA · 2 PS · 1 PHYSICAL at position 9), the same `PlatformTag` on its solid
+plate. The treatment × hue sequence is retained verbatim in `coverGrid.ts` and still renders for
+any row whose image is absent.
+
+**Aspect-ratio policy — stated, because mixed ratios are how a grid like this goes ragged.**
+IGDB serves covers at 264 × 374 (0.706), and the ratified box is 3 / 4 (0.750). **One uniform
+3 / 4 box, a centred crop taken at fetch time.** Not a letterbox — that would have put twelve
+studios' pillar colours into a six-colour palette — and not per-tile ratios, which is the
+raggedness itself. The crop removes roughly 3% from the top and 3% from the bottom, which box
+art tolerates. Files are written at 360 × 480 — sized to the widest tile any breakpoint renders
+(175 CSS px, measured) on a DPR 2 display, not to IGDB's source dimensions — so each `<img>`'s
+`width`/`height` is its true intrinsic size and **CLS stays 0.000**.
+
+**Accessibility — the one place the ratified markup had to move, and why.** 7.5 specified
+`role="img"` on the grid with `aria-hidden` children, so a screen reader heard §06's alt text
+once instead of twelve decorative divs. That was correct *for decorative gradients*. Twelve real
+covers are twelve distinct pieces of information, and a `role="img"` container hides every one
+of them from assistive technology. So **when covers ship** the grid is a `<ul>` of twelve
+`<img>` elements, each with its own alt text naming the game and where the copy lives — the list
+is what still lets a user hear "list, 12 items" and step past. The `role="img"` is not moved onto
+the `<ul>`: ARIA-in-HTML does not allow it there, and doing so would re-break the
+`aria-allowed-role` audit fixed in [`../REDACTIONS.md`](../REDACTIONS.md) §3.5. **When no covers
+are in the build**, the markup is exactly 7.5's: a `<div role="img">` labelled by the caption,
+children hidden.
+
+**The disclosure line.** 7.5 flagged `Cover tiles are illustrative artwork, not real game
+covers.` as the one string on the page not drawn from `content/landing-copy.md`. Both of its
+successors now live in the copy file (§06), and the build picks between them by reading
+`site/public/covers/` — so the page cannot show real covers while disclosing tiles, or credit
+IGDB while showing neither. **The requirement to disclose stays, and now so does the credit.**
+
+**One provider.** `PHYSICAL` is a provenance label on a row, not a second image source. A SNES
+cartridge has an IGDB entry exactly as a Steam title does, and Zerado will fetch a physical
+copy's cover the same way — so the page shows the real behaviour rather than a mockup of it.
+No image on this page comes from a web search.
+
 ### 7.6 Decision three — motion, and the synthwave question
 
 **The founder wants the feel of 80s synthwave. The page carries that in the visual and motion

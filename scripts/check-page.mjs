@@ -186,6 +186,97 @@ check('the community layer is stated as donation-supported', 'the amended Q3 pos
     /donation/i.test(text) ? 'states donation-supported' : 'NO donation statement'];
 });
 
+
+// --- the cover grid ----------------------------------------------------------
+// Ticket #16 replaced twelve art-directed CSS tiles with real IGDB cover art.
+// Both states are legitimate — a cover withdrawn for any reason falls back to
+// the tile it replaced (docs/legal/igdb-image-licence-finding.md §7) — so every
+// assertion below holds in BOTH, and the pair of them pins the two states to
+// each other so the page can never show one and say the other.
+const COVER_IMGS = [...html.matchAll(/<img\b[^>]*\bsrc="\/covers\/[^"]+"[^>]*>/g)].map(m => m[0]);
+const attr = (tag, name) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
+
+check('every cover declares its intrinsic width and height', 'CLS stays 0.000', () => {
+  const bad = COVER_IMGS.filter(t => !/\bwidth="\d+"/.test(t) || !/\bheight="\d+"/.test(t));
+  return [bad.length === 0, `${COVER_IMGS.length} cover(s); ${bad.length} missing dimensions`];
+});
+
+check('every cover is lazy-loaded', 'the grid is section 6 of 16 — never above the fold', () => {
+  const bad = COVER_IMGS.filter(t => attr(t, 'loading') !== 'lazy');
+  return [bad.length === 0, `${bad.length} cover(s) not lazy`];
+});
+
+check('every cover is served from this origin', 'zero external requests', () => {
+  const bad = COVER_IMGS.filter(t => !(attr(t, 'src') ?? '').startsWith('/covers/'));
+  const srcsets = [...html.matchAll(/<source\b[^>]*\bsrcset="([^"]*)"/g)].map(m => m[1]);
+  const badSet = srcsets.filter(u => !u.startsWith('/covers/'));
+  return [bad.length === 0 && badSet.length === 0,
+    `${bad.length} off-origin img, ${badSet.length} off-origin source`];
+});
+
+check('cover alt text names each game and is distinct', 'twelve rows must not reach a reader as one string', () => {
+  const alts = COVER_IMGS.map(t => attr(t, 'alt') ?? '');
+  const empty = alts.filter(a => a.trim() === '').length;
+  const distinct = new Set(alts).size;
+  return [empty === 0 && distinct === alts.length,
+    `${alts.length} alt(s), ${distinct} distinct, ${empty} empty`];
+});
+
+check('no list element carries role="img"', 'ARIA-in-HTML — the aria-allowed-role fix of REDACTIONS §3.5', () => {
+  const bad = [...html.matchAll(/<(ul|ol|li)\b[^>]*\brole="img"/g)].map(m => m[0]);
+  return [bad.length === 0, bad.join(', ') || 'none'];
+});
+
+check('the cover disclosure matches what actually shipped', 'the page never credits a source it did not use', () => {
+  const shipped = COVER_IMGS.length > 0;
+  const saysIllustrative = /Cover tiles are illustrative artwork/.test(html);
+  const creditsIgdb = /Cover art from IGDB\.com/.test(html);
+  const ok = shipped ? (creditsIgdb && !saysIllustrative) : (saysIllustrative && !creditsIgdb);
+  return [ok, shipped
+    ? `${COVER_IMGS.length} real cover(s): credits IGDB ${creditsIgdb}, still says illustrative ${saysIllustrative}`
+    : `no real covers: says illustrative ${saysIllustrative}, credits IGDB ${creditsIgdb}`];
+});
+
+check('real cover art carries its attribution in the footer', 'IGDB fair attribution — visible, static location', () => {
+  const shipped = COVER_IMGS.length > 0;
+  const credited = /cover art on this page is from IGDB\.com/i.test(html);
+  return [shipped ? credited : !credited, shipped ? `credited: ${credited}` : 'no covers, no credit — correct'];
+});
+
+check('every mockup caption still discloses that it is not real', 'there is no runnable TUI to screenshot yet', () => {
+  // Deliberately broader than the word "mockup": §11's phone frames say
+  // "illustration … Not built yet", which is the same disclosure in different
+  // words and is not this ticket's to touch. What must never happen is a
+  // caption losing its disclosure entirely.
+  const captions = [...html.matchAll(/class="[^"]*z-mockup-caption[^"]*"[^>]*>([\s\S]*?)<\/figcaption>/g)]
+    .map(m => m[1].replace(/<[^>]+>/g, ' '));
+  const HONEST = /mockup|illustration|not a screenshot|not built yet|not available yet/i;
+  const bare = captions.filter(c => !HONEST.test(c));
+  return [captions.length > 0 && bare.length === 0,
+    `${captions.length} caption(s), ${bare.length} with no disclosure`];
+});
+
+// --- the copy file and the built page agree ---------------------------------
+// docs/content/landing-copy.md is the contract; the page is the artefact. A
+// reviewer checks them against each other by hand, so check them here instead —
+// every §06 cover alt string quoted in the copy file must appear verbatim in the
+// rendered page, and vice versa. Skipped (not failed) when the copy file is not
+// beside the build, so this stays runnable against a bare dist/.
+check('the copy file and the page agree on every cover alt string', 'the alt-text contract', () => {
+  const copyPath = 'docs/content/landing-copy.md';
+  if (!existsSync(copyPath)) return [true, 'copy file not present — skipped'];
+  const copy = readFileSync(copyPath, 'utf8');
+  const six = copy.slice(copy.indexOf('## 06 · one-collection'), copy.indexOf('## 07 ·'));
+  const declared = [...six.matchAll(/^\d{1,2}\. "([^"]+)"$/gm)].map(m => m[1]);
+  const decode = t => t.replace(/&#39;/g, "'").replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+  const rendered = COVER_IMGS.map(t => decode(attr(t, 'alt') ?? ''));
+  if (rendered.length === 0) return [declared.length === 12, `no covers shipped; ${declared.length} declared`];
+  const missing = declared.filter(d => !rendered.includes(d));
+  const extra = rendered.filter(r => !declared.includes(r));
+  return [missing.length === 0 && extra.length === 0,
+    `${declared.length} declared, ${rendered.length} rendered; missing: ${missing.join(' | ') || 'none'}; unlisted: ${extra.join(' | ') || 'none'}`];
+});
+
 // --- report --------------------------------------------------------------
 let failed = 0;
 for (const r of results) {
