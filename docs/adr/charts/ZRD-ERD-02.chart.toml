@@ -63,7 +63,7 @@ sublines = [
   "id PK  ·  item_id FK",
   "shop · currency",
   "current_cents · low_cents · low_at",
-  "url · affiliate_url",
+  "url    a plain shop link, no affiliate tag",
   "source_provider",
   "observed_at        NOT NULL",
 ]

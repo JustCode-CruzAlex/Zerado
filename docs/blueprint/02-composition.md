@@ -303,7 +303,6 @@ Enough to prove the navigation model does not need retrofitting.
 | Z-12 | Enrichment sync | Single-pane readout — same shape as Z-03 | Yes, a second instance of one shape |
 | Z-13 | Mood picker | ≤119 single-pane list → results route · ≥120 moods ∥ results | Yes, the same two-host pattern as Z-04/Z-05 |
 | Z-14 | Mood tags | Overlay `34 × 13` | Yes |
-| Z-15 | Cover deck | Mode of Z-04, grid instead of list | Yes — a mode swaps the body renderer, not the frame |
 | Z-16 | Price history | Mode of Z-05 — a section inside the detail view | Yes, in both hosts |
 | Z-17 | Command palette | Overlay, `min(60, w−8) × 12`, top-anchored | Yes; keys already reserved |
 | Z-18 | Tonight | Single-pane, one card at a time | Yes |

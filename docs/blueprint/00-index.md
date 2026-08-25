@@ -41,7 +41,7 @@ off. The brand manual already said what it looks like.
 | | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
 | | [`14-contradictions-closed.md`](./14-contradictions-closed.md) | The cross-check register — all 29 findings, enumerated |
 | **B · design** | [`../design/`](../design/) | The design system, the designer manual, and [the theme system](../design/05-theme-system.md) |
-| **C · screens** | [`../design/screens/`](../design/screens/) | **Eleven** implementation-ready specs — one per Phase 1 screen |
+| **C · screens** | [`../design/screens/`](../design/screens/) | **Twelve** implementation-ready specs — one per Phase 1 screen |
 
 **Deliverable C, in full** — each carries all sixteen required sections from
 [`../design/03-designer-manual.md`](../design/03-designer-manual.md) §3, and every mockup is

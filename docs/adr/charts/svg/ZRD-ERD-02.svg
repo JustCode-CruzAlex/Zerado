@@ -51,7 +51,7 @@
 <text x="850.0" y="622.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">id PK  ·  item_id FK</text>
 <text x="850.0" y="641.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">shop · currency</text>
 <text x="850.0" y="659.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">current_cents · low_cents · low_at</text>
-<text x="850.0" y="678.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">url · affiliate_url</text>
+<text x="850.0" y="678.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">url    a plain shop link, no affiliate tag</text>
 <text x="850.0" y="696.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">source_provider</text>
 <text x="850.0" y="715.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">observed_at        NOT NULL</text>
 <rect x="580.0" y="840.0" width="250.0" height="150.0" rx="12" ry="12" fill="#0F0F23" stroke="#F59E0B" stroke-width="2.0"/>

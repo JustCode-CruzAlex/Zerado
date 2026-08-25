@@ -172,7 +172,7 @@ a `REFUSES` ([`07-offline-contract.md`](./07-offline-contract.md) §3.1); it mus
 "the player's whole library was removed."
 
 **`absent` is not a fifth state.** It is an orthogonal presence flag, for the same reason *caught
-up* is not a fifth state ([`11-media-model.md`](./11-media-model.md) §4, F-2): the four states are
+up* is not a fifth state ([`11-media-model.md`](./11-media-model.md), Appendix): the four states are
 ratified and CVD-verified, and a game that is absent still has a status — usually the most valuable
 one, because a game you finished and no longer own is exactly the row you would be angriest to lose.
 
@@ -195,7 +195,7 @@ recorded here so it is a known trade, not a surprise.
 
 ## 3 · The metadata seam — designed around a risk that is not resolved
 
-IGDB is free for **non-commercial** use. Zerado's funding model is affiliate commission, which
+IGDB is free for **non-commercial** use. Zerado's funding model *was* affiliate commission, which
 is commercial. Cover art and *sinopse* are the visual backbone of Phase 2. **This is unresolved
 and the architecture must not assume it resolves favourably.**
 

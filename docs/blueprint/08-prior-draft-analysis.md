@@ -170,7 +170,8 @@ recorded here so it is not re-proposed as a Phase 3 delight feature.
    the exact goroutine class hardest to shut down cleanly — in a program whose actual job is
    rendering a list of games.
 4. **It acquires a rights surface the product must not have.** Streaming music is a licensing
-   question. A game-library tracker funded by affiliate commission has no business acquiring one,
+   question. A game-library tracker has no business acquiring one — and since 2026-08-25 Zerado is
+   donation-funded and non-commercial, which makes it less equipped to carry one, not more,
    and "we just embed someone else's stream" is the version of that sentence that ends in a
    takedown.
 5. **It is the exact nostalgia-kitsch the brand manual §1 rules out.** This is the reason that

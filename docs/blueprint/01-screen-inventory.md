@@ -93,7 +93,8 @@ renumbering a screen because its phase moved is exactly what that rule exists to
 | Z-26 | Premium | Route | Disclosure of what the community layer costs to run. Not a purchase surface until there is something to purchase |
 | Z-27 | Phone app | *(Flutter)* | Inventoried so navigation is designed for the finished product. Composition is Flutter's, not this document's |
 
-**Twenty-seven screens over four phases. Eleven of them are Phase 1.**
+**Twenty-seven screens over four phases. Twelve of them are Phase 1** — `Z-15` joined by founder
+direction on 2026-08-25.
 
 ---
 
@@ -167,9 +168,9 @@ Recorded so they are not re-proposed, and so the reason survives.
 | Not built | Why not, and when |
 |---|---|
 | **Splash screen** | Contradicts "it starts instantly." Rejected permanently — never |
-| **Command palette** (`Z-17`) | A palette earns its place when the surface is bigger than the key map. With eleven screens and one home, `?` and a footer hint are better. **Phase 2** — and `:` and `Ctrl-K` are **reserved and unbound from Phase 1** so it can claim them without retraining anyone |
+| **Command palette** (`Z-17`) | A palette earns its place when the surface is bigger than the key map. With twelve screens and one home, `?` and a footer hint are better. **Phase 2** — and `:` and `Ctrl-K` are **reserved and unbound from Phase 1** so it can claim them without retraining anyone |
 | ~~Cover deck~~ | **No longer deferred.** Founder direction moved it into Phase 1 — *"Images on terminal is a must… without image is not an option"* |
-| **Onboarding tour** | The product is eleven screens. A tour is what you build when the product cannot explain itself |
+| **Onboarding tour** | The product is twelve screens. A tour is what you build when the product cannot explain itself |
 | **A dashboard / home distinct from the library** | The library **is** the home. A dashboard above it would be a screen whose only content is a summary of the screen below it — and that summary is already one pinned row |
 | **Account / login** | There is no account before Phase 4. That is a ratified public promise, not a scheduling choice |
 | **Quit confirmation** | Every mutation commits when it is made, so there is never unsaved work to protect. A confirmation with nothing to confirm trains people to dismiss confirmations |

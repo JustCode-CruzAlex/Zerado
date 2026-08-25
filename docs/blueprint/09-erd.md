@@ -138,8 +138,8 @@ what is no longer around to ask.
 | Table | Key columns | The rule it carries |
 |---|---|---|
 | `metadata` | `item_id PK/FK` · `sinopse` · `cover_ref` · `released_at` · `genres` · `source_provider` · `attribution` · **`fetched_at NOT NULL`** | `cover_ref` is a **local cache path, never a remote URL** — nothing renders from the network. `attribution` comes from the provider, so swapping the source swaps the credit |
-| `price_quote` | `item_id FK` · `shop` · `currency` · `current_cents` · `low_cents` · `low_at` · `url` · `affiliate_url` · **`observed_at NOT NULL`** | `affiliate_url` and the disclosure obligation live in the same row, so a refactor cannot separate them |
-| `mood_tag` | `id PK` · **`key`** · **`applies_to[]`** · `label` | The engine reasons over the type-neutral `key`; the interface shows the per-type `label`. One engine, per-type vocabulary — [`11-media-model.md`](./11-media-model.md) §6 |
+| `price_quote` | `item_id FK` · `shop` · `currency` · `current_cents` · `low_cents` · `low_at` · `url` · **`observed_at NOT NULL`** | **No `affiliate_url`** — affiliate links are dropped, so a price link is a plain shop link. `observed_at` is `NOT NULL` because a price without its age is advice from memory |
+| `mood_tag` | `id PK` · `key` · `label` | `key` is a stable identifier the recommender reasons over; `label` is what the player sees, so wording can change without migrating data. **No `applies_to`** — that was per-type machinery from the pruned polymorphic model, and a per-type array in a Phase 1 table is exactly the speculative generality the founder cut |
 | `item_mood` | `item_id FK` · `mood_id FK` · `source` (`user` \| `inferred`) · `confidence` | `source` is what decides whether a tag crosses the Phase 4 boundary. **Only `user` does** |
 
 **Every enrichment row carries its age, and the column is `NOT NULL`.** That is the schema

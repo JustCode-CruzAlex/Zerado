@@ -21,7 +21,7 @@ Every contradiction the three deliverables found in each other, enumerated so th
 > too: it is **29**, not 25. The original figure double-counted two items and omitted the six the
 > design architect found.
 
-**38 findings: 29 from the cross-check (all closed), 6 from building D7's theme gate (4 closed, 2 open upstream), and 3 from auditing the checkers themselves (all closed).**
+**44 findings: 29 from the cross-check, 6 from building D7's theme gate (2 open upstream), 3 from auditing the checkers, and 6 from the second GOLDEN review's stale-sweep pass. 42 closed, 2 open upstream.**
 
 Two of them — #15 and #17 — were briefly marked *reopened* and *partial* after `fft-tui-designer`
 read this register against head and found it over-claiming. Both were then closed by commit
@@ -120,7 +120,8 @@ down instead. Each of these is a one-liner against a clean checkout.
 | **Broken relative links** | Walk every `docs/**/*.md`, resolve each inline-link target that is not `http`, against the file's own directory |
 | **Every doc carries an archetype** | `grep -L '^archetype:' docs/**/*.md` → empty |
 | **Offline invariant** | In `07-offline-contract.md` §2's Phase 1 table, extract `` `Z-NN` `` from column 1 and the class word from column 2 → **12 rows, 12 distinct, 9 `WORKS` · 2 `NEEDS THE NETWORK` · 1 `DEGRADES`** |
-| **Mockup widths** | For every ```` ```text ```` block bound to a `RENDER W×H` heading, measure each non-blank line with `east_asian_width`, counting `W`/`F` as 2 and **Ambiguous as 1** (the design system §1.2 rule) → no line exceeds its declared `W` |
+| **Mockup rectangularity** | For every fenced block whose **first and last non-blank lines are complete borders**, measure every line with `east_asian_width`, **Ambiguous as 1** → **all widths equal**. Convention-free: it keys on no heading, no fence language and no declared width, which is why it sees all twelve specs. **41 framed blocks · 1,053 lines · 0 non-rectangular** |
+| **Section anchors** | The link check resolves **files, not anchors**, so `0 broken links` never covered a `§N` reference. For every inline link to a `.md` immediately followed by a section number, assert the target actually has that section → **331 refs · 0 dead** |
 | **Mockup HEIGHT and frame extent** | The width check cannot see a frame that is internally consistent but wrong **as a whole** — too few rows for its viewport, or a frame narrower than the terminal it claims. Count rows against declared `H` and frame width against declared `W`. **Four real defects survived the other checks through this gap.** The check must know **two conventions** or it reports false positives: a block's first line is a **ruler**, not a terminal row; and **`Z-11` is exempt** — in EXIT mode it has already left the alternate screen, so its message is allowed to outrun the window and scroll. A naive version of this check flagged three blocks, and all three were the conventions, not defects |
 | **Title-block overrun** | For each rendered SVG, find the `[titleblock].description` text run and the **cell** rules (short vertical lines inside the title band — *not* the cyanotype theme's full-height graticule) → the run ends before the next cell rule |
 | **Charts are live, not stale exports** | Re-run `flowforge chart render` on all ten specs and diff the SVGs; the only permitted difference is the `RENDERED FROM` path prefix, which reflects the invocation directory |
@@ -146,6 +147,43 @@ independent re-measurement of all render-shaped blocks against each block's own 
 specialist reading something. #36 was caught by asking *what can my checkers not see* — and the
 answer was a whole dimension. A verification suite that has never been audited is a set of
 assumptions wearing a green tick.
+
+---
+
+## F · Found by the second GOLDEN review — the sweep that did not finish — 6
+
+The founder amendment reached the seam documents and the offline contract and **stopped short of the
+decision record**. Every finding below is that one omission wearing a different hat.
+
+| # | Finding | State |
+|---|---|---|
+| **39** | **`ADR-0001` specified an `AffiliateURL` the seam forbids**, in four places, and propagated it into the contracts handed to `fft-api-designer` and `fft-database`. Worse, `ADR-0001`'s *"funding model is affiliate commission, which is commercial"* is **load-bearing**: the IGDB question closes *because* that premise is now false. Freezing the old premise re-opens a blocker the bundle reports as answered | **CLOSED** |
+| **40** | **`ADR-0001` D6 stated four mutually exclusive things about audio inside one decision** — bundled *and* streamed, licensing closed *and* unresolved, with an Alternatives row rejecting the option D6 adopts. Revision A's text was left standing beside revision B's | **CLOSED** |
+| **41** | **The Phase 1 screen count disagreed with itself in six places**, and `10-flows.md` stated the offline invariant **incompatibly** with `07-offline-contract.md` — *nine of eleven, two exceptions* against *nine of twelve, two plus one `DEGRADES`* | **CLOSED** |
+| **42** | **`02-composition.md` placed `Z-15` in two phases at once.** §2 (Phase 1) listed it and §3 (later phases) still did. The `Z-15` spec had *reported* this; §2 was fixed and §3 was not, so the fix created a duplicate instead of closing the finding | **CLOSED** |
+| **43** | **Three cross-references pointed at sections deleted when `11-media-model.md` was pruned.** The link checker resolves **files, not anchors**, so `0 broken links` never covered them. An anchor check found three more, including a **line number mistaken for a section** | **CLOSED** — anchor check added |
+| **44** | **Media-polymorphic residue survived the prune in the schema** — `mood_tag.applies_to[]`, a per-type array in a Phase 1 table, which is precisely the speculative generality the founder cut | **CLOSED** |
+
+### And one about the checkers again — the finding that repeats
+
+**The mockup width check could only see half the specs.** The recipe measured *"every ```` ```text ````
+block bound to a `RENDER W×H` heading."* Six of the twelve specs — 7,290 lines including the library
+and the cover deck — contain **zero** ```` ```text ```` fences and **zero** `RENDER W×H` headings.
+Their mockups had never been inside the advertised check.
+
+Nothing was hiding there — an independent re-measurement found 0 ragged lines. **But this is finding
+#36 again**, which was marked CLOSED: *"a mockup that was never fenced and so escaped the checker
+entirely."* **That closure fixed the instance and not the class**, and the class came back one round
+later wearing six files instead of one.
+
+The fix is not a wider heuristic. It is a check that **depends on no convention at all**:
+rectangularity — every line of a fully-framed block has the same measured width. No heading, no
+fence language, no declared width, so there is nothing for a spec to be outside of. It sees all
+twelve specs, and it reproduces the reviewer's independent result.
+
+**That is the lesson worth more than the six findings above it:** when a check misses something, the
+repair is to ask *what convention was I depending on* — not to widen the pattern until this instance
+matches.
 
 ---
 

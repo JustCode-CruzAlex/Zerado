@@ -47,7 +47,8 @@ change:
 - that everything downstream reads **`Capabilities`**, never `ProviderID` or `MediaType`;
 - that `Sync` **streams**, so a cancel leaves a valid partial library;
 - that every network-derived value carries **its own age** in the same value;
-- that `Quote` carries the affiliate URL and the disclosure obligation **in one struct**;
+- that `Quote` carries **no affiliate URL** — a plain shop link — and that every quote carries its
+  **own age**, mandatory and rendered;
 - that `Audio.Cue` **cannot fail and cannot block**;
 - that `Store` is the only writer, and screens only read.
 
@@ -157,6 +158,7 @@ Collected here so the gate has them in one place.
    Both are now wrong: donation-only, no affiliate. That copy is **published**, and it is ticket #1's
    surface, not this bundle's — so it is named here rather than edited. **Someone has to change the
    page.**
-9. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned —
-   [`11-media-model.md`](./11-media-model.md) §4, finding F-1. Costs nothing now, costs a migration
+9. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned; the
+   observation survives only as a note in [`11-media-model.md`](./11-media-model.md)'s Appendix —
+   [`11-media-model.md`](./11-media-model.md)'s Appendix. Costs nothing now, costs a migration
    later.

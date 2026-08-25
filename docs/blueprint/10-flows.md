@@ -120,8 +120,9 @@ is it cached? ── yes ──►  DEGRADES   render it WITH ITS AGE, plus the 
                           REFUSES    name what, why, and the retry key. Keep what was typed.
 ```
 
-**Nine of eleven Phase 1 screens are `WORKS`.** The two that are not are the two that are
-definitionally about reaching somewhere else.
+**Nine of the twelve Phase 1 screens are `WORKS`.** Two **`NEED THE NETWORK`** — `Z-02` and `Z-03`,
+the two definitionally about reaching somewhere else — and one **`DEGRADES`**: `Z-15`, the cover
+deck, which caches what it fetched and shows a designed tile for what it has not.
 
 Zerado does not probe for connectivity — no heartbeat, no reachability check. That would be
 exactly the background traffic the page promises does not exist. A request fails, and the failure

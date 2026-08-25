@@ -38,7 +38,7 @@ Zerado is a terminal-first game library, greenfield as of 2026-08-25 — no Go c
 stack is settled: Go, Bubble Tea, and the Charm ecosystem. Four phases are published and binding
 (`content/landing-copy.md` §12), as are six ratified promises (`ratification/decisions.md`):
 local-first, one SQLite file, no Zerado-run server before Phase 4, the player's own API keys, an
-affiliate disclosure, and no named community source.
+**donation-only funding with no affiliate commission**, and no named community source.
 
 Those promises are not context. They are **architectural constraints**, and each decision below
 names the ones it is paying for.
@@ -48,8 +48,12 @@ Two facts sharpen the problem:
 1. **Physical copies must be first-class from day one.** The published copy says *"A physical copy
    isn't a second-class row in the list."* The obvious implementation — a Steam-shaped row with an
    `is_physical` flag — makes that sentence false in the second week.
-2. **IGDB is free for non-commercial use only**, and Zerado's funding model is affiliate
-   commission, which is commercial. Cover art and *sinopse* are the visual backbone of Phase 2.
+2. **IGDB is free for non-commercial use only.** Zerado's funding model was affiliate commission —
+   which is commercial — until founder direction on 2026-08-25 **dropped affiliate links entirely**,
+   making the product cleanly non-commercial: free software, donation-supported, **zero revenue**.
+   This premise is load-bearing: D1's Consequences and
+   [`../blueprint/06-data-seams.md`](../blueprint/06-data-seams.md) §3 close the IGDB question
+   *because* it is now false. It must not be restated in the old tense. Cover art and *sinopse* are the visual backbone of Phase 2.
    Designing as if IGDB is guaranteed would be designing on a maybe.
 
 ---
@@ -89,11 +93,12 @@ type Capabilities struct {
   library of any size; `Z-03` can show honest running counts.
 - The metadata and price seams follow the same shape, and both carry an **`Attribution()`
   method** — the credit a source requires is a property *of the source*, so swapping the source
-  swaps the credit. `Quote` carries `AffiliateURL` and the disclosure obligation **in the same
-  struct**, so a refactor cannot separate them.
+  swaps the credit. **`Quote` carries no affiliate URL** — the link is a plain shop link, because
+  affiliate commission is dropped and Zerado earns nothing from a purchase. Every quote does carry
+  its **`ObservedAt`**, mandatory and rendered, because a price shown without its age is the product
+  giving financial advice from memory.
 
-Pays for: *"A physical copy isn't a second-class row"*, the affiliate disclosure, and the IGDB
-risk.
+Pays for: *"A physical copy isn't a second-class row"* and the IGDB risk.
 
 ### Alternatives
 
@@ -185,7 +190,7 @@ file after people have libraries is not.
 | Considered | Rejected because |
 |---|---|
 | **A tab bar** | Implies a set of peers. Settings is not a sibling of the library; it is a place you go and come back from. It also spends a permanent row of a 24-row terminal on navigation used a few times a session |
-| **A modal command palette as the primary navigation, from Phase 1** | A palette earns its place when the surface is bigger than the key map. With eleven screens and one home, `?` plus a footer hint is better — and reserving the keys costs nothing |
+| **A modal command palette as the primary navigation, from Phase 1** | A palette earns its place when the surface is bigger than the key map. With twelve screens and one home, `?` plus a footer hint is better — and reserving the keys costs nothing |
 | **`q` = back, `Ctrl-C` = quit** | Two keys that both mean "leave", disagreeing about how far. `Esc` already means back |
 | **A quit confirmation** | Nothing to protect, and it trains people to dismiss confirmations — the exact reflex you need them not to have when something destructive appears |
 
@@ -301,9 +306,16 @@ retrofit. **Cost to reverse: low**, which is the point.
 
 ### Decision
 
-**The reversal is not a change of mind about the same object — the object changed.** What was
-rejected was a *network streamer, always on*. What ships is a *local, bundled, opt-in subsystem, off
-by default, that makes no network requests at all*.
+**The reversal is not a change of mind about the same object — the object changed, twice.** What was
+originally rejected was a *network streamer, always on, bundled into the product's identity*. What
+ships is an **opt-in subsystem, off by default**, whose music is **internet radio the player chooses
+and can stop in one keystroke**, and whose only always-available part is a handful of **local**
+interface cues.
+
+*(The design moved twice and both moves are recorded rather than folded. The first reversal
+specified **bundled tracks**; founder direction on 2026-08-25 then removed bundling entirely in
+favour of **streamed stations**. The second move matters because it **dissolved** the licensing
+question rather than answering it.)*
 
 - **Streamed, never bundled.** Music is internet radio the player chooses — synthwave, 80s — and
   **nothing ships in the binary.** Interface FX are local and always available. Founder direction,
@@ -341,7 +353,8 @@ default list is a broken first impression that arrives silently months later.
 
 | Considered | Rejected because |
 |---|---|
-| **Streamed music** (the prior draft) | Contradicts three ratified public promises, and would need its own ratification |
+| **Bundled tracks** (this decision's own revision A) | Needs commercial redistribution rights from a **public** repository, which is a rights surface a game tracker should not acquire — and it puts weight in the binary for a feature that is off by default. Superseded 2026-08-25 |
+| **A streamer that runs unprompted, always on** (the original draft) | Contradicts three ratified promises. What ships is not this: the player turns it on and chooses the station |
 | **On by default** | A terminal program that makes noise unprompted is uninstalled before it is understood |
 | **One channel with one mute** | Someone may want keyclicks without the soundtrack, or the reverse. Neither is the odd request |
 | **Audio compiled into the default build** | Costs D2's pure-Go cross-compile matrix — the property that makes releases one file and no toolchain |
@@ -354,11 +367,13 @@ default list is a broken first impression that arrives silently months later.
 default build means the silent path is the well-tested one.
 
 **Harder:** a build-tag split means two binaries to produce and a Settings line that must explain
-which one is running. And the licensing question is genuinely unresolved — it is on the founder's
-list, not a specialist's.
+which one is running. And the **station list has to stay alive** — every default URL verified to
+resolve before it ships, and re-checkable, because a dead station is a broken first impression that
+arrives silently months later.
 
-**Cost to reverse:** **low for the design** — the seam is removable at compile time. The
-**licensing** commitment is the part that is expensive to undo once tracks ship in a public repo.
+**Cost to reverse:** **low.** The seam is removable at compile time and the stations are data. There
+is **no licensing commitment to undo**, because nothing ships in the binary — that was revision A's
+expensive part, and removing bundling removed it.
 
 ---
 
