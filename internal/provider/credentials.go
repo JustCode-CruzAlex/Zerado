@@ -1,5 +1,7 @@
 package provider
 
+import "unicode"
+
 // CredentialField is one field on Z-02, declared by the provider that needs
 // it.
 //
@@ -103,15 +105,20 @@ func Missing(c Capabilities, creds Credentials) []string {
 
 // isBlank reports whether s is empty or only whitespace.
 //
-// Spelled out rather than deferring to strings.TrimSpace so that the rule is
-// visible at the one place the contract states it: empty and whitespace-only
-// are the two things every provider's Validate may reject.
+// Whitespace means unicode.IsSpace, not the four ASCII characters an earlier
+// version of this function checked. A credential arrives by paste, from a web
+// page, in a product that is internationalised from the first line — so
+// U+00A0 NO-BREAK SPACE and U+3000 IDEOGRAPHIC SPACE are entirely plausible
+// and would otherwise read as a non-blank value, sending a whitespace-only key
+// to the provider and turning an inline field message into a network round
+// trip and a rejected-key refusal.
+//
+// This is the only thing every provider's Validate may reject (Z-02 §8.2), so
+// getting its definition of "blank" wrong is the one local check the product
+// performs being wrong.
 func isBlank(s string) bool {
 	for _, r := range s {
-		switch r {
-		case ' ', '\t', '\n', '\r':
-			continue
-		default:
+		if !unicode.IsSpace(r) {
 			return false
 		}
 	}

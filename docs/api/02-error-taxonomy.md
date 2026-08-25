@@ -65,6 +65,38 @@ be reached" cannot honour that rule.**
 key. `TestExitCodesAreTotal` asserts every kind has an exit code that is not `0`. **Adding a kind
 without deciding what it looks like on screen, and what a script should do about it, fails CI.**
 
+### 2.1 · That guarantee was false once, and how it was repaired
+
+The review at `c4c8d95` falsified it, empirically, and the falsification is worth keeping because the
+failure was in the enforcement layer rather than in the design.
+
+`Kinds()` was a **hand-maintained slice** while `Valid()` was **derived from the iota range**. Both
+totality tests iterated the slice, and nothing asserted the slice covered the range. So a kind
+inserted *mid-block* — the natural move, since the kinds are grouped semantically — was valid,
+constructible, and **invisible to every test that existed to catch exactly that**. Probed, it
+resolved to `String() == "unknown"` on a surface the CLI documents as stable API,
+`Treatment() == TreatmentFatal`, `MessageKey() == "fault.internal"` and exit `1`. CI stayed green.
+
+**The repair removes the second source of truth rather than adding a test to reconcile the two.**
+`Kinds()` is now derived from the same range as `Valid()`, so they cannot disagree. Four assertions
+were added on top, because deriving the set is only half of it — a kind that is *in* the set can
+still silently inherit a switch default:
+
+| Test | What it catches |
+|---|---|
+| `TestKindsCoversTheWholeRange` | a future contributor reintroducing a literal slice |
+| `TestNoKindFallsThroughToTheDefaults` | a kind with no case in `String`, `Treatment` or `MessageKey` |
+| `TestNoKindSilentlyInheritsTheInternalExitCode` | a kind with no case in `ExitCode` |
+| `TestTaxonomyIsTotal` | as before, now over a set that is actually complete |
+
+Verified by re-running the reviewer's own probe: inserting `KindThrottled` between `KindConflict` and
+`KindCancelled` now fails **four assertions across two packages**, by number, naming each missing
+case.
+
+Two doc comments that asserted the enforcement while it did not exist — `treatment.go` and
+`exit.go` — were corrected rather than quietly fixed. A comment claiming a guarantee the code does
+not provide is worse than no comment, because it is what a reviewer reads instead of the test.
+
 ---
 
 ## 3 · The four network-ish failures do not collapse

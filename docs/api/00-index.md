@@ -81,11 +81,15 @@ by zero, because `Z-02` renders `Capabilities().Credentials` and `Z-04` reads `C
 `internal/metadata` also carries two — `metadata.Null` and `metadatatest.Fake` — and
 `TestTheSeamNamesNoProvider` runs the same call against both through the interface.
 
-The stronger evidence is what is **absent**: the word IGDB appears in one package comment,
-explaining the hedge, and **nowhere in any signature, type, field or constant**. The fake is keyed on
-**title and platform**, not on a store identifier — which is the shape a source that has never heard
-of Steam would have, and therefore the shape a cartridge needs. A fake keyed on an appid would have
-agreed with a Steam-shaped seam and proved nothing.
+The stronger evidence is what is **absent**: the word IGDB appears **only in comments** — seven
+occurrences across three files, five of them in `metadata`'s package comment explaining the hedge and
+two in `fault`, naming it as the example of a source that may never have heard of a cartridge — and
+in **no signature, type, field or constant**. *(An earlier revision of this document said "one
+package comment". The load-bearing half was right and the tally was not; corrected after the review
+at `c4c8d95` counted them.)* The fake is keyed on **title and platform**, not on a store identifier —
+which is the shape a source that has never heard of Steam would have, and therefore the shape a
+cartridge needs. A fake keyed on an appid would have agreed with a Steam-shaped seam and proved
+nothing.
 
 `Attribution()` is a method, so swapping the source swaps the credit and a licence change is a data
 change rather than a redesign.
@@ -127,9 +131,11 @@ wrong.*
 | Audio | `audio.Null` · `audiotest.Recorder` | nothing |
 | Error classifier | `fault.Classify` is a **pure function** over a `Transport` verdict | nothing |
 
-The whole test suite runs with the machine in a Faraday cage and with an **empty `go.sum`** — there
-is no third-party dependency to download, which `TestTheModuleHasNoThirdPartyDependencies` records
-as a property of this stage rather than a permanent rule.
+The whole test suite runs with the machine in a Faraday cage and with **no `go.sum` at all** —
+`go.mod` declares no `require`, so there is no third-party dependency to download and no lock file to
+write. `TestTheModuleHasNoThirdPartyDependencies` records that as a property of this stage rather
+than a permanent rule. *(An earlier revision said "an empty `go.sum`"; there is no such file. The
+substance was right and the artefact named was not.)*
 
 **`internal/arch` makes it structural rather than habitual.** `TestOnlyProvidersMayReachTheNetwork`
 parses every non-test file in the module and fails if any package outside `internal/provider`

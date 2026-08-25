@@ -16,6 +16,12 @@ import "sort"
 type Registry struct {
 	byID  map[ID]Provider
 	order []ID
+
+	// collisions records every ID registered more than once, at the moment it
+	// happens. After construction the evidence is gone — the later
+	// registration has overwritten the earlier one — so it cannot be
+	// recovered by inspecting byID afterwards.
+	collisions []ID
 }
 
 // NewRegistry builds a registry from providers, in the order given.
@@ -28,7 +34,9 @@ func NewRegistry(ps ...Provider) *Registry {
 	r := &Registry{byID: make(map[ID]Provider, len(ps))}
 	for _, p := range ps {
 		id := p.ID()
-		if _, seen := r.byID[id]; !seen {
+		if _, seen := r.byID[id]; seen {
+			r.collisions = append(r.collisions, id)
+		} else {
 			r.order = append(r.order, id)
 		}
 		r.byID[id] = p
@@ -80,13 +88,24 @@ func (r *Registry) Enterers() []Enterer {
 	return out
 }
 
-// Duplicates returns IDs that were registered more than once, sorted.
+// Duplicates returns IDs that appear more than once in ps, sorted.
+//
+// It is a package-level function and not a method, which is the correction to
+// a real defect rather than a stylistic preference. It used to hang off
+// *Registry and ignore its receiver, so r.Duplicates() — the natural call on
+// a method named that, attached to that — returned nil unconditionally
+// whatever the registry held. The only call that did anything was one that
+// re-passed the exact slice it had already given NewRegistry, which is a
+// coincidence and not an API.
 //
 // Registration is a start-up path with no screen behind it, so this is a
 // health check rather than an error return: a test asserts it is empty, and a
 // developer who registers Steam twice finds out in CI rather than by wondering
 // why their credential fields changed.
-func (r *Registry) Duplicates(ps ...Provider) []ID {
+//
+// [Registry.Collisions] is the question this one cannot answer — what a
+// particular registry actually swallowed.
+func Duplicates(ps ...Provider) []ID {
 	seen := map[ID]int{}
 	for _, p := range ps {
 		seen[p.ID()]++
@@ -97,6 +116,20 @@ func (r *Registry) Duplicates(ps ...Provider) []ID {
 			out = append(out, id)
 		}
 	}
+	sort.Slice(out, func(i, j int) bool { return out[i] < out[j] })
+	return out
+}
+
+// Collisions returns the IDs this registry was built with more than once,
+// sorted.
+//
+// It reports what [NewRegistry] actually observed, recorded at construction,
+// because after construction the evidence is gone: a later registration
+// overwrites the earlier one and the map cannot tell a replaced entry from a
+// single one. Recording it at the moment it happens is the only point at which
+// the fact exists.
+func (r *Registry) Collisions() []ID {
+	out := append([]ID(nil), r.collisions...)
 	sort.Slice(out, func(i, j int) bool { return out[i] < out[j] })
 	return out
 }

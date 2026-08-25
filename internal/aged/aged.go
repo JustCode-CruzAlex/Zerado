@@ -21,7 +21,7 @@
 // only moment it is ever tested — a developer at 1am adding a column to a
 // row — and the cost is one .V.
 //
-// Recorded as a deliberate departure in docs/api/06-divergences-from-the-spine.md
+// Recorded as a deliberate departure in docs/api/06-divergences.md
 // rather than applied quietly, because 13-handoffs.md §2's whole point is that
 // changing one of those decisions by accident is the failure to avoid.
 package aged

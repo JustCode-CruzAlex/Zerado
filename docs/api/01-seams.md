@@ -69,8 +69,9 @@ So the hedge stays exactly as designed. Removing it because one risk receded wou
 lesson: a source that is named today can change its terms tomorrow, which is true of every source and
 is not a fact about IGDB.
 
-**The test of agnosticism:** the word IGDB appears in one package comment and in **no signature, type,
-field or constant**. The fake is keyed on **title and platform**, which is the shape a source that has
+**The test of agnosticism:** the word IGDB appears **only in comments** — seven occurrences across
+`metadata/metadata.go`, `fault/kind.go` and `fault/treatment.go` — and in **no signature, type, field
+or constant**. The fake is keyed on **title and platform**, which is the shape a source that has
 never heard of Steam would have — and therefore the shape a cartridge needs.
 
 **`Null` is production code, not a test helper.** Having no metadata is a designed state: the detail

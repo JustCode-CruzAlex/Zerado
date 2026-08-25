@@ -47,11 +47,13 @@ type is `library.UID` and **nothing above the store sees the column name**, so t
 `fft-database`'s to settle. Flagged only because two ratified documents spell it differently and the
 next reader should know that is a known inconsistency rather than a clue.
 
-## 4 · `Capabilities.Progress` in two screen specs
+## 4 · `Capabilities.Progress` in **four** screen specs
 
-`Z-08` §3.1 and `Z-05` D4 name a field that ADR-0001 D5 withdrew. The contract uses `Playtime`. The
-screen specs should be corrected on their next revision; this ticket does not own them.
-See [`06-divergences.md`](./06-divergences.md) §7.
+`Z-04` (line 1027), `Z-05` (399), `Z-06` (366) and `Z-08` (75, 375) name a field that ADR-0001 D5
+withdrew. The contract uses `Playtime`. Those specs should be corrected on their next revision; this
+ticket does not own them.
+
+Full list and the reason the count changed: [`06-divergences.md`](./06-divergences.md) §7.
 
 ## 5 · The D9 lint's exact implementation
 

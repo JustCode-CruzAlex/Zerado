@@ -1,6 +1,7 @@
 package fault_test
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"testing"
@@ -173,3 +174,101 @@ func TestProviderOverridesCopy(t *testing.T) {
 		t.Fatal("a provider that supplies no copy must still render a sentence")
 	}
 }
+
+// TestKindsCoversTheWholeRange is the assertion that MAJOR-1 of the review at
+// c4c8d95 falsified.
+//
+// Kinds() used to be a hand-maintained slice while Valid() was derived from
+// the iota range, so the two could disagree — and a Kind inserted mid-block
+// was valid, constructible, and absent from every totality test. Kinds() is
+// now derived from the same range, and this asserts the two agree so that a
+// future contributor who reintroduces a literal slice fails here.
+func TestKindsCoversTheWholeRange(t *testing.T) {
+	listed := map[fault.Kind]bool{}
+	for _, k := range fault.Kinds() {
+		listed[k] = true
+	}
+	for k := fault.KindOffline; k <= fault.KindInternal; k++ {
+		if !listed[k] {
+			t.Errorf("kind %d is valid and constructible but is not in Kinds(); "+
+				"every totality test iterates Kinds() and would not see it", k)
+		}
+	}
+	if len(fault.Kinds()) != int(fault.KindInternal) {
+		t.Fatalf("Kinds() has %d entries but the taxonomy runs to %d",
+			len(fault.Kinds()), int(fault.KindInternal))
+	}
+	if listed[fault.KindUnknown] {
+		t.Fatal("KindUnknown is in Kinds(); it is never a member of the taxonomy")
+	}
+}
+
+// TestNoKindFallsThroughToTheDefaults is the other half of the same repair.
+//
+// String, Treatment and MessageKey are switches with defaults, and a Kind that
+// nobody added a case for inherits all three silently: the machine name
+// "unknown" on a surface the CLI documents as stable API, the fatal treatment,
+// and generic internal copy. Only KindInternal is entitled to those, so
+// everything else claiming one is an unfinished addition.
+func TestNoKindFallsThroughToTheDefaults(t *testing.T) {
+	for _, k := range fault.Kinds() {
+		if k == fault.KindInternal {
+			continue // the defaults are its real answers
+		}
+		if got := k.String(); got == "unknown" {
+			t.Errorf("kind %d has no case in String(); it would appear in the CLI's JSON as %q", k, got)
+		}
+		if got := k.MessageKey(); got == fault.KindInternal.MessageKey() {
+			t.Errorf("kind %d has no case in MessageKey(); it would render the internal-failure copy", k)
+		}
+		if got := k.Treatment(); got == fault.TreatmentFatal {
+			t.Errorf("kind %d has no case in Treatment(); it would stop the program", k)
+		}
+	}
+}
+
+// TestMarshallingAFaultDropsTheCause makes the redaction a property of the
+// type rather than of every call site.
+//
+// Fault.Error and the CLI envelope both redact and both are tested, but
+// neither protects a caller that has not been written yet — a log sink, a
+// future debug verb, anything that reaches for json.Marshal. An *url.Error has
+// an exported URL field, and a Steam URL carries the player's API key in its
+// query string.
+func TestMarshallingAFaultDropsTheCause(t *testing.T) {
+	leak := &leakyError{URL: "https://api.steampowered.com/x?key=SECRET-KEY-9F2"}
+	f := fault.New(fault.KindRateLimited, "steam.Sync",
+		fault.WithSubject("Steam"), fault.WithCause(leak), fault.WithRetryAfter(30*time.Second))
+
+	b, err := json.Marshal(f)
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+	for _, forbidden := range []string{"SECRET-KEY-9F2", "api.steampowered.com", "Cause", "cause"} {
+		if contains(string(b), forbidden) {
+			t.Fatalf("marshalling a Fault leaked %q: %s", forbidden, b)
+		}
+	}
+
+	var got map[string]any
+	if err := json.Unmarshal(b, &got); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+	if got["kind"] != "rate_limited" {
+		t.Fatalf("kind = %v", got["kind"])
+	}
+	if got["retry_after_seconds"] != float64(30) {
+		t.Fatalf("retry_after_seconds = %v; the one field a scripted caller acts on was dropped", got["retry_after_seconds"])
+	}
+	if _, err := json.Marshal((*fault.Fault)(nil)); err != nil {
+		t.Fatalf("marshalling a nil Fault: %v", err)
+	}
+}
+
+// leakyError mimics *url.Error: an exported field carrying a credential-bearing
+// URL, which is what makes a naive json.Marshal a disclosure path.
+type leakyError struct {
+	URL string
+}
+
+func (e *leakyError) Error() string { return "Get " + e.URL + ": dial tcp: no route" }

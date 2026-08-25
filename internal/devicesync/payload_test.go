@@ -104,3 +104,48 @@ func TestTheMergeKeyIsTheCrossDeviceIdentity(t *testing.T) {
 		t.Fatalf("Change.UID is a %s; a merge keyed on a local id would match the wrong rows", got)
 	}
 }
+
+// TestPayloadTypesStayFlat closes the gap the review at c4c8d95 named: the
+// two guards above walk depth 1, because reflect.NumField does not descend.
+//
+// A future field whose type is a nested struct would pass both — the
+// allow-list sees only the outer name and the credential-name ban sees only
+// the outer name — while carrying anything at all inside it. That is not a
+// hypothetical shape for a sync payload: a `Device DeviceInfo` or a
+// `Source ProviderRef` is exactly what somebody adds in good faith.
+//
+// So rather than note the limitation, this pins the *types* as well as the
+// names. Every field of every payload struct must be one of a small allow-list
+// of leaf types, which makes nesting impossible without editing this test —
+// and editing this test is the moment somebody reads D4.
+func TestPayloadTypesStayFlat(t *testing.T) {
+	allowed := map[string]bool{
+		"string":                  true,
+		"devicesync.DeviceID":     true,
+		"library.UID":             true,
+		"time.Time":               true,
+		"*time.Time":              true,
+		"*status.Status":          true,
+		"[]devicesync.Change":     true,
+		"[]devicesync.ManualGame": true,
+		"int":                     true,
+	}
+	for _, typ := range []reflect.Type{
+		reflect.TypeOf(devicesync.Change{}),
+		reflect.TypeOf(devicesync.ManualGame{}),
+		reflect.TypeOf(devicesync.Envelope{}),
+		reflect.TypeOf(devicesync.Receipt{}),
+	} {
+		for i := 0; i < typ.NumField(); i++ {
+			f := typ.Field(i)
+			if !allowed[f.Type.String()] {
+				t.Errorf("%s.%s is a %s, which is not an allowed payload type.\n"+
+					"The allow-list is leaf types only, so that a nested struct cannot smuggle\n"+
+					"fields past the depth-1 checks above. If this type is genuinely something\n"+
+					"the player typed, add it here — and read ADR-0001 D4 while you are in this\n"+
+					"file, because that is what editing this list is for.",
+					typ.Name(), f.Name, f.Type)
+			}
+		}
+	}
+}

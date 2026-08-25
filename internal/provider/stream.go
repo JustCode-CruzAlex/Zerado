@@ -68,6 +68,28 @@ type Stream interface {
 //
 // It is a value, not a pointer, so a screen cannot hold a handle that changes
 // underneath it between two lines of a render function.
+//
+// # What it deliberately does not carry
+//
+// An earlier revision had a Batches field, documented as "written by the
+// consumer", for PARTIAL's copy — "The 138 that arrived are in your library" —
+// which is a claim about what was *written* and not about what was received.
+//
+// It could never have worked, and the interface's own shape is why: Stream is
+// read-only from the consumer's side, so nothing could have written it, and
+// the field could only ever have read zero. The screen would have rendered
+// "The 0 that arrived are in your library" — the exact sentence PARTIAL exists
+// to make true.
+//
+// The repair is not a setter on Stream. It is noticing that the written count
+// is not a property of the provider's stream at all: the provider cannot know
+// what the store committed, and a consumer-written field on a provider-owned
+// snapshot is a second writer to somebody else's value. The consumer already
+// accumulates store.BatchResult across batches and store.SyncRun records the
+// totals, so PARTIAL's copy reads those.
+//
+// Progress answers "how is the fetch going", which is the provider's question.
+// BatchResult answers "what did we keep", which is the store's.
 type Progress struct {
 	// Seen is how many items have been delivered so far.
 	Seen int
@@ -90,15 +112,6 @@ type Progress struct {
 	// alarming is a screen's judgement about a player's patience, not a
 	// provider's judgement about a socket.
 	LastAt time.Time
-
-	// Batches is how many upsert batches the consumer has committed.
-	//
-	// Written by the consumer rather than the provider, and present because
-	// PARTIAL's copy — "The 138 that arrived are in your library" — is a claim
-	// about what was *written*, not about what was received. A provider that
-	// delivered 138 items into a consumer that had committed 120 of them
-	// makes that sentence false by eighteen.
-	Batches int
 }
 
 // Determinate reports whether a progress bar can honestly be drawn.

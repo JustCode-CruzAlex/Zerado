@@ -1,6 +1,7 @@
 package fault
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"time"
@@ -189,6 +190,44 @@ func MessageKeyOf(err error) i18n.Key {
 		return f.MessageKey
 	}
 	return KindInternal.MessageKey()
+}
+
+// MarshalJSON renders a Fault without its cause.
+//
+// [Fault.Error] already redacts, and the CLI envelope is built field by field
+// from the accessors rather than from this type — both paths are tested. This
+// exists because neither of those is a property of the *type*: a log sink, a
+// future debug verb, or anything else that reaches for json.Marshal on a Fault
+// would reopen the exact path the rest of this package closes. An *url.Error
+// has an exported URL field, and a Steam URL carries the player's API key in
+// its query string.
+//
+// So the redaction is moved into the type, where it holds for every caller
+// including the ones that have not been written yet. The cause stays reachable
+// through errors.Is and errors.As for a sink that has been told it may see it.
+//
+// The shape matches the CLI's ErrorBody deliberately: one machine-readable
+// description of a failure, in one shape, wherever it is serialised.
+func (f *Fault) MarshalJSON() ([]byte, error) {
+	if f == nil {
+		return []byte("null"), nil
+	}
+	out := struct {
+		Kind              string `json:"kind"`
+		Op                string `json:"op,omitempty"`
+		Subject           string `json:"subject,omitempty"`
+		MessageKey        string `json:"message_key,omitempty"`
+		RetryAfterSeconds int    `json:"retry_after_seconds,omitempty"`
+	}{
+		Kind:       f.Kind.String(),
+		Op:         f.Op,
+		Subject:    f.Subject,
+		MessageKey: f.MessageKey.String(),
+	}
+	if f.RetryAfter > 0 {
+		out.RetryAfterSeconds = int(f.RetryAfter.Seconds())
+	}
+	return json.Marshal(out)
 }
 
 // SubjectOf returns the player-facing subject carried by err, if any.

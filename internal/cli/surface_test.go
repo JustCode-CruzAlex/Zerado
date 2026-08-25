@@ -225,3 +225,20 @@ func contains(hay, needle string) bool {
 	}
 	return false
 }
+
+// TestNoKindSilentlyInheritsTheInternalExitCode is the CLI half of the
+// taxonomy-totality repair.
+//
+// ExitCode's default is ExitInternal, so a Kind nobody gave a code to still
+// exits 1 — which is a plausible-looking answer and therefore the dangerous
+// one. Only KindInternal is entitled to it.
+func TestNoKindSilentlyInheritsTheInternalExitCode(t *testing.T) {
+	for _, k := range fault.Kinds() {
+		if k == fault.KindInternal {
+			continue
+		}
+		if got := cli.ExitCode(fault.New(k, "test.Op")); got == cli.ExitInternal {
+			t.Errorf("kind %v exits %d; it has no case in ExitCode and a script would read it as our defect", k, got)
+		}
+	}
+}

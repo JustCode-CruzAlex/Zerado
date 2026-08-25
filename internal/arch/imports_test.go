@@ -231,8 +231,8 @@ func TestNoShippedCodeImportsAFake(t *testing.T) {
 // decided and all arrive with the implementation. It is an assertion about
 // *this* stage: the contracts are pure Go with a standard-library-only
 // dependency set, which is what lets every seam be exercised offline with no
-// module download and makes the go.sum in this pull request empty on purpose
-// rather than by omission.
+// module download and means this module has no go.sum at all — go.mod
+// declares no require, so there is nothing to lock.
 func TestTheModuleHasNoThirdPartyDependencies(t *testing.T) {
 	b, err := os.ReadFile(filepath.Join(moduleRoot(t), "go.mod"))
 	if err != nil {

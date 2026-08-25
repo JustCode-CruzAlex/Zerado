@@ -2,6 +2,7 @@ package provider_test
 
 import (
 	"context"
+	"reflect"
 	"testing"
 	"time"
 
@@ -149,6 +150,15 @@ func TestAStoreNeedsNoScreenChanges(t *testing.T) {
 	}
 	if got := provider.Missing(f.Capabilities(), provider.Credentials{"api_key": "  "}); len(got) != 2 {
 		t.Fatalf("Missing = %v; whitespace-only must count as absent and the second field is untouched", got)
+	}
+	// A pasted credential is a plausible source of non-ASCII whitespace, in a
+	// product that is internationalised from the first line. A key that is
+	// only a NO-BREAK SPACE must be caught here, inline under the field, and
+	// not by a network round trip that comes back as a rejected key.
+	for _, blank := range []string{"\u00a0", "\u3000", "\u2003\u00a0"} {
+		if got := provider.Missing(f.Capabilities(), provider.Credentials{"api_key": blank, "account": "a"}); len(got) != 1 {
+			t.Fatalf("Missing with %q = %v; Unicode whitespace read as a real value", blank, got)
+		}
 	}
 	// A shelf declares none, so Z-02 is never reachable for it.
 	if len(providertest.NewManual().Capabilities().Credentials) != 0 {
@@ -325,8 +335,38 @@ func TestRegistryRoutesWithoutSwitchingOnIdentity(t *testing.T) {
 	if _, ok := r.Get("physical"); !ok {
 		t.Fatal("the registry cannot resolve a stored provider id back to a provider")
 	}
-	if dup := r.Duplicates(providertest.NewFake(), providertest.NewFake()); len(dup) != 1 {
-		t.Fatalf("Duplicates = %v, want one entry", dup)
+}
+
+// TestDuplicateRegistrationIsVisible is the MINOR-2 repair from the review at
+// c4c8d95.
+//
+// Duplicates used to be a method that ignored its receiver, so the natural
+// call returned nil whatever the registry held, and the only call that did
+// anything re-passed the slice it had already handed NewRegistry. Both halves
+// are now asserted: the package-level check before construction, and what a
+// built registry actually swallowed.
+func TestDuplicateRegistrationIsVisible(t *testing.T) {
+	a, b := providertest.NewFake(), providertest.NewFake()
+
+	if dup := provider.Duplicates(a, b); len(dup) != 1 || dup[0] != a.ID() {
+		t.Fatalf("Duplicates = %v, want [%s]", dup, a.ID())
+	}
+	if dup := provider.Duplicates(a, providertest.NewManual()); len(dup) != 0 {
+		t.Fatalf("Duplicates reported %v for two distinct providers", dup)
+	}
+
+	// The question a method on Registry has to be able to answer, and could
+	// not: what did THIS registry swallow?
+	r := provider.NewRegistry(a, b, providertest.NewManual())
+	got := r.Collisions()
+	if len(got) != 1 || got[0] != a.ID() {
+		t.Fatalf("Collisions = %v, want [%s]", got, a.ID())
+	}
+	if len(r.All()) != 2 {
+		t.Fatalf("the registry holds %d providers, want 2 — the duplicate replaced rather than added", len(r.All()))
+	}
+	if len(provider.NewRegistry(a, providertest.NewManual()).Collisions()) != 0 {
+		t.Fatal("a clean registry reported a collision")
 	}
 }
 
@@ -342,4 +382,38 @@ func items(n int) []provider.Item {
 		}
 	}
 	return out
+}
+
+// TestEveryProgressFieldIsActuallyWritten is the MINOR-1 repair from the
+// review at c4c8d95, generalised.
+//
+// Progress carried a Batches field that no interface method allowed anyone to
+// write, so it could only ever read zero — and the screen it existed for would
+// have rendered "The 0 that arrived are in your library", which is the exact
+// sentence PARTIAL exists to make true.
+//
+// A field on a snapshot that nothing can write is not a contract, it is a
+// promise the type cannot keep. This walks Progress by reflection after a real
+// stream has run and fails on any field still at its zero value, so the next
+// unwritable field is caught at the moment it is added rather than by the
+// screen that trusted it.
+func TestEveryProgressFieldIsActuallyWritten(t *testing.T) {
+	f := providertest.NewFake(items(3)...)
+	s, err := f.Sync(context.Background(), provider.Credentials{"api_key": "k", "account": "a"})
+	if err != nil {
+		t.Fatalf("Sync: %v", err)
+	}
+	for range s.Items() {
+	}
+
+	v := reflect.ValueOf(s.Progress())
+	for i := 0; i < v.NumField(); i++ {
+		name := v.Type().Field(i).Name
+		if v.Field(i).IsZero() {
+			t.Errorf("Progress.%s is still its zero value after a complete sync.\n"+
+				"Either a conforming implementation cannot write it — in which case it is a\n"+
+				"promise the type cannot keep and belongs somewhere a writer exists — or the\n"+
+				"fake is not exercising it, which makes every screen that reads it untested.", name)
+		}
+	}
 }

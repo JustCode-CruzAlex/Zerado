@@ -121,13 +121,25 @@ player finished a game. `TestOnlyAnOkRunMayTombstone` runs it for `partial`, `fa
 
 ## 7 · `Capabilities.Playtime`, not `Capabilities.Progress`
 
-`Z-08` §3.1 and `Z-05` D4 both write `Capabilities.Progress`. That is the **withdrawn** generic-progress
-model from revision A: ADR-0001 D5 states *"the generic-progress divergence is withdrawn"* and the
-ERD makes `playtime_minutes` a plain column.
+`Capabilities.Progress` is the **withdrawn** generic-progress model from revision A: ADR-0001 D5
+states *"the generic-progress divergence is withdrawn"* and the ERD makes `playtime_minutes` a plain
+column. The blueprint spells it `Playtime`. **`Playtime` wins**, being the ratified one.
 
-The blueprint spells it `Playtime` and the screens spell it `Progress`. **`Playtime` wins**, being the
-ratified one. Two screen specs carry a stale field name and should be corrected on their next
-revision — recorded here rather than edited from this ticket, which does not own them.
+**Four screen specs still carry the withdrawn name, at five sites.** Enumerated rather than
+summarised, so the follow-up catches all of them:
+
+| Spec | Line |
+|---|---|
+| `../design/screens/Z-04-library.md` | 1027 |
+| `../design/screens/Z-05-game-detail.md` | 399 |
+| `../design/screens/Z-06-set-status.md` | 366 |
+| `../design/screens/Z-08-add-a-game-by-hand.md` | 75, 375 |
+
+Recorded here rather than edited from this ticket, which does not own those specs.
+
+*(An earlier revision of this section recorded **two**. The review at `c4c8d95` grepped and found
+four, which left two stale specs unrecorded — a completeness defect in the one document whose whole
+job is completeness. The list above is the grep output, not a recollection.)*
 
 ## 8 · `Item.PlaytimeMinutes` is a pointer
 

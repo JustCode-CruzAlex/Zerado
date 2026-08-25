@@ -65,9 +65,17 @@ const (
 
 // ExitCode maps an error to its process exit status.
 //
-// It is total over fault.Kinds(): every member of the taxonomy has a code,
-// asserted by a test rather than by inspection, so adding a Kind without
-// deciding what a script should do about it fails CI.
+// It is total over fault.Kinds(), which is derived from the taxonomy's iota
+// range rather than hand-listed — so a Kind added anywhere in that range is in
+// the set the totality tests iterate, and one that has not been given a code
+// here falls to ExitInternal and fails
+// TestNoKindSilentlyInheritsTheInternalExitCode.
+//
+// The earlier version of this comment claimed the same guarantee while
+// fault.Kinds() was a literal slice, which made it false for the most natural
+// way to add a Kind: inserting it mid-block. Corrected rather than quietly
+// fixed, because a comment asserting an enforcement that does not exist is
+// worse than no comment at all.
 //
 // A nil error is ExitOK. An unclassified error is ExitInternal, never a
 // plausible-looking network code — a scripted caller retrying forever because

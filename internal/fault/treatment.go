@@ -116,15 +116,30 @@ func (k Kind) MessageKey() i18n.Key {
 
 // Kinds returns every member of the taxonomy, in declaration order.
 //
-// It exists so that a table-driven test can assert totality — that every Kind
-// has a name, a treatment, a key and an exit code — rather than asserting the
-// dozen cases somebody remembered. A new Kind then fails those tests until it
-// has been thought about everywhere, which is the enforcement this taxonomy
-// needs to still be a taxonomy in a year.
+// It is DERIVED from the iota range rather than hand-listed, and that is the
+// whole point of it.
+//
+// The first version of this function returned a literal slice. Every totality
+// test iterated that slice, and nothing asserted the slice covered the range —
+// so a Kind inserted mid-block was valid, constructible, and invisible to
+// every test that existed to catch exactly that. It silently claimed the
+// machine name "unknown" on a surface the CLI documents as stable API, and
+// rendered as TreatmentFatal with generic internal copy. CI stayed green.
+//
+// Deriving it removes the second source of truth instead of adding a test to
+// reconcile the two. [KindInternal] is the range's upper bound here and in
+// [Kind.Valid], so the two cannot disagree.
+//
+// The totality tests then have something real to iterate: TestTaxonomyIsTotal
+// asserts every kind has a distinct machine name, a treatment and a catalogue
+// key, and TestNoKindFallsThroughToTheDefaults asserts none of them silently
+// inherits the switch defaults. A new Kind fails both until it has been
+// thought about everywhere, which is the enforcement this taxonomy needs to
+// still be a taxonomy in a year.
 func Kinds() []Kind {
-	return []Kind{
-		KindOffline, KindUnreachable, KindUnauthorized, KindRateLimited,
-		KindEmpty, KindNotFound, KindMalformed, KindStale, KindUnsupported,
-		KindPrecondition, KindConflict, KindCancelled, KindInternal,
+	out := make([]Kind, 0, int(KindInternal))
+	for k := KindOffline; k <= KindInternal; k++ {
+		out = append(out, k)
 	}
+	return out
 }
