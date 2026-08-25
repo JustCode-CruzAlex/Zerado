@@ -49,6 +49,12 @@ dated 2025-07-25** (unicode.org), on 2026-08-25:
 | `[ ] [~] [*] [x]` ASCII column | ASCII | Na — Narrow | immune by construction |
 | `♪` music note — **rejected** | U+266A | **A — Ambiguous** | would shear the status bar |
 | `▪` `▫` small squares — **avoid** | U+25AA · U+25AB | N — Neutral, but **listed as `Emoji`** | may take emoji presentation and arrive coloured |
+| `…` **ellipsis** | U+2026 | **A — Ambiguous** | the truncation marker itself. See the rule below |
+| `←` `↑` `→` `↓` footer arrows | U+2190 – U+2193 | **A — Ambiguous** (all four) | ride in the footer key hints |
+| `·` middle dot | U+00B7 | **A — Ambiguous** | the summary and prose separator |
+| `•` bullet | U+2022 | **A — Ambiguous** | flowing copy |
+| `⏎` return symbol | U+23CE | N — Neutral; not emoji | **safe** — the footer's `⏎ open` hint |
+| `⚠` warning sign — **avoid** | U+26A0 | N — Neutral, but **listed as `Emoji`** | narrow, but may arrive coloured. Use `▌` plus a word instead (§11, §12) |
 
 **The finding that matters:** the four ratified state glyphs are **not all the same width
 class**. In a terminal configured to render ambiguous characters as double-width — the norm in
@@ -57,7 +63,7 @@ some CJK locales, and a setting many terminals expose — `○` and `◐` occupy
 product.
 
 **This does not reopen the glyphs.** They are ratified and CVD-verified; they stay. The fix is
-in rendering, and it is three rules:
+in rendering, and it is four rules:
 
 1. **The state glyph sits in a fixed 2-column field.** The renderer measures the glyph's actual
    display width at runtime (an East-Asian-Width-aware width function, not `len()` and not
@@ -65,14 +71,28 @@ in rendering, and it is three rules:
    field and takes zero padding; a single-width glyph takes one space. **Column alignment is
    then invariant under either terminal setting.**
 2. **Every rendered line is measured with the same width-aware function.** Never byte length,
-   never rune count. This applies to truncation, padding and centring everywhere.
-3. **`ZERADO_ASCII=1` forces the ratified ASCII column** `[ ] [~] [*] [x]`, which is entirely
+   never rune count. This applies to truncation, padding and centring everywhere — **including
+   the truncation marker itself**, which is the trap below.
+3. **The ellipsis is measured *inside* the truncation budget, never assumed to be one cell.**
+   `…` U+2026 is **Ambiguous**, so on an `ambiguous-width=double` terminal it occupies **two**
+   cells. Truncating a 60-column title to the 42-column title field by taking 41 columns of text
+   and appending `…` yields **43 columns** there — one cell of overflow, which shears every
+   column to its right.
+
+   The rule: `budget = field_width − measured_width(marker)`, using the same width-aware function
+   as rule 2, evaluated at render time rather than baked in as `1`.
+
+   **This is the failure mode §1.2 exists to prevent, arriving through the fix rather than
+   through the content** — which is exactly why it is easy to miss and worth its own rule.
+   `ZERADO_ASCII=1` swaps the marker to ASCII `...` (three narrow cells, deterministic) for the
+   same reason it swaps the state glyphs.
+4. **`ZERADO_ASCII=1` forces the ratified ASCII column** `[ ] [~] [*] [x]`, which is entirely
    narrow and immune. It is also the automatic fallback when the terminal does not report
    Unicode capability.
 
 **The declared requirement:** Zerado is designed for a terminal that treats East-Asian-Ambiguous
 characters as **single-width** — the default outside CJK locales. Rule 1 keeps the ledger
-correct when that assumption is violated; rule 3 is the escape hatch. Box drawing is Ambiguous
+correct when that assumption is violated; rule 4 is the escape hatch. Box drawing is Ambiguous
 across the whole family, so it is internally consistent and carries no mixed-class risk.
 
 > **Why `█` and `░` are forbidden as a pair.** They are the conventional progress-bar
