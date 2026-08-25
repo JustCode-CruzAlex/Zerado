@@ -12,12 +12,16 @@ on:
     paths:
       - 'site/**'
       - 'scripts/check-page.mjs'
+      - 'scripts/fetch-covers.mjs'
+      - 'scripts/fetch-covers.test.mjs'
       - '.github/workflows/site.yml'
   push:
     branches: [main]
     paths:
       - 'site/**'
       - 'scripts/check-page.mjs'
+      - 'scripts/fetch-covers.mjs'
+      - 'scripts/fetch-covers.test.mjs'
       - '.github/workflows/site.yml'
   workflow_dispatch:
 
@@ -60,6 +64,14 @@ jobs:
       # guarantee, and each one is mutation-tested — see the script's header.
       - name: Page invariants
         run: node scripts/check-page.mjs site/dist/index.html
+
+      # The fetch script's match rule is the one place a WRONG cover can reach
+      # the page silently — a plausible neighbour (the 2023 Dead Space, a
+      # Collectors' Edition) looks entirely fine and is wrong. These also assert
+      # the shipped files' true intrinsic size, which is what the CLS-is-0.000
+      # claim actually rests on. No network and no credentials.
+      - name: Cover match rule and shipped-file dimensions
+        run: node --test "scripts/**/*.test.mjs"
 
       - name: Upload the build
         if: matrix.node == '24'

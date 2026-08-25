@@ -1,0 +1,121 @@
+{
+  "source": "IGDB (api.igdb.com/v4), served under the Twitch Developer Services Agreement",
+  "finding": "docs/legal/igdb-image-licence-finding.md",
+  "fetchedAt": "2026-08-25T21:11:45.065Z",
+  "rendered": {
+    "width": 360,
+    "height": 480,
+    "fit": "cover",
+    "position": "centre"
+  },
+  "covers": [
+    {
+      "slug": "baldurs-gate-ii-shadows-of-amn",
+      "igdbGameId": 6,
+      "igdbSlug": "baldurs-gate-ii-shadows-of-amn",
+      "igdbName": "Baldur's Gate II: Shadows of Amn",
+      "releaseYear": 2000,
+      "igdbCoverImageId": "co71yr",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co71yr.jpg"
+    },
+    {
+      "slug": "bloodborne",
+      "igdbGameId": 7334,
+      "igdbSlug": "bloodborne",
+      "igdbName": "Bloodborne",
+      "releaseYear": 2015,
+      "igdbCoverImageId": "cob99l",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cob99l.jpg"
+    },
+    {
+      "slug": "celeste",
+      "igdbGameId": 26226,
+      "igdbSlug": "celeste",
+      "igdbName": "Celeste",
+      "releaseYear": 2018,
+      "igdbCoverImageId": "cob9dh",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cob9dh.jpg"
+    },
+    {
+      "slug": "dead-space",
+      "igdbGameId": 37,
+      "igdbSlug": "dead-space",
+      "igdbName": "Dead Space",
+      "releaseYear": 2008,
+      "igdbCoverImageId": "co2g7w",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2g7w.jpg"
+    },
+    {
+      "slug": "god-of-war",
+      "igdbGameId": 19560,
+      "igdbSlug": "god-of-war--1",
+      "igdbName": "God of War",
+      "releaseYear": 2018,
+      "igdbCoverImageId": "cobkt6",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobkt6.jpg"
+    },
+    {
+      "slug": "hades",
+      "igdbGameId": 113112,
+      "igdbSlug": "hades--1",
+      "igdbName": "Hades",
+      "releaseYear": 2020,
+      "igdbCoverImageId": "cob9kr",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cob9kr.jpg"
+    },
+    {
+      "slug": "half-life-2",
+      "igdbGameId": 233,
+      "igdbSlug": "half-life-2",
+      "igdbName": "Half-Life 2",
+      "releaseYear": 2004,
+      "igdbCoverImageId": "co1nmw",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1nmw.jpg"
+    },
+    {
+      "slug": "hollow-knight",
+      "igdbGameId": 14593,
+      "igdbSlug": "hollow-knight",
+      "igdbName": "Hollow Knight",
+      "releaseYear": 2017,
+      "igdbCoverImageId": "cobfzp",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobfzp.jpg"
+    },
+    {
+      "slug": "portal-2",
+      "igdbGameId": 72,
+      "igdbSlug": "portal-2",
+      "igdbName": "Portal 2",
+      "releaseYear": 2011,
+      "igdbCoverImageId": "co1rs4",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1rs4.jpg"
+    },
+    {
+      "slug": "stardew-valley",
+      "igdbGameId": 17000,
+      "igdbSlug": "stardew-valley",
+      "igdbName": "Stardew Valley",
+      "releaseYear": 2016,
+      "igdbCoverImageId": "coa93h",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coa93h.jpg"
+    },
+    {
+      "slug": "super-metroid",
+      "igdbGameId": 1103,
+      "igdbSlug": "super-metroid",
+      "igdbName": "Super Metroid",
+      "releaseYear": 1994,
+      "igdbCoverImageId": "co5osy",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5osy.jpg"
+    },
+    {
+      "slug": "the-witcher-3-wild-hunt",
+      "igdbGameId": 1942,
+      "igdbSlug": "the-witcher-3-wild-hunt",
+      "igdbName": "The Witcher 3: Wild Hunt",
+      "releaseYear": 2015,
+      "igdbCoverImageId": "coaarl",
+      "sourceUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coaarl.jpg"
+    }
+  ]
+}

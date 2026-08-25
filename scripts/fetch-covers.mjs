@@ -24,7 +24,7 @@
  */
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const require = createRequire(new URL('../site/package.json', import.meta.url));
 
@@ -39,7 +39,7 @@ const HEIGHT = 480;
 
 /** Parse the row table straight out of the TypeScript so there is exactly one
  *  list of the twelve and this script cannot drift from what the page renders. */
-async function rows() {
+export async function rows() {
   const src = await import('node:fs').then((fs) =>
     fs.readFileSync(fileURLToPath(new URL('site/src/data/coverGrid.ts', ROOT)), 'utf8')
   );
@@ -87,6 +87,33 @@ const yearOf = (g) =>
   g.first_release_date ? new Date(g.first_release_date * 1000).getUTCFullYear() : null;
 
 /**
+ * Two titles are the same title, in the typographic sense.
+ *
+ * This is NOT a fuzzy comparison — it is still exact equality, taken over the
+ * text rather than over one particular way of encoding it. `coverGrid.ts`
+ * spells row 10 “Baldur’s Gate II” with a typographic apostrophe (U+2019),
+ * because that is how the name is set on the page; IGDB stores it with an
+ * ASCII apostrophe. Byte equality therefore called them different games,
+ * dropped to the unnamed pool, matched the base game AND the Collectors'
+ * Edition on year, and correctly refused rather than guess between them.
+ *
+ * Folding the curly quotes to their ASCII forms (and NFC-normalising first, so
+ * a decomposed accent equals its precomposed twin) removes that one false
+ * distinction and nothing else: "Dead Space" still does not equal "Dead Space
+ * Remake", and the release-year pin below is untouched.
+ */
+function sameName(a, b) {
+  const norm = (s) =>
+    s
+      .normalize('NFC')
+      .replace(/[‘’ʼ]/g, "'")
+      .replace(/[“”]/g, '"')
+      .toLowerCase()
+      .trim();
+  return norm(a) === norm(b);
+}
+
+/**
  * Deterministic match, and it refuses rather than guesses.
  *
  * A fuzzy "closest result wins" is how a page ends up quietly showing the 2023
@@ -95,10 +122,8 @@ const yearOf = (g) =>
  * not land on exactly one game the row is REPORTED and skipped — it renders its
  * art-directed tile and a human pins the id. A wrong cover is worse than none.
  */
-function pick(results, row) {
-  const named = results.filter(
-    (g) => g.name && g.name.toLowerCase() === row.searchName.toLowerCase()
-  );
+export function pick(results, row) {
+  const named = results.filter((g) => g.name && sameName(g.name, row.searchName));
   const pool = named.length ? named : results;
   const dated = pool.filter((g) => yearOf(g) === row.releaseYear);
   if (dated.length === 1) return dated[0];
@@ -216,4 +241,10 @@ async function main() {
   }
 }
 
-await main();
+// Runs only when invoked as a command. `pick` and `rows` are exported so
+// `scripts/fetch-covers.test.mjs` can exercise the match rule without a
+// network, credentials, or writing a file — the match rule is the part of this
+// script that can silently put the wrong cover on the page.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  await main();
+}
