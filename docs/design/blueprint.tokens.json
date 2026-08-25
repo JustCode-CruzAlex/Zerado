@@ -1,0 +1,2057 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "zerado-landing-page",
+  "docNo": "ZRD-DESIGN-01",
+  "rev": "A",
+  "date": "2026-08-24",
+  "description": "Machine-readable conformance manifest for the Zerado landing page. The build reads this as its source of truth; the quality gate diffs the rendered DOM against it. The human-readable normative twin is design/blueprint.md.",
+  "ratifies": {
+    "path": "ratification/mock.outline.md",
+    "sha256": "a2bc87e434f4035a7dd851dacadb8aee0961d66f5e58465b18f9640b20248ecb",
+    "verifiedAt": "2026-08-24",
+    "sectionCount": 16,
+    "added": 0,
+    "dropped": 0,
+    "reordered": 0
+  },
+  "inputs": {
+    "brandTokensCss": "brand/tokens.css",
+    "brandTokensJson": "brand/tokens.json",
+    "brandManual": "brand/brand-manual.md",
+    "copy": "content/landing-copy.md",
+    "seo": "content/seo.md",
+    "decisions": "ratification/decisions.md",
+    "fontCss": "site/src/styles/fonts-face.css"
+  },
+  "constraints": {
+    "javascript": "none",
+    "rasterImageCount": {
+      "loadedByPage": 0,
+      "shippedAssets": 1,
+      "note": "og-card.png ships for social scrapers only; the rendered page still loads zero rasters."
+    },
+    "externalRequestCount": 0,
+    "iconLibraries": [],
+    "horizontalPageScroll": false,
+    "scrollTriggeredAnimation": false,
+    "colorScheme": "dark-native",
+    "lightModeOnThisPage": false,
+    "donateOrSponsorControls": 0,
+    "forbiddenStrings": [
+      "$Q4_BANNED_SOURCE_NAME"
+    ],
+    "roadmapStatusesAllowed": [
+      "Planned"
+    ],
+    "bodyScrollWidthAssertion": "PER-ELEMENT: no element's bounding rect may exceed the viewport (right <= clientWidth+1, left >= -1), excluding aria-hidden subtrees. DO NOT use documentElement.scrollWidth === clientWidth: overflow-x:hidden on the root pins those two values together, making that a tautology that cannot fail. It reported PASS at all four breakpoints while section 02 destroyed 58% of its own text (QA BLOCKING-1). Mutation-tested: green at HEAD, red with the defect re-injected.",
+    "forbiddenStringsNote": "The single entry is a sentinel, not the literal. The community-source name banned by ratified decision Q4 is deliberately absent from this repository so that the repository passes its own case-insensitive scan; the QA harness (qa/harness/run-content.mjs) reconstructs the pattern at runtime. See docs/REDACTIONS.md."
+  },
+  "breakpoints": {
+    "xs": {
+      "width": 375,
+      "pagePaddingX": 20,
+      "contentWidth": 335,
+      "gridColumns": 1,
+      "sectionY": 64
+    },
+    "sm": {
+      "width": 768,
+      "pagePaddingX": 24,
+      "contentWidth": 720,
+      "gridColumns": 2,
+      "sectionY": 80
+    },
+    "md": {
+      "width": 1280,
+      "pagePaddingX": 24,
+      "contentWidth": 1180,
+      "gridColumns": 12,
+      "sectionY": 96
+    },
+    "lg": {
+      "width": 1920,
+      "pagePaddingX": 24,
+      "contentWidth": 1180,
+      "gridColumns": 12,
+      "sectionY": 96
+    }
+  },
+  "container": {
+    "max": "1180px",
+    "narrow": "760px",
+    "gutter": "24px",
+    "measure": "68ch"
+  },
+  "color": {
+    "surface": {
+      "bg": "#05060A",
+      "surface": "#0B0D14",
+      "surfaceRaised": "#141A24",
+      "surfaceOverlay": "#1D2532"
+    },
+    "applied": {
+      "textPrimary": {
+        "token": "--z-text",
+        "value": "#E9EEF5"
+      },
+      "textSecondary": {
+        "token": "--z-text-secondary",
+        "value": "#A9B5C7"
+      },
+      "textTertiary": {
+        "token": "--z-text-tertiary",
+        "value": "#8492A8"
+      },
+      "headingEmphasis": {
+        "token": "--z-primary",
+        "value": "#FFB000"
+      },
+      "ctaPrimaryFill": {
+        "token": "--z-accent",
+        "value": "#19E0FF"
+      },
+      "ctaPrimaryLabel": {
+        "token": "--z-accent-contrast",
+        "value": "#05060A"
+      },
+      "ctaPrimaryHover": {
+        "token": "--z-accent-hover",
+        "value": "#8CF0FF"
+      },
+      "ctaSecondaryEdge": {
+        "token": "--z-border-strong",
+        "value": "#64748B"
+      },
+      "ctaSecondaryLabel": {
+        "token": "--z-text",
+        "value": "#E9EEF5"
+      },
+      "link": {
+        "token": "--z-text-link",
+        "value": "#19E0FF"
+      },
+      "linkHover": {
+        "token": "--z-text-link-hover",
+        "value": "#8CF0FF"
+      },
+      "focusRing": {
+        "token": "--z-focus-ring",
+        "value": "#19E0FF",
+        "width": "2px",
+        "offset": "2px",
+        "removable": false
+      },
+      "controlEdge": {
+        "token": "--z-border-strong",
+        "value": "#64748B"
+      },
+      "contentHairline": {
+        "token": "--z-border",
+        "value": "#2A3342",
+        "role": "decorative-between-content-blocks-only"
+      },
+      "terminalReadout": {
+        "token": "--z-primary",
+        "value": "#FFB000"
+      },
+      "terminalScreen": {
+        "token": "--z-bg",
+        "value": "#05060A"
+      },
+      "scannerPip": {
+        "token": "--z-scanner",
+        "value": "#FF2E2E"
+      },
+      "scannerTrack": {
+        "token": "--z-scanner-track",
+        "value": "#5C1414"
+      },
+      "gridHorizonLine": {
+        "token": "--z-grid-line",
+        "value": "#1A2740"
+      },
+      "steel": {
+        "token": "--z-steel",
+        "value": "#A5A29B"
+      },
+      "statusTrackUnlit": {
+        "token": "--z-amber-900",
+        "value": "#8A5E00",
+        "role": "non-text-fill-only"
+      }
+    },
+    "state": {
+      "notStarted": {
+        "value": "#A5A29B",
+        "glyph": "○",
+        "label": "NOT STARTED"
+      },
+      "inProgress": {
+        "value": "#FFB000",
+        "glyph": "◐",
+        "label": "IN PROGRESS"
+      },
+      "zerado": {
+        "value": "#19E0FF",
+        "glyph": "◉",
+        "label": "ZERADO"
+      },
+      "abandoned": {
+        "value": "#C77DFF",
+        "glyph": "⊘",
+        "label": "ABANDONED"
+      }
+    },
+    "budget": {
+      "accentFillInstances": 4,
+      "glowCyanInstances": 1,
+      "glowAmberSimultaneous": 1,
+      "animatedScannerInstances": 1,
+      "parkedScannerInstances": 4,
+      "orchidInstances": 2
+    }
+  },
+  "typography": {
+    "families": {
+      "display": {
+        "token": "--z-font-display",
+        "primary": "Orbitron",
+        "stack": "'Orbitron', 'Michroma', 'Arial Black', system-ui, sans-serif",
+        "usedFor": [
+          "h1",
+          "h2"
+        ],
+        "hardRule": "display-only; never below 23px; never prose; uppercase; tracked out; max ~8 words",
+        "weightsUsed": [
+          600,
+          700
+        ]
+      },
+      "body": {
+        "token": "--z-font-body",
+        "primary": "Space Grotesk",
+        "stack": "'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+        "usedFor": [
+          "prose",
+          "labels",
+          "cta"
+        ],
+        "weightsUsed": [
+          400,
+          600,
+          700
+        ]
+      },
+      "mono": {
+        "token": "--z-font-mono",
+        "primary": "JetBrains Mono",
+        "stack": "'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace",
+        "usedFor": [
+          "readout",
+          "terminal",
+          "tags",
+          "price-figures"
+        ],
+        "weightsUsed": [
+          400,
+          500,
+          700
+        ],
+        "measuredAdvanceEm": 0.6
+      }
+    },
+    "fontFiles": {
+      "dir": "site/public/fonts/",
+      "css": "site/src/styles/fonts-face.css",
+      "files": [
+        "Orbitron-latin.woff2",
+        "SpaceGrotesk-latin.woff2",
+        "SpaceGrotesk-latin-ext.woff2",
+        "JetBrainsMono-latin.woff2",
+        "JetBrainsMono-latin-ext.woff2"
+      ],
+      "preload": [
+        "Orbitron-latin.woff2",
+        "SpaceGrotesk-latin.woff2",
+        "JetBrainsMono-latin.woff2"
+      ],
+      "selfHosted": true,
+      "externalCdn": false
+    },
+    "scale": {
+      "h1Hero": {
+        "clamp": "clamp(1.875rem, 1.3053rem + 2.4309vw, 3.25rem)",
+        "resolvedPx": {
+          "375": 30.0,
+          "768": 39.6,
+          "1280": 52.0,
+          "1920": 52.0
+        },
+        "lineHeight": 1.08,
+        "family": "display",
+        "weight": 700,
+        "tracking": "0.03em",
+        "case": "uppercase",
+        "renderedLines": 3,
+        "note": "own clamp: the brand's generic h1-fluid floor of 34px overflows 375 with this headline by 24.6px (measured from the staged woff2)"
+      },
+      "h2": {
+        "clamp": "clamp(1.5rem, 1.1rem + 1.7vw, 2.125rem)",
+        "resolvedPx": {
+          "375": 24.0,
+          "768": 30.7,
+          "1280": 34.0,
+          "1920": 34.0
+        },
+        "lineHeight": 1.22,
+        "family": "display",
+        "weight": 600,
+        "tracking": "0.02em",
+        "case": "uppercase"
+      },
+      "h3": {
+        "px": 23,
+        "lineHeight": 1.22,
+        "family": "body",
+        "weight": 700,
+        "case": "sentence"
+      },
+      "bodyLarge": {
+        "px": 19,
+        "lineHeight": 1.6,
+        "family": "body",
+        "weight": 400
+      },
+      "body": {
+        "px": 17,
+        "lineHeight": 1.65,
+        "family": "body",
+        "weight": 400,
+        "note": "prose floor; never smaller for prose"
+      },
+      "bodySmall": {
+        "px": 15,
+        "lineHeight": 1.6,
+        "family": "body",
+        "weight": 400
+      },
+      "caption": {
+        "px": 13,
+        "lineHeight": 1.5,
+        "family": "body",
+        "weight": 400
+      },
+      "readout": {
+        "px": 13,
+        "lineHeight": 1.2,
+        "family": "mono",
+        "weight": 500,
+        "tracking": "0.18em",
+        "case": "uppercase"
+      },
+      "terminal": {
+        "pxByBreakpoint": {
+          "375": 13,
+          "768": 13,
+          "1280": 15,
+          "1920": 15
+        },
+        "lineHeight": 1.45,
+        "family": "mono",
+        "weight": 400
+      },
+      "priceFigure": {
+        "pxByBreakpoint": {
+          "375": 34,
+          "768": 40,
+          "1280": 40,
+          "1920": 40
+        },
+        "lineHeight": 1.0,
+        "family": "mono",
+        "weight": 700
+      }
+    },
+    "unused": [
+      "--z-text-display"
+    ],
+    "orbitronFloorPx": 23,
+    "smallestOrbitronOnPagePx": 24
+  },
+  "chrome": {
+    "skipLink": {
+      "element": "a.z-skip",
+      "outside": "main",
+      "components": [
+        "SkipLink"
+      ],
+      "interactiveElements": 1
+    },
+    "header": {
+      "element": "header[role=banner] > nav",
+      "outside": "main",
+      "components": [
+        "Nav",
+        "Logotype",
+        "NavLink",
+        "CTAButton:primary"
+      ],
+      "interactiveElements": 2,
+      "sticky": false,
+      "hamburger": false
+    }
+  },
+  "sections": [
+    {
+      "index": 1,
+      "id": "hero",
+      "heading": {
+        "level": "h1",
+        "copyRef": "content/landing-copy.md#01-hero"
+      },
+      "layout": {
+        "375": "stack",
+        "768": "stack",
+        "1280": "copy-cols-1-7 + full-width-frame",
+        "1920": "copy-cols-1-7 + full-width-frame"
+      },
+      "components": [
+        "Hero",
+        "GridHorizon",
+        "CTAButton:primary",
+        "CTAButton:secondary",
+        "TerminalFrame:live",
+        "MockupCaption",
+        "ScannerRule:live"
+      ],
+      "ctas": [
+        "waitlist",
+        "github"
+      ],
+      "interactiveElements": 2,
+      "figures": [
+        "TF-1"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "maker-line",
+      "heading": null,
+      "layout": {
+        "375": "single-line",
+        "768": "single-line",
+        "1280": "single-line-rule-flanked",
+        "1920": "single-line-rule-flanked"
+      },
+      "components": [
+        "MakerLine"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": []
+    },
+    {
+      "index": 3,
+      "id": "the-problem",
+      "heading": {
+        "level": "h2",
+        "variant": "quiet",
+        "copyRef": "content/landing-copy.md#03-the-problem"
+      },
+      "layout": {
+        "375": "stack-narrow",
+        "768": "stack-narrow",
+        "1280": "stack-narrow",
+        "1920": "stack-narrow"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "ProblemStack"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": []
+    },
+    {
+      "index": 4,
+      "id": "moods",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#04-moods"
+      },
+      "layout": {
+        "375": "grid-1 + frame",
+        "768": "grid-2x2 + frame",
+        "1280": "grid-4 + frame",
+        "1920": "grid-4 + frame"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "MoodCard",
+        "TerminalFrame:still",
+        "MockupCaption"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [
+        "TF-2"
+      ],
+      "cardCount": 4
+    },
+    {
+      "index": 5,
+      "id": "states",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#05-states"
+      },
+      "layout": {
+        "375": "stack",
+        "768": "row-4",
+        "1280": "row-4",
+        "1920": "row-4"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "StateLegend",
+        "StateChip"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [],
+      "chipCount": 4,
+      "emphasisedChipIndex": 3
+    },
+    {
+      "index": 6,
+      "id": "one-collection",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#06-one-collection"
+      },
+      "layout": {
+        "375": "stack + covergrid-3",
+        "768": "halves-2 + covergrid-4",
+        "1280": "halves-2 + covergrid-6",
+        "1920": "halves-2 + covergrid-6"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "StoreRow",
+        "CoverGrid",
+        "CoverTile",
+        "PlatformTag",
+        "MockupCaption"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [
+        "cover-grid"
+      ],
+      "tileCount": 12
+    },
+    {
+      "index": 7,
+      "id": "price-intelligence",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#07-price-intelligence"
+      },
+      "layout": {
+        "375": "card-full",
+        "768": "card-centred-560",
+        "1280": "card-centred-560",
+        "1920": "card-centred-560"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "PriceCard",
+        "Sparkline"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": []
+    },
+    {
+      "index": 8,
+      "id": "yours-and-offline",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#08-yours-and-offline"
+      },
+      "layout": {
+        "375": "stack",
+        "768": "grid-3",
+        "1280": "grid-3",
+        "1920": "grid-3"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "TrustPoint"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [],
+      "pointCount": 3
+    },
+    {
+      "index": 9,
+      "id": "terminal-first",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#09-terminal-first"
+      },
+      "layout": {
+        "375": "stack + frame",
+        "768": "stack + frame",
+        "1280": "body-cols-1-6 + full-width-frame",
+        "1920": "body-cols-1-6 + full-width-frame"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "TerminalFrame:still",
+        "MockupCaption"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [
+        "TF-3"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "and-on-your-phone",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#10-and-on-your-phone"
+      },
+      "layout": {
+        "375": "single-phone-240",
+        "768": "phones-2-overlapped",
+        "1280": "phones-2-overlapped",
+        "1920": "phones-2-overlapped"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "PhoneFrame",
+        "PhaseBadge",
+        "MockupCaption"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [
+        "phone-frames"
+      ],
+      "phoneCountByBreakpoint": {
+        "375": 1,
+        "768": 2,
+        "1280": 2,
+        "1920": 2
+      }
+    },
+    {
+      "index": 11,
+      "id": "community",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#11-community",
+        "emphasisedClauseColor": "--z-primary"
+      },
+      "layout": {
+        "375": "stack + panel-1col",
+        "768": "stack + panel-3col",
+        "1280": "stack + panel-3col",
+        "1920": "stack + panel-3col"
+      },
+      "components": [
+        "SectionEyebrow",
+        "PhaseBadge",
+        "SectionHeading",
+        "CommunityPanel",
+        "TerminalFrame:muted",
+        "MockupCaption"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [
+        "community-panel"
+      ],
+      "phaseStamps": 3,
+      "stampMechanisms": [
+        "heading-clause",
+        "PhaseBadge",
+        "muted-panel-watermark"
+      ],
+      "mustState": "premium account or donation",
+      "mustNotContain": [
+        "donate button",
+        "sponsor button",
+        "price",
+        "tier name",
+        "date"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "roadmap",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#12-roadmap"
+      },
+      "layout": {
+        "375": "track-vertical",
+        "768": "track-2x2",
+        "1280": "track-4up",
+        "1920": "track-4up"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "RoadmapTrack",
+        "PhaseCard",
+        "StatusMarker"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": [],
+      "phaseCount": 4,
+      "datesRendered": false,
+      "statuses": [
+        "Planned",
+        "Planned",
+        "Planned",
+        "Planned"
+      ],
+      "statusMarkerTokens": [
+        "--z-status-color",
+        "--z-status-track",
+        "--z-status-glyph",
+        "--z-status-label"
+      ],
+      "statusChangeIsTokenOnly": true
+    },
+    {
+      "index": 13,
+      "id": "after-phase-4",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#13-after-phase-4",
+        "emphasisedClauseColor": "--z-text-secondary"
+      },
+      "layout": {
+        "375": "block-narrow-dashed",
+        "768": "block-narrow-dashed",
+        "1280": "block-narrow-dashed",
+        "1920": "block-narrow-dashed"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "SpeculationBlock"
+      ],
+      "ctas": [],
+      "interactiveElements": 0,
+      "figures": []
+    },
+    {
+      "index": 14,
+      "id": "faq",
+      "heading": {
+        "level": "h2",
+        "copyRef": "content/landing-copy.md#14-faq"
+      },
+      "layout": {
+        "375": "list",
+        "768": "list",
+        "1280": "list-narrow",
+        "1920": "list-narrow"
+      },
+      "components": [
+        "SectionEyebrow",
+        "SectionHeading",
+        "FAQItem"
+      ],
+      "ctas": [],
+      "interactiveElements": 6,
+      "figures": [],
+      "itemCount": 6,
+      "allClosedByDefault": true,
+      "implementation": "native details/summary, no javascript"
+    },
+    {
+      "index": 15,
+      "id": "closing-cta",
+      "heading": null,
+      "layout": {
+        "375": "centred-stack",
+        "768": "centred-stack",
+        "1280": "centred-stack",
+        "1920": "centred-stack"
+      },
+      "components": [
+        "ScannerRule:parked",
+        "ClosingCTA",
+        "CTAButton:primary"
+      ],
+      "ctas": [
+        "waitlist"
+      ],
+      "interactiveElements": 1,
+      "figures": [],
+      "secondaryCta": false
+    },
+    {
+      "index": 16,
+      "id": "footer",
+      "heading": null,
+      "layout": {
+        "375": "stack-3-bands",
+        "768": "bands-3-horizontal",
+        "1280": "bands-3-horizontal",
+        "1920": "bands-3-horizontal"
+      },
+      "components": [
+        "Footer",
+        "FooterLink",
+        "PoweredByFlowForge"
+      ],
+      "ctas": [
+        "waitlist",
+        "github",
+        "contact"
+      ],
+      "interactiveElements": 3,
+      "figures": []
+    }
+  ],
+  "ctaTargets": {
+    "waitlist": {
+      "label": "Join the waitlist",
+      "href": "mailto:alex@flowforgesoft.com?subject=Zerado-WaitList",
+      "verified": "ratification/decisions.md Q2"
+    },
+    "github": {
+      "label": "View on GitHub",
+      "href": "https://github.com/JustCode-CruzAlex/Zerado",
+      "verified": "public, HTTP 200 anonymously (decisions.md)",
+      "rel": "noopener noreferrer",
+      "target": "_self"
+    },
+    "contact": {
+      "label": "alex@flowforgesoft.com",
+      "href": "mailto:alex@flowforgesoft.com",
+      "verified": "content/landing-copy.md #16"
+    },
+    "skip": {
+      "label": "Skip to content",
+      "href": "#main",
+      "verified": "target element defined in this blueprint"
+    }
+  },
+  "linkPolicy": {
+    "totalDestinations": 4,
+    "totalLinkInstances": 10,
+    "forbidden": [
+      "href=\"#\"",
+      "unbuilt routes",
+      "anchors to non-existent sections",
+      "download links",
+      "social icons",
+      "donate link",
+      "sponsor link"
+    ]
+  },
+  "components": [
+    {
+      "name": "SkipLink",
+      "interactive": true,
+      "states": [
+        "default",
+        "focus-visible"
+      ],
+      "tokens": [
+        "--z-accent",
+        "--z-accent-contrast",
+        "--z-focus-ring"
+      ]
+    },
+    {
+      "name": "Nav",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "sticky": false,
+      "hamburger": false,
+      "tokens": [
+        "--z-surface",
+        "--z-border"
+      ]
+    },
+    {
+      "name": "Logotype",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "asset": "site/public/logo.svg",
+      "widthPx": {
+        "375": 120,
+        "768": 140,
+        "1280": 140,
+        "1920": 140
+      },
+      "clearSpacePx": {
+        "375": 15.8,
+        "768": 18.5
+      },
+      "tokens": []
+    },
+    {
+      "name": "NavLink",
+      "interactive": true,
+      "states": [
+        "default",
+        "hover",
+        "focus-visible"
+      ],
+      "tokens": [
+        "--z-text-secondary",
+        "--z-primary",
+        "--z-focus-ring"
+      ]
+    },
+    {
+      "name": "Hero",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-bg",
+        "--z-h1-hero"
+      ]
+    },
+    {
+      "name": "GridHorizon",
+      "interactive": false,
+      "states": [
+        "static"
+      ],
+      "ariaHidden": true,
+      "tokens": [
+        "--z-grid-line",
+        "--z-primary"
+      ],
+      "amberBloomAlpha": 0.06,
+      "amberBloomAlphaMax": 0.1
+    },
+    {
+      "name": "ScannerRule",
+      "interactive": false,
+      "states": [
+        "live",
+        "parked"
+      ],
+      "tokens": [
+        "--z-scanner",
+        "--z-scanner-track",
+        "--z-glow-red",
+        "--z-duration-scanner",
+        "--z-ease-scanner"
+      ],
+      "ariaHidden": true
+    },
+    {
+      "name": "TerminalFrame",
+      "interactive": false,
+      "states": [
+        "live",
+        "still",
+        "muted"
+      ],
+      "tokens": [
+        "--z-bg",
+        "--z-border-strong",
+        "--z-font-mono",
+        "--z-radius-md"
+      ],
+      "overflowBackstop": "overflow-x:auto + tabindex=0 + visible focus ring"
+    },
+    {
+      "name": "TerminalChrome",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-text-tertiary",
+        "--z-scanner-track"
+      ]
+    },
+    {
+      "name": "TerminalRow",
+      "interactive": false,
+      "states": [
+        "default",
+        "selected"
+      ],
+      "focusable": false,
+      "tokens": [
+        "--z-surface-overlay",
+        "--z-steel",
+        "--z-primary",
+        "--z-accent",
+        "--z-orchid-500"
+      ]
+    },
+    {
+      "name": "MockupCaption",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-text-tertiary"
+      ],
+      "textSource": "the figure's own alt text in content/landing-copy.md, verbatim",
+      "visible": true,
+      "required": true
+    },
+    {
+      "name": "CTAButton",
+      "interactive": true,
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active"
+      ],
+      "variants": [
+        "primary",
+        "secondary"
+      ],
+      "minHeightPx": {
+        "375": 52,
+        "768": 48,
+        "1280": 48,
+        "1920": 48
+      },
+      "tokens": [
+        "--z-accent",
+        "--z-accent-hover",
+        "--z-accent-contrast",
+        "--z-border-strong",
+        "--z-primary",
+        "--z-glow-cyan",
+        "--z-glow-amber",
+        "--z-focus-ring",
+        "--z-radius-md"
+      ]
+    },
+    {
+      "name": "SectionEyebrow",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "textSource": "zero-padded ratified index + ratified section id, uppercase",
+      "tokens": [
+        "--z-font-mono",
+        "--z-text-tertiary"
+      ]
+    },
+    {
+      "name": "SectionHeading",
+      "interactive": false,
+      "states": [
+        "default",
+        "with-emphasised-clause"
+      ],
+      "tokens": [
+        "--z-font-display",
+        "--z-text",
+        "--z-primary",
+        "--z-text-secondary"
+      ]
+    },
+    {
+      "name": "MakerLine",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-text-secondary",
+        "--z-text",
+        "--z-border"
+      ]
+    },
+    {
+      "name": "ProblemStack",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-text",
+        "--z-primary"
+      ],
+      "lineCount": 3
+    },
+    {
+      "name": "MoodCard",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "hover": false,
+      "tokens": [
+        "--z-surface-raised",
+        "--z-border-strong",
+        "--z-text",
+        "--z-text-secondary",
+        "--z-text-tertiary",
+        "--z-radius-md"
+      ]
+    },
+    {
+      "name": "StateChip",
+      "interactive": false,
+      "states": [
+        "notStarted",
+        "inProgress",
+        "zerado",
+        "abandoned",
+        "emphasised"
+      ],
+      "coRender": [
+        "color",
+        "glyph",
+        "label"
+      ],
+      "tokens": [
+        "--z-steel",
+        "--z-primary",
+        "--z-accent",
+        "--z-orchid-500",
+        "--z-glow-cyan"
+      ]
+    },
+    {
+      "name": "StateLegend",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": []
+    },
+    {
+      "name": "StoreRow",
+      "interactive": false,
+      "states": [
+        "live",
+        "planned"
+      ],
+      "tokens": [
+        "--z-accent",
+        "--z-text-tertiary"
+      ]
+    },
+    {
+      "name": "CoverTile",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "hover": false,
+      "aspectRatio": "3 / 4",
+      "tokens": [
+        "--z-grid-line",
+        "--z-primary",
+        "--z-accent",
+        "--z-orchid-500",
+        "--z-steel",
+        "--z-void"
+      ]
+    },
+    {
+      "name": "PlatformTag",
+      "interactive": false,
+      "states": [
+        "store",
+        "physical"
+      ],
+      "plate": "--z-surface",
+      "coRender": [
+        "color",
+        "glyph",
+        "label"
+      ],
+      "tokens": [
+        "--z-steel",
+        "--z-primary",
+        "--z-surface"
+      ]
+    },
+    {
+      "name": "CoverGrid",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "role": "img",
+      "childrenAriaHidden": true,
+      "tokens": []
+    },
+    {
+      "name": "PriceCard",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-surface-raised",
+        "--z-primary",
+        "--z-steel",
+        "--z-amber-900",
+        "--z-border-strong"
+      ]
+    },
+    {
+      "name": "Sparkline",
+      "interactive": false,
+      "states": [
+        "static"
+      ],
+      "ariaHidden": true,
+      "barCount": 16,
+      "tokens": [
+        "--z-amber-900",
+        "--z-primary",
+        "--z-steel"
+      ]
+    },
+    {
+      "name": "TrustPoint",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-text",
+        "--z-text-secondary",
+        "--z-primary"
+      ]
+    },
+    {
+      "name": "PhoneFrame",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-surface",
+        "--z-void",
+        "--z-border-strong",
+        "--z-phone-radius"
+      ],
+      "radiusExceptionPx": 28,
+      "exceptionReason": "depicts hardware, not UI chrome; the machined radius scale would read as a defect"
+    },
+    {
+      "name": "PhaseBadge",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "text": "PHASE 4 · NOT AVAILABLE YET",
+      "tokens": [
+        "--z-primary",
+        "--z-surface-raised"
+      ]
+    },
+    {
+      "name": "CommunityPanel",
+      "interactive": false,
+      "states": [
+        "muted"
+      ],
+      "watermarkAlpha": 0.14,
+      "watermarkAriaHidden": true,
+      "tokens": [
+        "--z-chrome-500",
+        "--z-surface"
+      ]
+    },
+    {
+      "name": "RoadmapTrack",
+      "interactive": false,
+      "states": [
+        "4up",
+        "2x2",
+        "vertical"
+      ],
+      "tokens": [
+        "--z-border-strong",
+        "--z-steel"
+      ]
+    },
+    {
+      "name": "PhaseCard",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "hover": false,
+      "tokens": [
+        "--z-surface-raised",
+        "--z-border-strong"
+      ]
+    },
+    {
+      "name": "StatusMarker",
+      "interactive": false,
+      "states": [
+        "planned"
+      ],
+      "shipsAs": {
+        "--z-status-color": "--z-steel",
+        "--z-status-track": "--z-amber-900",
+        "--z-status-glyph": "○",
+        "--z-status-label": "PLANNED"
+      },
+      "tokens": [
+        "--z-steel",
+        "--z-amber-900"
+      ]
+    },
+    {
+      "name": "SpeculationBlock",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "border": "1px dashed --z-border-strong",
+      "fill": "none",
+      "tokens": [
+        "--z-border-strong",
+        "--z-text-secondary"
+      ]
+    },
+    {
+      "name": "FAQItem",
+      "interactive": true,
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open"
+      ],
+      "element": "details/summary",
+      "minRowHeightPx": 56,
+      "tokens": [
+        "--z-border",
+        "--z-primary",
+        "--z-primary-hover",
+        "--z-focus-ring",
+        "--z-duration-base",
+        "--z-duration-fast"
+      ]
+    },
+    {
+      "name": "ClosingCTA",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-surface",
+        "--z-scanner-track"
+      ]
+    },
+    {
+      "name": "Footer",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "tokens": [
+        "--z-surface",
+        "--z-border"
+      ]
+    },
+    {
+      "name": "FooterLink",
+      "interactive": true,
+      "states": [
+        "default",
+        "hover",
+        "focus-visible"
+      ],
+      "minTargetPx": 44,
+      "tokens": [
+        "--z-text-link",
+        "--z-text-link-hover",
+        "--z-focus-ring"
+      ]
+    },
+    {
+      "name": "PoweredByFlowForge",
+      "interactive": false,
+      "states": [
+        "default"
+      ],
+      "asset": "site/public/flowforge-logo.svg",
+      "sizePx": 28,
+      "tokens": [
+        "--z-text-tertiary"
+      ]
+    }
+  ],
+  "componentCount": 38,
+  "interactiveComponentTypes": 7,
+  "focusableElementCount": {
+    "atOrAbove768": 16,
+    "at375": 15,
+    "note": "includes the mandatory Powered-by-FlowForge footer link; header GitHub link is hidden at 375 per the no-hamburger rule"
+  },
+  "focusableElementBreakdown": {
+    "links": 9,
+    "faqDisclosures": 6
+  },
+  "focusableElementDerivation": "chrome.skipLink(1) + chrome.header(2) + sum(sections[].interactiveElements)(12) = 15",
+  "terminalFrames": {
+    "monoAdvanceEm": 0.6,
+    "columnBudget": {
+      "375": 39,
+      "768": 87,
+      "1280": 125,
+      "1920": 125
+    },
+    "monoSizePx": {
+      "375": 13,
+      "768": 13,
+      "1280": 15,
+      "1920": 15
+    },
+    "framePaddingPx": {
+      "375": 12,
+      "768": 16,
+      "1280": 24,
+      "1920": 24
+    },
+    "instances": [
+      {
+        "id": "TF-1",
+        "section": "hero",
+        "variant": "live",
+        "view": "library",
+        "paneLayout": {
+          "375": "single-pane, two-line rows",
+          "768": "single-pane, one-line rows",
+          "1280": "two-pane 80/3/42",
+          "1920": "two-pane 80/3/42"
+        },
+        "chromeLeft": "zerado — library",
+        "chromeRight": "412 games · 6 zerado",
+        "keybar": "↑↓ move · enter open · m mood · / filter · q quit",
+        "rows": [
+          {
+            "state": "inProgress",
+            "title": "Hollow Knight",
+            "platform": "STEAM",
+            "hours": "42h"
+          },
+          {
+            "state": "zerado",
+            "title": "Celeste",
+            "platform": "STEAM",
+            "hours": "11h",
+            "selected": true
+          },
+          {
+            "state": "notStarted",
+            "title": "Disco Elysium",
+            "platform": "GOG",
+            "hours": "0h"
+          },
+          {
+            "state": "abandoned",
+            "title": "Dark Souls III",
+            "platform": "STEAM",
+            "hours": "6h"
+          },
+          {
+            "state": "inProgress",
+            "title": "Hades",
+            "platform": "STEAM",
+            "hours": "28h"
+          },
+          {
+            "state": "notStarted",
+            "title": "Chrono Trigger",
+            "platform": "PHYSICAL",
+            "hours": "—"
+          }
+        ],
+        "rail": {
+          "droppedBelowPx": 1280,
+          "counts": {
+            "notStarted": 288,
+            "inProgress": 9,
+            "zerado": 6,
+            "abandoned": 109
+          },
+          "sum": 412
+        },
+        "captionSource": "content/landing-copy.md #01 image slot alt text"
+      },
+      {
+        "id": "TF-2",
+        "section": "moods",
+        "variant": "still",
+        "view": "mood picker",
+        "paneLayout": {
+          "375": "stacked",
+          "768": "two-column",
+          "1280": "two-column",
+          "1920": "two-column"
+        },
+        "moods": [
+          "Mindless grind",
+          "Story rich, kind of sad",
+          "Quick fifteen minutes",
+          "Tactical, full focus"
+        ],
+        "moodSource": "content/landing-copy.md #04 card titles, verbatim, in order",
+        "captionSource": "content/landing-copy.md #04 image slot alt text"
+      },
+      {
+        "id": "TF-3",
+        "section": "terminal-first",
+        "variant": "still",
+        "view": "game detail",
+        "paneLayout": {
+          "375": "single-column",
+          "768": "single-column",
+          "1280": "single-column",
+          "1920": "single-column"
+        },
+        "game": "Hollow Knight",
+        "state": "inProgress",
+        "hours": "42h",
+        "priceFigures": {
+          "today": "$15",
+          "allTimeLow": "$8",
+          "when": "3 months ago",
+          "verdict": "maybe wait"
+        },
+        "priceSource": "content/landing-copy.md #07 worked example, verbatim",
+        "longestLineCells": 38,
+        "captionSource": "content/landing-copy.md #09 image slot alt text"
+      }
+    ],
+    "coRenderRule": "colour AND glyph AND label; the state label is never dropped at any breakpoint — rows reformat to two lines instead"
+  },
+  "coverGrid": {
+    "realGameCoverArt": false,
+    "reason": "cover art is copyrighted; the page is commercial (affiliate model) and must be fully self-contained; IGDB commercial licensing is an open risk per decisions.md",
+    "tileCount": 12,
+    "aspectRatio": "3 / 4",
+    "columns": {
+      "375": 3,
+      "768": 4,
+      "1280": 6,
+      "1920": 6
+    },
+    "gapPx": {
+      "375": 12,
+      "768": 16,
+      "1280": 16,
+      "1920": 16
+    },
+    "treatments": [
+      "A:grid-horizon",
+      "B:scanline-field",
+      "C:brushed-panel",
+      "D:phosphor-arc"
+    ],
+    "hueKeys": [
+      "amber",
+      "cyan",
+      "orchid",
+      "steel"
+    ],
+    "sequence": [
+      {
+        "n": 1,
+        "treatment": "A",
+        "hue": "amber",
+        "platformTag": "STEAM"
+      },
+      {
+        "n": 2,
+        "treatment": "B",
+        "hue": "cyan",
+        "platformTag": "STEAM"
+      },
+      {
+        "n": 3,
+        "treatment": "C",
+        "hue": "steel",
+        "platformTag": "GOG"
+      },
+      {
+        "n": 4,
+        "treatment": "D",
+        "hue": "orchid",
+        "platformTag": "STEAM"
+      },
+      {
+        "n": 5,
+        "treatment": "B",
+        "hue": "amber",
+        "platformTag": "PS"
+      },
+      {
+        "n": 6,
+        "treatment": "A",
+        "hue": "cyan",
+        "platformTag": "STEAM"
+      },
+      {
+        "n": 7,
+        "treatment": "D",
+        "hue": "steel",
+        "platformTag": "EA"
+      },
+      {
+        "n": 8,
+        "treatment": "C",
+        "hue": "orchid",
+        "platformTag": "STEAM"
+      },
+      {
+        "n": 9,
+        "treatment": "B",
+        "hue": "orchid",
+        "platformTag": "PHYSICAL"
+      },
+      {
+        "n": 10,
+        "treatment": "A",
+        "hue": "steel",
+        "platformTag": "GOG"
+      },
+      {
+        "n": 11,
+        "treatment": "D",
+        "hue": "amber",
+        "platformTag": "PS"
+      },
+      {
+        "n": 12,
+        "treatment": "C",
+        "hue": "cyan",
+        "platformTag": "STEAM"
+      }
+    ],
+    "tagDistribution": {
+      "STEAM": 6,
+      "GOG": 2,
+      "PS": 2,
+      "EA": 1,
+      "PHYSICAL": 1
+    },
+    "tagOnSolidPlate": true,
+    "tileTitles": "none — no invented and no real game titles on tiles",
+    "captionExtraLine": {
+      "text": "Cover tiles are illustrative artwork, not real game covers.",
+      "authoredBy": "design",
+      "flagged": "the one string on the page not drawn from content/landing-copy.md; content may re-word, the disclosure requirement stands"
+    }
+  },
+  "motion": {
+    "audio": false,
+    "audioRationale": "synthwave feeling is carried by the visual and motion register — scanner sweep, grid horizon, neon glow, amber CRT readout. Autoplay is blocked, sound-on-load is an accessibility failure, and an audio asset would dominate the byte budget of a page that ships zero images.",
+    "scrollTriggered": false,
+    "parallax": false,
+    "entries": [
+      {
+        "id": "scanner-sweep",
+        "where": "section 01 bottom edge",
+        "instances": 1,
+        "durationMs": 2400,
+        "easing": "--z-ease-scanner",
+        "iteration": "infinite alternate",
+        "reducedMotion": "pip parks at track centre, full opacity, travel stops; never hidden"
+      },
+      {
+        "id": "scanner-parked",
+        "where": "TF-1/2/3 chrome bars + section 15 top edge",
+        "instances": 4,
+        "durationMs": 0,
+        "easing": null,
+        "iteration": "none",
+        "reducedMotion": "unchanged (already static)"
+      },
+      {
+        "id": "cta-primary-hover",
+        "where": "3 primary buttons",
+        "instances": 3,
+        "durationMs": 140,
+        "easing": "--z-ease-standard",
+        "reducedMotion": "1ms"
+      },
+      {
+        "id": "cta-secondary-hover",
+        "where": "1 secondary button",
+        "instances": 1,
+        "durationMs": 140,
+        "easing": "--z-ease-standard",
+        "reducedMotion": "1ms"
+      },
+      {
+        "id": "focus-ring",
+        "where": "all 15 focusable elements",
+        "instances": 15,
+        "durationMs": 90,
+        "easing": "--z-ease-standard",
+        "reducedMotion": "1ms — the ring itself always appears"
+      },
+      {
+        "id": "link-underline",
+        "where": "4 links",
+        "instances": 4,
+        "durationMs": 140,
+        "easing": "--z-ease-standard",
+        "reducedMotion": "1ms"
+      },
+      {
+        "id": "faq-expand",
+        "where": "6 FAQ items",
+        "instances": 6,
+        "durationMs": 220,
+        "easing": "--z-ease-out",
+        "reducedMotion": "1ms"
+      },
+      {
+        "id": "faq-collapse",
+        "where": "6 FAQ items",
+        "instances": 6,
+        "durationMs": 140,
+        "easing": "--z-ease-in",
+        "reducedMotion": "1ms"
+      },
+      {
+        "id": "grid-horizon",
+        "where": "section 01 backdrop",
+        "instances": 1,
+        "durationMs": 0,
+        "easing": null,
+        "reducedMotion": "unchanged (static)"
+      }
+    ],
+    "forbidden": [
+      "scroll-reveal",
+      "parallax",
+      "marquee",
+      "typewriter",
+      "count-up",
+      "hover-lift",
+      "carousel",
+      "autoplay",
+      "spring",
+      "bounce",
+      "elastic",
+      "overshoot"
+    ]
+  },
+  "accessibility": {
+    "standard": "WCAG 2.2 Level AA",
+    "lang": "en",
+    "foreignPhraseLang": {
+      "zerado": "pt-BR",
+      "sinopse": "pt-BR"
+    },
+    "landmarks": [
+      "banner",
+      "main",
+      "contentinfo"
+    ],
+    "h1Count": 1,
+    "skipLink": {
+      "present": true,
+      "target": "#main",
+      "first": true
+    },
+    "focusRingRemovable": false,
+    "positiveTabindex": false,
+    "domOrderEqualsVisualOrder": true,
+    "focusTraps": 0,
+    "minTouchTargetPx": {
+      "buttons": 48,
+      "textLinks": 24,
+      "note": "48 applies to button-styled CTAs (measured 44-52). The header 'View on GitHub' is a text link at 25px, which meets WCAG 2.2 SC 2.5.8 (24x24); axe reports zero target-size violations."
+    },
+    "unnamedRegionsPolicy": "sections without a visible heading get no invented aria-label and are not landmark regions",
+    "colorAloneMeaning": false,
+    "forcedColors": "surrenders colour to the OS; glyph and label carry state; terminal frames keep a 1px border",
+    "contrastPairs": [
+      {
+        "pair": "--z-text on --z-surface",
+        "ratio": 16.65,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-text on --z-bg",
+        "ratio": 17.37,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-text-secondary on --z-surface",
+        "ratio": 9.36,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-text-secondary on --z-surface-raised",
+        "ratio": 8.41,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-text-tertiary on --z-surface",
+        "ratio": 6.15,
+        "min": 4.5,
+        "grade": "AA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-text-tertiary on --z-surface-raised",
+        "ratio": 5.53,
+        "min": 4.5,
+        "grade": "AA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-text-tertiary on --z-surface-overlay",
+        "ratio": 4.89,
+        "min": 4.5,
+        "grade": "AA",
+        "source": "brand-manual.md 4.2",
+        "note": "worst text pair in the system and on this page"
+      },
+      {
+        "pair": "--z-primary on --z-surface",
+        "ratio": 10.59,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-primary on --z-bg",
+        "ratio": 11.05,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-primary on --z-surface-raised",
+        "ratio": 9.53,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-accent-contrast on --z-accent",
+        "ratio": 12.68,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-accent-contrast on --z-accent-hover",
+        "ratio": 15.45,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-text-link on --z-surface",
+        "ratio": 12.15,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-text-link-hover on --z-surface",
+        "ratio": 14.81,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-steel on --z-bg",
+        "ratio": 7.95,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-steel on --z-surface",
+        "ratio": 7.62,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-steel on --z-surface-raised",
+        "ratio": 6.85,
+        "min": 4.5,
+        "grade": "AA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-orchid-500 on --z-bg",
+        "ratio": 7.53,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-accent on --z-bg",
+        "ratio": 12.68,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-text on hero amber bloom #1E1709",
+        "ratio": 15.24,
+        "min": 4.5,
+        "grade": "AAA",
+        "source": "computed at the 10% alpha cap"
+      },
+      {
+        "pair": "--z-focus-ring on --z-bg",
+        "ratio": 12.68,
+        "min": 3.0,
+        "grade": "AAA",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-focus-ring on --z-surface-raised",
+        "ratio": 10.93,
+        "min": 3.0,
+        "grade": "AAA",
+        "source": "computed"
+      },
+      {
+        "pair": "--z-border-strong on --z-surface",
+        "ratio": 4.08,
+        "min": 3.0,
+        "grade": "pass-1.4.11",
+        "source": "brand-manual.md 4.2"
+      },
+      {
+        "pair": "--z-border-strong on --z-surface-overlay",
+        "ratio": 3.24,
+        "min": 3.0,
+        "grade": "pass-1.4.11",
+        "source": "computed"
+      }
+    ],
+    "worstTextPairOnPage": {
+      "pair": "--z-text-tertiary on --z-surface-overlay",
+      "ratio": 4.89,
+      "verdict": "PASS"
+    },
+    "rejectedPairs": [
+      {
+        "pair": "--z-amber-900 #8A5E00 on --z-surface-raised",
+        "ratio": 3.06,
+        "intendedUse": "roadmap PLANNED label",
+        "verdict": "FAIL as text",
+        "replacedWith": "--z-steel #A5A29B at 6.85",
+        "salvage": "kept as the non-text status track fill"
+      },
+      {
+        "pair": "--z-cyan-900 #0B6C7D on --z-surface-raised",
+        "ratio": 2.87,
+        "intendedUse": "planned-store rows (PSN/GOG/EA)",
+        "verdict": "FAIL as text",
+        "replacedWith": "--z-text-tertiary #8492A8 at 5.53"
+      },
+      {
+        "pair": "--z-scanner-500 #FF2E2E on --z-surface-overlay",
+        "ratio": 4.17,
+        "intendedUse": "price verdict 'maybe wait'",
+        "verdict": "FAIL as text",
+        "replacedWith": "--z-primary #FFB000 at 9.53",
+        "salvage": "brand reserves scanner red for motion and alarm; a readout is neither"
+      },
+      {
+        "pair": "--z-slate-500 #64748B on --z-surface-overlay",
+        "ratio": 3.24,
+        "intendedUse": "caption text on overlay cards",
+        "verdict": "FAIL as text",
+        "replacedWith": "--z-text-secondary #A9B5C7 at 7.43",
+        "salvage": "remains the UI boundary token, where 3.24 satisfies 1.4.11"
+      },
+      {
+        "pair": "--z-border #2A3342 as a control edge",
+        "ratio": 1.53,
+        "intendedUse": "card and control edges",
+        "verdict": "FAIL 1.4.11",
+        "replacedWith": "--z-border-strong #64748B",
+        "salvage": "restricted to hairlines between content blocks"
+      }
+    ],
+    "contrastMethod": "WCAG 2.2 relative luminance; verified to reproduce all 16 figures published in brand-manual.md 4.2 exactly"
+  },
+  "performance": {
+    "lcpCandidate": "section 01 h1 text",
+    "rasterImages": 0,
+    "svgAssets": [
+      "site/public/logo.svg",
+      "site/public/favicon.svg",
+      "site/public/flowforge-logo.svg"
+    ],
+    "unusedBrandAssets": [
+      "logo-mark.svg",
+      "logo-mono-white.svg",
+      "logo-mono-black.svg"
+    ],
+    "ogImage": {
+      "src": "/og-card.png",
+      "absolute": "https://zerado.app/og-card.png",
+      "width": 1200,
+      "height": 630,
+      "note": "1200x630 branded card, built after this manifest was authored. Not loaded by the page itself, so the zero-raster render budget is unaffected."
+    },
+    "ogImageReason": "no such asset exists (content/seo.md); emitting a path that 404s is worse than omitting the tag",
+    "clsDefence": [
+      "terminal frames set explicit min-block-size from row count",
+      "cover tiles set aspect-ratio 3/4",
+      "phone frames fixed dimensions",
+      "no post-paint injection because there is no script"
+    ],
+    "scriptBytes": 0
+  }
+}

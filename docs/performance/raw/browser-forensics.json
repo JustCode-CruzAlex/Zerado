@@ -1,0 +1,622 @@
+[
+ {
+  "cls": 0,
+  "shifts": [],
+  "lcp": {
+   "time": 108,
+   "size": 95976,
+   "el": "P.z-body-lg.z-hero__subhead",
+   "text": "\nZerado reads your entire library — Steam first, then PlayStation, GOG"
+  },
+  "fonts": [
+   {
+    "fam": "Orbitron",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   }
+  ],
+  "h1": {
+   "w": 372,
+   "h": 100.1,
+   "top": 165,
+   "font": "Orbitron"
+  },
+  "subhead": {
+   "w": 372,
+   "h": 266,
+   "top": 289.1,
+   "font": "\"Space Grotesk\""
+  },
+  "heroFig": {
+   "w": 372,
+   "h": 487.9,
+   "top": 827.1,
+   "font": "\"Space Grotesk\""
+  },
+  "docH": 14446,
+  "resources": [
+   {
+    "n": "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+    "size": 22620,
+    "dec": 22320,
+    "start": 43,
+    "end": 54
+   },
+   {
+    "n": "http://localhost:4321/fonts/Orbitron-latin.woff2",
+    "size": 12068,
+    "dec": 11768,
+    "start": 43,
+    "end": 54
+   },
+   {
+    "n": "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+    "size": 40780,
+    "dec": 40480,
+    "start": 43,
+    "end": 54
+   },
+   {
+    "n": "http://localhost:4321/fonts.css",
+    "size": 865,
+    "dec": 2285,
+    "start": 44,
+    "end": 57
+   },
+   {
+    "n": "http://localhost:4321/logo.svg",
+    "size": 870,
+    "dec": 1180,
+    "start": 44,
+    "end": 57
+   },
+   {
+    "n": "http://localhost:4321/_astro/index.af0tTXyW.css",
+    "size": 8000,
+    "dec": 39481,
+    "start": 44,
+    "end": 59
+   },
+   {
+    "n": "http://localhost:4321/favicon.svg",
+    "size": 666,
+    "dec": 366,
+    "start": 100,
+    "end": 102
+   }
+  ],
+  "nav": {
+   "ttfb": 5,
+   "domcl": 46.1,
+   "load": 59.7
+  },
+  "fcp": 108,
+  "label": "mobile-cold-nothrottle",
+  "allRequests": [
+   "http://localhost:4321/",
+   "http://localhost:4321/fonts/Orbitron-latin.woff2",
+   "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+   "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+   "http://localhost:4321/fonts.css",
+   "http://localhost:4321/_astro/index.af0tTXyW.css",
+   "http://localhost:4321/logo.svg",
+   "http://localhost:4321/favicon.svg"
+  ]
+ },
+ {
+  "cls": 0,
+  "shifts": [],
+  "lcp": {
+   "time": 708,
+   "size": 93075,
+   "el": "P.z-body-lg.z-hero__subhead",
+   "text": "\nZerado reads your entire library — Steam first, then PlayStation, GOG"
+  },
+  "fonts": [
+   {
+    "fam": "Orbitron",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   }
+  ],
+  "h1": {
+   "w": 372,
+   "h": 100.1,
+   "top": 165,
+   "font": "Orbitron"
+  },
+  "subhead": {
+   "w": 372,
+   "h": 266,
+   "top": 289.1,
+   "font": "\"Space Grotesk\""
+  },
+  "heroFig": {
+   "w": 372,
+   "h": 487.9,
+   "top": 827.1,
+   "font": "\"Space Grotesk\""
+  },
+  "docH": 14446,
+  "resources": [
+   {
+    "n": "http://localhost:4321/fonts/Orbitron-latin.woff2",
+    "size": 12068,
+    "dec": 11768,
+    "start": 173,
+    "end": 559
+   },
+   {
+    "n": "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+    "size": 22620,
+    "dec": 22320,
+    "start": 174,
+    "end": 667
+   },
+   {
+    "n": "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+    "size": 40780,
+    "dec": 40480,
+    "start": 174,
+    "end": 759
+   },
+   {
+    "n": "http://localhost:4321/fonts.css",
+    "size": 865,
+    "dec": 2285,
+    "start": 174,
+    "end": 345
+   },
+   {
+    "n": "http://localhost:4321/logo.svg",
+    "size": 870,
+    "dec": 1180,
+    "start": 174,
+    "end": 388
+   },
+   {
+    "n": "http://localhost:4321/_astro/index.af0tTXyW.css",
+    "size": 8000,
+    "dec": 39481,
+    "start": 174,
+    "end": 509
+   },
+   {
+    "n": "http://localhost:4321/favicon.svg",
+    "size": 666,
+    "dec": 366,
+    "start": 769,
+    "end": 932
+   }
+  ],
+  "nav": {
+   "ttfb": 3.3,
+   "domcl": 209.9,
+   "load": 511
+  },
+  "fcp": 708,
+  "label": "mobile-cold-slow4g",
+  "allRequests": [
+   "http://localhost:4321/",
+   "http://localhost:4321/fonts/Orbitron-latin.woff2",
+   "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+   "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+   "http://localhost:4321/fonts.css",
+   "http://localhost:4321/_astro/index.af0tTXyW.css",
+   "http://localhost:4321/logo.svg",
+   "http://localhost:4321/favicon.svg"
+  ]
+ },
+ {
+  "cls": 0,
+  "shifts": [],
+  "lcp": {
+   "time": 1884,
+   "size": 93075,
+   "el": "P.z-body-lg.z-hero__subhead",
+   "text": "\nZerado reads your entire library — Steam first, then PlayStation, GOG"
+  },
+  "fonts": [
+   {
+    "fam": "Orbitron",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   }
+  ],
+  "h1": {
+   "w": 372,
+   "h": 100.1,
+   "top": 165,
+   "font": "Orbitron"
+  },
+  "subhead": {
+   "w": 372,
+   "h": 266,
+   "top": 289.1,
+   "font": "\"Space Grotesk\""
+  },
+  "heroFig": {
+   "w": 372,
+   "h": 487.9,
+   "top": 827.1,
+   "font": "\"Space Grotesk\""
+  },
+  "docH": 14446,
+  "resources": [
+   {
+    "n": "http://localhost:4321/fonts/Orbitron-latin.woff2",
+    "size": 12068,
+    "dec": 11768,
+    "start": 469,
+    "end": 1843
+   },
+   {
+    "n": "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+    "size": 22620,
+    "dec": 22320,
+    "start": 470,
+    "end": 2283
+   },
+   {
+    "n": "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+    "size": 40780,
+    "dec": 40480,
+    "start": 470,
+    "end": 2693
+   },
+   {
+    "n": "http://localhost:4321/fonts.css",
+    "size": 865,
+    "dec": 2285,
+    "start": 471,
+    "end": 993
+   },
+   {
+    "n": "http://localhost:4321/logo.svg",
+    "size": 870,
+    "dec": 1180,
+    "start": 471,
+    "end": 1139
+   },
+   {
+    "n": "http://localhost:4321/_astro/index.af0tTXyW.css",
+    "size": 8000,
+    "dec": 39481,
+    "start": 471,
+    "end": 1636
+   },
+   {
+    "n": "http://localhost:4321/favicon.svg",
+    "size": 666,
+    "dec": 366,
+    "start": 1920,
+    "end": 2370
+   }
+  ],
+  "nav": {
+   "ttfb": 2.8,
+   "domcl": 620.7,
+   "load": 1639.3
+  },
+  "fcp": 1884,
+  "label": "mobile-cold-400kbps-cpu6",
+  "allRequests": [
+   "http://localhost:4321/",
+   "http://localhost:4321/fonts/Orbitron-latin.woff2",
+   "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+   "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+   "http://localhost:4321/fonts.css",
+   "http://localhost:4321/_astro/index.af0tTXyW.css",
+   "http://localhost:4321/logo.svg",
+   "http://localhost:4321/favicon.svg"
+  ]
+ },
+ {
+  "cls": 0,
+  "shifts": [],
+  "lcp": {
+   "time": 112,
+   "size": 100330,
+   "el": "P.z-body-lg.z-hero__subhead",
+   "text": "\nZerado reads your entire library — Steam first, then PlayStation, GOG"
+  },
+  "fonts": [
+   {
+    "fam": "Orbitron",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "loaded",
+    "range": "U+0-FF, U+131, U+152-153"
+   }
+  ],
+  "h1": {
+   "w": 650.3,
+   "h": 168.5,
+   "top": 193,
+   "font": "Orbitron"
+  },
+  "subhead": {
+   "w": 650.3,
+   "h": 166.3,
+   "top": 385.5,
+   "font": "\"Space Grotesk\""
+  },
+  "heroFig": {
+   "w": 1132,
+   "h": 355.9,
+   "top": 727.7,
+   "font": "\"Space Grotesk\""
+  },
+  "docH": 11442,
+  "resources": [
+   {
+    "n": "http://localhost:4321/fonts/Orbitron-latin.woff2",
+    "size": 12068,
+    "dec": 11768,
+    "start": 41,
+    "end": 47
+   },
+   {
+    "n": "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+    "size": 22620,
+    "dec": 22320,
+    "start": 41,
+    "end": 47
+   },
+   {
+    "n": "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+    "size": 40780,
+    "dec": 40480,
+    "start": 42,
+    "end": 48
+   },
+   {
+    "n": "http://localhost:4321/fonts.css",
+    "size": 865,
+    "dec": 2285,
+    "start": 42,
+    "end": 50
+   },
+   {
+    "n": "http://localhost:4321/logo.svg",
+    "size": 870,
+    "dec": 1180,
+    "start": 42,
+    "end": 51
+   },
+   {
+    "n": "http://localhost:4321/_astro/index.af0tTXyW.css",
+    "size": 8000,
+    "dec": 39481,
+    "start": 42,
+    "end": 51
+   },
+   {
+    "n": "http://localhost:4321/favicon.svg",
+    "size": 666,
+    "dec": 366,
+    "start": 94,
+    "end": 98
+   }
+  ],
+  "nav": {
+   "ttfb": 5.9,
+   "domcl": 45.5,
+   "load": 51.9
+  },
+  "fcp": 112,
+  "label": "desktop-cold-nothrottle",
+  "allRequests": [
+   "http://localhost:4321/",
+   "http://localhost:4321/fonts/Orbitron-latin.woff2",
+   "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+   "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+   "http://localhost:4321/fonts.css",
+   "http://localhost:4321/_astro/index.af0tTXyW.css",
+   "http://localhost:4321/logo.svg",
+   "http://localhost:4321/favicon.svg"
+  ]
+ },
+ {
+  "cls": 0,
+  "shifts": [],
+  "lcp": {
+   "time": 224,
+   "size": 93075,
+   "el": "P.z-body-lg.z-hero__subhead",
+   "text": "\nZerado reads your entire library — Steam first, then PlayStation, GOG"
+  },
+  "fonts": [
+   {
+    "fam": "Orbitron",
+    "status": "error",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "Space Grotesk",
+    "status": "error",
+    "range": "U+0-FF, U+131, U+152-153"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "unloaded",
+    "range": "U+100-2BA, U+2BD-2C5, U+"
+   },
+   {
+    "fam": "JetBrains Mono",
+    "status": "error",
+    "range": "U+0-FF, U+131, U+152-153"
+   }
+  ],
+  "h1": {
+   "w": 372,
+   "h": 100.1,
+   "top": 165,
+   "font": "Orbitron"
+  },
+  "subhead": {
+   "w": 372,
+   "h": 266,
+   "top": 289.1,
+   "font": "\"Space Grotesk\""
+  },
+  "heroFig": {
+   "w": 372,
+   "h": 487.9,
+   "top": 827.1,
+   "font": "\"Space Grotesk\""
+  },
+  "docH": 14241,
+  "resources": [
+   {
+    "n": "http://localhost:4321/fonts/Orbitron-latin.woff2",
+    "size": 0,
+    "dec": 0,
+    "start": 105,
+    "end": 170
+   },
+   {
+    "n": "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+    "size": 0,
+    "dec": 0,
+    "start": 106,
+    "end": 173
+   },
+   {
+    "n": "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+    "size": 0,
+    "dec": 0,
+    "start": 106,
+    "end": 173
+   },
+   {
+    "n": "http://localhost:4321/fonts.css",
+    "size": 865,
+    "dec": 2285,
+    "start": 106,
+    "end": 178
+   },
+   {
+    "n": "http://localhost:4321/logo.svg",
+    "size": 870,
+    "dec": 1180,
+    "start": 106,
+    "end": 179
+   },
+   {
+    "n": "http://localhost:4321/_astro/index.af0tTXyW.css",
+    "size": 8000,
+    "dec": 39481,
+    "start": 106,
+    "end": 179
+   },
+   {
+    "n": "http://localhost:4321/favicon.svg",
+    "size": 666,
+    "dec": 366,
+    "start": 219,
+    "end": 227
+   }
+  ],
+  "nav": {
+   "ttfb": 77.8,
+   "domcl": 108.2,
+   "load": 211.9
+  },
+  "fcp": 224,
+  "label": "mobile-fonts-blocked",
+  "allRequests": [
+   "http://localhost:4321/",
+   "http://localhost:4321/fonts/Orbitron-latin.woff2",
+   "http://localhost:4321/fonts/SpaceGrotesk-latin.woff2",
+   "http://localhost:4321/fonts/JetBrainsMono-latin.woff2",
+   "http://localhost:4321/fonts.css",
+   "http://localhost:4321/_astro/index.af0tTXyW.css",
+   "http://localhost:4321/logo.svg",
+   "http://localhost:4321/favicon.svg"
+  ]
+ }
+]

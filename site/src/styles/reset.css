@@ -1,0 +1,69 @@
+/* ============================================================================
+   ZERADO — MINIMAL RESET
+   A small, deliberate reset. Nothing here fights the token system in tokens.css.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Reason: NOT height: 100% — that clips <body> to one viewport tall and
+   turns it into its own internal scroll container, breaking normal page
+   scroll for content taller than the viewport (every section on this page
+   is). min-height keeps a short page filling the viewport without capping
+   a tall one. */
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+/* Respect a user's reduced-motion preference at the reset level too — belt and
+   braces alongside the explicit per-component rules in motion.css. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

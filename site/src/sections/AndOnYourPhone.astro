@@ -1,0 +1,71 @@
+---
+/**
+ * Section 10 — and-on-your-phone. Two overlapped PhoneFrames (≥768), one
+ * dropped at <768. Ref: design/blueprint.md §2 (§10); content/landing-copy.md §10.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PhoneFrame from '../components/PhoneFrame.astro';
+import MockupCaption from '../components/MockupCaption.astro';
+---
+
+<section id="and-on-your-phone" aria-labelledby="and-on-your-phone-heading" class="z-section z-section--surface">
+  <div class="z-container-narrow z-phone-section__intro">
+    <SectionEyebrow index={10} id="and-on-your-phone" />
+    <SectionHeading id="and-on-your-phone-heading" text="And on your phone, later" />
+    <p class="z-body-lg">
+      Native iOS and Android apps are planned for Phase 4 — the same library, the same states,
+      the same mood sort, in your pocket instead of your terminal. The old form and the new form,
+      one product.
+    </p>
+  </div>
+
+  <figure class="z-phone-section__figure" role="img" aria-labelledby="phone-caption">
+    <div class="z-phone-section__frames">
+      <PhoneFrame rear />
+      <PhoneFrame />
+    </div>
+    <MockupCaption
+      id="phone-caption"
+      text="An illustration of two phone frames representing the planned iOS and Android apps. Not built yet — Phase 4."
+    />
+  </figure>
+</section>
+
+<style>
+  .z-phone-section__intro {
+    text-align: center;
+    margin-inline: auto;
+    margin-block-end: var(--z-space-8);
+  }
+
+  .z-phone-section__intro .z-body-lg {
+    color: var(--z-text-secondary);
+  }
+
+  .z-phone-section__figure {
+    text-align: center;
+  }
+
+  .z-phone-section__frames {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  .z-phone-section__frames :global(.z-phone--rear) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .z-phone-section__frames {
+      inline-size: 272px;
+      block-size: 504px;
+    }
+
+    .z-phone-section__frames :global(.z-phone--rear) {
+      display: block;
+    }
+  }
+</style>

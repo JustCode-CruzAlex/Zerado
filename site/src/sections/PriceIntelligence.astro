@@ -1,0 +1,49 @@
+---
+/**
+ * Section 07 — price-intelligence. One centred PriceCard, max 560px.
+ * Ref: design/blueprint.md §2 (§07); content/landing-copy.md §07.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PriceCard from '../components/PriceCard.astro';
+---
+
+<section id="price-intelligence" aria-labelledby="price-intelligence-heading" class="z-section z-section--bg">
+  <div class="z-container">
+    <div class="z-container-narrow z-price-intel__intro-wrap">
+      <SectionEyebrow index={7} id="price-intelligence" />
+      <SectionHeading id="price-intelligence-heading" text="When to buy, not just what to buy" />
+      <p class="z-body-lg z-price-intel__intro">
+        Say what you can spend. Zerado checks today's price against the lowest that game has
+        ever gone, and tells you plainly whether today is a good day to buy.
+      </p>
+    </div>
+
+    <PriceCard />
+
+    <p class="z-caption z-price-intel__caption">
+      Illustrative numbers. Price data comes from IsThereAnyDeal once Zerado is connected —
+      nothing above is a live quote.
+    </p>
+  </div>
+</section>
+
+<style>
+  .z-price-intel__intro-wrap {
+    padding-inline: 0;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .z-price-intel__intro {
+    color: var(--z-text-secondary);
+    margin-block-end: var(--z-space-7);
+  }
+
+  .z-price-intel__caption {
+    max-inline-size: 560px;
+    margin-inline: auto;
+    margin-block-start: var(--z-space-4);
+    text-align: center;
+  }
+</style>

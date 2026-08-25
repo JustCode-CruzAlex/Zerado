@@ -1,0 +1,50 @@
+---
+/**
+ * Nav — lockup + GitHub NavLink + primary CTAButton. No hamburger: two links
+ * do not earn a menu. Static, not sticky. Ref: design/blueprint.md §5.2, §6.3.
+ */
+import Logotype from './Logotype.astro';
+import NavLink from './NavLink.astro';
+import CTAButton from './CTAButton.astro';
+---
+
+<header role="banner" class="z-nav">
+  <div class="z-container z-nav__inner">
+    <Logotype />
+    <div class="z-nav__actions">
+      <NavLink href="https://github.com/JustCode-CruzAlex/Zerado" label="View on GitHub" rel />
+      <CTAButton variant="primary" href="mailto:alex@flowforgesoft.com?subject=Zerado-WaitList" label="Join the waitlist" />
+    </div>
+  </div>
+</header>
+
+<style>
+  .z-nav {
+    background: var(--z-surface);
+    border-block-end: 1px solid var(--z-border);
+  }
+
+  .z-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--z-space-4);
+    padding-block: var(--z-space-5);
+  }
+
+  .z-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--z-space-5);
+  }
+
+  .z-nav__actions :global(.z-nav-link) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .z-nav__actions :global(.z-nav-link) {
+      display: inline-flex;
+    }
+  }
+</style>

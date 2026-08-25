@@ -1,0 +1,63 @@
+name: ✨ Feature request
+description: Propose something Zerado should do.
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you write this up, two things that will save you time:
+
+        - **Check the [roadmap](https://github.com/JustCode-CruzAlex/Zerado#roadmap).**
+          Much of what Zerado will do is already planned across four phases; if your
+          idea is already Phase 2, say so and tell us why it should move.
+        - **The landing page's copy, design and section order are ratified**, as are
+          the funding stance (affiliate only, no donate button) and the
+          nothing-is-marked-done rule. Proposals that change those are a conversation,
+          not a pull request — which is exactly what this issue is for.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation you are actually in, not the feature. The best proposals start here.
+      placeholder: "When I …, I have to …, which means …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should Zerado do?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Which phase does this belong to, in your view?
+      options:
+        - Phase 1 — CLI/TUI MVP
+        - Phase 2 — Enrichment
+        - Phase 3 — Recommendations & Budget
+        - Phase 4 — Social & Mobile
+        - The landing page / docs, not the product
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What else did you consider?
+      description: Including "do nothing" — sometimes that is the right answer and it is worth saying why it is not.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I checked the roadmap and the open issues.
+          required: true
+        - label: This does not require a Zerado-operated server for anything that could be done locally.
+          required: false

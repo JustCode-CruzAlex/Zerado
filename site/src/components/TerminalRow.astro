@@ -1,0 +1,136 @@
+---
+/**
+ * TerminalRow — one row of the TF-1 library frame. Presentational only, not
+ * focusable. Reformats to two lines below 768 so the state label is never
+ * dropped (the co-render rule survives 375). Ref: design/blueprint.md §7.3.
+ *
+ * @prop {import('../data/states').StateKey} state
+ * @prop {string} title
+ * @prop {string} platform
+ * @prop {string} hours
+ * @prop {boolean} [selected]
+ */
+import { STATES } from '../data/states';
+
+interface Props {
+  state: keyof typeof STATES;
+  title: string;
+  platform: string;
+  hours: string;
+  selected?: boolean;
+}
+
+const { state, title, platform, hours, selected = false } = Astro.props;
+const def = STATES[state];
+---
+
+<div class={`z-trow ${selected ? 'z-trow--selected' : ''}`} style={`--z-trow-color: var(${def.token})`}>
+  <span class="z-trow__caret" aria-hidden="true">{selected ? '▸' : ' '}</span>
+
+  <div class="z-trow__wide">
+    <span class="z-trow__glyph" aria-hidden="true">{def.glyph}</span>
+    <span class="z-trow__title">{title}</span>
+    <span class="z-trow__platform">{platform}</span>
+    <span class="z-trow__hours">{hours}</span>
+    <span class="z-trow__state">{def.label}</span>
+  </div>
+
+  <div class="z-trow__narrow">
+    <div class="z-trow__narrow-line1">
+      <span class="z-trow__glyph" aria-hidden="true">{def.glyph}</span>
+      <span class="z-trow__title">{title}</span>
+    </div>
+    <div class="z-trow__narrow-line2">
+      {def.label} · {platform}{hours !== '—' ? ` · ${hours}` : ''}
+    </div>
+  </div>
+</div>
+
+<style>
+  .z-trow {
+    display: flex;
+    align-items: baseline;
+    gap: 2ch;
+    padding-block: 2px;
+  }
+
+  .z-trow--selected {
+    background: var(--z-surface-overlay);
+  }
+
+  .z-trow__caret {
+    inline-size: 1ch;
+    color: var(--z-accent);
+    flex-shrink: 0;
+  }
+
+  .z-trow__glyph {
+    color: var(--z-trow-color);
+  }
+
+  .z-trow__state {
+    color: var(--z-trow-color);
+  }
+
+  .z-trow__wide {
+    display: none;
+    flex: 1;
+    align-items: baseline;
+    gap: 2ch;
+    min-width: 0;
+  }
+
+  .z-trow__wide .z-trow__title {
+    flex: 1;
+    min-width: 18ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--z-text);
+  }
+
+  .z-trow__wide .z-trow__platform {
+    inline-size: 10ch;
+    color: var(--z-text-tertiary);
+  }
+
+  .z-trow__wide .z-trow__hours {
+    inline-size: 6ch;
+    color: var(--z-text-tertiary);
+  }
+
+  .z-trow__wide .z-trow__state {
+    inline-size: 12ch;
+  }
+
+  .z-trow__narrow {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .z-trow__narrow-line1 {
+    display: flex;
+    gap: 1ch;
+    color: var(--z-text);
+  }
+
+  .z-trow__narrow-line1 .z-trow__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .z-trow__narrow-line2 {
+    padding-inline-start: 2ch;
+    color: var(--z-trow-color);
+  }
+
+  @media (min-width: 768px) {
+    .z-trow__wide {
+      display: flex;
+    }
+    .z-trow__narrow {
+      display: none;
+    }
+  }
+</style>

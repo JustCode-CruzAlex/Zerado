@@ -1,0 +1,403 @@
+/* ============================================================================
+   ZERADO — DESIGN TOKENS
+   FlowForgeSoft · zerado.app · v1.0 · Revision A
+   ----------------------------------------------------------------------------
+   The single source of truth for Zerado's visual identity.
+
+   Consumed by:
+     (a) the Astro site build            — reads the --z-* namespace
+     (b) `flowforge docs pdf --brand-css` — reads the BRIDGE tokens in §9
+     (c) the design blueprint             — mirrored in tokens.json
+
+   The brand is DARK-NATIVE. The dark palette is the default at :root and is
+   never conditional. Light expressions are additive and opt-in (§9, §10) and
+   cannot alter the dark default.
+
+   Every colour pair intended for text in this file has a MEASURED WCAG 2.2
+   contrast ratio recorded beside it. Nothing here is estimated.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   FONT LOADING IS OWNED BY THE SITE BUILD, NOT BY THIS FILE.
+
+   This file deliberately declares no @font-face. Token files get injected into
+   PDF renderers and headless browsers where a missing font file is a hang or a
+   silent blank page. The stacks in §3 degrade honestly on their own.
+
+   The site self-hosts (no external CDN). Expected declarations:
+
+     @font-face { font-family:'Orbitron';       src:url('/fonts/Orbitron[wght].woff2')       format('woff2-variations'); font-weight:400 900; font-display:swap; }
+     @font-face { font-family:'Space Grotesk';  src:url('/fonts/SpaceGrotesk[wght].woff2')   format('woff2-variations'); font-weight:300 700; font-display:swap; }
+     @font-face { font-family:'JetBrains Mono'; src:url('/fonts/JetBrainsMono[wght].woff2')  format('woff2-variations'); font-weight:100 800; font-display:swap; }
+
+   All three are SIL Open Font License 1.1. See brand-manual.md §5.
+   --------------------------------------------------------------------------- */
+
+:root {
+  /* =========================================================================
+     §1 · COLOUR PRIMITIVES — raw values. Never reference these in a component.
+     Use the semantic roles in §2 instead.
+     ====================================================================== */
+
+  /* --- The chassis: CRT blue-black. The casing, never the signal. --------- */
+  --z-void:            #05060A;  /* deepest — page ground, the screen when off */
+  --z-black-900:       #0B0D14;  /* default surface                            */
+  --z-black-800:       #141A24;  /* raised surface — cards, panels             */
+  --z-black-700:       #1D2532;  /* highest surface — popovers, hovered rows   */
+  --z-black-600:       #2A3342;  /* decorative hairline                        */
+  --z-slate-500:       #64748B;  /* UI boundary — meets 1.4.11 on all surfaces */
+
+  /* --- Chrome: brushed stainless. Warm-neutral, NOT blue. ----------------- */
+  /* The warmth is load-bearing, not taste: a blue-cast grey collapses into   */
+  /* the cyan under deuteranopia (measured ΔE 8.8). Warm grey measures 25.8.  */
+  --z-chrome-100:      #E9EEF5;  /* primary text — polished                    */
+  --z-chrome-300:      #A9B5C7;  /* secondary text                             */
+  --z-chrome-500:      #8492A8;  /* tertiary text — still AA on every surface  */
+  --z-steel:           #A5A29B;  /* brushed stainless — the DeLorean grey      */
+
+  /* --- Amber phosphor: the readout. The product's ambient voice. ---------- */
+  --z-amber-400:       #FFC94D;  /* highlight / hover                          */
+  --z-amber-500:       #FFB000;  /* PRIMARY BRAND COLOUR                       */
+  --z-amber-900:       #8A5E00;  /* unlit amber — inert tracks, disabled       */
+
+  /* --- Electric cyan: the earned colour. Rare by policy. ------------------ */
+  --z-cyan-300:        #8CF0FF;  /* highlight                                  */
+  --z-cyan-500:        #19E0FF;  /* ACCENT — completion, the primary CTA       */
+  --z-cyan-900:        #0B6C7D;  /* unlit cyan                                 */
+
+  /* --- Scanner red: KITT's nose. Motion, alarm — never body text. --------- */
+  --z-scanner-500:     #FF2E2E;  /* the travelling light                       */
+  --z-scanner-300:     #FF6B6B;  /* text-safe sibling for error copy           */
+  --z-scanner-900:     #5C1414;  /* the unlit scanner track                    */
+
+  /* --- Orchid: abandonment. Cool, inert, off to one side. ----------------- */
+  --z-orchid-500:      #C77DFF;
+  --z-orchid-900:      #4A2A63;
+
+  /* --- Grid horizon (decorative only, never carries meaning) -------------- */
+  --z-grid-line:       #1A2740;
+
+
+  /* =========================================================================
+     §2 · SEMANTIC COLOUR ROLES — what components actually reference.
+     Ratios below are MEASURED against --z-surface (#0B0D14) unless noted.
+     ====================================================================== */
+
+  --z-bg:                  var(--z-void);        /* page ground               */
+  --z-surface:             var(--z-black-900);
+  --z-surface-raised:      var(--z-black-800);
+  --z-surface-overlay:     var(--z-black-700);
+  --z-surface-inverse:     var(--z-chrome-100);
+
+  --z-text:                var(--z-chrome-100);  /* 16.65:1  AAA             */
+  --z-text-secondary:      var(--z-chrome-300);  /*  9.36:1  AAA             */
+  --z-text-tertiary:       var(--z-chrome-500);  /*  6.15:1  AA  (4.89 min)  */
+  --z-text-on-brand:       var(--z-void);        /* on amber 11.05 / cyan 12.68 */
+  --z-text-link:           var(--z-cyan-500);    /* 12.15:1  AAA             */
+  --z-text-link-hover:     var(--z-cyan-300);    /* 14.81:1  AAA             */
+
+  --z-primary:             var(--z-amber-500);   /* 10.59:1  AAA             */
+  --z-primary-hover:       var(--z-amber-400);   /* 12.68:1  AAA             */
+  --z-primary-contrast:    var(--z-void);        /* 11.05:1 on amber   AAA   */
+  --z-primary-muted:       var(--z-amber-900);
+
+  --z-accent:              var(--z-cyan-500);    /* 12.15:1  AAA             */
+  --z-accent-hover:        var(--z-cyan-300);
+  --z-accent-contrast:     var(--z-void);        /* 12.68:1 on cyan    AAA   */
+  --z-accent-muted:        var(--z-cyan-900);
+
+  --z-border:              var(--z-black-600);   /* DECORATIVE — 1.53:1      */
+  --z-border-strong:       var(--z-slate-500);   /*  4.08:1 — meets 1.4.11   */
+  --z-focus-ring:          var(--z-cyan-500);    /* 12.15:1 — never removed  */
+  --z-focus-ring-width:    2px;
+  --z-focus-ring-offset:   2px;
+
+  --z-scanner:             var(--z-scanner-500);
+  --z-scanner-track:       var(--z-scanner-900);
+
+
+  /* =========================================================================
+     §3 · THE FOUR GAME STATES
+     The most-used visual system in the product. Every state carries THREE
+     signals — colour, glyph, label — and is legible with any one removed.
+     Minimum pairwise ΔE2000 across normal / protanopia / deuteranopia = 11.9.
+     ====================================================================== */
+
+  --z-state-not-started:        var(--z-steel);       /*  7.62:1 */
+  --z-state-not-started-glyph:  "\25CB";              /*  ○  WHITE CIRCLE       */
+  --z-state-not-started-label:  "NOT STARTED";
+
+  --z-state-in-progress:        var(--z-amber-500);   /* 10.59:1 */
+  --z-state-in-progress-glyph:  "\25D0";              /*  ◐  HALF-FILLED CIRCLE */
+  --z-state-in-progress-label:  "IN PROGRESS";
+
+  --z-state-zerado:             var(--z-cyan-500);    /* 12.15:1 */
+  --z-state-zerado-glyph:       "\25C9";              /*  ◉  FISHEYE            */
+  --z-state-zerado-label:       "ZERADO";
+
+  --z-state-abandoned:          var(--z-orchid-500);  /*  7.21:1 */
+  --z-state-abandoned-glyph:    "\2298";              /*  ⊘  CIRCLED DIVISION   */
+  --z-state-abandoned-label:    "ABANDONED";
+
+  /* ASCII fallbacks for terminals without reliable Unicode box/geometry.     */
+  --z-state-not-started-ascii:  "[ ]";
+  --z-state-in-progress-ascii:  "[~]";
+  --z-state-zerado-ascii:       "[*]";
+  --z-state-abandoned-ascii:    "[x]";
+
+
+  /* =========================================================================
+     §4 · TERMINAL COLOUR MAPPING
+     Zerado is a TUI first. Every brand colour resolves three ways. These
+     indices are nearest-neighbour in CIELAB by CIEDE2000 against the xterm
+     256 palette — derived, not eyeballed. Full table in brand-manual.md §4.6.
+     ====================================================================== */
+
+  --z-ansi256-surface:      232;
+  --z-ansi256-surface-2:    234;
+  --z-ansi256-border:       236;
+  --z-ansi256-border-strong: 67;
+  --z-ansi256-text:         255;
+  --z-ansi256-text-secondary: 249;
+  --z-ansi256-steel:        247;   /* ΔE 3.9 — not-started  */
+  --z-ansi256-amber:        214;   /* ΔE 0.4 — near-exact   */
+  --z-ansi256-cyan:          45;   /* ΔE 3.4                */
+  --z-ansi256-orchid:       177;   /* ΔE 3.8                */
+  --z-ansi256-scanner:        9;
+
+  /* 16-colour fallback. The four states resolve to four DISTINCT slots:
+     white(7) · bright-yellow(11) · bright-cyan(14) · bright-magenta(13). */
+  --z-ansi16-steel:           7;
+  --z-ansi16-amber:          11;
+  --z-ansi16-cyan:           14;
+  --z-ansi16-orchid:         13;
+  --z-ansi16-scanner:         9;
+
+
+  /* =========================================================================
+     §5 · TYPOGRAPHY
+     Three families, three jobs. Orbitron carries the era and is display-only.
+     Space Grotesk is the voice. JetBrains Mono is the product's native tongue
+     and is a first-class text role here, not a code-block afterthought.
+     ====================================================================== */
+
+  --z-font-display: 'Orbitron', 'Michroma', 'Arial Black', system-ui, sans-serif;
+  --z-font-body:    'Space Grotesk', 'Inter', system-ui, -apple-system,
+                    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --z-font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono',
+                    Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+  /* --- Size ramp (root 16px). px equivalents in comments. ----------------- */
+  --z-text-caption:  0.8125rem;  /* 13px */
+  --z-text-sm:       0.9375rem;  /* 15px */
+  --z-text-base:     1.0625rem;  /* 17px — body. Never smaller for prose.     */
+  --z-text-lg:       1.1875rem;  /* 19px — lead paragraphs                    */
+  --z-text-h3:       1.4375rem;  /* 23px */
+  --z-text-h2:       2.125rem;   /* 34px */
+  --z-text-h1:       3.25rem;    /* 52px */
+  --z-text-display:  4.75rem;    /* 76px */
+
+  /* Fluid display for the hero — never below 44px, never above 76px.        */
+  --z-text-display-fluid: clamp(2.75rem, 1.35rem + 5.9vw, 4.75rem);
+  --z-text-h1-fluid:      clamp(2.125rem, 1.35rem + 3.3vw, 3.25rem);
+
+  /* --- Line height. Inversely proportional to size. ----------------------- */
+  --z-leading-display:  1.02;
+  --z-leading-tight:    1.08;
+  --z-leading-snug:     1.22;
+  --z-leading-normal:   1.65;   /* body — exceeds WCAG 1.4.12 (1.5)          */
+  --z-leading-relaxed:  1.75;
+
+  /* --- Tracking. Wide display type is an 80s-future signature. ------------ */
+  --z-tracking-display: 0.04em;
+  --z-tracking-h1:      0.03em;
+  --z-tracking-h2:      0.02em;
+  --z-tracking-normal:  0em;
+  --z-tracking-readout: 0.18em;  /* mono overlines / eyebrow labels          */
+
+  /* --- Weights ------------------------------------------------------------ */
+  --z-weight-regular:   400;
+  --z-weight-medium:    500;
+  --z-weight-semibold:  600;
+  --z-weight-bold:      700;
+  --z-weight-black:     900;   /* Orbitron only, display only                */
+
+  --z-measure:          68ch;  /* max prose line length                      */
+
+
+  /* =========================================================================
+     §6 · SPACING — 4px base grid.
+     ====================================================================== */
+
+  --z-space-0:   0;
+  --z-space-1:   0.25rem;   /*   4px */
+  --z-space-2:   0.5rem;    /*   8px */
+  --z-space-3:   0.75rem;   /*  12px */
+  --z-space-4:   1rem;      /*  16px */
+  --z-space-5:   1.5rem;    /*  24px */
+  --z-space-6:   2rem;      /*  32px */
+  --z-space-7:   3rem;      /*  48px */
+  --z-space-8:   4rem;      /*  64px */
+  --z-space-9:   6rem;      /*  96px */
+  --z-space-10:  8rem;      /* 128px */
+
+  --z-gutter:            var(--z-space-5);
+  --z-section-y:         var(--z-space-9);
+  --z-container-max:     1180px;
+  --z-container-narrow:  760px;
+
+
+  /* =========================================================================
+     §7 · RADIUS
+     Machined, not soft. Small radii everywhere; the logo counter is the one
+     generous curve in the system and it is the logo's alone.
+     ====================================================================== */
+
+  --z-radius-none:  0;
+  --z-radius-sm:    2px;
+  --z-radius-md:    4px;
+  --z-radius-lg:    8px;
+  --z-radius-pill:  999px;
+
+
+  /* =========================================================================
+     §8 · MOTION
+     The scanner sweep is the brand's one signature motion. It is a physical
+     oscillating mirror, so its easing is sinusoidal — not a bounce, not linear.
+     ====================================================================== */
+
+  --z-duration-instant:  90ms;
+  --z-duration-fast:     140ms;
+  --z-duration-base:     220ms;
+  --z-duration-slow:     380ms;
+  --z-duration-scanner:  2400ms;   /* one full out-and-back cycle            */
+
+  --z-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --z-ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --z-ease-in:       cubic-bezier(0.7, 0, 0.84, 0);
+  --z-ease-scanner:  cubic-bezier(0.45, 0, 0.55, 1);  /* sinusoidal          */
+
+  --z-scanner-pip-width: 18%;   /* of the track                              */
+  --z-scanner-track-h:   2px;
+
+  /* --- Glow. Used sparingly: CRT bloom, never a drop shadow. -------------- */
+  --z-glow-amber: 0 0 0 1px rgb(255 176 0 / 0.28), 0 0 18px -2px rgb(255 176 0 / 0.38);
+  --z-glow-cyan:  0 0 0 1px rgb(25 224 255 / 0.30), 0 0 22px -2px rgb(25 224 255 / 0.42);
+  --z-glow-red:   0 0 12px -1px rgb(255 46 46 / 0.60);
+
+  --z-elevation-1: 0 1px 2px rgb(0 0 0 / 0.55);
+  --z-elevation-2: 0 4px 14px -4px rgb(0 0 0 / 0.70);
+  --z-elevation-3: 0 18px 48px -12px rgb(0 0 0 / 0.80);
+
+
+  /* =========================================================================
+     §9 · PRINT / PDF BRIDGE — Zerado's PAPER expression
+     ----------------------------------------------------------------------
+     `flowforge docs pdf --brand-css` links this file into the rendered HTML.
+     Its brand-manual chrome resolves colour and type from these EXACT
+     unprefixed names, falling back to FlowForge's own palette if they are
+     absent. Declaring all of them is what makes the customer's manual print
+     in the CUSTOMER'S brand.
+
+     These are deliberately LIGHT, and that is not a compromise. The archetype's
+     print stylesheet hard-sets the page background to #FFFFFF; a dark --canvas
+     would put pale ink on a white sheet and produce an unreadable document.
+     So the paper expression is a real, designed, second expression of Zerado —
+     the same amber and cyan hues (measured within 10° of the screen values),
+     darkened until they carry ink on paper.
+
+     These names are NOT used by the site. The site reads --z-* only. Nothing
+     here can alter the dark default above.
+     ====================================================================== */
+
+  --canvas:         #F3F5F8;   /* cool spec-sheet paper                      */
+  --canvas-warm:    #E6EAF0;   /* secondary paper tone                       */
+  --surface:        #FFFFFF;
+  --surface-pure:   #FFFFFF;
+
+  --ink:            #0B0D14;   /* 17.77:1 on canvas  AAA                     */
+  --ink-soft:       #39434F;   /*  9.20:1  AAA                               */
+  --ink-muted:      #5E6A7A;   /*  5.04:1  AA  (4.55 min)                    */
+  --line:           #C6D0DD;   /* rules and frames — decorative              */
+
+  --accent:         #965600;   /* Zerado amber at ink weight. 5.30:1  AA     */
+  --accent-strong:  #7A4600;   /*  7.11:1  AAA                               */
+  --accent-wash:    #FDEFD6;   /* callout fill. ink on wash = 17.09:1        */
+  --ochre:          #965600;
+  --ochre-strong:   #7A4600;
+  --sage:           #0A6070;   /* Zerado cyan at ink weight. 6.58:1  AA      */
+
+  --font-display:   var(--z-font-display);
+  --font-body:      var(--z-font-body);
+  --font-mono:      var(--z-font-mono);
+}
+
+
+/* ===========================================================================
+   §10 · OPT-IN LIGHT SURFACE for the site (embeds, docs pages, print preview)
+   Additive and scoped. Applying it never changes :root, so the dark default
+   survives untouched.
+   ======================================================================== */
+
+[data-z-surface="paper"] {
+  --z-bg:              #F3F5F8;
+  --z-surface:         #FFFFFF;
+  --z-surface-raised:  #E6EAF0;
+  --z-surface-overlay: #FFFFFF;
+
+  --z-text:            #0B0D14;   /* 19.41:1 on white  AAA */
+  --z-text-secondary:  #39434F;   /* 10.05:1  AAA          */
+  --z-text-tertiary:   #5E6A7A;   /*  5.50:1  AA           */
+  --z-text-on-brand:   #FFFFFF;
+
+  --z-primary:          #965600;  /*  5.79:1 on white  AA  */
+  --z-primary-hover:    #7A4600;  /*  7.77:1  AAA          */
+  --z-primary-contrast: #FFFFFF;  /*  5.79:1 on primary    */
+  --z-accent:           #0A6070;  /*  7.19:1  AAA          */
+  --z-accent-hover:     #07454F;
+  --z-accent-contrast:  #FFFFFF;  /*  7.19:1 on accent     */
+  --z-text-link:        #0A6070;
+  --z-text-link-hover:  #07454F;
+
+  --z-border:           #DDE3EB;
+  --z-border-strong:    #9AA6B6;
+  --z-focus-ring:       #0A6070;
+
+  --z-state-not-started: #5E6A7A;  /*  5.50:1 */
+  --z-state-in-progress: #8A4F00;  /*  6.56:1 */
+  --z-state-zerado:      #0A6070;  /*  7.19:1 */
+  --z-state-abandoned:   #6D3D93;  /*  7.30:1 */
+
+  --z-scanner:           #C61F1F;  /*  5.81:1 */
+  --z-scanner-track:     #F0D6D6;
+}
+
+
+/* ===========================================================================
+   §11 · ACCESSIBILITY BEHAVIOUR
+   ======================================================================== */
+
+/* The scanner sweep is decorative. Under reduced-motion the pip PARKS at the
+   centre of its track at full opacity — the identity element remains, the
+   travel stops. It is never simply hidden. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --z-duration-instant: 1ms;
+    --z-duration-fast:    1ms;
+    --z-duration-base:    1ms;
+    --z-duration-slow:    1ms;
+    --z-duration-scanner: 1ms;
+  }
+}
+
+/* Windows High Contrast / forced-colors: surrender colour to the OS and let
+   the glyph + label carry every state. This is the same degrade path as
+   NO_COLOR in the terminal — the co-render rule is what makes it survivable. */
+@media (forced-colors: active) {
+  :root {
+    --z-focus-ring:    Highlight;
+    --z-border-strong: CanvasText;
+    --z-text:          CanvasText;
+    --z-surface:       Canvas;
+  }
+}

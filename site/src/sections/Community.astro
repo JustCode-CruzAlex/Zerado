@@ -1,0 +1,65 @@
+---
+/**
+ * Section 11 — community. Stamped three ways: the H2's emphasised clause,
+ * a PhaseBadge above the heading, and the muted TerminalFrame watermark.
+ * No button, no link, no price, no tier name — interactiveElements: 0.
+ * Ref: design/blueprint.md §2 (§11); content/landing-copy.md §11.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PhaseBadge from '../components/PhaseBadge.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
+import CommunityPanel from '../components/CommunityPanel.astro';
+import MockupCaption from '../components/MockupCaption.astro';
+---
+
+<section id="community" aria-labelledby="community-heading" class="z-section z-section--bg">
+  <div class="z-container-narrow z-community__intro">
+    <SectionEyebrow index={11} id="community" />
+    <PhaseBadge text="⊘ PHASE 4 · NOT AVAILABLE YET" />
+    <SectionHeading
+      id="community-heading"
+      text="The community layer"
+      emphasis="— Phase 4, not built yet"
+      emphasisTone="primary"
+    />
+    <p class="z-body-lg">
+      Comments, reviews and public profiles. These run on servers, and servers cost money — so
+      this part will need a premium account or a donation once it exists. Nothing is decided
+      about price, tiers, or a date, and nothing on this page is asking for either. This section
+      shows what's planned, stamped for what it is: a later phase.
+    </p>
+  </div>
+
+  <div class="z-container">
+    <figure class="z-community__figure" role="img" aria-labelledby="community-caption">
+      <TerminalFrame variant="muted" title="zerado — community (preview)" counter="phase 4">
+        <CommunityPanel />
+      </TerminalFrame>
+      <MockupCaption
+        id="community-caption"
+        text="Example mockup of the community layer — a comment thread, a review, and a public profile — watermarked 'Phase 4, not available yet.'"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .z-community__intro {
+    text-align: center;
+    margin-inline: auto;
+    margin-block-end: var(--z-space-8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .z-community__intro .z-body-lg {
+    color: var(--z-text-secondary);
+    margin-block-start: var(--z-space-4);
+  }
+
+  .z-community__intro :global(.z-phase-badge) {
+    margin-block-end: var(--z-space-4);
+  }
+</style>

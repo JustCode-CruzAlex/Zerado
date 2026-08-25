@@ -1,0 +1,30 @@
+---
+/**
+ * Section 12 — roadmap, the customer's required section. All four phases
+ * render "Planned"; none is marked done. No dates render.
+ * Ref: design/blueprint.md §2 (§12); content/landing-copy.md §12.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import RoadmapTrack from '../components/RoadmapTrack.astro';
+---
+
+<section id="roadmap" aria-labelledby="roadmap-heading" class="z-section z-section--surface">
+  <div class="z-container">
+    <SectionEyebrow index={12} id="roadmap" />
+    <SectionHeading id="roadmap-heading" text="Roadmap" />
+    <p class="z-body-lg z-roadmap-section__intro">
+      Four phases, in order. Every one of them is planned — none is marked done, because that
+      would be the one dishonest line on this page.
+    </p>
+
+    <RoadmapTrack />
+  </div>
+</section>
+
+<style>
+  .z-roadmap-section__intro {
+    color: var(--z-text-secondary);
+    margin-block-end: var(--z-space-8);
+  }
+</style>

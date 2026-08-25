@@ -1,0 +1,86 @@
+---
+/**
+ * Footer — section 16, three bands inside <footer role="contentinfo">.
+ * No repeated Zerado lockup (already in nav) — one mark per page, plus the
+ * maker's mark. Ref: design/blueprint.md §2 (§16).
+ */
+import FooterLink from './FooterLink.astro';
+import PoweredByFlowForge from './PoweredByFlowForge.astro';
+
+const WAITLIST = 'mailto:alex@flowforgesoft.com?subject=Zerado-WaitList';
+const CONTACT = 'mailto:alex@flowforgesoft.com';
+const GITHUB = 'https://github.com/JustCode-CruzAlex/Zerado';
+---
+
+<footer role="contentinfo" id="footer" class="z-footer z-section z-section--surface">
+  <div class="z-container">
+    <div class="z-footer__band z-footer__band--links">
+      <nav class="z-footer__nav" aria-label="Footer">
+        <FooterLink href={WAITLIST} label="Join the waitlist" />
+        <FooterLink href={GITHUB} label="View on GitHub" rel />
+      </nav>
+      <p class="z-body-sm z-footer__contact">
+        Contact: <a class="z-footer__contact-link" href={CONTACT}>alex@flowforgesoft.com</a>
+      </p>
+    </div>
+
+    <div class="z-footer__band z-footer__band--disclosure">
+      <p class="z-body-sm">
+        Zerado earns a commission when you buy a game through a price link on this page. No cost
+        to you, and no other funding ask anywhere on this page.
+      </p>
+    </div>
+
+    <div class="z-footer__band z-footer__band--company">
+      <p class="z-body-sm z-footer__company-line">A FlowForgeSoft product.</p>
+      <PoweredByFlowForge />
+    </div>
+  </div>
+</footer>
+
+<style>
+  .z-footer {
+    padding-block-end: var(--z-space-8);
+  }
+
+  .z-footer__band {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-3);
+    padding-block: var(--z-space-6);
+    border-block-start: 1px solid var(--z-border);
+  }
+
+  .z-footer__band:first-child {
+    border-block-start: none;
+  }
+
+  .z-footer__nav {
+    display: flex;
+    gap: var(--z-space-6);
+    flex-wrap: wrap;
+  }
+
+  .z-footer__contact-link {
+    color: var(--z-text-link);
+  }
+
+  .z-footer__contact-link:hover {
+    color: var(--z-text-link-hover);
+    text-decoration: underline;
+  }
+
+  @media (min-width: 768px) {
+    .z-footer__band--links {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .z-footer__band--company {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+</style>

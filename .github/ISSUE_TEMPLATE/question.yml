@@ -1,0 +1,29 @@
+name: 💬 Question
+description: Ask about Zerado, the roadmap, or how to contribute.
+title: "[QUESTION] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask away — asking before building is encouraged here, and "is this worth doing?"
+        is a perfectly good first contribution.
+
+        Several answers already exist and may be faster than waiting:
+        the [README](https://github.com/JustCode-CruzAlex/Zerado#readme) covers what
+        Zerado is, its status and the roadmap; [CONTRIBUTING.md](https://github.com/JustCode-CruzAlex/Zerado/blob/main/CONTRIBUTING.md)
+        covers what is useful to work on; and the landing page FAQ at
+        [zerado.app](https://zerado.app) answers the common product questions.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything you already checked
+      description: Saves us repeating an answer you have already read.

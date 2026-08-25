@@ -1,0 +1,198 @@
+---
+/**
+ * Section 01 — hero. Copy column cols 1-7 (≥1280), full-width TF-1 terminal
+ * frame below, live ScannerRule at the section's bottom edge.
+ * Ref: design/blueprint.md §2 (§01); content/landing-copy.md §01.
+ */
+import GridHorizon from '../components/GridHorizon.astro';
+import CTAButton from '../components/CTAButton.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
+import TerminalRow from '../components/TerminalRow.astro';
+import MockupCaption from '../components/MockupCaption.astro';
+import ScannerRule from '../components/ScannerRule.astro';
+
+const WAITLIST = 'mailto:alex@flowforgesoft.com?subject=Zerado-WaitList';
+const GITHUB = 'https://github.com/JustCode-CruzAlex/Zerado';
+
+const ROWS = [
+  { state: 'inProgress' as const, title: 'Hollow Knight', platform: 'STEAM', hours: '42h' },
+  { state: 'zerado' as const, title: 'Celeste', platform: 'STEAM', hours: '11h', selected: true },
+  { state: 'notStarted' as const, title: 'Disco Elysium', platform: 'GOG', hours: '0h' },
+  { state: 'abandoned' as const, title: 'Dark Souls III', platform: 'STEAM', hours: '6h' },
+  { state: 'inProgress' as const, title: 'Hades', platform: 'STEAM', hours: '28h' },
+  { state: 'notStarted' as const, title: 'Chrono Trigger', platform: 'PHYSICAL', hours: '—' }
+];
+---
+
+<section id="hero" aria-labelledby="hero-heading" class="z-hero">
+  <GridHorizon />
+  <div class="z-container z-hero__inner">
+    <div class="z-grid-12">
+      <div class="z-cols-1-7 z-hero__copy">
+        <h1 id="hero-heading" class="z-h1">
+          <span>Pick a mood.</span><span>Get a game.</span><span>Play it tonight.</span>
+        </h1>
+        <p class="z-body-lg z-hero__subhead">
+          Zerado reads your entire library — Steam first, then PlayStation, GOG, EA, and the
+          cartridges still on your shelf — and answers the only question that actually matters at
+          11pm: what do I play? It runs in your terminal, works with the network off, and
+          everything it knows lives in one file on your machine.
+        </p>
+        <div class="z-hero__cta-row">
+          <CTAButton variant="primary" href={WAITLIST} label="Join the waitlist" />
+          <CTAButton variant="secondary" href={GITHUB} label="View on GitHub" rel />
+        </div>
+        <p class="z-body-sm z-hero__microcopy">
+          Opens your mail client, addressed and subject-lined already. No form, no account.
+        </p>
+      </div>
+    </div>
+
+    <figure class="z-hero__frame" role="img" aria-labelledby="hero-caption">
+      <TerminalFrame
+        variant="live"
+        title="zerado — library"
+        counter="412 games · 6 zerado"
+        keybar="↑↓ move · enter open · m mood · / filter · q quit"
+      >
+        <div class="z-hero__frame-body">
+          <div class="z-hero__frame-list">
+            {ROWS.map((r) => (
+              <TerminalRow state={r.state} title={r.title} platform={r.platform} hours={r.hours} selected={r.selected} />
+            ))}
+          </div>
+          <div class="z-hero__frame-divider" aria-hidden="true"></div>
+          <div class="z-hero__frame-rail">
+            <p class="z-readout z-hero__rail-title">Tonight</p>
+            <p class="z-hero__rail-row" style="--z-row-color: var(--z-state-not-started)">○ NOT STARTED&nbsp;&nbsp;288</p>
+            <p class="z-hero__rail-row" style="--z-row-color: var(--z-state-in-progress)">◐ IN PROGRESS&nbsp;&nbsp;9</p>
+            <p class="z-hero__rail-row" style="--z-row-color: var(--z-state-zerado)">◉ ZERADO&nbsp;&nbsp;6</p>
+            <p class="z-hero__rail-row" style="--z-row-color: var(--z-state-abandoned)">⊘ ABANDONED&nbsp;&nbsp;109</p>
+          </div>
+        </div>
+      </TerminalFrame>
+      <MockupCaption
+        id="hero-caption"
+        text="An illustration of Zerado's terminal library view. This is a mockup of the planned interface, not a screenshot — the program isn't runnable by visitors yet."
+      />
+    </figure>
+  </div>
+
+  <ScannerRule variant="live" />
+</section>
+
+<style>
+  .z-hero {
+    position: relative;
+    padding-block-start: var(--z-space-8);
+    padding-block-end: 0;
+    background: var(--z-bg);
+    overflow: hidden;
+  }
+
+  @media (min-width: 1280px) {
+    .z-hero {
+      padding-block-start: var(--z-space-9);
+    }
+  }
+
+  .z-hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .z-hero__copy {
+    padding-block-end: var(--z-space-8);
+  }
+
+  .z-hero__subhead {
+    max-inline-size: 68ch;
+    margin-block: var(--z-space-5);
+    color: var(--z-text-secondary);
+  }
+
+  .z-hero__cta-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-4);
+  }
+
+  @media (min-width: 480px) {
+    .z-hero__cta-row {
+      flex-direction: row;
+    }
+  }
+
+  .z-hero__cta-row :global(.z-cta) {
+    inline-size: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .z-hero__cta-row :global(.z-cta) {
+      inline-size: auto;
+    }
+  }
+
+  .z-hero__microcopy {
+    margin-block-start: var(--z-space-4);
+  }
+
+  .z-hero__frame {
+    padding-block-end: var(--z-space-6);
+  }
+
+  .z-hero__frame-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .z-hero__frame-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .z-hero__frame-divider {
+    display: none;
+  }
+
+  .z-hero__frame-rail {
+    display: none;
+  }
+
+  @media (min-width: 1280px) {
+    .z-hero__frame-body {
+      flex-direction: row;
+      gap: var(--z-space-5);
+    }
+
+    .z-hero__frame-list {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .z-hero__frame-divider {
+      display: block;
+      inline-size: 1px;
+      background: var(--z-border-strong);
+    }
+
+    .z-hero__frame-rail {
+      display: block;
+      inline-size: 20ch;
+      flex-shrink: 0;
+    }
+
+    .z-hero__rail-title {
+      color: var(--z-text-tertiary);
+      margin-block-end: var(--z-space-3);
+    }
+
+    .z-hero__rail-row {
+      color: var(--z-row-color);
+      white-space: nowrap;
+      margin-block-end: var(--z-space-2);
+      font-size: 0.9em;
+    }
+  }
+</style>

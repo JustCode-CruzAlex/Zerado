@@ -1,0 +1,49 @@
+---
+/**
+ * Section 05 — states. Four StateChips in a row (≥768) / stacked (<768).
+ * State 3 (ZERADO) is the payoff line and is emphasised.
+ * Ref: design/blueprint.md §2 (§05); content/landing-copy.md §05.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StateChip from '../components/StateChip.astro';
+---
+
+<section id="states" aria-labelledby="states-heading" class="z-section z-section--bg">
+  <div class="z-container">
+    <SectionEyebrow index={5} id="states" />
+    <SectionHeading id="states-heading" text="Where each game stands" />
+    <p class="z-body-lg z-states__intro">Four states, one for every game in the library.</p>
+
+    <div class="z-states__row">
+      <StateChip state="notStarted">In the library. Untouched.</StateChip>
+      <StateChip state="inProgress">Currently being played.</StateChip>
+      <StateChip state="zerado" emphasised>
+        Finished. <em lang="pt-BR">Zerado</em> is Portuguese for beaten — cleared, 100%'d — from
+        the arcade counter that ran past its last digit and rolled back to zero. The product is
+        called Zerado. Marking a game <em>zerado</em>, in Zerado, is the whole point of it.
+      </StateChip>
+      <StateChip state="abandoned">Started, set down, not coming back to it.</StateChip>
+    </div>
+  </div>
+</section>
+
+<style>
+  .z-states__intro {
+    color: var(--z-text-secondary);
+    margin-block-end: var(--z-space-7);
+  }
+
+  .z-states__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-4);
+  }
+
+  @media (min-width: 768px) {
+    .z-states__row {
+      flex-direction: row;
+      align-items: stretch;
+    }
+  }
+</style>

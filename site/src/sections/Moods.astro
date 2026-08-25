@@ -1,0 +1,119 @@
+---
+/**
+ * Section 04 — moods. Intro + 4 MoodCards + TF-2 "mood picker" terminal frame.
+ * Ref: design/blueprint.md §2 (§04); content/landing-copy.md §04.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import MoodCard from '../components/MoodCard.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
+import MockupCaption from '../components/MockupCaption.astro';
+
+const CARDS = [
+  { title: 'Mindless grind', body: "Repetitive, low-stakes, doesn't ask for your attention. For the night you want to zone out, not think." },
+  { title: 'Story rich, kind of sad', body: 'Something to feel, not just clear. For the night you want to sit with a story, not race through one.' },
+  { title: 'Quick fifteen minutes', body: 'Starts fast, ends clean, fits in the window you actually have before bed.' },
+  { title: 'Tactical, full focus', body: 'Wants your whole attention and rewards it. For the night you have the attention to spend.' }
+];
+
+const MATCHES = [
+  { mood: 'Mindless grind', game: 'Hades', state: 'inProgress' as const },
+  { mood: 'Story rich, kind of sad', game: 'Celeste', state: 'zerado' as const },
+  { mood: 'Quick fifteen minutes', game: 'Chrono Trigger', state: 'notStarted' as const },
+  { mood: 'Tactical, full focus', game: 'Hollow Knight', state: 'inProgress' as const }
+];
+---
+
+<section id="moods" aria-labelledby="moods-heading" class="z-section z-section--surface">
+  <div class="z-container">
+    <SectionEyebrow index={4} id="moods" />
+    <SectionHeading id="moods-heading" text="Sorted by mood, not genre" />
+    <p class="z-body-lg z-moods__intro">
+      Genre tells you what a game is. Mood tells you what tonight is for. Zerado sorts by the
+      second one.
+    </p>
+
+    <div class="z-moods__grid">
+      {CARDS.map((c, i) => (
+        <MoodCard index={i + 1} title={c.title} body={c.body} />
+      ))}
+    </div>
+
+    <figure class="z-moods__frame" role="img" aria-labelledby="moods-caption">
+      <TerminalFrame variant="still" title="zerado — pick a mood" counter="4 moods" keybar="↑↓ move · enter pick · esc back">
+        <div class="z-moods__picker">
+          <ul class="z-moods__mood-list">
+            {MATCHES.map((m, i) => (
+              <li class={i === 0 ? 'z-moods__mood--active' : ''}>
+                <span aria-hidden="true">{i === 0 ? '▸ ' : '  '}</span>{m.mood}
+              </li>
+            ))}
+          </ul>
+          <ul class="z-moods__match-list">
+            {MATCHES.map((m) => (
+              <li>{m.game}</li>
+            ))}
+          </ul>
+        </div>
+      </TerminalFrame>
+      <MockupCaption
+        id="moods-caption"
+        text="Mockup of Zerado's mood picker in the terminal, showing mood categories — including 'Mindless grind' and 'Quick fifteen minutes' — next to the games that match each one."
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .z-moods__intro {
+    max-inline-size: var(--z-measure);
+    color: var(--z-text-secondary);
+    margin-block-end: var(--z-space-7);
+  }
+
+  .z-moods__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--z-space-4);
+    margin-block-end: var(--z-space-7);
+  }
+
+  @media (min-width: 768px) {
+    .z-moods__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .z-moods__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .z-moods__picker {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-4);
+  }
+
+  .z-moods__mood-list li,
+  .z-moods__match-list li {
+    padding-block: 2px;
+    color: var(--z-text-secondary);
+  }
+
+  .z-moods__mood--active {
+    color: var(--z-accent) !important;
+  }
+
+  @media (min-width: 768px) {
+    .z-moods__picker {
+      flex-direction: row;
+      gap: var(--z-space-6);
+    }
+    .z-moods__mood-list,
+    .z-moods__match-list {
+      flex: 1;
+    }
+  }
+</style>

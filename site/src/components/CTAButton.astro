@@ -1,0 +1,88 @@
+---
+/**
+ * CTAButton — the page's action control. Two variants only.
+ * Ref: design/blueprint.md §6.2.
+ *
+ * @prop {"primary" | "secondary"} variant
+ * @prop {string} href
+ * @prop {string} label — visible button text
+ * @prop {boolean} [rel] — true adds rel="noopener noreferrer" (external links
+ *   per design/blueprint.md §2.1). GitHub opens in the same tab by design —
+ *   no target="_blank" is ever set on this page.
+ */
+interface Props {
+  variant: 'primary' | 'secondary';
+  href: string;
+  label: string;
+  rel?: boolean;
+}
+
+const { variant, href, label, rel = false } = Astro.props;
+---
+
+<a
+  class={`z-cta z-cta--${variant}`}
+  href={href}
+  rel={rel ? 'noopener noreferrer' : undefined}
+>
+  {label}
+</a>
+
+<style>
+  .z-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 52px;
+    padding-inline: var(--z-space-6);
+    border-radius: var(--z-radius-md);
+    font-family: var(--z-font-body);
+    font-weight: var(--z-weight-semibold);
+    font-size: var(--z-text-base);
+    text-align: center;
+    transition:
+      background-color var(--z-duration-fast) var(--z-ease-standard),
+      color var(--z-duration-fast) var(--z-ease-standard),
+      border-color var(--z-duration-fast) var(--z-ease-standard),
+      box-shadow var(--z-duration-fast) var(--z-ease-standard);
+  }
+
+  @media (min-width: 768px) {
+    .z-cta {
+      min-block-size: 48px;
+    }
+  }
+
+  .z-cta--primary {
+    background: var(--z-accent);
+    color: var(--z-accent-contrast);
+    border: 1px solid transparent;
+  }
+
+  .z-cta--primary:hover {
+    background: var(--z-accent-hover);
+    box-shadow: var(--z-glow-cyan);
+  }
+
+  .z-cta--primary:active {
+    background: var(--z-accent);
+    transition-duration: var(--z-duration-instant);
+  }
+
+  .z-cta--secondary {
+    background: transparent;
+    color: var(--z-text);
+    border: 1px solid var(--z-border-strong);
+  }
+
+  .z-cta--secondary:hover {
+    border-color: var(--z-primary);
+    color: var(--z-primary);
+    box-shadow: var(--z-glow-amber);
+  }
+
+  .z-cta--secondary:active {
+    border-color: var(--z-primary-hover);
+    transition-duration: var(--z-duration-instant);
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+/**
+ * StoreRow — one connected-store row. live = synced today; planned = coming
+ * later. Ref: design/blueprint.md §2 (§06), §8.3 (rejected --z-cyan-900 pair).
+ *
+ * @prop {"live" | "planned"} status
+ * @prop {string} label — store name
+ */
+interface Props {
+  status: 'live' | 'planned';
+  label: string;
+}
+
+const { status, label } = Astro.props;
+---
+
+<div class={`z-store-row z-store-row--${status}`}>
+  <span class="z-store-row__glyph" aria-hidden="true">{status === 'live' ? '◉' : '○'}</span>
+  <span class="z-store-row__label">{label}</span>
+</div>
+
+<style>
+  .z-store-row {
+    display: flex;
+    align-items: center;
+    gap: var(--z-space-3);
+    padding-block: var(--z-space-2);
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-sm);
+  }
+
+  .z-store-row--live {
+    color: var(--z-accent);
+  }
+
+  .z-store-row--planned {
+    color: var(--z-text-tertiary);
+  }
+
+  .z-store-row__label {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+/**
+ * RoadmapTrack — 4up at ≥1280, 2×2 at 768-1279, vertical list with a
+ * left-hand spine at <768. Ref: design/blueprint.md §2 (§12).
+ */
+import PhaseCard from './PhaseCard.astro';
+import { PHASES } from '../data/roadmap';
+---
+
+<div class="z-roadmap">
+  <div class="z-roadmap__rail" aria-hidden="true"></div>
+  <div class="z-roadmap__track">
+    {PHASES.map((p) => (
+      <div class="z-roadmap__item">
+        <span class="z-roadmap__node" aria-hidden="true"></span>
+        <PhaseCard phase={p.phase} name={p.name} line={p.line} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .z-roadmap {
+    position: relative;
+  }
+
+  .z-roadmap__rail {
+    position: absolute;
+    inset-inline-start: 5px;
+    inset-block: 0;
+    inline-size: 2px;
+    background: var(--z-border-strong);
+  }
+
+  .z-roadmap__track {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--z-space-6);
+    padding-inline-start: var(--z-space-6);
+  }
+
+  .z-roadmap__item {
+    position: relative;
+  }
+
+  .z-roadmap__node {
+    position: absolute;
+    inset-inline-start: calc(-1 * var(--z-space-6));
+    inset-block-start: var(--z-space-2);
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 50%;
+    background: var(--z-steel);
+    transform: translateX(-4px);
+  }
+
+  @media (min-width: 768px) {
+    .z-roadmap__rail {
+      inset-inline: 0;
+      inset-block-start: 5px;
+      inset-block-end: auto;
+      inline-size: auto;
+      block-size: 2px;
+    }
+
+    .z-roadmap__track {
+      grid-template-columns: repeat(2, 1fr);
+      padding-inline-start: 0;
+      padding-block-start: var(--z-space-6);
+    }
+
+    .z-roadmap__node {
+      inset-inline-start: 50%;
+      inset-block-start: calc(-1 * var(--z-space-6));
+      transform: translate(-4px, 4px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .z-roadmap__track {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

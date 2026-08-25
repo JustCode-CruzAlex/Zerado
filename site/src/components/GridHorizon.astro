@@ -1,0 +1,42 @@
+---
+/**
+ * GridHorizon — the hero's decorative CSS backdrop. Static; never scrolls,
+ * parallaxes or animates. Ref: design/blueprint.md §7.4.
+ */
+---
+
+<div class="z-grid-horizon" aria-hidden="true"></div>
+
+<style>
+  .z-grid-horizon {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    /* mask: only the bottom 38% of the hero carries the backdrop */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 62%, black 62%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 62%, black 62%, black 100%);
+  }
+
+  .z-grid-horizon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(to right, var(--z-grid-line) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, var(--z-grid-line) 0 1px, transparent 1px 64px);
+    transform: perspective(320px) rotateX(76deg);
+    transform-origin: bottom center;
+    opacity: 0.5;
+  }
+
+  .z-grid-horizon::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 60%;
+    background: radial-gradient(ellipse at bottom, rgb(255 176 0 / 0.10) 0%, rgb(255 176 0 / 0.06) 40%, transparent 72%);
+  }
+</style>

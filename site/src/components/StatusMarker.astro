@@ -1,0 +1,26 @@
+---
+/**
+ * StatusMarker — driven entirely by --z-status-* tokens; ships as PLANNED on
+ * all four phases. Marking a phase shipped later is a token change on
+ * `.z-phase[data-phase="N"]`, not a redesign. Ref: design/blueprint.md §2 (§12).
+ */
+---
+
+<span class="z-status-marker">
+  <span class="z-status-marker__glyph" aria-hidden="true">○</span>
+  <span class="z-status-marker__label">Planned</span>
+</span>
+
+<style>
+  .z-status-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--z-space-2);
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-caption);
+    font-weight: var(--z-weight-medium);
+    letter-spacing: var(--z-tracking-readout);
+    text-transform: uppercase;
+    color: var(--z-status-color, var(--z-steel));
+  }
+</style>
