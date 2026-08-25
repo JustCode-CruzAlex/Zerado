@@ -236,13 +236,45 @@ Flutter carries the Phase 4 phone apps. **Not up for re-litigation.**
 ### 5.11 · The four inherited verdicts
 
 Rendered by the orchestrator before this manual existed. Inherit them; do not re-decide them.
+**Verdict 3 has since been reversed by founder direction — see the note below the table. The
+other three stand.**
 
 | # | Verdict | Reason, recorded |
 |---|---|---|
 | 1 | **Emoji glyphs — REJECTED** | Brand §8 already forbids emoji in product copy. They also break the monospaced grid (ambiguous or double advance width), render as tofu on many terminals, and are **inherently coloured**, which defeats the co-render rule's monochrome guarantee under `NO_COLOR`. The sanctioned replacement is `○ ◐ ◉ ⊘` with the ASCII column `[ ] [~] [*] [x]`. |
 | 2 | **Frames drawn past 80 columns — REJECTED as drawn** | **No screen may *require* more than 80 columns to be correct.** 80 is the design width; 120 is progressive enhancement. Replaced by the five tiers: Tiny `<40` · Narrow `40–59` · Standard `60–79` · Wide `80–119` · ExtraWide `120+`. |
-| 3 | **The embedded synthwave audio streamer — REJECTED OUTRIGHT, permanently closed** | It contradicts the ratified promises (no background telemetry; works with the network off; the only network traffic is services the player connected); adds an audio-device/cgo dependency to a program whose promise is *"it's a text program, it starts instantly"*; burns the redraw budget for zero product value; carries a music-rights surface a game tracker must not acquire; and is precisely the nostalgia-kitsch brand §1 rules out — synthwave-as-soundtrack is "remember the eighties?", not the era's idea of tomorrow. |
+| 3 | ~~**The embedded synthwave audio streamer — REJECTED OUTRIGHT, permanently closed**~~ → **SUPERSEDED.** **Audio ships in Phase 1** as a designed, opt-in subsystem, off by default. | **Superseded by founder direction relayed 2026-08-25.** The original reasoning is preserved immediately below, together with which parts of it dissolved and which parts survive as live constraints. Build audio per `01-design-system.md` §15 and §5.2. |
 | 4 | **A single view carrying status summary + filter bar + table + detail pane at once — REJECTED as a fixed composition** | Replaced by a responsive one. The status summary is **not a region** — it is the one pinned summary row of R-10(c). The filter bar is a **mode** of the list below 120 columns, not a permanent region. The detail pane is not a default region. **The verdict set its floor at 80 columns; the spine resolved it at 120** on the same R-10(a) arithmetic — an 80-column split leaves the identity column around 15 characters. Below 120 the detail is a route, not a pane. |
+
+> #### Verdict 3, superseded — the working, kept visible
+>
+> **Provenance.** Reversed by **founder direction, relayed by the orchestrator on 2026-08-25**.
+> The relay **carries no ratification authority of its own** — the founder confirms it at the
+> bundle gate. It is recorded here with its provenance rather than rewritten silently, because
+> *a settled-decisions table that quietly changes its mind is worse than one that shows its
+> working.*
+>
+> **What was originally rejected, and why.** An *embedded synthwave audio **streamer***: it
+> contradicted the ratified promises (no background telemetry; works with the network off; the
+> only network traffic is services the player connected); it added an audio-device/cgo dependency
+> to a program whose promise is *"it's a text program, it starts instantly"*; it burned the
+> redraw budget for zero product value; it carried a music-rights surface a game tracker must not
+> acquire; and it was precisely the nostalgia-kitsch brand §1 rules out — synthwave-as-soundtrack
+> is "remember the eighties?", not the era's idea of tomorrow.
+>
+> **Why the objections no longer refuse it.** What ships is **not the thing that was rejected.**
+> The rejected object was a *network streamer, always on*; the shipped object is a **local,
+> bundled, opt-in subsystem that is off by default and degrades to silence**. On that reading:
+>
+> | Original objection | Status |
+> |---|---|
+> | Contradicts local-first / works-offline / no background telemetry | **Dissolved** — bundled and local; audio makes no network request |
+> | Audio-device dependency vs "starts instantly" | **Dissolved** — off by default; absent device, SSH and CI all degrade to silence with no error and no delay |
+> | Burns the redraw budget | **Dissolved** — audio is not a redraw concern. The related cost survives as an implementation constraint: no leaked goroutine, no device handle held while muted |
+> | **Music-rights surface** | **SURVIVES — still live.** Bundled music must be DRM-free and licensed for commercial redistribution. A founder decision, recorded in the spine's ADR, not dissolved by this reversal |
+> | **Nostalgia-kitsch risk** | **SURVIVES — still live.** Now enforced as a design rule rather than a refusal: the DeLorean-and-KITT bar governs sound as it governs pixels (`01-design-system.md` §15.4). Chiptune jingles, coin-drop and level-up stings remain a MISS, not a variation |
+>
+> **The two that survive are binding.** The reversal changed the verdict, not those constraints.
 
 ### 5.12 · The FlowForge canon Zerado adopts
 

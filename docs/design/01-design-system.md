@@ -413,17 +413,18 @@ the arrangement.
 ### 4.1 · Anatomy — one line, Wide and ExtraWide
 
 ```
-▌ ◉ ZERADO       Return of the Obra Dinn                    9h   STM
-│ │ │            │                                          │    │
-│ │ │            │                                          │    └ source — 3 cols
-│ │ │            │                                          └ hours — right-aligned
-│ │ │            └ title — flex, the identity column (R-10a)
+▌ ◉ ZERADO       Return of the Obra Dinn                    41h   STM
+│ │ │            │                                           │     │
+│ │ │            │                                           │     └ source — 4 cols
+│ │ │            │                                           └ playtime — 6 cols, right
+│ │ │            └ title — 42 cols, the identity column (R-10a)
 │ │ └ label field — 11 cols
 │ └ glyph field — 2 cols, runtime-padded (§1.2)
-└ focus gutter — ▌ when focused, blank otherwise (§1.7)
+└ focus field — 2 cols, runtime-padded; `▌` when focused, blank otherwise (§1.7)
 ```
 
-At **Standard (60–79)** the `source` column is shed to the detail view; everything else holds.
+At **Standard (60–79)** and at **ExtraWide** the `source` column is shed — to the detail view and
+to the detail pane respectively; everything else holds.
 
 ### 4.2 · Anatomy — two lines, Narrow and Tiny (< 60)
 
@@ -445,19 +446,28 @@ row grows a line instead.
 
 ### 4.3 · The field budget — one-line form
 
+**Binding, and owned by the spine** (`docs/blueprint/02-composition.md` §2.2). At the 80 × 24
+design floor, body 74:
+
 | Field | Cols | Note |
 |---|---|---|
-| focus gutter | 1 | `▌` U+258C — Ambiguous width, ASCII fallback `>` |
-| gap | 1 | |
-| state glyph field | 2 | fixed, runtime-padded |
-| gap | 1 | |
-| state label field | 11 | fixed — `NOT STARTED` and `IN PROGRESS` are the longest |
-| gap | 2 | |
-| **title** | **flex** | **the identity column — R-10(a)** |
-| gap | 2 | |
-| hours | 5 | right-aligned (`   9h` … `1204h`) |
-| gap | 3 | Wide and ExtraWide only |
-| source | 3 | Wide and ExtraWide only — `STM` · `PHY` |
+| focus field | **2** | fixed width, runtime-padded — `▌` U+258C is Ambiguous (§1.2). ASCII fallback `>` |
+| state chip | **14** | glyph field 2 + space + label 11 (§3.1) |
+| gutter | 2 | |
+| **title** | **42** | **the identity column — R-10(a)** |
+| gutter | 2 | |
+| playtime | **6** | right-aligned, `  41h` |
+| gutter | 2 | |
+| source | **4** | `STM` · `PHY` |
+| | **74** | |
+
+Forty-two columns holds *Return of the Obra Dinn* (24) and *The Legend of Zelda: Breath of the
+Wild* (39) without truncation.
+
+> **Why 42 and not 43.** An earlier draft of this document budgeted a **one**-column focus field
+> and a 3-column source, giving a 43-column title. When §1.2's Ambiguous-width finding forced the
+> focus and glyph fields to a fixed **two** columns each, the row re-budgeted and the title went
+> 43 → 42. The spine's split is the corrected one and is binding; this table is aligned to it.
 
 Fixed left = **18 cols**. Right block (Standard+) = **7 cols**.
 
@@ -465,14 +475,19 @@ Fixed left = **18 cols**. Right block (Standard+) = **7 cols**.
 
 | Tier | Width | `leftInset` | Body | Hours? | **Title** |
 |---|---|---|---|---|---|
-| ExtraWide | 120 | 4 | 112 | one line | **81** |
-| Wide | 80 | 3 | 74 | one line | **43** |
-| Standard | 60 | 3 | 54 | one line, no source | **29** |
+| ExtraWide | 120 | 4 | 112 → list **66** ∥ 2 ∥ detail 44 | one line, source shed to the pane | **40** |
+| Wide | 80 | 3 | 74 | one line, full row | **42** |
+| Standard | 60 | 3 | 54 | one line, source shed | **28** |
 | Narrow | 40 | 2 | 36 | **two lines** | **32** on line 1 |
 | Tiny | 32 | 1 | 30 | **two lines** | **26** on line 1 |
 
-At Wide and ExtraWide the source column and its gap cost 6 columns; at Standard they are shed.
-Below 60 the two-line form spends only 4 columns before the title — gutter, gap and the glyph
+**ExtraWide does not widen the title — it narrows it.** The spine does not compose a single-pane
+list at 120+; the body splits **66 ∥ 2 ∥ 44**, so the ledger works in 66 columns, not 112. It
+sheds `source` to the detail pane and the title lands at **40** — slightly *less* than Wide's 42,
+in exchange for a permanent detail pane. Any figure derived from a full-width 112-column ledger
+at ExtraWide is wrong.
+
+Below 60 the two-line form spends only 4 columns before the title — the focus field and the glyph
 field — so the narrow tiers get a **longer** usable title than Standard does. That is the
 two-line row paying for itself.
 
@@ -549,13 +564,29 @@ is inherited even though the package cannot be.
 
 R-10(c). One row, pinned outside the scroll region, always on screen.
 
+**It lives at body row 1 — not in the footer.** The Spacing Canon's reserved footer row belongs
+to the **key hints**, and `04-navigation-and-focus.md` §6 forbids that row from carrying status:
+*"It is not decoration and is never repurposed for status. Status has its own row."* The two are
+different objects with different rows, and the split is worth stating because they look alike:
+**the footer answers "what can I press"; the summary answers "what have I got".**
+
 ### 5.1 · Anatomy — Wide tier, body width 74
 
 ```
-247 games · 6 zerado · 12 in progress                  ▮ AUDIO   ? help
-│                                                      │          │
-└ the summary — prose casing (§3.3)                     │          └ help hint, right
-                                    audio indicator ────┘  present only when audio is enabled
+247 games   ○ 198  ◐ 12  ◉ 6  ⊘ 31                            ▮ AUDIO
+│           │                                                  │
+│           └ the four state counts — they sum to the total     │
+└ the total, prose casing (§3.3)          audio indicator ──────┘
+```
+
+**The counts always sum to the total** (`05-state-machine.md` §7). 198 + 12 + 6 + 31 = 247. A row
+that cannot be classified does not exist, so there is no fifth bucket and no rounding.
+
+**When a filter is active the summary describes the filtered set and says so** — showing
+whole-library counts above a filtered list is the most common way a list view lies:
+
+```
+ 31 games   ○ 24   ◐ 3   ◉ 1  ⊘ 3      filter: source=physical
 ```
 
 ### 5.2 · The audio indicator
@@ -583,36 +614,70 @@ asking to be pressed. It therefore spends no cyan and does not touch the chrome-
 ### 5.3 · Content rules
 
 - **Say the number.** `247 games`, never `a lot of games` (brand §8).
-- Prose casing for counts: `6 zerado`, not `6 ZERADO`.
-- Three facts maximum. The ratified voice example is the shape: *"247 games. 6 finished. Last
-  played: 3 weeks ago."* — three facts, no adornment, no exclamation mark.
-- The right-hand hint is **always** `? help` (WCAG 3.2.6 Consistent Help).
-- `m` appears in the footer **only when audio is enabled.** A key hint for a subsystem the player
-  never turned on is noise, and it advertises a feature as if it were already running.
+- Prose casing for the total: `247 games`. Where a state is named in words rather than shown as a
+  glyph count, it is lowercase — `6 zerado`, never `6 ZERADO` (§3.3).
+- **The counts sum to the total, and the summary names the set it describes** — the two rules of
+  `05-state-machine.md` §7. These are load-bearing and falsifiable.
+- No adornment, no exclamation mark.
+- **`s` means set-status everywhere, always** — on every screen and in every state.
+  **Connect-a-store is `c`** (`04-navigation-and-focus.md`). The two were briefly one key on the
+  library screen, distinguished only by whether the library was empty; that is not a live
+  ambiguity but it is a muscle-memory cost on the most-used screen, and it forced Help to say two
+  different things depending on how full the library was.
+- `m` appears **in the footer**, and only when audio is enabled. A key hint for a subsystem the
+  player never turned on is noise, and it advertises a feature as if it were already running.
 
-### 5.4 · Spacing
+> **The "three facts" guideline, and why it does not cap this row.** The ratified voice example —
+> *"247 games. 6 finished. Last played: 3 weeks ago."* — is a **prose** shape: three facts land
+> harder than an exclamation mark. It governs **sentences**: sync result lines, empty states,
+> errors, confirmations.
+>
+> The pinned summary is not a sentence. It is a **ledger total** governed by R-10(c) and by
+> `05-state-machine.md` §7, which requires a total **plus four state counts that add up** — five
+> figures, by construction. Dropping one to satisfy a prose guideline would break a falsifiable
+> rule to satisfy a stylistic one.
+>
+> **Where they genuinely conflict, the falsifiable rule wins and the guideline yields.** The
+> guideline still applies to this row in the way that matters: no adornment, no editorialising,
+> no exclamation mark — just the figures.
 
-Occupies the **reserved footer row** of the Spacing Canon frame (#2435 §5.2) — it is not an
-extra row and does not steal from `BodyRect`.
+### 5.4 · Placement and spacing
+
+**Body row 1**, pinned *outside* the scroll region (R-10(c)), with `InterElementGap` (1 row) of
+respiro below it before the column header. It is inside `BodyRect` and therefore costs one body
+row — that is the correct cost, and it is what guarantees the summary can never be pushed off the
+bottom by a 400-game library.
+
+**It is not the footer row.** The Spacing Canon's reserved footer row is a separate row carrying
+key hints, and it may never carry status (`04-navigation-and-focus.md` §6).
 
 ### 5.5 · States
 
 | State | Rendering |
 |---|---|
-| Default | counts in `--z-text-secondary` (`249` / `white`); numerals in `--z-text` |
-| Focused row has hours, tier < Standard | replaced by `Hollow Knight · 41h` — where the hours went (§4.4) |
+| Default | total and counts in `--z-text-secondary` (`249` / `white`); numerals in `--z-text`; each state glyph in its own state colour (§3.2) |
+| Filter active | the summary describes the **filtered** set and appends `filter: <predicate>` — never whole-library counts above a filtered list |
+| Empty library | the glyph counts **do not render** (see §5.6); the row reads `No games yet` |
 | Syncing | replaced by the progress readout (§9) |
-| Offline | prefixed by the degrade banner (§12) |
-| Filter active | replaced by the filter bar (§7) |
-| Audio enabled | the indicator sits between the summary and the help hint; `m` joins the footer keys |
+| Offline | the degrade banner takes its own row directly above (§12) |
+| Audio enabled | `▮ AUDIO` right-aligned on this row; `m` joins the **footer** keys |
 | Audio muted | indicator becomes `▯ MUTED` in `--z-text-secondary`; nothing else on the row changes |
-| Tiny | counts only: `247 · 6 · 12`, and `?` alone as the hint. The audio indicator degrades to the bare glyph `▮` / `▯` — **the glyph is the last thing dropped, never the first** |
+| Tiny | total and counts only, glyph counts unspaced — `247  ○198 ◐12 ◉6 ⊘31`. The audio indicator degrades to the bare glyph `▮` / `▯` — **the glyph is the last thing dropped, never the first** |
 
 ### 5.6 · `NO_COLOR` / 40 columns
 
-Zero SGR; the text carries itself. At 40 columns the summary truncates from the right, dropping
-whole facts rather than mid-word: `247 games · 6 zerado`. The `? help` hint is the last thing to
-go, and at Tiny becomes `?`.
+Zero SGR; the figures carry themselves. At 40 columns the counts keep their glyphs and lose their
+spacing before they lose a bucket — **all four buckets always render, because a summary missing a
+bucket no longer sums.** The audio indicator renders with zero SGR as `▮ AUDIO` / `▯ MUTED`, and
+the filled-against-hollow contrast keeps the two apart with no colour at all.
+
+> **The glyph counts are legend-dependent, and that is only safe while the legend is on screen.**
+> `○ 198` carries a glyph and a number but no label, so co-render's third channel comes from the
+> **ledger directly below**, where every row shows `◉ ZERADO` in full. The mapping is always
+> visible on the same screen — except when the ledger has no rows. **On an empty library the
+> glyph counts therefore do not render at all**; the row reads `No games yet` and the empty state
+> (§10) carries the explanation. Counts of `○ 0 ◐ 0 ◉ 0 ⊘ 0` against an unglossed legend would be
+> the one place this component could show state without a label.
 
 ### 5.7 · Reuse verdict
 
@@ -902,7 +967,7 @@ because reaching for the shelf primitive would be a defensible-looking mistake.
       Zerado reads your Steam library once you add a key.
       Physical discs and cartridges can be added by hand.
 
-      s  connect Steam        a  add a game by hand
+      c  connect a store      a  add a game by hand
 ```
 
 Body `--z-text`; the key hints `--z-primary`. **This is the screen nobody writes down and the
@@ -928,7 +993,7 @@ Not an error, not red. Says the number.
       share the list until that's public.
       Settings → Privacy.
 
-      r  try again        s  Steam settings
+      r  try again        c  Steam settings
 ```
 
 Straight from brand §8 and consistent with the public FAQ. **Name what happened, why, and the
@@ -1008,7 +1073,7 @@ state**, not a failure — and it must be **shown, never silent**.
 ### 12.2 · Anatomy — action required
 
 ```
-▌ STEAM KEY MISSING   Press s to add it.
+▌ STEAM KEY MISSING   Press c to add it.
 ```
 
 `▌` in `--z-primary` (`214` / `bright yellow`); text `--z-text` (`255`). **Amber appears only
@@ -1022,7 +1087,7 @@ when the player must do something.** That is the whole distinction, and it is th
 | Network off, never synced | action | `OFFLINE   Nothing synced yet. Connect when you're back online.` |
 | Price data unreachable (Phase 3) | informational | `PRICES OFFLINE   Showing the last prices Zerado saw.` |
 | Metadata unreachable (Phase 2) | informational | `COVERS OFFLINE   Titles and states are all local.` |
-| Steam key missing | action | `STEAM KEY MISSING   Press s to add it.` |
+| Steam key missing | action | `STEAM KEY MISSING   Press c to add it.` |
 | Steam profile private | action | `STEAM PROFILE PRIVATE   Steam won't share the list until it's public.` |
 
 **Never invent a degrade that hides a promise.** If something the landing page promises is not
@@ -1131,7 +1196,138 @@ column `--z-text-tertiary`. `esc` closes (2.1.2); it must not entirely obscure t
 
 ---
 
-## 15 · Component index
+## 15 · Audio cue
+
+**Phase 1, opt-in, off by default.** Not a visual component, but it belongs in the vocabulary
+because of the rule it must obey — and because a designer who does not know that rule will
+design a screen that breaks it.
+
+### 15.1 · The governing rule
+
+> **Audio is never the only carrier of information.**
+> Any event that makes a sound must **also** be visible. This is the co-render rule extended to
+> a fourth channel: colour **and** glyph **and** label **and** — optionally — sound.
+
+A cue is **always the second signal, never the first.** The screen changes; the sound confirms
+what the screen already said. It follows that **removing all audio must remove no information**,
+which is the same guarantee `NO_COLOR` gives for colour. If a designer can point at a fact the
+player only learns by hearing it, the design is wrong.
+
+Two corollaries worth stating, because they are the ones that get missed:
+
+- **Timing.** The cue fires *after* the visual change is committed, never before it and never
+  instead of it. A sound that anticipates the screen teaches the player to trust the sound.
+- **A silent run is a correct run**, not a degraded one — exactly as a `NO_COLOR` screen is a
+  correct screen.
+
+### 15.2 · The two channels — separately mutable, separately volumed
+
+| Channel | What it is | Muting |
+|---|---|---|
+| **Music** | Ambient bed, if enabled | Independent mute and independent volume |
+| **Interface FX** | Discrete event cues | Independent mute and independent volume |
+
+They are **never** a single "sound on/off" switch. A player who wants event confirmation without
+a soundtrack — or a soundtrack without clicks — must get exactly that.
+
+### 15.3 · Which events may carry a cue — a closed list
+
+| Event | Cue | The visual signal it follows |
+|---|---|---|
+| **Sync complete** | FX | the result line — `247 games. 6 zerado.` |
+| **Error** | FX | the error state (§11) — `▌` annunciator, heading, body |
+| **A game becomes `ZERADO`** | FX | the row's state chip changes to `◉ ZERADO` |
+
+**Nothing else.** Explicitly **no** cue on: navigation, keystrokes, focus movement, scrolling,
+filtering, opening or closing a pane, or app start. Per-keystroke sound is ambient noise, it is
+the audible form of the ambient-decoration ban the scanner already lives under (§9.3), and it is
+the fastest route to the nostalgia-kitsch brand §1 rules out.
+
+The `ZERADO` cue is the one that carries emotional weight, and it is the one most at risk of
+being overdone. It follows the voice: *"Zerado. 41 hours. Sixth this year."* — three facts, no
+fanfare. **A cue that celebrates is the audible equivalent of an exclamation mark**, which the
+voice forbids (brand §8).
+
+### 15.4 · The register — the aesthetic bar applies to sound
+
+The DeLorean-and-KITT bar governs what Zerado *sounds* like exactly as it governs what it looks
+like. **The reference is a machine acknowledging an instruction** — a switch, a relay, a
+confirmation tone from an instrument panel. Short, dry, mechanical, the audible sibling of
+"motion here is mechanical, not playful: no bounce, no elastic, no spring overshoot" (brand
+§7.2).
+
+**A MISS, not a variation:** retro-arcade pastiche, chiptune jingles, coin-drop or level-up
+stings, anything that says *"remember the eighties?"* rather than *the eighties' idea of
+tomorrow*.
+
+### 15.5 · Degrade — silence is never an error
+
+| Condition | Behaviour |
+|---|---|
+| No audio device | **silent, no error, no warning** |
+| Running over SSH | silent |
+| Running in CI, or no TTY | silent |
+| `ZERADO_NO_AUDIO` set | silent — mirrors `NO_COLOR` exactly |
+| Player has not opted in (**the default**) | silent; no indicator, no `m` key (§5.2) |
+
+> **Mute stops the music bed — it does not merely silence it.** *Design decision, and it is an
+> implementation constraint rather than a UI one.* No separate pause control is added: `m` is
+> enough for 1.4.2 (§15.6) and a second key would be a worse key map. But muting the **music**
+> channel must **halt decode and release the audio device**, not hold a gain of zero — a muted
+> bed that keeps a goroutine and a device handle alive contradicts *"it's a text program, it
+> starts instantly"* and the no-leaked-goroutine bar, for no benefit the player can hear.
+> Unmuting restarts it. FX need no equivalent: they are discrete and hold nothing between cues.
+
+**Audio never blocks, never warns, and never fails a run.** A missing sound device is not a
+degrade worth a banner — unlike the network, no public promise depends on audio, so §12's
+honest-degrade rule does **not** apply here. Reporting it would be noise about noise.
+
+### 15.6 · Accessibility
+
+**WCAG 1.4.2 Audio Control (Level A) becomes live the moment audio ships**, and it is the reason
+§15.2 is a hard requirement rather than a nicety. Verified at source, the criterion reads: *if
+any audio plays automatically for more than 3 seconds, either a mechanism is available to pause
+or stop the audio, or a mechanism is available to control audio volume independently from the
+overall system volume level.*
+
+Read precisely, it bites on the **music bed** — the only thing that plays automatically and runs
+past three seconds. Interface FX are discrete and far shorter.
+
+**How it is satisfied — structurally, so a reviewer can check it rather than take it on trust:**
+
+| # | Mechanism | What it gives 1.4.2 |
+|---|---|---|
+| 1 | **Off by default; explicit opt-in in Settings** | **Nothing ever plays automatically on first run**, so the criterion's precondition is not even reached until the player has chosen otherwise |
+| 2 | **`m` is a global, always-reachable mute** | The "pause or stop" branch, on every screen, from any state |
+| 3 | **Music and FX independently mutable and independently volumed** (§15.2) | The "control volume independently from the overall system volume level" branch — satisfied per channel, not just globally |
+
+Mechanisms 2 and 3 are available **before** the three-second threshold rather than after it,
+which is the posture the criterion is reaching for. Any one of the three would satisfy it; the
+design carries all three.
+
+**A reviewer checks it like this:** launch with no prior opt-in and confirm silence and no `m` in
+the footer; enable audio and confirm `m` mutes from any screen; then confirm music and FX can be
+silenced independently of each other and of system volume.
+
+Also live: **1.4.1 Use of Color**'s underlying principle, applied to sound — no information in
+one channel alone (§15.1).
+
+> **A criterion that does *not* apply, checked rather than assumed.** **1.4.7 Low or No
+> Background Audio (AAA)** looks relevant and is not: read at source, it is scoped to
+> *prerecorded audio-only content containing primarily speech in the foreground.* Zerado has no
+> speech content, so it does not apply. The underlying concern — interface FX staying
+> distinguishable over a music bed — is real, but it is a **design** requirement, not a WCAG
+> obligation, and it is owned by §15.2's independent volumes.
+
+### 15.7 · Open — the founder's call, flagged not resolved
+
+Bundled music must be **DRM-free and licensed for commercial redistribution.** That is a founder
+decision recorded in the spine's ADR, not a design decision, and no design here assumes a
+specific track, library, or licence.
+
+---
+
+## 16 · Component index
 
 | Component | § | Reuse verdict |
 |---|---|---|
@@ -1148,10 +1344,12 @@ column `--z-text-tertiary`. `esc` closes (2.1.2); it must not entirely obscure t
 | Degrade banner | 12 | Build fresh; `lipgloss` |
 | Confirmation | 13 | **`huh` — fits**, restyled to Zerado tokens |
 | Command palette | 14 | Phase 2; `bubbles/textinput` + `bubbles/list` |
+| **Audio cue** | **15** | Phase 1, opt-in, off by default. Non-visual; the rule is what matters. Audio library is a spine/implementation call, not a design one |
+| **Mute indicator** | **5.2** | Part of the status bar; `▮` / `▯`, three-channel co-render |
 
 ---
 
-## 16 · Open for the founder
+## 17 · Open for the founder
 
 1. **Nine ANSI-256 indices are underived** (`00-design-brief.md` §9). Four components here ship
    an interim uncoloured rendering because of it: the determinate track (§8.2), the scanner

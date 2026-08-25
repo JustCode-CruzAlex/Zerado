@@ -153,6 +153,10 @@ cockpit.
 6. The **terminal mark** `[0]` on the splash and in `--help`.
 7. The **action-required degrade banner** — and only the action-required one.
 8. The **filter mode sigil** `/`.
+9. The **audio indicator** `▮ AUDIO` in the status bar, when audio is enabled and unmuted
+   (`01-design-system.md` §5.2). This is an **ambient-voice** use — the machine saying it is on —
+   **not** an action, so it spends no cyan and does not touch the chrome-cyan budget. Muted
+   (`▯ MUTED`) is `--z-text-secondary` chrome and is not amber at all.
 
 Anything not on this list is not amber. Body text is `--z-text`. Structure is chrome.
 

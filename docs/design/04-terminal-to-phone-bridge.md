@@ -34,6 +34,7 @@ One brand, three surfaces with almost nothing technically in common:
 | Type control | full | one monospaced grid | full, platform metrics |
 | Motion | CSS, 60 fps | redraw budget | platform animation |
 | Logo | `logo.svg` | `[0]` | `logo-mark.svg` |
+| Audio | none | opt-in, bundled, `ZERADO_NO_AUDIO` | opt-in, platform audio session |
 
 **The terminal is the product's home.** When web and terminal conflict, the terminal wins
 (brand §9). The phone is neither — it is a third expression that must be recognisably the same
@@ -104,6 +105,45 @@ Zerado is dark-native on every surface.
 `Zerado` the product · `zerado` the command · *zerado* the status in prose · **`ZERADO`** the
 state chip in the interface. A phone has chips; they read `ZERADO`.
 
+### 2.7 · Audio — the register, the posture, and the co-render extension
+
+Audio became part of the product on **2026-08-25**, and the phone is the surface where a *second*
+sound language is easiest to acquire by accident — because the platform hands you a whole sound
+design for nothing. Three things are invariant.
+
+**2.7.1 · The sound register translates unchanged.** The reference is **a machine acknowledging
+an instruction** — a switch, a relay, a confirmation tone from an instrument panel. Short, dry,
+mechanical: the audible sibling of *"motion here is mechanical, not playful: no bounce, no
+elastic, no spring overshoot"* (brand §7.2), and the DeLorean-and-KITT bar applied to sound
+(`01-design-system.md` §15.4).
+
+**A MISS, not a variation, on any surface:** retro-arcade pastiche, chiptune jingles, coin-drop
+or level-up stings, and — specifically on a phone — **the platform's own stock notification and
+success sounds.** Those are the platform's identity, not Zerado's. Wearing the platform means
+adopting its *conventions*, never its *voice*.
+
+**2.7.2 · Opt-in and off by default is a posture, not a terminal implementation detail.** It
+carries to the phone whole: nothing plays until the player turns it on, and the first run is
+silent. This is the mobile temptation worth naming — a phone app that greets you with a sound on
+first launch has broken the posture even though it kept the register.
+
+**2.7.3 · Audio is never the sole carrier of information — non-negotiable everywhere.** The
+co-render rule extended to a fourth channel: colour **and** glyph **and** label **and** —
+optionally — sound. A cue is **always the second signal**, confirming what the screen already
+said. **Removing all audio must remove no information**, exactly as `NO_COLOR` removes none.
+On a phone this is load-bearing in a way it is not in a terminal: the device may be muted by a
+hardware switch, in a pocket, or driving a screen reader — so the silent path is the *common*
+path, not the exceptional one.
+
+> **Governance flag.** Brand manual §9 lists the cross-surface invariants as *the four states,
+> amber-common/cyan-earned, the scanner as the only signature motion, the voice, and dark by
+> default.* **Audio is not in that list** — brand rev A is dated 2026-08-24 and the audio
+> decision is 2026-08-25, so §9 predates it. This section is the working invariant until the
+> manual catches up; **§9 should gain audio as a sixth invariant** via the brand governance
+> procedure (owner: `fft-brand-architect`). Recorded rather than assumed, because a bridge
+> document quietly extending the brand's own invariant list is exactly the drift §9 exists to
+> prevent.
+
 ---
 
 ## 3 · What cannot translate — and why
@@ -124,6 +164,8 @@ the brand entirely.
 | **The terminal mark `[0]`** | Bracket-and-zero is a terminal artefact. | `logo-mark.svg`. Full colour requires a dark ground; on light use `logo-mono-black.svg`. |
 | **The five column tiers (40/60/80/120)** | Columns are not a phone dimension. | M3 window size classes / platform size classes (§6). The *principle* survives: **design for the smallest real surface first, and let the largest add panes rather than rescue them.** |
 | **The 24-column / 8-row refusal floor** | No phone is too narrow. | Not carried. |
+| **`ZERADO_NO_AUDIO`** | An environment variable with no phone equivalent. | The platform's own controls: the iOS silent switch, system volume, per-app audio settings — plus Zerado's own in-app opt-in and per-channel mutes, which carry unchanged. |
+| **"No device, so silence"** | A phone always has an audio device. | The equivalent condition is *muted, in a pocket, or on a call.* The response is identical and is the point of §2.7.3: **silence loses no information.** |
 
 ---
 
@@ -144,7 +186,10 @@ the brand entirely.
 | **Touch targets** | Sized to the platform minimum, and never below **WCAG 2.5.8 Target Size (Minimum), 24 × 24 CSS px, Level AA** — a criterion that is inapplicable in the terminal and becomes live here. Confirm the current Apple and Material figures at source at Phase 4 kickoff. |
 | **Elevation, material, shadow** | Permitted — **this is the clearest case of allowed divergence.** The terminal forbids fill-based elevation because of the 16-colour floor; the phone has no such floor and may use surfaces and shadow normally. |
 | **Platform loading idioms** | Skeletons, refresh indicators, snackbars, toasts. |
-| **Haptics** | Permitted, sparingly, and never as the sole channel for anything. |
+| **Haptics** | Permitted, sparingly, and never as the sole channel for anything — the §2.7.3 rule covers haptics exactly as it covers sound. A phone-only channel with no terminal analogue. |
+| **System volume model** | Use it. The phone has an OS volume model and per-app audio settings the terminal does not; Zerado's own per-channel volumes sit *underneath* it, never override it. |
+| **Silent switch / Do Not Disturb** | **Must be honoured.** Zerado's audio is never essential, so it uses an ambient-class audio session that the silent switch silences. Never a playback/priority class that overrides it. |
+| **Background audio conventions** | Zerado's audio is **foreground-only.** No background audio entitlement, no lock-screen transport controls, no now-playing metadata — Zerado is not a music player and must not present as one. |
 | **Cover art** | Phase 2 metadata is a first-class visual on a phone in a way it never is in a terminal. |
 
 ### 4.2 · One codebase must not mean one look
@@ -163,6 +208,34 @@ The 16-colour floor forced the terminal to separate regions by **border and spac
 fill**, and the result reads calm. The phone is free to use fill — but a screen that separates
 everything with tinted surfaces will read busier than the terminal it is a sibling to. **Reach
 for spacing first, fill second.** This is guidance, not a rule.
+
+---
+
+### 4.4 · Audio on a phone mixes — it never interrupts
+
+The rule with the most practical bite, and it has no terminal analogue at all: **a phone user is
+very likely already playing something.** Music, a podcast, a call, a screen reader.
+
+**Zerado never takes exclusive audio focus.** It mixes with whatever is playing, or it stays
+quiet. Concretely:
+
+| Situation | Behaviour |
+|---|---|
+| Another app is playing audio | Zerado's **music bed does not start.** FX may mix at low level, or stay silent — never duck or pause the other app |
+| A call is active | Silent |
+| A screen reader is speaking | Silent, or mixed below speech — **never over it.** §2.7.3 guarantees nothing is lost by staying quiet |
+| Silent switch on / DND | Silent |
+| Zerado goes to background | Audio stops |
+
+**Why this is identity and not merely politeness.** Interrupting a player's own music to play
+Zerado's would make the product the loudest thing in the room — the precise opposite of *an
+expensive object that has just been unboxed.* A machine that talks over you is not KITT; it is a
+kiosk.
+
+**The one carried-over engineering constraint:** muting the **music** channel **halts decode and
+releases the audio session**, rather than holding a gain of zero (`01-design-system.md` §15.5).
+That rule matters more on a phone than in a terminal, because a held audio session there costs
+battery and can block another app from playing at all.
 
 ---
 
@@ -269,7 +342,13 @@ the **Phase 1 spine**, and belong in `fft-tui-architect`'s deliverable.
    surface most exposed if IGDB says no. Design the seam so the provider can change.
 6. **No named community source.** The ratified decision stands on every surface, including a
    phone screen.
-7. **Physical copies are first-class from day one.** A hand-added disc is not a second-class row
+7. **Audio settings and cue events are data, not code.** The opt-in flag, the two per-channel
+   mutes and the two volumes must serialize as **preferences the phone can read**, and each cue
+   must be a **semantic event identifier** (`sync_complete`, `error`, `state_zerado`) rather than
+   a sound-file name. The same reasoning as item 1: the *event* is shared, the *asset* is each
+   surface's own. A phone that had to parse the terminal's audio filenames would be the same
+   defect as a phone parsing its glyphs.
+8. **Physical copies are first-class from day one.** A hand-added disc is not a second-class row
    in the terminal and must not become one on a phone.
 
 ---
@@ -341,6 +420,9 @@ than carrying the interim assignment indefinitely. The trigger is real work, not
    codebase. Confirm the reading that the app **adapts per platform** — Cupertino on iOS,
    Material 3 on Android — with the identity layer identical across both. The alternative, one
    uniform look on both platforms, would be cheaper and would strain the published promise.
-4. **The glyph substitution rule (§5).** It permits a redraw and forbids a resymbolisation.
+4. **Brand §9's invariant list is now incomplete (§2.7).** It predates the audio decision by one
+   day and lists five invariants; audio is a sixth. Confirm `fft-brand-architect` updates §9
+   through the governance procedure, so the manual and this bridge do not diverge.
+5. **The glyph substitution rule (§5).** It permits a redraw and forbids a resymbolisation.
    Confirm that the four marks must stay one ring family on the phone — no checkmark for
    *zerado*, however conventional that would be on a mobile list.

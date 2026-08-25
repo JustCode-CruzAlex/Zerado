@@ -77,6 +77,7 @@ Titles and levels were read from the W3C Recommendation on 2026-08-25.
 | SC | Title | Level | What it means on a Zerado screen |
 |---|---|---|---|
 | **1.4.1** | Use of Color | A | **This SC *is* the co-render rule.** Colour is never the only channel. Every state carries colour **and** glyph **and** label. Non-negotiable, already ratified (brand §4.3). |
+| **1.4.2** | Audio Control | A | **Live since audio was added to Phase 1.** Verified at source: *if any audio plays automatically for more than 3 seconds, either a mechanism is available to pause or stop it, or a mechanism is available to control its volume independently from system volume.* Satisfied structurally — see `01-design-system.md` §15.6. |
 | **1.4.3** | Contrast (Minimum) | AA | 4.5:1 for text. Every state colour clears it on `--z-surface` (7.21 worst — abandoned) and on the five popular themes brand §5.3 measured. **Honest caveat in §3.4.** |
 | **1.4.11** | Non-text Contrast | AA | 3:1 for glyphs, focus indicators and control boundaries. `--z-border` (**1.53**) fails and is therefore **decorative only**; controls use `--z-border-strong` (**4.08**). |
 | **2.1.1** | Keyboard | A | Trivially met — the keyboard is the only modality. The inverse risk is what matters: no action may require a pointer. |
@@ -117,8 +118,7 @@ Titles and levels were read from the W3C Recommendation on 2026-08-25.
 
 | SC / group | Why it does not apply |
 |---|---|
-| **1.2.1 – 1.2.9** (time-based media) | Zerado plays no audio and no video. **Note:** the rejected synthwave audio streamer would have created a live 1.4.2 *Audio Control* obligation out of nothing. Its removal is an accessibility win, not only a scope win. |
-| **1.4.2** Audio Control | No audio. See above. |
+| **1.2.1 – 1.2.9** (time-based media) | No video, and no speech or informational audio. Phase 1 audio is **non-informational by design** — §15.1 of the design system forbids sound from ever being the only carrier of information — so there is no time-based media whose information needs an alternative. **1.4.2 Audio Control is a different matter and does apply: it has moved to §3.1.** |
 | **1.3.4** Orientation | A terminal has no orientation lock. |
 | **1.3.5** Identify Input Purpose | No autocomplete metadata exists; the fields are a Steam key and a Steam ID, neither of which is a listed input purpose. |
 | **1.4.5 / 1.4.9** Images of Text | No images. Cover art arrives in Phase 2 and is art, not text. |
