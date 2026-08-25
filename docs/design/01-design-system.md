@@ -86,14 +86,44 @@ in rendering, and it is four rules:
    through the content** — which is exactly why it is easy to miss and worth its own rule.
    `ZERADO_ASCII=1` swaps the marker to ASCII `...` (three narrow cells, deterministic) for the
    same reason it swaps the state glyphs.
-4. **`ZERADO_ASCII=1` forces the ratified ASCII column** `[ ] [~] [*] [x]`, which is entirely
-   narrow and immune. It is also the automatic fallback when the terminal does not report
-   Unicode capability.
+4. **`ZERADO_ASCII=1` switches the WHOLE glyph vocabulary, not just the state column.** Every
+   fallback below is narrow by construction and therefore immune. It is also the automatic
+   fallback when the terminal does not report Unicode capability.
+
+   | Role | Default | ASCII fallback |
+   |---|---|---|
+   | State | `○ ◐ ◉ ⊘` | `[ ] [~] [*] [x]` |
+   | Focus marker | `▌` | `>` |
+   | Box drawing | `┌─┐│└┘` | `+-+\|+ +` |
+   | Scanner track / pip | `─` / `━` | `-` / `=` |
+   | Determinate bar fill / track | `━` / `─` | `=` / `-` |
+   | Breadcrumb separator | `✦` | `>` |
+   | Audio annunciator | `▮` / `▯` | `[*]` / `[ ]` |
+   | Truncation marker | `…` | `...` (rule 3) |
+
+   Mirrored from `docs/blueprint/03-responsive.md` §5c, which is the authority for this mapping.
+
+   > **Why the frame needs it as much as the state column does — and why "internally consistent"
+   > was not a sufficient answer.** An earlier draft of this section argued that box drawing
+   > carries no risk because the whole family is one width class. That is true about
+   > **alignment** and false about **absolute width**, and the difference is the whole point.
+   >
+   > A `34 × 11` overlay whose top and bottom border rows are **entirely** box-drawing renders
+   > those rows at **68 cells** on an `ambiguous-width=double` terminal, while its content rows —
+   > mostly ASCII — sit at roughly 36. **The box does not shear against itself. It shears against
+   > the screen**, and it takes the overlay off the right-hand edge.
+   >
+   > A fallback that rescues the state column while leaving the frame to shear would fix the
+   > smallest problem on the screen and leave the largest.
+   >
+   > *(The scope gap and this argument were found by `fft-tui-designer`.)*
 
 **The declared requirement:** Zerado is designed for a terminal that treats East-Asian-Ambiguous
 characters as **single-width** — the default outside CJK locales. Rule 1 keeps the ledger
 correct when that assumption is violated; rule 4 is the escape hatch. Box drawing is Ambiguous
-across the whole family, so it is internally consistent and carries no mixed-class risk.
+across the whole family, so it carries no **mixed-class** risk — the frame never shears against
+itself. It does carry an **absolute-width** risk, which is a different failure and the reason
+rule 4 covers the frame too.
 
 > **Why `█` and `░` are forbidden as a pair.** They are the conventional progress-bar
 > characters and they are **different width classes** — the bar changes length as it fills.
@@ -734,12 +764,12 @@ resolved it at **120**, on the same R-10(a) arithmetic. Below 120 the detail is 
 
 ### 6.1 · Presentation, by tier
 
-**Owned by the spine** (`docs/blueprint/02-composition.md` §2.1). The detail is **one view with
-two hosts**:
+**Owned by the spine** — the tier rule at `docs/blueprint/02-composition.md` §2.1, the ExtraWide
+budget at §2.3, which binds **66 ∥ 2 ∥ 44**. The detail is **one view with two hosts**:
 
 | Tier | Library composition | Where the detail lives |
 |---|---|---|
-| **ExtraWide `120+`** | list ∥ detail — body 112 → ledger 64 · gutter 2 · pane 46 | a **pane**; `Enter` moves focus into it |
+| **ExtraWide `120+`** | list ∥ detail — body 112 splits **66 ∥ 2 ∥ 44** | a **pane**, 44 cols; `Enter` moves focus into it |
 | Tiny · Narrow · Standard · **Wide** | single-pane list | a **route**, reached with `Enter`, left with `Esc` |
 
 **Why not at 80.** Splitting a 74-column body gives roughly 44 for the list and 28 for the pane,
@@ -750,30 +780,34 @@ either. **Two regions only when there is room for both to be correct.**
 **Consequence for this spec:** the detail component is written **host-agnostic**, built once and
 mounted twice. Nothing in it may assume a border, a pane width, or a surrounding route.
 
-### 6.2 · Anatomy — Wide tier, pane 28 cols
+### 6.2 · Anatomy — ExtraWide, pane 44 cols
 
 ```
-┌──────────────────────────┐   ← --z-border-strong (67 / bright black)
-│  Return of the Obra Dinn │   ← title, --z-text, wrapped, ≤ 24 cols
-│                          │
-│  ◉  ZERADO               │   ← the full 14-col chip (§3)
-│                          │
-│  PLAYTIME      9h        │   ← readout label + value
-│  ADDED         Mar 2026  │
-│  SOURCE        Steam     │
-│                          │
-│  MOOD                    │   ← Phase 2
-│  Story rich, kind of sad │
-└──────────────────────────┘
+┌──────────────────────────────────────────┐
+│  Return of the Obra Dinn                 │
+│                                          │
+│  ◉  ZERADO                               │
+│                                          │
+│  PLAYTIME      41h                       │
+│  ADDED         Mar 2026                  │
+│  SOURCE        Steam                     │
+│                                          │
+│  MOOD                                    │
+│  Story rich, kind of sad                 │
+└──────────────────────────────────────────┘
 ```
+
+`44` cells wide: border `1` + `BorderInsetX` **2** + content **38** + `BorderInsetX` 2 + border 1.
+The title wraps at 38; the 14-column state chip (§3.1) sits unchanged.
 
 Readout labels: UPPERCASE, `--z-text-secondary`, no letterspacing (§1.5). Values: `--z-text`.
 
 ### 6.3 · Spacing
 
-`InnerPaddingX` inside the border on each side; `InterElementGap` (1 row) between blocks; a
-2-column gutter between ledger and pane. Content never touches the border; the border never
-touches the screen edge (#2435 §2, Benchmark A).
+`BorderInsetX` **2** inside the border on each side, leaving **38** content columns of the pane's
+44; `InterElementGap` (1 row) between blocks; a **2-column gutter** between the 66-column list and
+the 44-column pane. Content never touches the border; the border never touches the screen edge
+(#2435 §2, Benchmark A).
 
 ### 6.4 · States
 
@@ -793,8 +827,9 @@ why it is a side pane and not a centred modal. Because reading order in a termin
 
 ### 6.6 · `NO_COLOR` / 40 columns
 
-Zero SGR; box drawing and spacing carry structure. At 40 columns the pane does not exist — the
-detail is a separate screen with the same content in one column.
+Zero SGR; box drawing and spacing carry structure — and under `ZERADO_ASCII=1` the border falls
+back to `+-+|+ +` (§1.2 rule 4). **Below 120 columns the pane does not exist at all**: the detail
+is a route with the same content in one column, which is why the component is host-agnostic.
 
 ### 6.7 · Reuse verdict
 

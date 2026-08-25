@@ -64,7 +64,7 @@ Every other cyan mark on the screen. **The budget is ONE (1) per screen.**
 That one is *"the single most important call to action on a screen"* (brand §4.1). Concretely,
 on a Zerado screen it is at most one of:
 
-- the primary action hint in the status bar or an empty state — `s  connect Steam`
+- the primary action hint in the status bar or an empty state — `c  connect a store`
 - the confirming action on a **non**-destructive dialog
 - the one key hint the screen most wants pressed
 

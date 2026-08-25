@@ -74,6 +74,33 @@ landed.
 
 ---
 
+## How to re-run these checks at the next gate
+
+The reviewer's fair objection to the first version of this bundle was that its verification numbers
+were **load-bearing but unreproducible**. It suggested committing the checkers under `tools/`. That
+would add executable files to a ticket whose out-of-scope line is *"All Go code… not one line of
+implementation"*, and whose no-code property has now been verified twice — so the method is written
+down instead. Each of these is a one-liner against a clean checkout.
+
+| Claim | How to reproduce it |
+|---|---|
+| **No code in the diff** | `git diff --name-only main..HEAD \| grep -vE '\.(md\|toml\|svg\|excalidraw)$'` → empty |
+| **Broken relative links** | Walk every `docs/**/*.md`, resolve each inline-link target that is not `http`, against the file's own directory |
+| **Every doc carries an archetype** | `grep -L '^archetype:' docs/**/*.md` → empty |
+| **Offline invariant** | In `07-offline-contract.md` §2's Phase 1 table, extract `` `Z-NN` `` from column 1 and the class word from column 2 → 11 rows, 11 distinct, 9 `WORKS` · 2 `REFUSES` |
+| **Mockup widths** | For every ```` ```text ```` block bound to a `RENDER W×H` heading, measure each non-blank line with `east_asian_width`, counting `W`/`F` as 2 and **Ambiguous as 1** (the design system §1.2 rule) → no line exceeds its declared `W` |
+| **Title-block overrun** | For each rendered SVG, find the `[titleblock].description` text run and the **cell** rules (short vertical lines inside the title band — *not* the cyanotype theme's full-height graticule) → the run ends before the next cell rule |
+| **Charts are live, not stale exports** | Re-run `flowforge chart render` on all ten specs and diff the SVGs; the only permitted difference is the `RENDERED FROM` path prefix, which reflects the invocation directory |
+
+**The one number that was not reproducible has been retired.** An earlier PR body claimed *"82
+mockups machine-verified"*; that was two agents' self-reports summed, and they counted different
+things. The reproducible figures are: **72** fenced `text` blocks across the eleven specs, of which
+**16** are bound to an explicit `RENDER W×H` heading — **158 lines measured, 0 over.** An
+independent re-measurement of all render-shaped blocks against each block's own ruler also found
+**0 overruns**.
+
+---
+
 ## What the register is actually evidence of
 
 Not that the bundle was written carelessly — every one of these was found **before** the bundle was
