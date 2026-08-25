@@ -133,11 +133,10 @@
 <text x="850.0" y="696.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">source_provider</text>
 <text x="850.0" y="715.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">observed_at        NOT NULL</text>
 <rect x="580.0" y="840.0" width="250.0" height="150.0" rx="12" ry="12" fill="#0A325A" stroke="#FFC861" stroke-width="2.0"/>
-<text x="705.0" y="882.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">mood_tag</text>
-<text x="705.0" y="901.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id  PK</text>
-<text x="705.0" y="919.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">key      type-neutral axis</text>
-<text x="705.0" y="938.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">applies_to[]  media types</text>
-<text x="705.0" y="956.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">label    per-type wording</text>
+<text x="705.0" y="892.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">mood_tag</text>
+<text x="705.0" y="910.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id  PK</text>
+<text x="705.0" y="929.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">key      stable identifier the recommender reasons over</text>
+<text x="705.0" y="947.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">label    what the player sees</text>
 <rect x="580.0" y="1050.0" width="540.0" height="200.0" rx="12" ry="12" fill="#0A325A" stroke="#FFC861" stroke-width="2.0"/>
 <text x="850.0" y="1127.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">item_mood</text>
 <text x="850.0" y="1145.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">item_id FK  ·  mood_id FK</text>

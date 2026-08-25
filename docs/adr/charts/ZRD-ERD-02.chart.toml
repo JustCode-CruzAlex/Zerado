@@ -77,7 +77,7 @@ h = 250
 [[node]]
 id = "moodtag"
 title = "mood_tag"
-sublines = ["id  PK", "key      type-neutral axis", "applies_to[]  media types", "label    per-type wording"]
+sublines = ["id  PK", "key      stable identifier the recommender reasons over", "label    what the player sees"]
 color = "gold"
 shape = "rect"
 x = 580

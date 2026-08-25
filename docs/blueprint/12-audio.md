@@ -298,5 +298,5 @@ Audio being unavailable is not a degrade of the product; the product does not de
 | **Status bar indicator** | `▮ AUDIO` (amber) / `▯ MUTED` (chrome) / nothing when never enabled. Both glyphs are **Neutral** width, verified — unlike `♪` U+266A, which is Ambiguous and would shear the bar |
 | **`Z-09 Settings § Audio`** | The opt-in, the two channels, two volumes, and the honest availability line |
 | **`Z-01 First run`** | One quiet line naming that audio exists |
-| **`Z-10 Help`** | `m` in the key map; the attribution surface if tracks are bundled |
+| **`Z-10 Help`** | `m` in the key map. **No attribution surface** — nothing is bundled, so there is nothing to attribute |
 | **`Z-11 Fatal error`** | **Silent, always.** `Z-11` depends on nothing, and that includes audio. A crash screen must not try to play a sound |

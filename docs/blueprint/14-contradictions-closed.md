@@ -21,7 +21,7 @@ Every contradiction the three deliverables found in each other, enumerated so th
 > too: it is **29**, not 25. The original figure double-counted two items and omitted the six the
 > design architect found.
 
-**44 findings: 29 from the cross-check, 6 from building D7's theme gate (2 open upstream), 3 from auditing the checkers, and 6 from the second GOLDEN review's stale-sweep pass. 42 closed, 2 open upstream.**
+**48 findings: 29 from the cross-check, 6 from D7's theme gate (2 open upstream), 3 from auditing the checkers, 6 from the second review's stale-sweep pass and 4 from the third. 46 closed, 2 open upstream — and three round-F closures were RE-OPENED rather than silently re-closed, because they had fixed the instance and not the class.**
 
 Two of them — #15 and #17 — were briefly marked *reopened* and *partial* after `fft-tui-designer`
 read this register against head and found it over-claiming. Both were then closed by commit
@@ -124,6 +124,7 @@ down instead. Each of these is a one-liner against a clean checkout.
 | **Section anchors** | The link check resolves **files, not anchors**, so `0 broken links` never covered a `§N` reference. For every inline link to a `.md` immediately followed by a section number, assert the target actually has that section → **331 refs · 0 dead** |
 | **Mockup HEIGHT and frame extent** | The width check cannot see a frame that is internally consistent but wrong **as a whole** — too few rows for its viewport, or a frame narrower than the terminal it claims. Count rows against declared `H` and frame width against declared `W`. **Four real defects survived the other checks through this gap.** The check must know **two conventions** or it reports false positives: a block's first line is a **ruler**, not a terminal row; and **`Z-11` is exempt** — in EXIT mode it has already left the alternate screen, so its message is allowed to outrun the window and scroll. A naive version of this check flagged three blocks, and all three were the conventions, not defects |
 | **Title-block overrun** | For each rendered SVG, find the `[titleblock].description` text run and the **cell** rules (short vertical lines inside the title band — *not* the cyanotype theme's full-height graticule) → the run ends before the next cell rule |
+| **Canon invariants** | The six statements in *"The check that would have caught all of them"* below. For each, a regex that must return **zero** hits across `docs/**/*.md` — with historical and negated forms rescued, and this register exempt because it quotes superseded claims deliberately. **This is the check that survives an amendment**, because it asserts what the bundle believes rather than where a word appears |
 | **Charts are live, not stale exports** | Re-run `flowforge chart render` on all ten specs and diff the SVGs; the only permitted difference is the `RENDERED FROM` path prefix, which reflects the invocation directory |
 
 **The one number that was not reproducible has been retired.** An earlier PR body claimed *"82
@@ -158,11 +159,11 @@ decision record**. Every finding below is that one omission wearing a different 
 | # | Finding | State |
 |---|---|---|
 | **39** | **`ADR-0001` specified an `AffiliateURL` the seam forbids**, in four places, and propagated it into the contracts handed to `fft-api-designer` and `fft-database`. Worse, `ADR-0001`'s *"funding model is affiliate commission, which is commercial"* is **load-bearing**: the IGDB question closes *because* that premise is now false. Freezing the old premise re-opens a blocker the bundle reports as answered | **CLOSED** |
-| **40** | **`ADR-0001` D6 stated four mutually exclusive things about audio inside one decision** — bundled *and* streamed, licensing closed *and* unresolved, with an Alternatives row rejecting the option D6 adopts. Revision A's text was left standing beside revision B's | **CLOSED** |
-| **41** | **The Phase 1 screen count disagreed with itself in six places**, and `10-flows.md` stated the offline invariant **incompatibly** with `07-offline-contract.md` — *nine of eleven, two exceptions* against *nine of twelve, two plus one `DEGRADES`* | **CLOSED** |
+| **40** | **`ADR-0001` D6 stated four mutually exclusive things about audio inside one decision** — bundled *and* streamed, licensing closed *and* unresolved, with an Alternatives row rejecting the option D6 adopts | **RE-OPENED, then CLOSED.** D6 was fixed; the *class* was not. Four more documents carried the same revision-A residue — the seam brief, the flows narrative, the superseded-verdict block, and `Z-10 Help`'s attribution conditional. Closed in round G |
+| **41** | **The Phase 1 screen count disagreed with itself in six places**, and `10-flows.md` stated the offline invariant **incompatibly** with `07-offline-contract.md` | **RE-OPENED, then CLOSED.** The *screen-count* half was fixed and the *audio* half was not: `10-flows.md` still claimed audio was `WORKS` on the strength of being bundled, which `07-offline-contract.md` had already split into FX-`WORKS` and radio-`NEEDS THE NETWORK`. Closed in round G |
 | **42** | **`02-composition.md` placed `Z-15` in two phases at once.** §2 (Phase 1) listed it and §3 (later phases) still did. The `Z-15` spec had *reported* this; §2 was fixed and §3 was not, so the fix created a duplicate instead of closing the finding | **CLOSED** |
 | **43** | **Three cross-references pointed at sections deleted when `11-media-model.md` was pruned.** The link checker resolves **files, not anchors**, so `0 broken links` never covered them. An anchor check found three more, including a **line number mistaken for a section** | **CLOSED** — anchor check added |
-| **44** | **Media-polymorphic residue survived the prune in the schema** — `mood_tag.applies_to[]`, a per-type array in a Phase 1 table, which is precisely the speculative generality the founder cut | **CLOSED** |
+| **44** | **Media-polymorphic residue survived the prune in the schema** — `mood_tag.applies_to[]`, a per-type array in a Phase 1 table | **RE-OPENED, then CLOSED.** Fixed in the ERD *prose* and left in the ERD *chart spec* — and therefore in all four rendered artifacts, so the drawing the founder actually looks at still showed it. The `10/10 charts re-render` check passes happily while the source spec is wrong. Closed in round G |
 
 ### And one about the checkers again — the finding that repeats
 
@@ -184,6 +185,45 @@ twelve specs, and it reproduces the reviewer's independent result.
 **That is the lesson worth more than the six findings above it:** when a check misses something, the
 repair is to ask *what convention was I depending on* — not to widen the pattern until this instance
 matches.
+
+---
+
+## G · Round three of the same sweep — 4
+
+| # | Finding | State |
+|---|---|---|
+| **45** | **The bundle's entry point presented both superseded directions as current.** `00-index.md` — the document the PR body tells the founder to *start* at — still described the media-polymorphic core in the present tense, and called music licensing an open founder decision 50 lines above its own table saying closed | **CLOSED** |
+| **46** | **The `fft-database` and `fft-api-designer` handoff contracts still specified the pruned model** — *"the core entity is a media item with typed extensions"* and *"capabilities are per (provider, media type)"*. **This is finding #39's failure mode in a third place**, and the canon check below found it, not the review | **CLOSED** |
+| **47** | **`mood_tag.applies_to[]` survived in the chart spec and all four rendered artifacts** after being removed from the prose — see #44 | **CLOSED** |
+| **48** | **A stale flag outlived its repair.** `Z-09` reported `12-audio.md` as describing a bundled subsystem and assigned an owner. The upstream was repaired; the flag was not withdrawn, so it reached the founder as an open item directing a specialist at a defect that no longer existed | **CLOSED** |
+
+### The check that would have caught all of them
+
+Three rounds of sweeping produced three rounds of residue, and the register's own conclusion after
+round F — *"an amendment should enumerate everything it supersedes"* — is right and **was not
+enough**, because it still depends on someone remembering to write the list.
+
+What generalises is not a better sweep but a **content assertion**: statements the bundle must never
+make, each a check that returns zero. Not *"grep for bundled"* — that is a keyword sweep again — but
+*"no document asserts, in the present tense, that audio is bundled"*, with historical and negated
+forms explicitly rescued.
+
+| Invariant | The bundle must never assert |
+|---|---|
+| Audio | that music is **bundled** |
+| Core entity | that it is a **media item** with typed extensions |
+| Phase 1 | that it is **eleven** screens |
+| Funding | that Zerado earns **affiliate commission** |
+| Licensing | that the music-licensing question is **open** |
+| Schema | that `mood_tag` has **`applies_to`** |
+
+Run against head, this found **two live residues the human review did not**, including the
+`fft-database` handoff contract. That is the argument for it: a reviewer catches what is *visible*;
+an invariant catches what is *asserted* — everywhere, every time, without anyone remembering.
+
+**The distinction worth keeping:** a sweep asks *where did I say this word.* An invariant asks *does
+this bundle still believe something it has stopped believing.* Only the second survives the next
+amendment.
 
 ---
 

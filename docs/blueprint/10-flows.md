@@ -146,8 +146,11 @@ Two things the drawing exists to make unmissable:
 
 - **The cue is dropped before a frame is.** `Cue()` is a non-blocking send on a buffered channel;
   a full buffer discards the sound. A missed sound is never worth a dropped frame.
-- **Bundled, never streamed.** No CDN, no fetch. That is what keeps three ratified promises intact
-  and why audio is `WORKS` in the offline contract rather than an exception to it.
+- **Streamed, never bundled.** Music is internet radio the player chooses; **nothing ships in the
+  binary**, which is why the licensing question is closed rather than answered. The two channels
+  therefore have **different availability**, and that is the design: **interface FX are `WORKS`** —
+  local, always — and **radio `NEEDS THE NETWORK`**, so offline it stops. A stream ending when the
+  network does is an honest degradation of a feature that is online by nature.
 
 ---
 

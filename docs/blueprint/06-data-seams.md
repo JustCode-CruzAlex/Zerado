@@ -31,7 +31,7 @@ eventually lives in. **No implementation is written by this ticket.**
 | 4 | **Price history** | `PriceProvider` | Every quote carries its age, and a price without one is the product giving financial advice from memory |
 | 5 | **Persistence** | `Store` | One SQLite file is a public promise. The interface is what keeps it one file |
 | 5.4 | **Credentials** | `Vault` | The player's own keys. They must never be inside the file the player is told to back up and share |
-| — | **Audio** | `Audio` | Ships in Phase 1, bundled and off by default. Fully removable at runtime *and* at compile time. Specified in [`12-audio.md`](./12-audio.md) |
+| — | **Audio** | `Audio` | Ships in Phase 1, off by default. **Streamed radio, nothing bundled**; interface FX are local. Fully removable at runtime *and* at compile time. Specified in [`12-audio.md`](./12-audio.md) |
 
 ---
 

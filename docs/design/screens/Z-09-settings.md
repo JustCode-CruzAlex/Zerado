@@ -988,8 +988,10 @@ finished*, not *this switch is up* — failure-gallery item 3.
 4. **The Audio group's row set (§10.3)** is six rows: the opt-in, the honest backing, two channel
    switches and two volumes. The **bundled-versus-user-supplied music question is closed** —
    founder direction, 2026-08-25, made the music a **stream**, so there is no local directory to
-   point at and no seventh `Music folder` row. [`12-audio.md`](../../blueprint/12-audio.md) §1,
-   §3 and §7 still describe a bundled subsystem and are stale — item **6** below.
+   point at and no seventh `Music folder` row. *(An earlier revision of this
+   spec flagged `12-audio.md` §1, §3 and §7 as still describing a bundled subsystem. **They have
+   since been repaired** — §3 is now headed *"Streamed, never bundled"* and §7 *"Stations are data —
+   and the licensing question is closed"*. The flag is withdrawn.)*
 
    **What is genuinely open is the station.** The direction names *"synthwave / 80s stations"* —
    plural — and this spec has **not** invented a picker, because a control nobody asked for is
@@ -998,21 +1000,16 @@ finished*, not *this switch is up* — failure-gallery item 3.
    revises to rev B. If Zerado picks one station and never says so, the row set stays at six.
 5. **Labels are sentence case on this screen and UPPERCASE on the two forms (§5.1).** The reason is
    countable — nineteen uppercase strings would flatten the group heads. Confirm the exception.
-6. **Upstream: [`12-audio.md`](../../blueprint/12-audio.md) still describes the audio the founder
-   replaced.** §1 calls the music channel *"a background bed"*; §3 is headed *"Bundled, never
-   streamed"* and states *"Zerado's audio makes no network requests, ever"*; §5's build tag, §7's
-   whole licensing section and its user-supplied-directory recommendation all rest on that. The
-   2026-08-25 direction makes the music a **stream**, which
-   [`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §2 has already absorbed —
-   it now carries `Interface FX · WORKS` and `Radio · NEEDS THE NETWORK` as separate rows. The
-   two spine documents disagree, and this screen renders the offline contract's version.
-   **Owner: `fft-tui-architect`.**
+6. **The ratified network promise now has to cover a radio stream — and that is genuinely open.**
+   *"The only network traffic is `Zerado` reaching out to the services you've connected"*
+   ([`../03-designer-manual.md`](../03-designer-manual.md) §5.9) is a **published** line. An opt-in
+   station is defensibly a service the player connected — they turned it on and can stop it in one
+   keystroke — but the sentence names Steam and price data specifically, and a station uses **no key
+   of the player's**. Defensible is not the same as ratified, so this is **routed to the founder
+   rather than reinterpreted by a designer**, and it is on the gate list
+   ([`13-handoffs.md`](../../blueprint/13-handoffs.md) §5).
 
-   Two consequences that are not this screen's to settle. **(a)** §7's licensing problem largely
-   dissolves — a stream is not redistributed inside the binary — but it is replaced by a
-   different question, which is whose stream and under what terms. **(b)** The ratified promise
-   *"the only network traffic is `Zerado` reaching out to the services you've connected"*
-   ([`../03-designer-manual.md`](../03-designer-manual.md) §5.9) now has to cover an opt-in
-   radio stream. It is defensible — the player turns it on, so it is a service they connected —
-   but it is a **published** line and it is the founder's to confirm, not a designer's to
-   reinterpret. Routed rather than assumed.
+   *(This item previously also reported `12-audio.md` as stale and assigned an owner. That upstream
+   was repaired and **the flag outlived its repair** — it was reaching the founder as an open item
+   directing a specialist at a defect that no longer existed. Withdrawn; only the promise question,
+   which is real, remains.)*

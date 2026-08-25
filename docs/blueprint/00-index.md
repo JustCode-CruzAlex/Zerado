@@ -94,18 +94,23 @@ The ticket asks the founder exactly three things. Here is where each is answered
 >
 > Both fold into this bundle rather than a follow-up, because each changes the spine at its core.
 >
-> **1 · The data model is media-polymorphic.** The core entity is a **media item**, not a game.
-> Games are the first type; books are the second; films and series a plausible third. **Phase 1
-> ships games only** — no book screens, no book providers, no `--type` flag. What changed is the
-> *shape*, because it is the single most expensive thing in this bundle to retrofit.
-> [`11-media-model.md`](./11-media-model.md) verifies the four states across all four types and
-> names the two findings the check surfaced.
 >
-> **2 · Audio ships in Phase 1.** This **reverses** the verdict in
-> [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) §3. The reversal is recorded with its
-> provenance rather than silently applied, and the original reasoning is kept visible: four of its
-> five objections survived as engineering requirements, and one — music licensing — is an open
-> founder decision. [`12-audio.md`](./12-audio.md).
+> *(A third direction, 2026-08-25, then **pruned the first** — so both items below describe the
+> settled state, not the intermediate one.)*
+>
+> **1 · Zerado is a games product, with the door left open.** The core table is called **`item`**,
+> not `games`, and carries an **`item_type`** column `CHECK`ed to `'game'`. **That is the entire
+> affordance** — no typed extensions, no generic progress, nothing else generalised. An earlier
+> draft specified a full media-polymorphic model with typed extensions for books, films and series;
+> the founder pruned it as speculation that had begun shaping Phase 1 tables and states.
+> [`11-media-model.md`](./11-media-model.md) is 81 lines and keeps the discarded reasoning as an
+> appendix that shapes nothing.
+>
+> **2 · Audio ships in Phase 1 — streamed radio, nothing bundled.** This **reverses** the verdict in
+> [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) §3, and the reversal is recorded with
+> its provenance rather than silently applied. Music is internet radio the player chooses; interface
+> FX are local. **The music-licensing question is closed** — not answered, *dissolved*: nothing ships
+> in the binary, so there is nothing to license. [`12-audio.md`](./12-audio.md).
 >
 > **Provenance, stated plainly:** both directions reached this session as an **agent relay**, which
 > by its own header carries no ratification authority. They were acted on because this is document

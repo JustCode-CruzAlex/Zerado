@@ -127,10 +127,15 @@ get a *different* screen, and the 80-column one is never the degraded case.
 > **Audio ships in Phase 1.** *"The audio is part of the Phase 1."* The verdict below is no longer
 > operative and the design is in [`12-audio.md`](./12-audio.md).
 >
-> **The reversal is not a change of mind about the same object — the object changed.** What was
-> rejected was a *network streamer, always on*. What ships is a *local, bundled, opt-in subsystem
-> that is off by default and makes no network requests at all*. That distinction is what actually
-> retires three of the five objections; it is not a softening of them.
+> **The reversal is not a change of mind about the same object — the object changed, twice.** What
+> was rejected was a *network streamer, always on, that the player never asked for*. What ships is an
+> **opt-in subsystem, off by default**, whose music is **internet radio the player chooses and can
+> stop in one keystroke**, and whose only always-available part is a handful of **local** interface
+> cues.
+>
+> *(The first reversal specified **bundled tracks**; a further founder direction the same day
+> replaced bundling with **streamed stations**. Both moves are recorded because the second one
+> **dissolved** the licensing objection rather than answering it.)*
 >
 > It is kept here rather than deleted, because **four of its five reasons survived the reversal as
 > engineering requirements** — and the fifth is the one the founder decided differently. A verdict
@@ -138,10 +143,10 @@ get a *different* screen, and the 80-column one is never the degraded case.
 >
 > | Original objection | After the reversal |
 > |---|---|
-> | Contradicts three ratified promises | **Retired — the object changed.** A bundled player makes no network requests at all, so there is nothing for the promises to bite on |
+> | Contradicts three ratified promises | **Partly retired, and one part is genuinely open.** *"No background telemetry"* and *"works with the network off"* no longer bite: the player starts the stream and can stop it, and the offline promise is about the **library**. But *"the only network traffic is Zerado reaching out to the services you've connected"* **does** bite — a station uses **no key of the player's**, and the sentence names Steam and price data specifically. The reading that a chosen station *is* a connected service is sound and **is on the founder's gate list**, not settled here ([`13-handoffs.md`](./13-handoffs.md) §5) |
 > | Costs the pure-Go single binary | **Survives as a requirement** — the player sits behind a build tag; the default build stays pure Go |
 > | Costs the 60 fps / no-leak budget | **Survives as a requirement** — non-blocking buffered cue, one owned goroutine, cue dropped before a frame is |
-> | Acquires a music-rights surface | **Survives, and is now an open founder decision** — public repo + commercial model |
+> | Acquires a music-rights surface | **DISSOLVED.** Nothing is bundled, so there is nothing to license, attribute or weigh — and the product is no longer commercial either. The objection was removed rather than answered |
 > | Nostalgia-kitsch versus retro-future | **The founder's call, and it is made.** The bar the sound must clear is written down instead |
 >
 > **Provenance:** the direction reached this session as an agent relay, which by its own header
@@ -288,5 +293,5 @@ should be attributed rather than silently reinvented:
 |---|---|---|
 | Emoji glyphs in a terminal | **REJECTED** — brand manual §8, plus width, colour, tofu and searchability | Nothing |
 | Frames drawn past 80 columns | **REJECTED as drawn** — 80 is the floor; wider is enhancement | The intent, via the tier system |
-| Embedded synthwave audio streamer | ~~REJECTED OUTRIGHT~~ → **SUPERSEDED 2026-08-25.** Audio ships in Phase 1, bundled and off by default | The four engineering objections, now requirements |
+| Embedded synthwave audio streamer | ~~REJECTED OUTRIGHT~~ → **SUPERSEDED 2026-08-25.** Audio ships in Phase 1 — **streamed radio, nothing bundled**, off by default | Three engineering objections as requirements; the licensing one dissolved; one promise question still open |
 | One view with summary + filter + table + detail | **REJECTED as fixed** — 74 columns cannot hold four correct regions | The intent, via one pinned row + a mode + two tiers |
