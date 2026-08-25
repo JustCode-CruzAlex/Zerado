@@ -112,6 +112,7 @@ is literal text and only the modified keys survive.
 | `a` | Add a game by hand (`Z-08`) | From `Z-04` |
 | `/` | Filter and search (`Z-07`) | From `Z-04` |
 | `,` | Settings (`Z-09`) | From anywhere |
+| `m` | Toggle mute | **Only when audio is enabled** — see [`12-audio.md`](./12-audio.md). Absent from the footer otherwise, because there is nothing to mute |
 
 ### 3.1 · Reserved and deliberately unbound from Phase 1
 
@@ -123,8 +124,8 @@ retrain the player.** A key that means nothing in Phase 1 and something in Phase
 arriving; a key that means one thing in Phase 1 and another in Phase 2 is a betrayal of muscle
 memory.
 
-Also reserved, unbound: `1`–`9` (quick filters), `n` / `p` (next / previous *game* from within
-the detail view — Phase 2, when there is enough in the detail view to make paging worthwhile).
+Also reserved, unbound: `1`–`9` (quick filters), `n` / `p` (next / previous item from within the
+detail view — Phase 2, when there is enough in the detail view to make paging worthwhile).
 
 ### 3.2 · Why `q` does not confirm
 

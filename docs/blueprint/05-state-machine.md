@@ -29,8 +29,13 @@ what makes a game move between them.
 ## 1 · The model in one line
 
 ```
-effective_status = status_manual ?? derive(playtime_minutes, provider_capabilities)
+effective_status = status_manual ?? derive(progress, provider_capabilities)
 ```
+
+> **These four states are not games-only.** They generalise to books, films and series, and that was
+> verified type by type rather than assumed — including the two findings the check surfaced (a film
+> has no meaningful `IN PROGRESS`; an ongoing series needs *caught up*, and it must **not** become a
+> fifth state). See [`11-media-model.md`](./11-media-model.md) §2 and §4. Phase 1 ships games only.
 
 A game has **one nullable manual status** and a **derivation** that runs when there is none.
 That is the whole model, and everything else in this document follows from it.
@@ -84,6 +89,11 @@ func derive(playtime int, c Capabilities) Status {
 ```
 
 ### 2.1 · The derivation is provider-capability-dependent, and this matters
+
+> This is also the mechanism that makes the media generalisation free: derivation is keyed on the
+> **(provider, type) capability**, never on the type itself. A Steam game derives; a cartridge does
+> not; a paper book does not; a Kindle book would. One function, every type.
+> [`11-media-model.md`](./11-media-model.md) §3.
 
 For a provider that reports playtime (Steam), `NOT STARTED` and `IN PROGRESS` are *facts* until
 the player overrides them. For a provider that does not (`physical`, and any store whose API

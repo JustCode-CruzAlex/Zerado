@@ -34,6 +34,9 @@ off. The brand manual already said what it looks like.
 | | [`07-offline-contract.md`](./07-offline-contract.md) | What works with the network off, what degrades, how it is shown |
 | | [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) | The prior concept draft — what survives, what does not, why |
 | | [`09-erd.md`](./09-erd.md) · [`10-flows.md`](./10-flows.md) | The data model and the process flows, **drawn** |
+| | [`11-media-model.md`](./11-media-model.md) | **Games first, not games only** — the core entity is a media item; the four states verified across four types |
+| | [`12-audio.md`](./12-audio.md) | **Audio ships in Phase 1** — bundled, off by default, fully removable |
+| | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
 | **B · design** | [`../design/`](../design/) | The design system and the designer manual |
 | **C · screens** | [`../design/screens/`](../design/screens/) | One implementation-ready spec per Phase 1 screen |
 | **decisions** | [`../adr/`](../adr/) | ADR-0001 — the four expensive-to-reverse decisions |
@@ -65,6 +68,28 @@ at the point of the choice.
 ## The three questions at the gate
 
 The ticket asks the founder exactly three things. Here is where each is answered.
+
+> ### Two founder directions landed after the first draft, 2026-08-25
+>
+> Both fold into this bundle rather than a follow-up, because each changes the spine at its core.
+>
+> **1 · The data model is media-polymorphic.** The core entity is a **media item**, not a game.
+> Games are the first type; books are the second; films and series a plausible third. **Phase 1
+> ships games only** — no book screens, no book providers, no `--type` flag. What changed is the
+> *shape*, because it is the single most expensive thing in this bundle to retrofit.
+> [`11-media-model.md`](./11-media-model.md) verifies the four states across all four types and
+> names the two findings the check surfaced.
+>
+> **2 · Audio ships in Phase 1.** This **reverses** the verdict in
+> [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) §3. The reversal is recorded with its
+> provenance rather than silently applied, and the original reasoning is kept visible: four of its
+> five objections survived as engineering requirements, and one — music licensing — is an open
+> founder decision. [`12-audio.md`](./12-audio.md).
+>
+> **Provenance, stated plainly:** both directions reached this session as an **agent relay**, which
+> by its own header carries no ratification authority. They were acted on because this is document
+> revision on a draft PR — reversible, and confirmed or restored by the founder at the gate. They
+> are flagged here so that confirming them is a decision rather than an assumption.
 
 ### 1 · Is the Phase 1 screen set right?
 
@@ -107,6 +132,8 @@ exists:
 | **D2 · one SQLite file, pure-Go driver, credentials outside it** | High for the file; **low** for the driver |
 | **D3 · a route stack with overlays, not tabs** | Medium — retraining users is the real cost, not the code |
 | **D4 · the Phase 4 sync boundary** | Highest — it decides what the schema must carry from Phase 1 |
+| **D5 · a media-polymorphic core** | Highest — retrofitting a type dimension rewrites every table and every seam |
+| **D6 · audio, bundled and off by default** | Low for the design; the **licensing** question is the expensive part |
 
 ---
 

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2020" height="1500" viewBox="0 0 2020 1500" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif">
+<rect x="0" y="0" width="2020" height="1500" fill="#000000"/>
+<rect x="44" y="44" width="1932" height="1412" fill="none" stroke="#334155" stroke-width="2"/>
+<rect x="50" y="50" width="1920" height="1400" fill="none" stroke="#1E293B" stroke-width="1"/>
+<line x1="54" y1="54" x2="72" y2="54" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="54" y1="54" x2="54" y2="72" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1966" y1="54" x2="1948" y2="54" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1966" y1="54" x2="1966" y2="72" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="54" y1="1446" x2="72" y2="1446" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="54" y1="1446" x2="54" y2="1428" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1966" y1="1446" x2="1948" y2="1446" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1966" y1="1446" x2="1966" y2="1428" stroke="#9D7BFF" stroke-width="1.5"/>
+<text x="60" y="78" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="29" font-weight="700" fill="#FAFAFA">FLOW  ·  THE AUDIO SUBSYSTEM</text>
+<text x="61" y="102" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="13.5" fill="#94A3B8">off by default · bundled, never streamed · silent on every failure</text>
+<polyline points="490.0,320.0 610.0,310.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="610.0,310.0 598.6,316.3 597.7,305.7" fill="#94A3B8"/>
+<polyline points="930.0,310.0 1080.0,320.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1080.0,320.0 1067.8,324.5 1068.5,313.9" fill="#94A3B8"/>
+<polyline points="770.0,420.0 770.0,560.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="770.0,560.0 764.7,548.1 775.3,548.1" fill="#94A3B8"/>
+<polyline points="930.0,670.0 1080.0,730.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1080.0,730.0 1067.0,730.5 1070.9,720.7" fill="#94A3B8"/>
+<polyline points="770.0,780.0 770.0,920.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="770.0,920.0 764.7,908.1 775.3,908.1" fill="#94A3B8"/>
+<polyline points="930.0,1030.0 1080.0,1080.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1080.0,1080.0 1067.1,1081.3 1070.4,1071.2" fill="#94A3B8"/>
+<polyline points="490.0,680.0 610.0,310.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-dasharray="9 7" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="610.0,310.0 611.4,322.9 601.3,319.7" fill="#94A3B8"/>
+<polyline points="490.0,1040.0 610.0,1030.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-dasharray="9 7" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="610.0,1030.0 598.6,1036.3 597.7,1025.7" fill="#94A3B8"/>
+<rect x="90.0" y="220.0" width="400.0" height="200.0" rx="12" ry="12" fill="#0F0F23" stroke="#9D7BFF" stroke-width="2.0"/>
+<text x="290.0" y="297.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">a screen emits a CUE</text>
+<text x="290.0" y="315.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">Cue(&quot;sync.done&quot;)</text>
+<text x="290.0" y="334.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">semantic, never a file name</text>
+<text x="290.0" y="352.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">cannot fail · cannot block</text>
+<polygon points="770.0,200.0 930.0,310.0 770.0,420.0 610.0,310.0" fill="#0F0F23" stroke="#F59E0B" stroke-width="2.0"/>
+<text x="770.0" y="314.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">audio enabled?</text>
+<polygon points="770.0,560.0 930.0,670.0 770.0,780.0 610.0,670.0" fill="#0F0F23" stroke="#F59E0B" stroke-width="2.0"/>
+<text x="770.0" y="674.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">available?</text>
+<polygon points="770.0,920.0 930.0,1030.0 770.0,1140.0 610.0,1030.0" fill="#0F0F23" stroke="#F59E0B" stroke-width="2.0"/>
+<text x="770.0" y="1034.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">channel muted?</text>
+<rect x="1080.0" y="200.0" width="620.0" height="240.0" rx="12" ry="12" fill="#0F0F23" stroke="#22C55E" stroke-width="2.0"/>
+<text x="1390.0" y="287.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">PLAY</text>
+<text x="1390.0" y="306.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">buffered channel, non-blocking send</text>
+<text x="1390.0" y="324.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">buffer full  -&gt;  the CUE IS DROPPED</text>
+<text x="1390.0" y="343.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">a missed sound is never worth a dropped frame</text>
+<text x="1390.0" y="361.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">one owned goroutine, stopped by ctx</text>
+<rect x="1080.0" y="620.0" width="620.0" height="220.0" rx="12" ry="12" fill="#0F0F23" stroke="#A0A0B0" stroke-width="2.0"/>
+<text x="1390.0" y="707.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">SILENCE</text>
+<text x="1390.0" y="725.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">not an error · not a banner · not a nag</text>
+<text x="1390.0" y="744.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">the visible signal already happened</text>
+<text x="1390.0" y="762.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">said ONCE, in Z-09 Settings, and never again</text>
+<rect x="1080.0" y="940.0" width="620.0" height="280.0" rx="12" ry="12" fill="#0F0F23" stroke="#EF4444" stroke-width="2.0"/>
+<text x="1390.0" y="1038.6" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">WHY it is unavailable  —  Z-09 says which</text>
+<text x="1390.0" y="1057.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">ZERADO_NO_AUDIO set   -&gt;  OVERRIDDEN, not &#x27;off&#x27;</text>
+<text x="1390.0" y="1075.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">no audio device</text>
+<text x="1390.0" y="1094.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">over SSH   -&gt;  the sound would play on the wrong machine</text>
+<text x="1390.0" y="1112.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">in CI</text>
+<text x="1390.0" y="1131.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">init failed or timed out</text>
+<rect x="90.0" y="560.0" width="400.0" height="240.0" rx="12" ry="12" fill="#0F0F23" stroke="#7D56F4" stroke-width="2.0"/>
+<text x="290.0" y="647.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">OFF BY DEFAULT</text>
+<text x="290.0" y="666.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">explicit opt-in in Z-09</text>
+<text x="290.0" y="684.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">nothing plays on first run</text>
+<text x="290.0" y="703.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">so WCAG 1.4.2 is satisfied</text>
+<text x="290.0" y="721.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">before its 3s threshold, not after</text>
+<rect x="90.0" y="920.0" width="400.0" height="240.0" rx="12" ry="12" fill="#0F0F23" stroke="#7D56F4" stroke-width="2.0"/>
+<text x="290.0" y="1007.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">m   —   GLOBAL MUTE</text>
+<text x="290.0" y="1026.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">always reachable, every screen</text>
+<text x="290.0" y="1044.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">music and FX mute INDEPENDENTLY</text>
+<text x="290.0" y="1063.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">muting music RELEASES the device;</text>
+<text x="290.0" y="1081.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">it does not hold a gain of zero</text>
+<rect x="987.2" y="304.0" width="35.6" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="1005.0" y="319.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">yes</text>
+<rect x="753.0" y="479.0" width="34.0" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="770.0" y="494.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">no</text>
+<rect x="988.0" y="689.0" width="34.0" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="1005.0" y="704.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">no</text>
+<rect x="752.2" y="839.0" width="35.6" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="770.0" y="854.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">yes</text>
+<rect x="980.0" y="1044.0" width="50.0" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="1005.0" y="1059.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">muted</text>
+<text x="90.0" y="1260.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#22C55E" text-anchor="start" font-weight="normal">BUNDLED, NEVER STREAMED. No CDN, no fetch, no cache warm — so audio makes no network requests at all. That is what keeps three ratified promises intact, and it is why audio is WORKS in the offline contract rather than an exception to it.</text>
+<text x="90.0" y="1315.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#9D7BFF" text-anchor="start" font-weight="normal">The default BUILD contains NullAudio and stays pure Go, so the cross-compile matrix survives and the silent path is the one every test run exercises. The real player sits behind a build tag.</text>
+<rect x="44" y="1334" width="1932" height="122" fill="#0F0F23"/>
+<line x1="44" y1="1334" x2="1976" y2="1334" stroke="#7D56F4" stroke-width="2.5"/>
+<line x1="44" y1="1338" x2="1976" y2="1338" stroke="#1E293B" stroke-width="1"/>
+<line x1="333.8" y1="1348" x2="333.8" y2="1422" stroke="#334155" stroke-width="1"/>
+<line x1="913.4" y1="1348" x2="913.4" y2="1422" stroke="#334155" stroke-width="1"/>
+<line x1="1183.9" y1="1348" x2="1183.9" y2="1422" stroke="#334155" stroke-width="1"/>
+<line x1="1357.8" y1="1348" x2="1357.8" y2="1422" stroke="#334155" stroke-width="1"/>
+<line x1="1570.3" y1="1348" x2="1570.3" y2="1422" stroke="#334155" stroke-width="1"/>
+<line x1="1782.8" y1="1348" x2="1782.8" y2="1422" stroke="#334155" stroke-width="1"/>
+<g transform="translate(58.0,1353.0) scale(1.5000)" fill="#7D56F4" stroke="none"><path d="M14.5,22.4c0-.4.3-.7.7-.7s.7.3.7.7-.3.7-.7.7-.7-.3-.7-.7Z"/><path d="M15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM11.4,17.8v1.6h-1.1v-1.6h-4.7s-.5,4.4,5.3,6.8c0,0,2.2.9,2.2,3h0c0,.2,0,3.4-2.5,3.4-.6,0-1,.5-1,1v2h4.2c0-.1,0-.3.1-.4.5-1.1,1.3-2.1,2.4-2.6.6-.3,1.4-.5,2.2-.5s1.5.2,2.2.5c.8.4,1.5,1,2,1.8.2.4.4.8.5,1.2h4.2v-2c0-.6-.5-1-1-1,0,0-2.4,0-2.6-3.1,0-.5,0-.7,0-1,.2-1.9,1.3-3.8,2.8-4.9,0,0,.2-.1.3-.2.3-.2.7-.3,1-.5.4-.1.8-.6.8-1.1v-2.5H11.4ZM15.2,20.7c.9,0,1.7.7,1.7,1.7s0,.4-.1.6l1.3,1-.7.6-1.1-.8c-.3.2-.6.3-1,.3-.9,0-1.7-.7-1.7-1.7s.7-1.7,1.7-1.7ZM21.7,28.8c-.8,0-1.5-.7-1.5-1.5s0-.3,0-.5l-1.6-1.2.7-.6,1.4,1.1c.2-.2.5-.3.8-.3.8,0,1.5.7,1.5,1.5s-.7,1.5-1.5,1.5ZM21.5,24c-.4,0-.7-.1-1-.3l-4.1,3.1c0,.2,0,.3,0,.5,0,.8-.7,1.5-1.5,1.5s-1.5-.7-1.5-1.5.7-1.5,1.5-1.5.6,0,.8.3l4.1-3.1c0-.2-.1-.4-.1-.6,0-.9.7-1.7,1.7-1.7s1.7.7,1.7,1.7-.7,1.7-1.7,1.7ZM21.7,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6Z"/><path d="M17.4,1.9s1.1,3.5-2.6,5.8c-3.7,2.3-3.2,5.5-3.2,5.5,0,0,.3,2.5,1.8,3.6h8.8s1.5-1.4,1.6-4.7-1.7-3.3-1.7-3.3c0,0,0,2.6-2.1,4s-2.2,2.3-2.2,2.3c0,0-1.8-1.6-.1-3.7s3.4-4.4,1.9-6.9-2.3-2.4-2.3-2.4Z"/><path d="M15.6,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M22.2,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/><path d="M22.3,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M15.9,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/></g>
+<text x="124.0" y="1392" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#FAFAFA">FlowForge</text>
+<text x="124.0" y="1412" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8">Zerado</text>
+<text x="351.8" y="1368" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DRAWING TITLE</text>
+<text x="351.8" y="1398" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#FAFAFA">FLOW - THE AUDIO SUBSYSTEM AND ITS DEGRADE LADDER</text>
+<text x="351.8" y="1418" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">Audio ships in Phase 1. It cannot fail, block or hang.</text>
+<text x="931.4" y="1368" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DISCIPLINE</text>
+<text x="931.4" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">ARCHITECTURE</text>
+<text x="1201.9" y="1368" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">SHEET</text>
+<text x="1201.9" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">10 OF 10</text>
+<text x="1375.8" y="1368" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DWG NO.</text>
+<text x="1375.8" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">ADR-0001</text>
+<text x="1588.3" y="1368" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">REV</text>
+<text x="1588.3" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">A</text>
+<text x="1588.3" y="1418" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">2026-08-25</text>
+<text x="1800.8" y="1368" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">STATUS</text>
+<circle cx="1806.8" cy="1393" r="6" fill="#F59E0B"/>
+<text x="1820.8" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="14" font-weight="600" letter-spacing="1" fill="#F59E0B">DRAFT</text>
+<line x1="44" y1="1428" x2="1976" y2="1428" stroke="#334155" stroke-width="0.75"/>
+<text x="62.0" y="1444" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8">RENDERED FROM  ZRD-FLOW-07.chart.toml · tools/chartspec.py      AUTHOR fft-tui-architect      APPROVED       INTERNAL</text>
+</svg>

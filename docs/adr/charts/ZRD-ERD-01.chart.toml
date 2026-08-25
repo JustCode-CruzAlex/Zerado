@@ -3,19 +3,19 @@ schema_version = 1
 [chart]
 name = "ZRD-ERD-01"
 title = "ZERADO — DATA MODEL  ·  SHEET 1"
-subtitle = "the Phase 1 core — one SQLite file, and the two things deliberately outside it"
+subtitle = "the Phase 1 core — a media item, its typed extension, and what is deliberately outside the file"
 width = 1820
-height = 1420
+height = 1470
 
 [titleblock]
 dwg_title = "ZERADO DATA MODEL - PHASE 1 CORE"
 discipline = "ARCHITECTURE"
-sheet = "01 OF 09"
+sheet = "01 OF 10"
 dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "Phase 1 schema. One file; credentials and art live outside it."
+description = "Conceptual model. Games first, not games only."
 project = "Zerado"
 author = "fft-tui-architect"
 
@@ -25,43 +25,58 @@ color = "brand"
 x = 70
 y = 150
 w = 1630
-h = 690
+h = 700
 
 [[node]]
-id = "game"
-title = "game"
+id = "item"
+title = "media_item"
 sublines = [
-  "id                      PK",
-  "game_uid                merge hint, INDEXED not unique",
-  "provider_id + provider_ref     UNIQUE",
+  "id                    PK",
+  "media_uid             merge hint, INDEXED not unique",
+  "media_type            'game' in Phase 1, CONSTRAINED to it",
+  "provider_id + provider_ref      UNIQUE",
+  "acquisition           digital | physical",
   "title · sort_title · platform",
-  "playtime_minutes        INT NOT NULL",
-  "last_played_at          NULL = not reported",
-  "status_manual           NULL = derive on read",
-  "status_changed_at       decides Phase 4 conflicts",
-  "merged_into             NULL",
+  "progress_value / _unit / _source",
+  "last_used_at          NULL = not reported",
+  "status_manual         NULL = derive on read",
+  "status_changed_at · rating · notes · merged_into",
 ]
 color = "accent"
 shape = "cyl"
-x = 120
-y = 215
+x = 110
+y = 200
 w = 520
 h = 390
+
+[[node]]
+id = "game"
+title = "media_game        — the typed extension"
+sublines = [
+  "media_item_id         PK / FK",
+  "steam_appid",
+  "achievements_total · achievements_unlocked",
+]
+color = "ok"
+shape = "rect"
+x = 110
+y = 635
+w = 520
+h = 175
 
 [[node]]
 id = "conn"
 title = "provider_connection"
 sublines = [
-  "provider_id             PK",
+  "provider_id           PK",
   "account_ref",
   "connected_at",
-  "last_sync_at",
-  "last_sync_status",
+  "last_sync_at · last_sync_status",
 ]
 color = "brand"
 shape = "cyl"
-x = 750
-y = 215
+x = 700
+y = 200
 w = 450
 h = 250
 
@@ -71,37 +86,37 @@ title = "sync_run"
 sublines = [
   "id PK  ·  provider_id FK",
   "started_at · finished_at",
-  "status   ok | partial | failed | cancelled",
-  "items_seen · items_new · items_changed",
+  "status  ok | partial | failed | cancelled",
+  "items_seen · new · changed",
   "error",
 ]
 color = "brand"
 shape = "rect"
-x = 750
-y = 530
+x = 700
+y = 520
 w = 450
 h = 250
 
 [[node]]
 id = "setting"
 title = "setting"
-sublines = ["key    PK", "value"]
+sublines = ["key  PK", "value"]
 color = "muted"
 shape = "rect"
-x = 1310
-y = 215
-w = 330
+x = 1220
+y = 200
+w = 240
 h = 150
 
 [[node]]
 id = "migration"
 title = "schema_migration"
-sublines = ["version    PK", "applied_at"]
+sublines = ["version  PK", "applied_at"]
 color = "muted"
 shape = "rect"
-x = 1310
-y = 420
-w = 330
+x = 1220
+y = 400
+w = 290
 h = 150
 
 [[node]]
@@ -135,7 +150,15 @@ w = 630
 h = 190
 
 [[edge]]
-from = "game"
+from = "item"
+to = "game"
+label = "1 : 1"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "item"
 to = "conn"
 label = "provider_id    N : 1"
 style = "solid"
@@ -153,25 +176,28 @@ to_side = "t"
 [[edge]]
 from = "conn"
 to = "vault"
-label = "reads keys"
+label = "keys"
 style = "dashed"
 from_side = "l"
 to_side = "t"
 
-
-
-
-
 [[free]]
-text = "effective_status is NOT stored — it is derived on read:  status_manual ?? derive(playtime_minutes, capabilities)."
-color = "accent"
-x = 340
+text = "media_book · media_film · media_series are NOT built in Phase 1. They are named so the shape is visibly extensible — and so finding F-1 (film and series are two types, not one) is not rediscovered later."
+color = "ok"
+x = 110
 y = 880
-w = 1300
+w = 1560
 
 [[free]]
-text = "KEY    violet = the game row and its sync bookkeeping    ·    grey = local-only, never syncs    ·    red = deliberately OUTSIDE the library file"
+text = "effective_status is NOT stored. It is derived on read:  status_manual ?? derive(progress, capabilities).  ONE function, every media type — see 11-media-model.md."
+color = "accent"
+x = 110
+y = 1190
+w = 1560
+
+[[free]]
+text = "KEY    violet = the media item    ·    green = its typed extension    ·    blue = sync bookkeeping    ·    grey = local-only, never syncs    ·    red = deliberately OUTSIDE the library file"
 color = "fg2"
-x = 340
-y = 1180
-w = 1300
+x = 110
+y = 1245
+w = 1560

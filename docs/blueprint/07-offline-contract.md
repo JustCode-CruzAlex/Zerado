@@ -60,6 +60,7 @@ screen is `WORKS`, it works with the machine in a Faraday cage.
 | **Sync (`Z-03`)** | **REFUSES** | Names the reason, shows when the last sync was, offers `r` to retry |
 | **Connect a store (`Z-02`)** | **REFUSES** | Cannot validate a key without reaching the provider. Says so on submit, keeps what was typed |
 | First run (`Z-01`) | **WORKS** | The "add a game by hand" door still opens. A player with no network can still start using the product today |
+| Audio (`Z-09 § Audio`) | **WORKS** | Bundled, never streamed — there is no audio network traffic at all. This is the design choice that lets audio ship without amending a ratified promise ([`12-audio.md`](./12-audio.md) §3) |
 | Fatal error (`Z-11`) | **WORKS** | It reports a local failure and depends on nothing. It is the one screen that is *more* reliable offline, because it reaches for nothing at all |
 
 **Nine of the eleven Phase 1 screens are `WORKS`** — `Z-01`, `Z-04`, `Z-05`, `Z-06`, `Z-07`,

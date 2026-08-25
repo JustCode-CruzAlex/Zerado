@@ -110,14 +110,14 @@
 <polygon points="1450.0,800.0 1460.5,792.3 1462.7,802.7" fill="#9DC4E6"/>
 <path d="M90.0,574.0 A190.0,14 0 0 1 470.0,574.0 L470.0,826.0 A190.0,14 0 0 1 90.0,826.0 Z" fill="#0A325A" stroke="#8FD0FF" stroke-width="2.0"/>
 <path d="M90.0,574.0 A190.0,14 0 0 0 470.0,574.0" fill="none" stroke="#8FD0FF" stroke-width="2.0"/>
-<text x="280.0" y="677.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">game</text>
+<text x="280.0" y="677.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">media_item</text>
 <text x="280.0" y="695.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">( SHEET 01 )</text>
-<text x="280.0" y="714.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id · game_uid</text>
+<text x="280.0" y="714.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id · media_uid · media_type</text>
 <text x="280.0" y="732.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">provider_id + provider_ref</text>
 <path d="M580.0,234.0 A270.0,14 0 0 1 1120.0,234.0 L1120.0,456.0 A270.0,14 0 0 1 580.0,456.0 Z" fill="#0A325A" stroke="#FFC861" stroke-width="2.0"/>
 <path d="M580.0,234.0 A270.0,14 0 0 0 1120.0,234.0" fill="none" stroke="#FFC861" stroke-width="2.0"/>
 <text x="850.0" y="294.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">metadata</text>
-<text x="850.0" y="312.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">game_id            PK / FK</text>
+<text x="850.0" y="312.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_item_id      PK / FK</text>
 <text x="850.0" y="331.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">sinopse</text>
 <text x="850.0" y="349.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">cover_ref     cache path, never a URL</text>
 <text x="850.0" y="368.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">released_at · genres</text>
@@ -126,24 +126,26 @@
 <path d="M580.0,544.0 A270.0,14 0 0 1 1120.0,544.0 L1120.0,766.0 A270.0,14 0 0 1 580.0,766.0 Z" fill="#0A325A" stroke="#FFC861" stroke-width="2.0"/>
 <path d="M580.0,544.0 A270.0,14 0 0 0 1120.0,544.0" fill="none" stroke="#FFC861" stroke-width="2.0"/>
 <text x="850.0" y="604.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">price_quote</text>
-<text x="850.0" y="622.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id PK  ·  game_id FK</text>
+<text x="850.0" y="622.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id PK  ·  media_item_id FK</text>
 <text x="850.0" y="641.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">shop · currency</text>
 <text x="850.0" y="659.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">current_cents · low_cents · low_at</text>
 <text x="850.0" y="678.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">url · affiliate_url</text>
 <text x="850.0" y="696.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">source_provider</text>
 <text x="850.0" y="715.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">observed_at        NOT NULL</text>
 <rect x="580.0" y="840.0" width="250.0" height="150.0" rx="12" ry="12" fill="#0A325A" stroke="#FFC861" stroke-width="2.0"/>
-<text x="705.0" y="901.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">mood_tag</text>
-<text x="705.0" y="919.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id  PK</text>
-<text x="705.0" y="938.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">label</text>
+<text x="705.0" y="882.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">mood_tag</text>
+<text x="705.0" y="901.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id  PK</text>
+<text x="705.0" y="919.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">key      type-neutral axis</text>
+<text x="705.0" y="938.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">applies_to[]  media types</text>
+<text x="705.0" y="956.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">label    per-type wording</text>
 <rect x="580.0" y="1050.0" width="540.0" height="200.0" rx="12" ry="12" fill="#0A325A" stroke="#FFC861" stroke-width="2.0"/>
-<text x="850.0" y="1127.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">game_mood</text>
-<text x="850.0" y="1145.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">game_id FK  ·  mood_id FK</text>
+<text x="850.0" y="1127.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">media_mood</text>
+<text x="850.0" y="1145.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_item_id FK  ·  mood_id FK</text>
 <text x="850.0" y="1164.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">source   user | inferred</text>
 <text x="850.0" y="1182.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">confidence</text>
 <rect x="1290.0" y="220.0" width="690.0" height="250.0" rx="12" ry="12" fill="#0A325A" stroke="#FF8A8A" stroke-width="2.0"/>
 <text x="1635.0" y="312.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">state_change</text>
-<text x="1635.0" y="331.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">game_uid</text>
+<text x="1635.0" y="331.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_uid</text>
 <text x="1635.0" y="349.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">status_manual  ·  status_changed_at</text>
 <text x="1635.0" y="368.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">device_id FK  ·  applied_at</text>
 <text x="1635.0" y="386.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">THE ONLY PAYLOAD THAT CROSSES</text>
@@ -161,12 +163,12 @@
 <rect x="1290.0" y="800.0" width="320.0" height="170.0" rx="12" ry="12" fill="#0A325A" stroke="#7FB6FF" stroke-width="2.0"/>
 <text x="1450.0" y="862.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">comment</text>
 <text x="1450.0" y="880.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id PK · account_id FK</text>
-<text x="1450.0" y="899.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">game_uid</text>
+<text x="1450.0" y="899.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_uid</text>
 <text x="1450.0" y="917.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">body · created_at</text>
 <rect x="1660.0" y="800.0" width="320.0" height="170.0" rx="12" ry="12" fill="#0A325A" stroke="#7FB6FF" stroke-width="2.0"/>
 <text x="1820.0" y="862.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">review</text>
 <text x="1820.0" y="880.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id PK · account_id FK</text>
-<text x="1820.0" y="899.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">game_uid</text>
+<text x="1820.0" y="899.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_uid</text>
 <text x="1820.0" y="917.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">rating · body · created_at</text>
 <rect x="489.2" y="511.5" width="71.6" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
 <text x="525.0" y="526.5" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">1 : 0..1</text>
@@ -185,7 +187,7 @@
 <rect x="1610.0" y="749.0" width="50.0" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
 <text x="1635.0" y="764.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">1 : N</text>
 <text x="90.0" y="1390.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#9DC4E6" text-anchor="start" font-weight="normal">KEY    violet = the game row (sheet 01)    ·    gold = Phase 2 enrichment, every row stamped with fetched_at / observed_at    ·    blue = Phase 4 server side    ·    red = the only payload that crosses</text>
-<text x="90.0" y="1450.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#FF8A8A" text-anchor="start" font-weight="normal">state_change, comment and review key off game_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed.</text>
+<text x="90.0" y="1450.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#FF8A8A" text-anchor="start" font-weight="normal">state_change, comment and review key off media_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed.</text>
 <text x="90.0" y="1510.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#FF8A8A" text-anchor="start" font-weight="normal">NEVER crosses: the library itself, playtime, last_played_at, cover art, sinopse, prices — every one re-derivable on each device. And credentials. Ever.</text>
 <rect x="44" y="1574" width="2032" height="122" fill="#0A325A"/>
 <line x1="44" y1="1574" x2="2076" y2="1574" stroke="#5BC8FF" stroke-width="2.5"/>
@@ -201,11 +203,11 @@
 <text x="124.0" y="1652" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">Zerado</text>
 <text x="366.8" y="1608" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DRAWING TITLE</text>
 <text x="366.8" y="1638" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#EAF4FF">ZERADO DATA MODEL - ENRICHMENT AND THE SYNC BOUNDARY</text>
-<text x="366.8" y="1658" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">Phase 2 enrichment; only what the player typed crosses to Phase 4.</text>
+<text x="366.8" y="1658" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">Phase 2 enrichment; only what the player typed crosses.</text>
 <text x="976.4" y="1608" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DISCIPLINE</text>
 <text x="976.4" y="1638" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ARCHITECTURE</text>
 <text x="1260.9" y="1608" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">SHEET</text>
-<text x="1260.9" y="1638" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">02 OF 09</text>
+<text x="1260.9" y="1638" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">02 OF 10</text>
 <text x="1443.8" y="1608" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DWG NO.</text>
 <text x="1443.8" y="1638" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ADR-0001</text>
 <text x="1667.3" y="1608" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">REV</text>

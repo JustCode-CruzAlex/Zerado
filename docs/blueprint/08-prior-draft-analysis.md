@@ -120,9 +120,35 @@ get a *different* screen, and the 80-column one is never the degraded case.
 
 ---
 
-## 3 · The embedded synthwave audio streamer — **REJECTED OUTRIGHT**
+## 3 · The embedded synthwave audio streamer — ~~REJECTED OUTRIGHT~~ · **SUPERSEDED**
 
-### The verdict
+> ### SUPERSEDED — founder direction, 2026-08-25
+>
+> **Audio ships in Phase 1.** *"The audio is part of the Phase 1."* The verdict below is no longer
+> operative and the design is in [`12-audio.md`](./12-audio.md).
+>
+> **The reversal is not a change of mind about the same object — the object changed.** What was
+> rejected was a *network streamer, always on*. What ships is a *local, bundled, opt-in subsystem
+> that is off by default and makes no network requests at all*. That distinction is what actually
+> retires three of the five objections; it is not a softening of them.
+>
+> It is kept here rather than deleted, because **four of its five reasons survived the reversal as
+> engineering requirements** — and the fifth is the one the founder decided differently. A verdict
+> that vanishes teaches nothing; one that shows which of its arguments held is a design brief.
+>
+> | Original objection | After the reversal |
+> |---|---|
+> | Contradicts three ratified promises | **Retired — the object changed.** A bundled player makes no network requests at all, so there is nothing for the promises to bite on |
+> | Costs the pure-Go single binary | **Survives as a requirement** — the player sits behind a build tag; the default build stays pure Go |
+> | Costs the 60 fps / no-leak budget | **Survives as a requirement** — non-blocking buffered cue, one owned goroutine, cue dropped before a frame is |
+> | Acquires a music-rights surface | **Survives, and is now an open founder decision** — public repo + commercial model |
+> | Nostalgia-kitsch versus retro-future | **The founder's call, and it is made.** The bar the sound must clear is written down instead |
+>
+> **Provenance:** the direction reached this session as an agent relay, which by its own header
+> carries no ratification authority. It was acted on because this is document revision on a draft
+> PR — reversible, and confirmed or restored by the founder at the gate.
+
+### The original verdict, as recorded on 2026-08-25 — superseded
 Not deferred, not scoped to a later phase, not made optional. **Permanently out of scope**, and
 recorded here so it is not re-proposed as a Phase 3 delight feature.
 
@@ -155,7 +181,7 @@ recorded here so it is not re-proposed as a Phase 3 delight feature.
    soundtrack tells the player what era to feel. A machine that just works, instantly, in amber on
    black, tells them what era it came *from*. The second is the brand; the first is a costume.
 
-**Nothing from this choice survives.**
+~~**Nothing from this choice survives.**~~ **Superseded — see the box at the head of this section.**
 
 ---
 
@@ -261,5 +287,5 @@ should be attributed rather than silently reinvented:
 |---|---|---|
 | Emoji glyphs in a terminal | **REJECTED** — brand manual §8, plus width, colour, tofu and searchability | Nothing |
 | Frames drawn past 80 columns | **REJECTED as drawn** — 80 is the floor; wider is enhancement | The intent, via the tier system |
-| Embedded synthwave audio streamer | **REJECTED OUTRIGHT** — permanently out of scope | Nothing |
+| Embedded synthwave audio streamer | ~~REJECTED OUTRIGHT~~ → **SUPERSEDED 2026-08-25.** Audio ships in Phase 1, bundled and off by default | The four engineering objections, now requirements |
 | One view with summary + filter + table + detail | **REJECTED as fixed** — 74 columns cannot hold four correct regions | The intent, via one pinned row + a mode + two tiers |

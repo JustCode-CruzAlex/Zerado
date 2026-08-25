@@ -11,7 +11,7 @@ ticket: "#2"
 
 # The process flows
 
-Six flows, drawn. Each renders in both the brand-black and the cyanotype theme.
+Seven flows, drawn. Each renders in both the brand-black and the cyanotype theme.
 
 | Sheet | Flow | What it answers | Spec | Rendered |
 |---|---|---|---|---|
@@ -21,6 +21,7 @@ Six flows, drawn. Each renders in both the brand-black and the cyanotype theme.
 | **06** | Navigation | Where can a player go, and how do they get back? | [`ZRD-FLOW-04`](../adr/charts/ZRD-FLOW-04.chart.toml) | [svg](../adr/charts/svg/ZRD-FLOW-04.svg) · [cyanotype](../adr/charts/svg/ZRD-FLOW-04.cyanotype.svg) |
 | **07** | The provider seam | Why does adding GOG add no screens? | [`ZRD-FLOW-05`](../adr/charts/ZRD-FLOW-05.chart.toml) | [svg](../adr/charts/svg/ZRD-FLOW-05.svg) · [cyanotype](../adr/charts/svg/ZRD-FLOW-05.cyanotype.svg) |
 | **08** | The offline contract | Works, degrades, or refuses — and how is that decided? | [`ZRD-FLOW-06`](../adr/charts/ZRD-FLOW-06.chart.toml) | [svg](../adr/charts/svg/ZRD-FLOW-06.svg) · [cyanotype](../adr/charts/svg/ZRD-FLOW-06.cyanotype.svg) |
+| **10** | The audio subsystem | What happens when a screen emits a cue — and when it cannot? | [`ZRD-FLOW-07`](../adr/charts/ZRD-FLOW-07.chart.toml) | [svg](../adr/charts/svg/ZRD-FLOW-07.svg) · [cyanotype](../adr/charts/svg/ZRD-FLOW-07.cyanotype.svg) |
 
 ```bash
 for f in docs/adr/charts/ZRD-FLOW-*.chart.toml; do flowforge chart render "$f"; done
@@ -127,6 +128,25 @@ exactly the background traffic the page promises does not exist. A request fails
 is classified.
 
 Full table: [`07-offline-contract.md`](./07-offline-contract.md).
+
+---
+
+## Sheet 10 · The audio subsystem
+
+Audio ships in Phase 1 ([`12-audio.md`](./12-audio.md)), and the sheet is mostly the ladder down to
+silence, because that is where the design is.
+
+A screen emits a **semantic cue** — `sync.done`, never a file name. Three gates follow: is audio
+enabled (it is **off by default**), is it available, is the channel muted. Every "no" lands on
+silence, and **silence is not an error**: the visible signal already happened, the co-render rule
+guarantees it, and Settings says why **once** rather than banner-ing every screen.
+
+Two things the drawing exists to make unmissable:
+
+- **The cue is dropped before a frame is.** `Cue()` is a non-blocking send on a buffered channel;
+  a full buffer discards the sound. A missed sound is never worth a dropped frame.
+- **Bundled, never streamed.** No CDN, no fetch. That is what keeps three ratified promises intact
+  and why audio is `WORKS` in the offline contract rather than an exception to it.
 
 ---
 

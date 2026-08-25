@@ -9,11 +9,11 @@ ticket: "#2"
 
 # ADR-0001 · Zerado foundational architecture
 
-Four decisions that are expensive to reverse once Phase 1 code exists. They are recorded together
+Six decisions that are expensive to reverse once Phase 1 code exists. They are recorded together
 because they constrain each other: the sync boundary decides what persistence must carry, and
 persistence decides what the provider seam can promise.
 
-**Drawings for this ADR** — nine sheets, each rendered in both themes, under
+**Drawings for this ADR** — ten sheets, each rendered in both themes, under
 [`charts/`](./charts/):
 
 | Sheet | Drawing | Bears on |
@@ -26,6 +26,7 @@ persistence decides what the provider seam can promise.
 | 07 | The provider seam | D1 |
 | 08 | The offline contract | D1, D2 |
 | 09 | Screen anatomy at the 80 × 24 design floor | D3 |
+| 10 | The audio subsystem and its degrade ladder | D6 |
 
 ---
 
@@ -247,6 +248,133 @@ must be in the first sync payload, not a follow-up.
 
 **Cost to reverse:** **highest of the four.** It decides what the schema carries from the first
 migration onward.
+
+---
+
+## D5 · The core entity is a **media item**, not a game
+
+### Decision
+
+`media_item` is the core entity, carrying a `media_type`. `game` is the first type; `book` is the
+second; `film` and `series` are a plausible third and fourth. **Phase 1 ships games only** — the
+column is constrained to `'game'`, there is no `--type` flag, and a Phase 1 player cannot tell this
+decision exists.
+
+- **Shared facts live on the core:** ownership, acquisition (digital or physical), the four states,
+  progress, mood tags, rating, notes, the source provider, price history.
+- **Type-specific facts live in a typed extension:** `media_game` (Steam appid, achievements);
+  later `media_book`, `media_film`, `media_series`.
+- **Progress is generic** — `value` + `unit` + `source` — rather than a typed `playtime`. This
+  diverges from the letter of the founder direction and the reason is in
+  [`../blueprint/11-media-model.md`](../blueprint/11-media-model.md) §1: it is what keeps the
+  four-state derivation **one function** instead of one per type.
+- **Derived versus manual is a capability of the `(provider, media type)` pair, not of the type.**
+  A Steam game derives; a cartridge does not; a paper book does not; a Kindle book would. Phase 1
+  already needs this for physical copies, so the mechanism is not new work.
+- **The provider seam gains `MediaTypes()`** and per-type `Capabilities`. Nothing else reshapes.
+- **Mood tags carry a type-neutral `key` and a per-type `label`** — one engine, per-type vocabulary.
+
+**The four states were verified type by type, not assumed** — see
+[`../blueprint/11-media-model.md`](../blueprint/11-media-model.md) §2. Two findings, in §4:
+
+- **F-1 · a film has no meaningful `IN PROGRESS`**, so **`film` and `series` should be two types**,
+  not one "video" type. Costs nothing now; costs a migration later.
+- **F-2 · an ongoing series needs *caught up*, and it must not become a fifth state.** The four are
+  ratified and CVD-verified at a measured ΔE floor of 11.9 under deuteranopia; a fifth colour would
+  have to be re-verified against that, for one type, in a later phase. Model *caught up* as a derived
+  presentation of `IN PROGRESS` from typed facts.
+
+### Alternatives
+
+| Considered | Rejected because |
+|---|---|
+| **Keep it games-only; add types when books arrive** | The retrofit rewrites every table, every seam and the whole state machine. This is the single most expensive thing in the bundle to defer, which is why it is the one thing designed ahead of need |
+| **One table with nullable type-specific columns** | A `game` row carrying null `isbn` and `page_count` — the table grows a column per type forever and every query learns which nulls are meaningful |
+| **JSON blob for type-specific facts** | Unqueryable and unconstrained. The typed facts are exactly what a type-specific screen filters on |
+| **A plugin/registry for media types** | An abstraction with one implementation for the whole life of Phase 1. Three types are foreseen and they ship in the binary |
+| **Playtime as a typed game fact (the direction's letter)** | Forks the four-state derivation per type. Recorded as an open founder question in [`../blueprint/13-handoffs.md`](../blueprint/13-handoffs.md) §5 |
+
+### Consequences
+
+**Easier:** adding books should be one migration, one provider, one typed extension and one label
+set — with **zero** changes to the state machine, the recommender, the offline contract or any
+existing screen. That is a measurable test, and it is the one to hold this decision to.
+
+**Harder:** every Phase 1 query carries a `media_type` predicate it does not yet need, and one join
+to `media_game` for facts that could have been columns. Both are cheap at this size, and both are
+the price of not doing the retrofit.
+
+**Cost to reverse:** **highest, jointly with D4.** It is the shape of every table and every seam.
+
+---
+
+## D6 · Audio ships in Phase 1 — **bundled, off by default, fully removable**
+
+> **This reverses a verdict recorded in this same bundle** — see
+> [`../blueprint/08-prior-draft-analysis.md`](../blueprint/08-prior-draft-analysis.md) §3, kept
+> visible as superseded rather than deleted. The direction arrived as an **agent relay carrying no
+> ratification authority**; it was acted on because this is reversible document work on a draft PR,
+> and it is flagged so the founder confirms it rather than inherits it.
+
+### Decision
+
+**The reversal is not a change of mind about the same object — the object changed.** What was
+rejected was a *network streamer, always on*. What ships is a *local, bundled, opt-in subsystem, off
+by default, that makes no network requests at all*.
+
+- **Bundled, never streamed.** No CDN, no fetch, no cache warm. This is what keeps three ratified
+  promises intact — *no background telemetry*, *works with the network off*, *the only traffic is
+  services you connected* — and it makes audio `WORKS` in the offline contract.
+- **Off by default**, with an explicit opt-in in `Z-09 Settings § Audio`. A terminal program that
+  makes noise on first run is one people uninstall before they have seen anything else. This also
+  satisfies **WCAG 1.4.2 Audio Control** structurally rather than by a bolted-on control.
+- **Two independent channels** — music and interface FX — separately mutable, separately volumed.
+- **Global `m` mute**, always reachable, in the footer and key map **only when audio is enabled**.
+- **`ZERADO_NO_AUDIO`** mirrors the `NO_COLOR` discipline: when set, no sound at all, and Settings
+  shows *overridden*, not *off*.
+- **Never errors, never blocks, never hangs.** `Cue()` cannot fail and cannot block; a cue is
+  dropped before a frame is. One owned goroutine. Muting music **releases the device** rather than
+  holding a gain of zero.
+- **The implementation sits behind a build tag**, so the **default** build stays pure-Go and
+  cross-compiles with no toolchain — preserving D2's single-binary property. `NullAudio` is the
+  default build, so it is exercised by every test run rather than being an untested fallback.
+- **Audio is never the only carrier of information** — the co-render rule extended to a fourth
+  channel. The test is `ZERADO_NO_AUDIO=1` and lose nothing, the same test `NO_COLOR` passes.
+
+### The open founder decision — music licensing
+
+**Bundled tracks must be DRM-free and licensed for commercial redistribution, or they do not
+ship.** Both halves bite: the repository is **public**, so tracks are redistributed by every clone
+and every release artifact; and the funding model is **affiliate commission**, so a
+"non-commercial use" licence does not cover it — the same trap already identified for IGDB.
+
+> **Recommendation, for the founder to accept or refuse:** ship Phase 1 with **interface FX only**,
+> and make the **music bed user-supplied** (point Zerado at a local directory). That delivers the
+> feeling, removes the licensing blocker from the critical path entirely, and leaves a bundled
+> soundtrack as a later addition once rights are actually cleared. Audio ships either way.
+
+### Alternatives
+
+| Considered | Rejected because |
+|---|---|
+| **Streamed music** (the prior draft) | Contradicts three ratified public promises, and would need its own ratification |
+| **On by default** | A terminal program that makes noise unprompted is uninstalled before it is understood |
+| **One channel with one mute** | Someone may want keyclicks without the soundtrack, or the reverse. Neither is the odd request |
+| **Audio compiled into the default build** | Costs D2's pure-Go cross-compile matrix — the property that makes releases one file and no toolchain |
+| **`Cue()` returning an error** | There is no audio failure a *screen* could usefully handle. An error return invites a caller to block on it |
+| **A second key to pause music, distinct from mute** | A redundant control on a scarce surface, for no accessibility gain — `m` already satisfies 1.4.2 |
+
+### Consequences
+
+**Easier:** the retro-future feeling becomes something the player turns on. `NullAudio` as the
+default build means the silent path is the well-tested one.
+
+**Harder:** a build-tag split means two binaries to produce and a Settings line that must explain
+which one is running. And the licensing question is genuinely unresolved — it is on the founder's
+list, not a specialist's.
+
+**Cost to reverse:** **low for the design** — the seam is removable at compile time. The
+**licensing** commitment is the part that is expensive to undo once tracks ship in a public repo.
 
 ---
 

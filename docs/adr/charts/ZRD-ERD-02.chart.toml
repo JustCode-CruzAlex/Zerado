@@ -10,19 +10,19 @@ height = 1740
 [titleblock]
 dwg_title = "ZERADO DATA MODEL - ENRICHMENT AND THE SYNC BOUNDARY"
 discipline = "ARCHITECTURE"
-sheet = "02 OF 09"
+sheet = "02 OF 10"
 dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "Phase 2 enrichment; only what the player typed crosses to Phase 4."
+description = "Phase 2 enrichment; only what the player typed crosses."
 project = "Zerado"
 author = "fft-tui-architect"
 
 [[node]]
 id = "gameref"
-title = "game"
-sublines = ["( SHEET 01 )", "id · game_uid", "provider_id + provider_ref"]
+title = "media_item"
+sublines = ["( SHEET 01 )", "id · media_uid · media_type", "provider_id + provider_ref"]
 color = "accent"
 shape = "cyl"
 x = 90
@@ -42,7 +42,7 @@ h = 1180
 id = "meta"
 title = "metadata"
 sublines = [
-  "game_id            PK / FK",
+  "media_item_id      PK / FK",
   "sinopse",
   "cover_ref     cache path, never a URL",
   "released_at · genres",
@@ -60,7 +60,7 @@ h = 250
 id = "price"
 title = "price_quote"
 sublines = [
-  "id PK  ·  game_id FK",
+  "id PK  ·  media_item_id FK",
   "shop · currency",
   "current_cents · low_cents · low_at",
   "url · affiliate_url",
@@ -77,7 +77,7 @@ h = 250
 [[node]]
 id = "moodtag"
 title = "mood_tag"
-sublines = ["id  PK", "label"]
+sublines = ["id  PK", "key      type-neutral axis", "applies_to[]  media types", "label    per-type wording"]
 color = "gold"
 shape = "rect"
 x = 580
@@ -87,8 +87,8 @@ h = 150
 
 [[node]]
 id = "gamemood"
-title = "game_mood"
-sublines = ["game_id FK  ·  mood_id FK", "source   user | inferred", "confidence"]
+title = "media_mood"
+sublines = ["media_item_id FK  ·  mood_id FK", "source   user | inferred", "confidence"]
 color = "gold"
 shape = "rect"
 x = 580
@@ -108,7 +108,7 @@ h = 880
 id = "statechange"
 title = "state_change"
 sublines = [
-  "game_uid",
+  "media_uid",
   "status_manual  ·  status_changed_at",
   "device_id FK  ·  applied_at",
   "THE ONLY PAYLOAD THAT CROSSES",
@@ -145,7 +145,7 @@ h = 180
 [[node]]
 id = "comment"
 title = "comment"
-sublines = ["id PK · account_id FK", "game_uid", "body · created_at"]
+sublines = ["id PK · account_id FK", "media_uid", "body · created_at"]
 color = "info"
 shape = "rect"
 x = 1290
@@ -156,7 +156,7 @@ h = 170
 [[node]]
 id = "review"
 title = "review"
-sublines = ["id PK · account_id FK", "game_uid", "rating · body · created_at"]
+sublines = ["id PK · account_id FK", "media_uid", "rating · body · created_at"]
 color = "info"
 shape = "rect"
 x = 1660
@@ -236,7 +236,7 @@ y = 1390
 w = 1900
 
 [[free]]
-text = "state_change, comment and review key off game_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed."
+text = "state_change, comment and review key off media_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed."
 color = "err"
 x = 90
 y = 1450

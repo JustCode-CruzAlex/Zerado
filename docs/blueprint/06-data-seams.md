@@ -18,6 +18,17 @@ The Go below is **shape, not code**. It is here because a seam described in pros
 nobody can hold you to, and because the exact signature is the decision — not the package it
 eventually lives in. **No implementation is written by this ticket.**
 
+> **Scope of this document — read before the Go.** The spine decides **that** a seam exists, what it
+> is responsible for and where its boundaries are. It does **not** decide the final Go signatures —
+> that is `fft-api-designer`'s deliverable, and this document is its brief. Every Go block below is
+> **shape, not signature**. [`13-handoffs.md`](./13-handoffs.md) states exactly which decisions are
+> load-bearing and which spellings are free to change.
+
+> **The core entity is a media item, not a game.** Games are the first media type; books are the
+> second and films/series a plausible third. Phase 1 ships games only, and the generalisation is a
+> *shape* decision with no Phase 1 surface. The seams below are written in their generic form; see
+> [`11-media-model.md`](./11-media-model.md).
+
 | § | Seam | Interface | Why it must be a seam |
 |---|---|---|---|
 | 2 | **Store provider** | `Provider` / `Syncer` | Steam first, then PlayStation, GOG, EA — and physical, which is not a store at all |
@@ -25,6 +36,7 @@ eventually lives in. **No implementation is written by this ticket.**
 | 4 | **Price history** | `PriceProvider` | The affiliate disclosure is a ratified promise; the seam is what makes it structural |
 | 5 | **Persistence** | `Store` | One SQLite file is a public promise. The interface is what keeps it one file |
 | 5.4 | **Credentials** | `Vault` | The player's own keys. They must never be inside the file the player is told to back up and share |
+| — | **Audio** | `Audio` | Ships in Phase 1, bundled and off by default. Fully removable at runtime *and* at compile time. Specified in [`12-audio.md`](./12-audio.md) |
 
 ---
 
@@ -53,13 +65,15 @@ Three things fall out of that, all of them promises the page already made:
 ```go
 type ProviderID string   // "steam" · "physical" · "playstation" · "gog" · "ea"
 
-// Capabilities is what the provider can actually do. Every screen and every
-// derivation reads this instead of switching on ProviderID.
+// Capabilities is what the provider can actually do FOR ONE MEDIA TYPE.
+// Every screen and every derivation reads this instead of switching on
+// ProviderID or on MediaType.
 type Capabilities struct {
-    Sync        bool   // can fetch a library over the network
-    Playtime    bool   // reports minutes played
-    LastPlayed  bool   // reports a last-played timestamp
-    OwnedSince  bool   // reports an acquisition date
+    Sync        bool          // can fetch a library over the network
+    Progress    bool          // reports progress at all
+    ProgressUnit ProgressUnit // minutes | pages | percent | episodes
+    LastUsed    bool          // last played / read / watched
+    OwnedSince  bool          // reports an acquisition date
     Credentials []CredentialField // what Z-02 renders; empty means none needed
 }
 
@@ -67,8 +81,10 @@ type Capabilities struct {
 // that are a human with a keyboard.
 type Provider interface {
     ID() ProviderID
-    Display() string          // "Steam", "Physical shelf"
-    Capabilities() Capabilities
+    Display() string                       // "Steam", "Physical shelf"
+    MediaTypes() []MediaType               // steam -> [game] · tmdb -> [film, series]
+    Capabilities(MediaType) Capabilities   // per (provider, type) — one provider can
+                                           // serve two types with different abilities
 }
 
 // Syncer is implemented only by providers that can fetch. `physical` does
@@ -99,7 +115,7 @@ type Item struct {
 `physical` is a `Provider` and **not** a `Syncer`:
 
 ```go
-Capabilities{Sync: false, Playtime: false, LastPlayed: false,
+Capabilities{Sync: false, Progress: false, LastUsed: false,
              OwnedSince: true, Credentials: nil}
 ```
 
@@ -417,3 +433,4 @@ implementation, forever.
 | **The clock** | A `func() time.Time` field on the structs that need it is enough for tests. An interface for this is ceremony |
 | **The filesystem** | `os` plus a configurable root. `io/fs` where reading is all that is needed |
 | **HTTP** | A shared `*http.Client` with a timeout, injected. Providers do not construct their own — that is how a "works offline" claim quietly stops being true |
+| **A media-type registry** | `MediaType` is a closed enum, not a plugin point. Three types are foreseen and they ship in the binary. A registry would be an abstraction with one implementation for the entire life of Phase 1 |

@@ -52,7 +52,7 @@ library, and it is fully specified, because a builder cannot build it from the l
 | **Z-06** | Set status | Overlay | Change one game's state in two keystrokes, and offer to clear a manual override |
 | **Z-07** | Filter and search | Mode of Z-04 | Narrow 400 games to the handful that match, and say plainly when nothing does |
 | **Z-08** | Add a game by hand | Route | Enter a disc, a cartridge or anything else the stores do not know about, as a first-class row |
-| **Z-09** | Settings | Route | Every dial the product has, grouped, with the current value visible without opening anything |
+| **Z-09** | Settings | Route | Every dial the product has, grouped, with the current value visible without opening anything. **Includes the Audio section** — the opt-in, the two channels, two volumes, and an honest line when audio is unavailable ([`12-audio.md`](./12-audio.md)) |
 | **Z-10** | Help and key map | Route | Every key that does anything, on the screen it does it on |
 | **Z-11** | Fatal error | Route (**frameless**) | When the program cannot continue, say what broke, where the file is, and what to try — in the plainest possible renderer |
 
@@ -177,7 +177,8 @@ Recorded so they are not re-proposed, and so the reason survives.
 The short list of things that would each be a defect, kept here because they are easier to
 prevent in a spec than to find in a review.
 
-- **`Z-01`** must not ask for anything. It offers doors; it does not collect.
+- **`Z-01`** must not ask for anything. It offers doors; it does not collect. It carries **one**
+  quiet line naming that audio exists and where to turn it on — a statement, not a prompt.
 - **`Z-02`** must not tell the player their profile is private *before* it has evidence — it
   is the empty result that proves it, and the copy belongs there.
 - **`Z-03`** must not report a count it has not finished counting.
@@ -188,6 +189,9 @@ prevent in a spec than to find in a review.
   automatically. See [`05-state-machine.md`](./05-state-machine.md) §4.
 - **`Z-07`** must not silently return zero rows. An empty result names the filter that emptied it.
 - **`Z-08`** must not require a field Steam happens to have. A cartridge has no app ID.
-- **`Z-09`** must not hide a current value behind a submenu.
+- **`Z-09`** must not hide a current value behind a submenu, and must say **why** audio is
+  unavailable rather than only that it is off — those are different facts.
+- **`Z-11`** must be **silent**. It depends on nothing, and that includes the audio subsystem: a
+  crash screen must not try to play a sound.
 - **`Z-10`** must not list keys that do nothing on the screen the player came from.
 - **`Z-11`** must not depend on anything that could be what broke.

@@ -1,0 +1,216 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-07"
+title = "FLOW  ·  THE AUDIO SUBSYSTEM"
+subtitle = "off by default · bundled, never streamed · silent on every failure"
+width = 2020
+height = 1500
+
+[titleblock]
+dwg_title = "FLOW - THE AUDIO SUBSYSTEM AND ITS DEGRADE LADDER"
+discipline = "ARCHITECTURE"
+sheet = "10 OF 10"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "Audio ships in Phase 1. It cannot fail, block or hang."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "screen"
+title = "a screen emits a CUE"
+sublines = ["Cue(\"sync.done\")", "semantic, never a file name", "cannot fail · cannot block"]
+color = "accent"
+shape = "rect"
+x = 90
+y = 220
+w = 400
+h = 200
+
+[[node]]
+id = "d1"
+title = "audio enabled?"
+color = "gold"
+shape = "diamond"
+x = 610
+y = 200
+w = 320
+h = 220
+
+[[node]]
+id = "d2"
+title = "available?"
+color = "gold"
+shape = "diamond"
+x = 610
+y = 560
+w = 320
+h = 220
+
+[[node]]
+id = "d3"
+title = "channel muted?"
+color = "gold"
+shape = "diamond"
+x = 610
+y = 920
+w = 320
+h = 220
+
+[[node]]
+id = "play"
+title = "PLAY"
+sublines = [
+  "buffered channel, non-blocking send",
+  "buffer full  ->  the CUE IS DROPPED",
+  "a missed sound is never worth a dropped frame",
+  "one owned goroutine, stopped by ctx",
+]
+color = "ok"
+shape = "rect"
+x = 1080
+y = 200
+w = 620
+h = 240
+
+[[node]]
+id = "silent"
+title = "SILENCE"
+sublines = [
+  "not an error · not a banner · not a nag",
+  "the visible signal already happened",
+  "said ONCE, in Z-09 Settings, and never again",
+]
+color = "muted"
+shape = "rect"
+x = 1080
+y = 620
+w = 620
+h = 220
+
+[[node]]
+id = "reasons"
+title = "WHY it is unavailable  —  Z-09 says which"
+sublines = [
+  "ZERADO_NO_AUDIO set   ->  OVERRIDDEN, not 'off'",
+  "no audio device",
+  "over SSH   ->  the sound would play on the wrong machine",
+  "in CI",
+  "init failed or timed out",
+]
+color = "err"
+shape = "rect"
+x = 1080
+y = 940
+w = 620
+h = 280
+
+[[node]]
+id = "offdefault"
+title = "OFF BY DEFAULT"
+sublines = [
+  "explicit opt-in in Z-09",
+  "nothing plays on first run",
+  "so WCAG 1.4.2 is satisfied",
+  "before its 3s threshold, not after",
+]
+color = "brand"
+shape = "rect"
+x = 90
+y = 560
+w = 400
+h = 240
+
+[[node]]
+id = "mute"
+title = "m   —   GLOBAL MUTE"
+sublines = [
+  "always reachable, every screen",
+  "music and FX mute INDEPENDENTLY",
+  "muting music RELEASES the device;",
+  "it does not hold a gain of zero",
+]
+color = "brand"
+shape = "rect"
+x = 90
+y = 920
+w = 400
+h = 240
+
+[[edge]]
+from = "screen"
+to = "d1"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d1"
+to = "play"
+label = "yes"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d1"
+to = "d2"
+label = "no"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "d2"
+to = "silent"
+label = "no"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d2"
+to = "d3"
+label = "yes"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "d3"
+to = "reasons"
+label = "muted"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "offdefault"
+to = "d1"
+style = "dashed"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "mute"
+to = "d3"
+style = "dashed"
+from_side = "r"
+to_side = "l"
+
+[[free]]
+text = "BUNDLED, NEVER STREAMED. No CDN, no fetch, no cache warm — so audio makes no network requests at all. That is what keeps three ratified promises intact, and it is why audio is WORKS in the offline contract rather than an exception to it."
+color = "ok"
+x = 90
+y = 1260
+w = 1850
+
+[[free]]
+text = "The default BUILD contains NullAudio and stays pure Go, so the cross-compile matrix survives and the silent path is the one every test run exercises. The real player sits behind a build tag."
+color = "accent"
+x = 90
+y = 1315
+w = 1850
