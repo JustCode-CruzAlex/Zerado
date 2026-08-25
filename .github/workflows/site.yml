@@ -106,7 +106,9 @@ jobs:
       - name: Zero client-side JavaScript, zero external requests
         run: |
           fail=0
-          if grep -oE '<script[^>]*>' dist/index.html | grep -v 'type="application/ld\+json"' ; then
+          # -F: the exclusion is a fixed string. In a basic regex `\+` would mean
+          # "one or more d", not a literal plus, and the JSON-LD block would slip past.
+          if grep -oE '<script[^>]*>' dist/index.html | grep -vF 'type="application/ld+json"' ; then
             echo "::error::A <script> other than the JSON-LD block reached the page."; fail=1
           fi
           if grep -oE '(src|href)="https?://[^"]*"' dist/index.html \
