@@ -805,8 +805,10 @@ one in copy would be anti-pattern 14.
 - **Nothing on this screen claims an unbuilt capability.** There is no `MOOD` label, no
   `SINOPSE` label, no cover-art placeholder and no "coming in Phase 2" line. The roadmap lives
   on the landing page.
-- **Type-neutral where equally natural** — `DETAIL`, `SOURCE`, `ADDED`, `Nothing is tracked`.
-  Phase 1 says *game* where a game is what the player is looking at.
+- **Zerado is a games product and the copy says so.** `PLAYTIME`, `LAST PLAYED`,
+  `Steam says`, `Added by hand`. `DETAIL`, `SOURCE` and `ADDED` are neutral because each names a
+  **field**, not because the copy is leaving room for another kind of thing
+  (`11-media-model.md` rev B).
 
 ---
 

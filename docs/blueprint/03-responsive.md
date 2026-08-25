@@ -86,6 +86,7 @@ trade: at 40 columns a player is reading, not scanning.
 | **Z-09** Settings | Single-pane grouped list, **wider gutter** | Single-pane grouped list | Same | Values below labels | Values below labels |
 | **Z-10** Help | Two key columns | One key column | Same | Same | Same, scrolls more |
 | **Z-11** Fatal | Plain text | Plain text | Plain text | Plain text | Plain text |
+| **Z-15** Cover deck | Deck ∥ detail, 12 covers | 8 covers, tile 17 × 6 | 4 covers | 4 covers | **Silent** — no covers, and no note about them |
 
 ## 4 · What hides, and what must never hide
 

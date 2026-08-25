@@ -487,7 +487,8 @@ Named so they are not assumed to have been settled here:
   cannot be until IGDB answers. [`../blueprint/06-data-seams.md`](../blueprint/06-data-seams.md) §3.2
   records what Phase 2 looks like if the answer is no.
 - **Terminal inline-image support** for cover art. Not assumed anywhere; the text deck is the
-  default and the cover deck is a Phase 2 mode that may never be universally available.
+  default, and the cover deck is a **Phase 1** mode (D8) that degrades honestly where the terminal
+  cannot draw.
 - **The community source.** It is not named anywhere in the product while the ratified decision
   stands, and the recommendation engine must not hard-code a source into its shape.
 - **Whether Phase 4 accounts are email-and-password, OAuth, or something else.** A Phase 4

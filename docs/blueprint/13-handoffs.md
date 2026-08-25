@@ -124,18 +124,25 @@ Collected here so the gate has them in one place.
 4. ~~**Whether `playtime` is generic progress or a typed game fact**~~ — **WITHDRAWN.** The
    divergence existed to keep one derivation across media types; the media types were pruned, so the
    argument died with them. `playtime_minutes` is a plain column.
-5. **Brand manual §9's invariant list is incomplete.** §9 names five invariants carrying identity
+5. **A radio stream has to fit a published promise, and the founder should confirm the reading.**
+   The page says *"The only network traffic is `Zerado` reaching out to the services you've
+   connected — Steam, price data — using your own keys."* A station the player turned on and chose
+   is defensibly *a service they connected*, and [`12-audio.md`](./12-audio.md) §3 argues exactly
+   that. But the sentence names Steam and price data specifically, it is **published**, and a radio
+   stream uses **no key of the player's**. The reading is sound and it is not mine to ratify.
+   *(Raised by `fft-tui-designer`.)*
+6. **Brand manual §9's invariant list is incomplete.** §9 names five invariants carrying identity
    across web, terminal and phone. **Audio is a sixth**, and the manual predates it.
    `fft-brand-architect` should add it through the §10 governance procedure — token and manual in
    the same commit. *(Still open.)*
-6. **The nine underived ANSI-256 indices.** `fft-brand-architect` derives them by nearest-neighbour
+7. **The nine underived ANSI-256 indices.** `fft-brand-architect` derives them by nearest-neighbour
    search in CIELAB; four components ship an interim uncoloured rendering until then.
    *(Still open.)*
-7. **The landing page now contradicts the product on two points.** `content/landing-copy.md` §11 and
+8. **The landing page now contradicts the product on two points.** `content/landing-copy.md` §11 and
    §14 promise *"a premium account or a donation"*, and §16 carries an **affiliate disclosure**.
    Both are now wrong: donation-only, no affiliate. That copy is **published**, and it is ticket #1's
    surface, not this bundle's — so it is named here rather than edited. **Someone has to change the
    page.**
-8. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned —
+9. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned —
    [`11-media-model.md`](./11-media-model.md) §4, finding F-1. Costs nothing now, costs a migration
    later.

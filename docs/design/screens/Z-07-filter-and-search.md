@@ -36,7 +36,7 @@ result names the filter that emptied it."*
 | **Phase** | 1 |
 | **Kind** | **Mode** of `Z-04`. Not on the route stack, not in the overlay slot |
 | **Route in** | `/` from `Z-04` — the query editor takes focus · `f` from `Z-04` — the state chips take focus |
-| **Route out** | `Esc` (twice — §12) · `⏎` moves focus to the list, keeping the filter · `q` / `Ctrl-C` |
+| **Route out** | `Esc` (twice — §13) · `⏎` moves focus to the list, keeping the filter · `q` / `Ctrl-C` |
 | **Composition** | **Takes the top of the pinned block at every tier.** 2 body rows at Standard and above; 3 at Narrow, where the chips wrap; 2 at Tiny, one chip at a time |
 | **`R`** | **2** — the filter bar and the list. This is the only Phase 1 surface below 120 columns where `Tab` exists |
 | **Offline class** | **WORKS.** A `WHERE` clause needs no network |
@@ -200,7 +200,7 @@ have no mechanism.** This is the mechanism.
 > it renders only when at least one row is absent.**
 >
 > **Why a chip and not a key.** Every other candidate needs a binding that does not exist —
-> which is exactly why the `source` facet has been stuck in §17 since rev A. The chip row is
+> which is exactly why the `source` facet has been stuck in §18 since rev A. The chip row is
 > already reachable with `f`, `Tab`, `←` `→` and `space`, all bound. **A fifth chip needs zero
 > new keys**, so the seam's promise is deliverable on the day this screen is built rather than
 > after a spine decision. It also rules out a query syntax like `absent:` — D-07-5 fixes Phase 1
@@ -253,7 +253,7 @@ absorbs.* Composition: `1 + 1 + 1 + 1 + 1 + 10 + 1 = 16` ✓, **10 game rows.**
 | ExtraWide, list pane | 66 | **2** — `63` then `8` | 3 | 27 | 1 row of 32 |
 | **Wide** | **74** | **2** — `63` then `8` | **3** | **10** | 1 game row |
 | Standard | 54 | **see the gap below** | | | |
-| Narrow | 36 | **3** — `34` / `27` / `8` | 4 | **7** | 1 game row — **§17 finding 7** |
+| Narrow | 36 | **3** — `34` / `27` / `8` | 4 | **7** | 1 game row — **§18 finding 7** |
 | Tiny | 30 | **1** — one chip at a time, `[ABSENT]` joins the `Tab` cycle | 2 | unchanged | **none** |
 
 > **A gap in this spec that counting the fifth chip exposed, recorded rather than patched.**
@@ -267,7 +267,7 @@ absorbs.* Composition: `1 + 1 + 1 + 1 + 1 + 10 + 1 = 16` ✓, **10 game rows.**
 >
 > **The shape of the answer, for whoever takes it:** wrapping 2/2 fits (`34` and `27`, both ≤ 54)
 > and makes Standard a 3-row bar at `n = 0` and a 4-row bar with the absent chip — the same
-> ladder as Narrow, one tier up. **Route to `fft-tui-architect` with §17 finding 7**, which is
+> ladder as Narrow, one tier up. **Route to `fft-tui-architect` with §18 finding 7**, which is
 > the same defect seen from the spine's side.
 
 ---
@@ -410,11 +410,11 @@ ledger renders no fifth glyph.**
 same rule `Z-10-help-and-key-map.md` H7 states for its own readout. It returns the moment the set
 overflows.
 
-**The ledger cursor is still visible while the chip row has focus** — R-10(b), and §12.2's row
+**The ledger cursor is still visible while the chip row has focus** — R-10(b), and §13.2's row
 column, which is about *which row is selected* and not about which region holds focus. The
 focused **control** is `[ABSENT]`, carrying its `▌` marker and its `--z-focus-ring` bracket pair
 (exempt, singular by definition); the marker in the ledger is where the player lands when they
-leave the chip row. **Two markers, two meanings, and §12.2 already distinguishes them.**
+leave the chip row. **Two markers, two meanings, and §13.2 already distinguishes them.**
 
 ---
 
@@ -565,8 +565,8 @@ searching.
 | **F10** | **A status changed while filtered** | `Z-06` applied, with a state facet selected | The row may **stop matching**. It is removed on the next frame and focus moves to the nearest surviving row. The ratio updates | §11.6 |
 | **F11** | **The query matches everything** | e.g. a single space | Ratio reads `247 of 247`; the list is the whole library. Not an error, not a special case |  — |
 | **F12** | **Cleared** | Second `Esc` | The mode ends. `Z-04`'s pinned summary returns and the list is whole again | — |
-| **F13** | **Tiny** | `< 40` cols | One chip at a time, cycled with `Tab`; the bar stays 2 rows | §6 |
-| **F14** | **Below the refusal floor** | `< 24` cols or `< 8` rows | The program refuses — `Z-04-library.md` §11.3 | — |
+| **F13** | **Tiny** | `< 40` cols | One chip at a time, cycled with `Tab`; the bar stays 2 rows | §6 · **§12.2** |
+| **F14** | **Below the refusal floor** | `< 24` cols or `< 8` rows | The program refuses — `Z-04-library.md` §11.3 | **§12.4** |
 | **F15** | **The absent facet exists** | `absent_since IS NOT NULL` on ≥ 1 row (`06-data-seams.md` §2.4) | The fifth chip `[ABSENT]` renders and the chip row wraps; the bar goes to **3 rows** and the list to **10** (§3.4). The ratio's denominator becomes the whole file (D-07-9) | §11.5 |
 | **F16** | **The absent facet is selected** | `space` on `[ABSENT]` | §5.1. The row set swaps from the shown rows to the absent ones; state chips then filter **within** that set. **It can never be empty on its own** — the chip does not exist when `n = 0` | §5.1 |
 | **F17** | **The last absent row came back** | A sync returned it; `absent_since` cleared | The chip **stops rendering**, the bar returns to 2 rows and the list to 11. If the facet was selected, the mode falls back to the unfiltered shown set. **No notice, no banner, no result line** — §2.4 clears silently | — |
@@ -735,14 +735,98 @@ and the query is still in the editor, unchanged, the moment the player presses a
 - **No exclamation marks. No emoji. Never call the user a "gamer".**
 - **No copy refers to a colour, a shape or a position** (WCAG 1.3.3). Never *"the cyan chip"*,
   never *"the row on the right"*. The diagnostic block names facets and the footer names keys.
-- **Type-neutral where equally natural** — `Nothing matches.`, `247 games in the library.`,
-  `search`, `state`, `source`. Phase 1 says *game* where a game is what the player is looking at.
+- **Zerado is a games product and the copy says so.** `247 games in the library.`, `3 games`,
+  `0 of those 3`. `search`, `state` and `source` are neutral because each names a **facet**, not
+  because the copy is leaving room for another kind of thing (`11-media-model.md` rev B).
 
 ---
 
-## 12 · The focus model, and the two-step `Esc`
+## 12 · 40-column behaviour, and the refusal floor
 
-### 12.1 · The two regions
+**The renders are §6** — Narrow at `40 × 24`, and the Tiny form beneath it. This section is the
+contract behind them, given its own number because
+[`../03-designer-manual.md`](../03-designer-manual.md) §3 item 11 requires one and a reviewer
+checking the contract has to be able to point at a section rather than at a paragraph.
+
+### 12.1 · Narrow — `40 × 24` · `leftInset` 2 · body `36 × 16`
+
+[`../../blueprint/03-responsive.md`](../../blueprint/03-responsive.md) §3: *"Narrow 40–59: Filter
+bar takes 3 rows (chips wrap)."*
+
+| | Narrow, `n = 0` absent rows | Narrow, `n ≥ 1` |
+|---|---|---|
+| Chip rows | **2** — `34` then `27` cells | **3** — `34` / `27` / `8` |
+| Bar rows (editor + chips) | **3** | **4** |
+| Composition, of 16 | `3 + 1 + 12 + …` | `4 + 1 + …` |
+| **Two-line games visible** | **6** | **7 rows → see §3.4** |
+| Cost of the absent chip | — | 1 game row |
+
+`16 − 3 (bar) − 1 (scroll position) = 12` → **6 two-line games**, remainder 0, so there is no
+respiro — the same `floor(remaining / 2)` rule `Z-04` **D-04-5** uses at this tier, and for the
+same reason: an orphan half-row is worse than a tight one.
+
+**What sheds at Narrow:** the facet **names** beside the ratio · the long footer forms.
+The ratio shortens to **`23/247`** — **6** cells.
+
+**What never sheds, because [`../../blueprint/03-responsive.md`](../../blueprint/03-responsive.md)
+§4 forbids hiding it:** every chip's **glyph and label** at full width · the query the player
+typed · the ratio · the focus marker · the degrade banner · the footer. **The chips are two rows
+tall and carry the selection themselves** — the word channel of **D-07-2**, not colour.
+
+### 12.2 · Tiny — `< 40` · body `30 × 21`
+
+Four chips do not fit two to a row at 30 cells.
+[`../../blueprint/03-responsive.md`](../../blueprint/03-responsive.md) §3: *"One filter at a time,
+cycled with `Tab`."*
+
+| | Tiny |
+|---|---|
+| Chips on screen | **1** — e.g. `[◉  ZERADO]`, **11** cells, on body row 2 |
+| Which one | `Tab` cycles it, and `Tab` **also cycles which is focused** |
+| The absent facet | joins the same `Tab` cycle — **no extra row, no cost** (§3.4) |
+| Bar rows | **2**, unchanged |
+| Ratio | `23/247` — 6 cells |
+| Footer | carries `tab chip` |
+
+**Cycling is not hiding.** Every facet is reachable, every one renders with its glyph **and** its
+label when it is the one on screen, and the footer names the key that reaches the next. That is
+the degrade [`../../blueprint/03-responsive.md`](../../blueprint/03-responsive.md) §2 asks for —
+*shed columns before you shed meaning* — rather than a filter the player cannot get to.
+
+### 12.3 · The Standard hole is still open, and this section does not close it
+
+At **Standard** the four-chip row measures **63** cells against a **54**-cell body, at `n = 0`,
+before any absent row exists — so the *"2 body rows at Standard and above"* budget in §1 and in
+[`../../blueprint/03-responsive.md`](../../blueprint/03-responsive.md) §3 is true only at Wide
+and ExtraWide. §3.4 records it in full and **§18 finding 7** routes it to `fft-tui-architect`.
+
+**It is named here, in the section a builder reaching 60 columns will read**, because a
+40-column section that quietly skipped the tier next to it would be the second place this defect
+could hide. The shape of the answer is in §3.4; the answer is not this spec's to give.
+
+### 12.4 · The refusal floor — 24 columns or 8 rows
+
+Inherited from [`./Z-04-library.md`](./Z-04-library.md) §11.3 **unchanged**, because this is a
+mode of that screen and a mode cannot outlive its host. Below **24 columns or 8 rows** nothing
+renders but one frameless line, and the mode is not entered:
+
+```
+Zerado needs at least 24 columns and 8 rows. This terminal is 20 x 6.
+```
+
+Exit status **2** at start-up; a running session resized below the floor shows the same sentence
+and **keeps running**. This is state **F14**.
+
+**The filter itself is not discarded when the terminal goes below the floor.** The refusal is a
+render, not a state change — resize back above it and the query, the facets and the cursor are
+where they were, which is **D-07-4**'s rule that no keystroke of the player's work is lost to a
+window drag.
+
+---
+
+## 13 · The focus model, and the two-step `Esc`
+
+### 13.1 · The two regions
 
 | Region | Takes focus by | Contains |
 |---|---|---|
@@ -753,7 +837,7 @@ and the query is still in the editor, unchanged, the moment the player presses a
 (`02-composition.md` §2). Traversal order matches visual order, top to bottom
 (WCAG 2.4.3): **editor → chips → list → editor**.
 
-### 12.2 · How focus is shown
+### 13.2 · How focus is shown
 
 | Element | Focused | Not focused |
 |---|---|---|
@@ -769,7 +853,7 @@ removed**, in any state, for any reason.
 Under `NO_COLOR` the caret, the `▌` marker and the bold weight all survive. **Three regions,
 zero colour, still unambiguous.**
 
-### 12.3 · The `Esc` table for this mode — the only two-step `Esc` in Zerado
+### 13.3 · The `Esc` table for this mode — the only two-step `Esc` in Zerado
 
 | Context | `Esc` does | Then |
 |---|---|---|
@@ -786,7 +870,7 @@ zero colour, still unambiguous.**
 **There is no keyboard trap** (WCAG 2.1.2): every focus position has an `Esc` that leaves, and
 two presses always return the player to an unfiltered library.
 
-### 12.4 · The rule that protects the player's data
+### 13.4 · The rule that protects the player's data
 
 **While the query editor holds focus, no single-key shortcut fires** (WCAG 2.1.4). Typing `d`
 types `d`. Typing `a` types `a` — it does not open *Add a game by hand*. Typing `q` types `q` —
@@ -796,7 +880,7 @@ a TUI destroys a user's data."*
 
 ---
 
-## 13 · The key map
+## 14 · The key map
 
 | Key | Does | Editor focused | Chips focused | List focused |
 |---|---|---|---|---|
@@ -806,7 +890,7 @@ a TUI destroys a user's data."*
 | `space` | a space character · **toggle the focused chip** | ✓ literal | ✓ toggle — including `[ABSENT]` when it renders (§3.4) | — |
 | `Tab` / `Shift-Tab` | next / previous region | ✓ | ✓ | ✓ |
 | `⏎` | leave the editor and focus the **first match** | ✓ | ✓ toggle then leave | opens the game (`Z-05`) |
-| `Esc` | §12.3 | ✓ | ✓ | ✓ |
+| `Esc` | §13.3 | ✓ | ✓ | ✓ |
 | `↑` `↓` `k` `j` | move the row cursor | — | — | ✓ (`k` `j` are literal text in the editor) |
 | `/` | re-focus the editor | — | ✓ | ✓ |
 | `f` | focus the chip row | — | — | ✓ |
@@ -819,7 +903,7 @@ day *be* this screen's shortcuts, and are unbound now so nobody has to be retrai
 
 ---
 
-## 14 · Colour budget declaration
+## 15 · Colour budget declaration
 
 | State | STATE cyan (uncounted) | Focus ring (exempt) | **CHROME CYAN** | Verdict |
 |---|---|---|---|---|
@@ -852,7 +936,7 @@ Nothing on this screen is separated by fill.
 
 ---
 
-## 15 · `NO_COLOR` — rendered, not asserted
+## 16 · `NO_COLOR` — rendered, not asserted
 
 Zero SGR sequences. §3, character for character, with `[◉  ZERADO]` **selected**:
 
@@ -911,7 +995,7 @@ row.
 
 ---
 
-## 16 · Reuse verdict, per element
+## 17 · Reuse verdict, per element
 
 | Element | Verdict | Why |
 |---|---|---|
@@ -922,11 +1006,11 @@ row.
 | Empty-result block | Build fresh · `lipgloss` text layout | |
 | The diagnostic block | Build fresh · two padded columns | |
 | Debounce | **None.** Re-filter on every keystroke | It is a `WHERE` clause over a few hundred rows already in memory. A debounce would add latency to the one thing on this screen that must feel instant |
-| Fuzzy matching | **Not in Phase 1** | Nothing in the canon specifies a matcher. Phase 1 is a **case-insensitive substring match on the title** — see §19, D-07-5 |
+| Fuzzy matching | **Not in Phase 1** | Nothing in the canon specifies a matcher. Phase 1 is a **case-insensitive substring match on the title** — see §20, D-07-5 |
 
 ---
 
-## 17 · Upstream findings
+## 18 · Upstream findings
 
 **Re-checked against head on 2026-08-25.** Finding 7 of rev A — `03-designer-manual.md` §5.11
 verdict 3 reading as a permanent rejection of audio — is **closed**: the row is struck through and
@@ -940,12 +1024,12 @@ this table. Findings 1–6 were re-read at source and all six still stand.
 | 3 | **`01-design-system.md` §7.3 makes a selected chip colour + bold only**, which under `NO_COLOR` is bold alone — a one-channel co-render on a control. Closed by **D-07-2** with a word channel and no new glyph | `01-design-system.md` §7.3 | `fft-design-architect` |
 | 4 | **`01-design-system.md` §10.2's empty-result copy does not name the filter that emptied it**, which `01-screen-inventory.md` §5 requires of this screen. §11.5 is the composition that satisfies both | `01-design-system.md` §10.2 | `fft-design-architect` |
 | 5 | **No document specifies the match semantics.** Substring? Prefix? Fuzzy? Case sensitivity? Diacritics? This spec decides the minimum honest answer (D-07-5) and flags it | — | `fft-tui-architect` |
-| 6 | **`05-state-machine.md` §7 still draws `filter: source=physical`, but no key is bound to a *source* facet** in `04-navigation-and-focus.md` §3, and `07-offline-contract.md` §2 no longer names one. This spec renders the facet if the model supplies it and binds no key — see §18 item 2. **It is the exact problem D-07-8 exists to avoid for `absent`**: a facet with no reachable control is a promise with no mechanism | `05-state-machine.md` §7 | `fft-tui-architect` |
+| 6 | **`05-state-machine.md` §7 still draws `filter: source=physical`, but no key is bound to a *source* facet** in `04-navigation-and-focus.md` §3, and `07-offline-contract.md` §2 no longer names one. This spec renders the facet if the model supplies it and binds no key — see §19 item 2. **It is the exact problem D-07-8 exists to avoid for `absent`**: a facet with no reachable control is a promise with no mechanism | `05-state-machine.md` §7 | `fft-tui-architect` |
 | **7** | **`03-responsive.md` §3 budgets this bar at 2 rows from Standard up, and the four-chip row is 63 cells — which does not fit Standard's 54-cell body at `n = 0`, before any absent row exists.** Counting `06-data-seams.md` §2.4's fifth facet is what surfaced it: the absent chip takes the bar to **3 rows at Wide and ExtraWide (10 and 27 rows)** and **4 at Narrow (7 rows)**, and at Standard there is no `n = 0` figure to add a row to. The composition follows `Z-04-library.md` D-04-2 and closes at 16 everywhere it is defined; **Standard is undefined in both documents and this spec says so rather than inventing it** (§3.4). §2.4 postdates §3, but the Standard hole predates both | `03-responsive.md` §3 · this spec §1 | `fft-tui-architect` |
 
 ---
 
-## 18 · Open for the founder
+## 19 · Open for the founder
 
 1. **The match semantics** (D-07-5). Phase 1 is specced as a **case-insensitive, accent-folded
    substring match on the title**. Accent folding matters more than usual for a
@@ -967,7 +1051,7 @@ this table. Findings 1–6 were re-read at source and all six still stand.
 
 ---
 
-## 19 · Design decisions made in this spec
+## 20 · Design decisions made in this spec
 
 | # | Decision | Reason |
 |---|---|---|
@@ -978,12 +1062,12 @@ this table. Findings 1–6 were re-read at source and all six still stand.
 | **D-07-5** | Phase 1 matching is a **case-insensitive, accent-folded substring match on the title**; no fuzzy matcher, no debounce | The minimum a player can predict and reproduce, which is what makes the empty-result diagnostic honest. Accent folding because the product is Brazilian by origin and `Pokémon` must be findable by typing `pokemon` |
 | **D-07-6** | The mode takes rows **1–2** of the pinned block and the list yields, never the respiro (§3.1) | The same rule as `Z-04`'s D-04-2, so the two compositions cannot drift apart |
 | **D-07-7** | On zero results the column header and the scroll-position row are **absent**, but the bar and the respiro stay (§5) | There is nothing to head and nothing to position; the player still needs to see and edit the thing that emptied the list |
-| **D-07-8** | The absent facet is a **fifth chip** in the existing chip row, carrying **no glyph**, rendering only when `n ≥ 1`, and wrapping to its own row (§3.4, §5.1) | It is the only mechanism that needs **no new key binding**, so `06-data-seams.md` §2.4's *"remain findable by filter"* is deliverable rather than blocked behind a spine decision — the fate of the `source` facet in §17. No glyph because `absent` is not a fifth state and a fifth glyph beside `○ ◐ ◉ ⊘` would assert that it is; the missing glyph is the channel that says so. Five chips plus the focus marker compose to 75 cells in a 74-cell body, so they wrap rather than cram |
+| **D-07-8** | The absent facet is a **fifth chip** in the existing chip row, carrying **no glyph**, rendering only when `n ≥ 1`, and wrapping to its own row (§3.4, §5.1) | It is the only mechanism that needs **no new key binding**, so `06-data-seams.md` §2.4's *"remain findable by filter"* is deliverable rather than blocked behind a spine decision — the fate of the `source` facet in §18. No glyph because `absent` is not a fifth state and a fifth glyph beside `○ ◐ ◉ ⊘` would assert that it is; the missing glyph is the channel that says so. Five chips plus the focus marker compose to 75 cells in a 74-cell body, so they wrap rather than cram |
 | **D-07-9** | Once any row is absent, the ratio's denominator is the **whole library file** (§3.3) | With `n = 0` the two numbers are identical and nothing changes. With `n ≥ 1`, `247 of 250` is the same fact `Z-04`'s summary carries as `3 absent`, said in the vocabulary this row already uses — and it stops the two pinned rows disagreeing about how big the library is |
 
 ---
 
-## 20 · Screen-specific acceptance criteria
+## 21 · Screen-specific acceptance criteria
 
 Beyond `00-design-brief.md` §10 and `02-colour-budget.md` §10, both of which apply in full.
 
@@ -1014,7 +1098,7 @@ Beyond `00-design-brief.md` §10 and `02-colour-budget.md` §10, both of which a
 16. **The `[ABSENT]` chip renders if and only if at least one row is absent**, at every tier —
     and when it renders, the bar is 3 rows and the list is 10 at 80 × 24, 2 chip rows and 27 at
     120 × 40, 4 rows and 7 at 40 × 24, and unchanged at 32 × 24. **Standard is excluded from
-    this line until §17 finding 7 is answered** — it has no agreed `n = 0` figure to test against.
+    this line until §18 finding 7 is answered** — it has no agreed `n = 0` figure to test against.
 17. **Selecting `[ABSENT]` alone never returns zero rows.** Verified with `n` = 1, 3 and 40.
 18. **The absent facet's selection is legible with `NO_COLOR=1`** — the chip's word, its
     brackets and the ratio slot's `ABSENT` all survive SGR-stripping. **No fifth glyph appears

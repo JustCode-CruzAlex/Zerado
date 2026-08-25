@@ -136,6 +136,7 @@ finished; a screen that requires more than 80 is a defect.
 | Z-09 | Settings | Single-pane grouped form — **never master/detail**, at any tier (§2.5) | 1 | field group |
 | Z-10 | Help and key map | Single-pane table in a viewport | 1 | viewport |
 | Z-11 | Fatal error | **Frameless.** Plain text, left-aligned, no chrome | 0 | — |
+| **Z-15** | Cover deck | A **mode** of Z-04 — the grid replaces the list in the body; frame, header, pinned summary and footer unchanged. **The detail pane is kept at ExtraWide** (§2.6) | 1 → 2 | deck · detail pane |
 
 ### 2.1 · Why the detail pane starts at 120 columns and not at 80
 
@@ -241,21 +242,6 @@ Body `112 × 32`, split **66 ∥ 2 ∥ 44**:
 Twenty-eight visible rows. The list drops its `source` column here — the detail pane carries it,
 and the title takes the space instead.
 
-### 2.5 · Why `Z-09 Settings` is never master/detail
-
-`Z-09` has a second region's worth of width at ExtraWide, and the obvious composition — groups on
-the left, the selected group's values on the right — is **forbidden**.
-
-`01-screen-inventory.md` §5 says `Z-09` *"must not hide a current value behind a submenu."* A
-master/detail settings screen hides every value in every unselected group, which is that rule broken
-by composition rather than by a click. It would also interleave the reading order under WCAG
-**1.3.2**: the sequence a screen reader follows stops matching the sequence the layout implies.
-
-At ExtraWide the extra width buys a **wider gutter between label and value** and longer help text —
-not a second region. Every current value stays on screen at every tier.
-
-*(Found by `fft-tui-designer` reading §3's degrade table against the inventory's must-not list.)*
-
 ### 2.4 · The overlay budget — `Z-06 Set status`
 
 Fixed `34 × 11`, centred on the current route, drawn over a **dimmed** backdrop — where dimming
@@ -272,6 +258,41 @@ becomes a route** — pushed, full-screen, popped with `Esc`. Behaviourally iden
 composition changes.
 
 ---
+
+### 2.5 · Why `Z-09 Settings` is never master/detail
+
+`Z-09` has a second region's worth of width at ExtraWide, and the obvious composition — groups on
+the left, the selected group's values on the right — is **forbidden**.
+
+`01-screen-inventory.md` §5 says `Z-09` *"must not hide a current value behind a submenu."* A
+master/detail settings screen hides every value in every unselected group, which is that rule broken
+by composition rather than by a click. It would also interleave the reading order under WCAG
+**1.3.2**: the sequence a screen reader follows stops matching the sequence the layout implies.
+
+At ExtraWide the extra width buys a **wider gutter between label and value** and longer help text —
+not a second region. Every current value stays on screen at every tier.
+
+*(Found by `fft-tui-designer` reading §3's degrade table against the inventory's must-not list.)*
+
+### 2.6 · `Z-15` keeps the detail pane at ExtraWide — 12 covers, not 24
+
+`fft-tui-designer` left this as a founder question. It is a composition call, so it is answered
+here.
+
+Dropping the pane at ExtraWide would double the deck to 24 covers. **Keep the pane**, for two
+reasons:
+
+1. **A mode must not silently change a screen's region count.** `Z-15` is a *mode* of `Z-04`, not a
+   route. At ExtraWide `Z-04` is list ∥ detail; in cover mode it is deck ∥ detail. A player who
+   presses `v` and watches a pane vanish has been shown a different screen, not a different view of
+   the same one.
+2. **A cover grid with no detail pane is a poster wall.** The state, the playtime and eventually the
+   *sinopse* live in the pane. Covers are how you *find* the game; the pane is how you decide. The
+   mode exists to make finding easier, not to replace deciding.
+
+Twelve covers is not a small deck — it is more titles than a player scans at once. If evidence ever
+says otherwise, "hide the detail pane" is a cheap setting rather than a composition change, and that
+asymmetry is itself a reason to start with the pane.
 
 ## 3 · Composition for later phases — inventoried, not specified
 

@@ -33,8 +33,10 @@ bar · §12 banner) · [`../02-colour-budget.md`](../02-colour-budget.md) (§10 
 [`../../blueprint/02-composition.md`](../../blueprint/02-composition.md) §1.3 · §2.2 · §2.3 ·
 §3 (**binding**) · [`../../blueprint/03-responsive.md`](../../blueprint/03-responsive.md) ·
 [`../../blueprint/07-offline-contract.md`](../../blueprint/07-offline-contract.md) §2 · §3 · §4 ·
-`17-images.md` (**the spine's image contract — being written in parallel; it owns detection,
-the cache and the placement protocol. This spec owns only what the player sees**) ·
+[`../../blueprint/17-images.md`](../../blueprint/17-images.md) (**binding — the spine's image
+contract. It owns the protocol, detection, the `Images` seam and the cache; this spec owns only
+what the player sees**) · [`../../blueprint/16-i18n.md`](../../blueprint/16-i18n.md) (§11's
+strings are catalogue entries, not literals) ·
 FlowForge TUI Design Manual **R-10** · Spacing Canon #2435.
 
 ---
@@ -466,10 +468,11 @@ than a ragged edge. Elevation is still carried by a border and spacing, never by
 | Rule | What it means here |
 |---|---|
 | **Detected, not configured** | Resolved **once at startup**, before first paint, off the render path, with a timeout. There is no setting the player must discover to turn covers on |
-| **Target** | The **Kitty graphics protocol** — Kitty and Ghostty. The mechanism, the query sequence and the cache belong to the spine's `17-images.md` and to `fft-api-designer`; **this spec does not invent them** and must not be read as specifying them |
-| **A terminal that does not answer is a terminal without images** | Silence is a negative. Zerado never waits on it and never retries it |
+| **Target** | **Kitty graphics** (Kitty, Ghostty — the two the founder named — plus WezTerm and Konsole), and **iTerm2 inline images second** ([`../../blueprint/17-images.md`](../../blueprint/17-images.md) §2). Sixel is **not** adopted in Phase 1 and half-block art is **rejected outright** — *"it is not the image; it is a picture of a picture."* The protocol, the query and the cache are the spine's and `fft-api-designer`'s; **this spec does not invent them** and must not be read as specifying them |
+| **Detection fails closed** | Silence, ambiguity or a timeout means *no image support*. Zerado never waits on it and never retries it. §2 of the spine is blunt about why: *"Guessing yes and emitting escape sequences into a terminal that does not understand them is how a library view turns into garbage on somebody's screen"* |
+| **A missing cover is never worth a dropped frame** | The render path only ever reads what the cache already holds — `Cover` never fetches and never blocks ([`../../blueprint/17-images.md`](../../blueprint/17-images.md) §4, the same rule as `Audio.Cue`). **A cover that has not arrived is simply a type tile this frame**, and that is why §3.3's type tile is the ordinary render rather than an error path |
 | **Never re-probed** | The result is a fact about this process. A player who switches terminals starts a new process |
-| **`ZERADO_NO_IMAGES`** | The environment override, in the discipline `NO_COLOR`, `ZERADO_ASCII`, `ZERADO_NO_AUDIO` and `ZERADO_REDUCED_MOTION` already established: **when set, Zerado draws no image at all** — not fewer, none. It is the escape hatch for a terminal that claims the protocol and renders garbage, and it is **not** the opt-in; there is no opt-in, because detection is the opt-in. Proposed here and flagged for adoption into the spine's environment list (§18) |
+| **`ZERADO_NO_IMAGES`** | The environment override, in the discipline `NO_COLOR`, `ZERADO_ASCII`, `ZERADO_NO_AUDIO` and `ZERADO_REDUCED_MOTION` already established: **when set, Zerado draws no image at all** — not fewer, none. It is the escape hatch for a terminal that claims the protocol and renders garbage, and it is **not** the opt-in; there is no opt-in, because detection is the opt-in. **Adopted by [`17-images.md`](../../blueprint/17-images.md) §4**, where `NullImages` is what it selects — so it is used here as settled, not proposed |
 
 **What the player sees when there is no image support: the text deck, whole, and one line.**
 The deck is not degraded, because the deck is not attempted. `v` renders `Z-04`'s ledger — every
@@ -488,7 +491,7 @@ exactly as `Z-04` **D-04-2** specifies: **11 game rows, not 12**, and the respir
 │   LIBRARY                                                                      │
 │                                                                                │
 │                                                                                │
-│   ▌ COVERS   This terminal can't draw images. Ghostty and Kitty can.           │
+│   ▌ COVERS   Cover art needs Ghostty or Kitty. Everything else here works.     │
 │   247 games · 198 not started · 12 in progress · 6 zerado · 31 abandoned       │
 │                                                                                │
 │     STATE           TITLE                                        HOURS   SRC   │
@@ -509,17 +512,17 @@ exactly as `Z-04` **D-04-2** specifies: **11 game rows, not 12**, and the respir
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Counts:** note **66** · summary form 1 **70** · every game row **74** · position row **17** ·
+**Counts:** note **72** · summary form 1 **70** · every game row **74** · position row **17** ·
 footer **70**. The summary keeps its **full prose form** here, because this is the list and there
 is no identity row to make room for — `Z-04`'s render, unaltered.
 
 ### 5.3 · The note — the exact copy, and the tone it has to hold
 
 ```
-▌ COVERS   This terminal can't draw images. Ghostty and Kitty can.
+▌ COVERS   Cover art needs Ghostty or Kitty. Everything else here works.
 ```
 
-**66 cells.** `▌` U+258C is **structure**, not a state channel — the same structural bar the
+**72 cells.** `▌` U+258C is **structure**, not a state channel — the same structural bar the
 degrade banner uses and the same reason there is no `⚠` anywhere in Zerado
 ([`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §3).
 
@@ -528,41 +531,68 @@ degrade banner uses and the same reason there is no `⚠` anywhere in Zerado
 1. **It answers; it never announces.** The note exists only because the player pressed `v`. It
    is not raised at startup, it is not raised by the library, and it is never raised by anything
    the player did not ask for. **This is the whole of "never a recurring scold" (D-15-6).**
-2. **It states what is, and asks for nothing.** There is no verb addressed to the player in
-   either sentence — nothing to obey, nothing to install, nothing to have got wrong. The subject
-   of the first sentence is *the terminal*, not *you*.
-3. **It ends on what can happen.** `Ghostty and Kitty can` is a fact about two programs, offered
-   flat. It is a recommendation because it is true, not because it is phrased as advice.
+2. **The subject is the feature, never the player's terminal.** *Cover art needs* — the sentence
+   is about what a picture requires. Nothing in it is a fault, a lack, or a thing the player
+   should have done differently, and the words *your*, *support*, *unsupported* and *install*
+   never appear.
+3. **It ends on the reassurance, and it is the ratified one.** `Everything else here works.` is
+   the same clause the `OFFLINE` banner ends on — *"Everything here still works"*
+   ([`Z-04-library.md`](./Z-04-library.md) B1). One product, one voice: when Zerado tells you a
+   thing is absent, the next thing it tells you is that the rest is not.
 4. **It is chrome, never amber and never red.** Amber is reserved for *action required*
    ([`../01-design-system.md`](../01-design-system.md) §12) and this requires no action; red is
    motion and alarm, and a terminal without a graphics protocol is neither
    ([`../02-colour-budget.md`](../02-colour-budget.md) §5.2 — the same reasoning that forbids a
    red `OFFLINE`).
 
-**The retry key is not in the sentence.** `x dismiss` is the **screen's** affordance and lives in
-the footer, per [`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §3.1 rule 1 —
-a message that names a key is a message that lies the moment a text input has focus.
+**The dismiss key is not in the sentence.** `x dismiss` is the **screen's** affordance and lives
+in the footer, per [`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §3.1 rule 1
+— a message that names a key is a message that lies the moment a text input has focus.
 
 **Drafts rejected, so the tone is falsifiable rather than a matter of ear:**
 
 | Draft | Why it was thrown away |
 |---|---|
-| `Your terminal doesn't support images. Try Ghostty or Kitty.` | *Your* makes it the player's possession and, by a short step, their fault. *Try* is an instruction. *Support* is the vocabulary of a compatibility error, which this is not |
-| `NO IMAGES   Install Ghostty or Kitty to see cover art.` | *Install* asks for work in a note the player did not open. A label word that begins `NO` reads an absence as a failure |
-| `Cover art needs a terminal that draws images, like Ghostty or Kitty.` | **76 cells** — over the 74-column body at Wide, before the label word. And *needs* is a demand |
+| `Your terminal doesn't support images. Try Ghostty or Kitty.` | *Your* makes it the player's possession and, by a short step, their fault. *Try* is an instruction. *Support* is the vocabulary of a compatibility error, which this is not. [`17-images.md`](../../blueprint/17-images.md) §3 rejects this exact sentence |
+| `NO IMAGES   Install Ghostty or Kitty to see cover art.` | *Install* asks for work in a note the player did not open. A label word beginning `NO` reads an absence as a failure |
+| `Cover art needs a terminal that draws images, like Ghostty or Kitty.` | **79 cells** — over the 74-column body at Wide, before the label word |
+| `This terminal can't draw images. Ghostty and Kitty can.` | **The draft this spec shipped first, and it lost to the spine's.** 66 cells, and its subject is still *this terminal* — a negative statement about the player's setup, however neutrally phrased. See the note below |
 | Anything with *unfortunately*, *sorry*, *unsupported*, or an exclamation mark | [`../03-designer-manual.md`](../03-designer-manual.md) §5.8. The voice does not apologise and does not exclaim |
 
-> **The one genuinely consequential fork, put to the founder (§18).** The note says
-> *"can't draw images"* in plain language. The precise fact is that the terminal does not
-> implement the **Kitty graphics protocol**, and a reader on WezTerm or iTerm2 may reasonably
-> want the term to search for.
+> **A reconciliation, recorded rather than quietly resolved.**
+> [`17-images.md`](../../blueprint/17-images.md) §3 says *"The tone is the deliverable here"* and
+> gives its own worked contrast: *"Your terminal does not support images"* reads as a fault;
+> ***"Cover art needs Ghostty or Kitty"*** reads as information. An earlier draft of this section
+> had **rejected** a longer relative of that sentence on two grounds — that it measured 79 cells,
+> and that *needs* is a demand.
 >
-> **This spec chooses plain language in the note and the protocol name in the two durable
+> **The first objection was about the wrong sentence** — the spine's short form is 33 cells and
+> fits with room to spare; the 79 was my own padding. **The second did not survive the
+> reassurance clause:** followed by `Everything else here works.`, *needs* reads as a requirement
+> of the **picture**, not a demand on the **player**. The spine's phrasing is adopted verbatim
+> and this spec supplies the second sentence, which is exactly the division
+> [`17-images.md`](../../blueprint/17-images.md) §3 asks for — *the screen spec writes the exact
+> copy; the spine's requirement is that it is dismissible and never returns.*
+>
+> Recorded because a spec that silently overrules a spine document it links to is worse than one
+> that argues with it in the open.
+
+> **The one genuinely consequential fork, put to the founder (§18).** The note names two
+> **programs**. It does not name the **Kitty graphics protocol**, which is the term a player
+> would have to search for to understand why one terminal draws covers and another does not.
+>
+> **This spec chooses program names in the note and the protocol name in the two durable
 > homes** — `Z-10 Help`'s description of `v`, and `Z-09 Settings § DISPLAY` if the founder takes
 > the `Images` row of §17. The reason is the bundle's own discipline: the note is the
 > **interruption**, so it carries the fact a player needs in the second they read it; the places
 > a player goes **looking** carry the jargon. Say it once, in the place someone would look
 > ([`Z-09-settings.md`](./Z-09-settings.md) §8.2).
+>
+> **Naming two programs and not four is deliberate, and it is the founder's own list.** WezTerm
+> and Konsole also implement Kitty graphics, and iTerm2 is adopted second
+> ([`17-images.md`](../../blueprint/17-images.md) §2) — so a player on any of those four never
+> sees this note at all. Listing every supported terminal would make the sentence longer and the
+> reader's decision harder, and the founder named the two he named.
 
 ### 5.4 · Dismissal — once, and it stays dismissed
 
@@ -911,7 +941,7 @@ being frozen. **`Z-04` §3, §7.1 and §9.1 carry the corrected strings** (§17)
 
 | Slot | String | Cells |
 |---|---|---|
-| the note | `▌ COVERS   This terminal can't draw images. Ghostty and Kitty can.` | **66** |
+| the note | `▌ COVERS   Cover art needs Ghostty or Kitty. Everything else here works.` | **72** |
 | the footer affordance | `x dismiss` | 9 |
 
 `'` is **ASCII U+0027** (Narrow), never U+2019 (Ambiguous) — the same rule the rest of the
@@ -971,6 +1001,15 @@ the reasoning.
   `added by hand` means a disc or a cartridge. Where a field name is neutral — `TITLE`,
   `SOURCE` — it is neutral because it names a *field*, not because it is hedging toward some
   other kind of thing.
+- **Every string above is a catalogue entry, not a literal**
+  ([`../../blueprint/16-i18n.md`](../../blueprint/16-i18n.md) §1: *"No user-facing string literal
+  appears in code. Every string comes from a catalogue, by key."*). Two of them carry a
+  translation hazard worth flagging at the point they are written rather than at the point they
+  break: the **three tile words** live in a 15-column box and the **note** in a 74-column body,
+  and neither budget grows in another language. The tile words are the tighter constraint —
+  `not fetched` is 11 cells in English and a translator has 15. **A catalogue entry that
+  overflows its field is a layout defect, not a copy defect**, so both fields are measured at
+  render time (§3.6) and both belong in whatever length budget the i18n catalogue carries.
 
 ---
 
@@ -1225,7 +1264,132 @@ budget is even consulted.
 | The state chip | **Reused unchanged** from [`../01-design-system.md`](../01-design-system.md) §3 | Not re-specified here, not restyled, not compressed. This is the whole reason co-render survives the mode |
 | Header band, footer, position row, audio annunciator | **Reused unchanged** from `Z-04` | A mode swaps the body renderer |
 | The capability note | **Build fresh** — the informational banner's anatomy, with a dismiss | Not the degrade banner itself: it is raised by a **capability**, not a failure, and it is dismissible, which no banner is. It shares the `▌` + label-word + sentence shape so there is one thing to learn |
-| Image placement | **The spine's `17-images.md` and `fft-api-designer`** | Protocol, encoding, cache and lifetime are not a design decision and are deliberately not specified here. This spec supplies the **cell rectangle** — `17 × 4` at a stated origin — and nothing more |
-| Capability detection | **The spine's `17-images.md`** | §5.1 states the design requirements it must satisfy; the mechanism is not this document's |
-| Cover cache | **Reused** — the XDG cache directory ([`09-erd.md`](../../blueprint/09-erd.md) §3) | Disposable and refetchable by design; C10 is the designed behaviour of that choice, not a fault |
+| Image placement | **The spine's [`17-images.md`](../../blueprint/17-images.md) §4 `Images` seam** | `Cover(id, cells Rect) (Placement, bool)` — the screen hands it the **cell rectangle** and takes a placement or a `false`. Protocol, encoding, cache and lifetime are not a design decision and are deliberately not specified here. **`false` is the type tile of §3.3**, which is why the type tile is the ordinary render and not an error path |
+| Capability detection | **The spine's [`17-images.md`](../../blueprint/17-images.md) §2 · §4** | `Capability()` — resolved once at startup, cached for the session, **failing closed**. §5.1 states the design requirements it must satisfy; the mechanism is not this document's. `NullImages` is the no-support implementation and is what the tests run, so the text path is the exercised one |
+| Cover cache | **Reused** — the XDG cache directory ([`09-erd.md`](../../blueprint/09-erd.md) §3 · [`17-images.md`](../../blueprint/17-images.md) §5) | Bounded, evicting least-recently-shown, **disposable and refetchable by design** — *"deleting the whole cache must cost nothing but bandwidth."* C10 is that choice behaving correctly, not a fault |
 | `harmonica` | **Not used.** No motion on this screen | The scanner is for indeterminate waits and never ambient; a cover fading in would be decoration ([`../01-design-system.md`](../01-design-system.md) §9.3) |
+
+---
+
+## 17 · Upstream findings — contradictions and stale rows
+
+Routed, not fixed here. Each names the document, the line, and the owner.
+
+| # | Finding | Where | Owner |
+|---|---|---|---|
+| 1 | **`Z-15` is not in the Phase 1 composition table.** [`02-composition.md`](../../blueprint/02-composition.md) §2 lists eleven screens and §3 still carries `Z-15` under *"later phases"*, while [`01-screen-inventory.md`](../../blueprint/01-screen-inventory.md) §2 already says **twelve** Phase 1 screens. The §3 row's verdict — *"a mode swaps the body renderer, not the frame"* — is correct and this spec builds on it; it is only in the wrong table | `02-composition.md` §2 · §3 | `fft-tui-architect` |
+| 2 | **`Z-15` has no row in the responsive degrade table.** [`03-responsive.md`](../../blueprint/03-responsive.md) §3 covers `Z-01`–`Z-11`. The values this spec composes to are: ExtraWide *deck ∥ detail, 3 × 4* · Wide *4 × 2* · Standard *2 × 2, or 3 × 2 at 79* · Narrow *2 × 2* · Tiny **not available** (**D-15-8**) | `03-responsive.md` §3 | `fft-tui-architect` |
+| 3 | **`Z-04` carries `v` now, and its footer strings move.** §10.2 has the exact replacements for `Z-04` §3's mockup footer, §7.1's audio footer and §9.1's table, plus a `v` row in its §9 key map. The **ladder is unchanged** — this is `Z-04` §9.2 running, and `a add` is its own declared first drop | `Z-04-library.md` §3 · §7.1 · §9 · §9.1 | **applied in this pass** |
+| 4 | **`Z-10 Help` does not list `v` or `x`.** Its key map is **generated** from the registry (D-10-1), so binding `v` fixes it automatically — but the spec's drawn goldens are hand-counted and go stale: block 1 gains one line, so the document is **34 lines, not 33**, and every `ROWS  1–15 of 33` readout becomes `of 34`. `x dismiss` carries an availability predicate and appears only while the note is up, so it adds no line to the default render. `Z-10` needs a rev B | `Z-10-help-and-key-map.md` §4 · §5 · §6 · §7 · §9 · §13.1 · §18 | `fft-tui-designer` — **next pass** |
+| 5 | **`Z-05` has no `COVER` row**, so a cached cover has nowhere to state its age. Recommended: `COVER  cached, 2 days ago` in the provenance block, with `not fetched` · `nothing found` · `added by hand` as its other values — the same three words §11.2 fixes here. `Z-05` §10 currently states *"no cover-art placeholder"*, which was correct while covers were Phase 2 | `Z-05-game-detail.md` §10 · D-05-6 | `fft-tui-designer` — **next pass** |
+| 6 | **`Z-09 Settings § DISPLAY` should carry an `Images` row.** `Glyphs`, `Motion` and `Colour` are already read-only reports of what Zerado resolved about the terminal; image support is exactly that kind of fact, and it is the durable home for the note's content once the note is dismissed. Values: `Kitty graphics protocol` · `Not supported by this terminal` · `Off, ZERADO_NO_IMAGES is set`. **Not done in this pass** — it takes the group from 22 rows to 23 and moves every position readout in `Z-09`, which is a founder-visible change to a GOLDEN spec rather than a sweep | `Z-09-settings.md` §10.4 | founder, then `fft-tui-designer` |
+| 7 | **`ZERADO_NO_IMAGES` is adopted but not yet catalogued.** [`17-images.md`](../../blueprint/17-images.md) §4 binds it — *"the implementation used when detection fails, in tests, and under `ZERADO_NO_IMAGES`"* — so §5.1's proposal is **closed, and this spec uses it as adopted**. What is missing is the one place a player or a builder would go looking: there is no single environment-variable table in the spine. `NO_COLOR` lives in the brand manual, `ZERADO_ASCII` in [`03-responsive.md`](../../blueprint/03-responsive.md) §5c, `ZERADO_NO_AUDIO` in [`12-audio.md`](../../blueprint/12-audio.md) §10, `ZERADO_DB` in `Z-09` §10.5 and `ZERADO_NO_IMAGES` in `17-images.md` §4. **Five variables, five homes, no index** | the spine, no single owner today | `fft-tui-architect` |
+| 8 | **The design brief's accessibility table says Zerado has no images.** [`../00-design-brief.md`](../00-design-brief.md) §131 reads *"**1.4.5 / 1.4.9** Images of Text — No images. Cover art arrives in Phase 2 and is art, not text."* The **conclusion** survives — a cover is artwork, not an image of text, so 1.4.5 is still satisfied — but the premise is now false, and **SC 1.1.1 Non-text Content becomes live for the first time in this product**. Zerado's answer is already built and should be recorded as the brief's answer: **the caption is the text alternative, it is always present, it is never optional, and it is what remains when the picture is not there** (§8.1, §13). The line needs rewriting rather than deleting | `00-design-brief.md` §131 | `fft-design-architect` |
+| 9 | **`ADR-0001` still calls the cover deck a Phase 2 mode.** Its *"not assumed anywhere"* list reads *"the text deck is the default and the cover deck is a **Phase 2 mode** that may never be universally available"* — superseded by the 2026-08-25 direction, and now contradicted by [`17-images.md`](../../blueprint/17-images.md), which the ADR does not cite. **Re-checked at head: the matching line in [`00-index.md`](../../blueprint/00-index.md) has already been fixed**, so the two documents now disagree with each other as well. The ADR's *substance* survives intact and is this screen's design — the text deck really is the default, and image support really is not universal | `ADR-0001`, the *not assumed* list | `fft-tui-architect` |
+| 10 | **Cover art is now in both offline-contract tables.** [`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §2 lists `Cover art (Z-15) · DEGRADES` under **Phase 1** — correct, and the count sentence beneath it now reads *twelve screens* — and still lists `Cover art, sinopse · DEGRADES` under **Phase 2 and later**. The two rows do not conflict, because *sinopse* really is Phase 2, but the duplicated subject invites a reader to conclude covers are Phase 2. Splitting the row so Phase 2 carries *sinopse* alone would close it | `07-offline-contract.md` §2 | `fft-tui-architect` |
+
+---
+
+## 18 · Open for the founder
+
+1. **ExtraWide: the pane, or twice the covers.** §4 keeps `Z-04`'s ratified `66 ∥ 2 ∥ 44` split
+   and shows **12 covers beside the full detail pane**. Dropping the pane gives **24 covers** —
+   double — and moves the untruncated title onto the pinned row. It is a composition change
+   (`R` 2 → 1, `Tab` unbound, `⏎` changes meaning), so this spec did not take it.
+   **Which do you want at 120 columns?**
+2. **The note's wording: two programs, or the protocol.** It says *"Cover art needs Ghostty or
+   Kitty. Everything else here works."* — the first sentence is [`17-images.md`](../../blueprint/17-images.md)
+   §3's own worked example, verbatim; the second is this spec's, echoing the `OFFLINE` banner's
+   ratified reassurance. It does **not** name the **Kitty graphics protocol**, which is the term
+   a player would need to search. §5.3 puts the program names in the note and the protocol name
+   in Help and Settings. **Confirm** — this is the sentence a player on Terminal.app or Alacritty
+   will read, and it is the one place in this bundle where tone outranks precision.
+3. **At Tiny, covers are absent and nothing is said** (**D-15-8**). A one-column grid shows 3 of
+   247 against the text deck's 9, and a line explaining the absence would cost a row on the
+   narrowest terminal. Confirm silence, or ask for the line.
+4. **Dismissal is permanent** (§5.4). Once `x` is pressed, the note never returns and `v` retires
+   on that kind of terminal. There is no *"show it again"* control, because a control for it
+   would be a dial nobody would ever find. If you want one, it is the `Images` row of §17
+   finding 6.
+5. **Five environment variables now, and no single place that lists them.** `NO_COLOR`,
+   `ZERADO_ASCII`, `ZERADO_NO_AUDIO`, `ZERADO_REDUCED_MOTION`, `ZERADO_DB` and — since
+   [`17-images.md`](../../blueprint/17-images.md) §4 — `ZERADO_NO_IMAGES`. Each is documented
+   where it was invented and nowhere together (§17 finding 7). Not this screen's to fix, but
+   this screen is the one that took the count past five.
+6. **Covers are the store's header capsule, not portrait box art** (**D-15-2**). That is forced
+   by the arithmetic, not chosen: portrait art plus the un-droppable state label does not fit at
+   80 columns at all. Worth knowing, because the pictures will not look like the box on a shelf.
+
+---
+
+## 19 · Design decisions made in this spec
+
+| # | Decision | Reason |
+|---|---|---|
+| **D-15-1** | The tile is **17 × 6** at every tier; only the grid's column and row counts change (§3.1) | A box that breathes differently at different widths looks resized, not designed — D-06-1's reasoning, applied. One geometry is also one golden per tier |
+| **D-15-2** | The image box is **17 × 4 ≈ 2.125 : 1** — the store header capsule, not portrait box art (§3.1) | The **co-render rule sizes the tile**: the 14-column chip forces a ≥ 16-column tile, and portrait art at that width needs 15 rows for a single band. It would not render at 80 columns at all, which verdict 2 forbids |
+| **D-15-3** | **Zerado never draws a mark on a cover** (§8.1) | It is the only way contrast stays measurable, the colour budget stays countable, and the no-image render is a composition rather than a fallback |
+| **D-15-4** | The caption is the tile's **label**; the pinned row is the **identity column** (§3.5) | A 15-column title is the exact failure `02-composition.md` §2.1 names for R-10(a). The summary drops to its declared form 3 to make room, and D-04-1's guard holds because every tile spells its state |
+| **D-15-5** | The grid's **row gutter is the flexible row**, 1 or 0, and nothing else flexes (§3.4) | Without it a degrade banner costs half the deck and leaves six blank rows. The shape of the rule is D-04-5's, in the other axis |
+| **D-15-6** | **The note answers; it never announces** (§5.3) | It is raised only by `v`, said once, and dismissed for good. That is the whole of *"never a recurring scold"*, and it is a behaviour rather than a promise |
+| **D-15-7** | At ExtraWide the **detail pane stays**; the deck takes 3 columns (§4) | Dropping it changes `R`, `Tab` and `⏎` — composition, not a body renderer. The alternative is costed and put to the founder |
+| **D-15-8** | **Below 40 columns cover mode is unavailable, and nothing is printed about it** (§12.2) | 3 covers of 247 against the text deck's 9, with the title field falling from 26 to 15 on the tier the canon already treats as starvation territory |
+| **D-15-9** | **`NO_COLOR` does not remove the pictures** (§13.1) | `NO_COLOR` removes SGR. An image is not SGR, it carries no meaning, and suppressing it would make one environment variable delete content on one screen. `ZERADO_NO_IMAGES` is the variable for that question |
+| **D-15-10** | **Three tile words**, and `fetch failed` is not one of them (§3.3) | A failure is a property of the network, not of the game, and it is screen-wide — so it is the banner's. Printing it 247 times would blame the game for the connection |
+| **D-15-11** | The position row says **`COVERS`**, not `ROWS` (§11.5) | A grid has no rows to count. The label word changes with the mode because the unit does |
+
+---
+
+## 20 · Screen-specific acceptance criteria
+
+Beyond [`../00-design-brief.md`](../00-design-brief.md) §10 and
+[`../02-colour-budget.md`](../02-colour-budget.md) §10, which are the bar.
+
+1. **Every tile carries colour AND glyph AND label.** Render at every tier and grep the raw
+   output: the count of `NOT STARTED` + `IN PROGRESS` + `ZERADO` + `ABANDONED` equals the number
+   of tiles on screen. **No tile anywhere renders a glyph without its word.**
+2. **No SGR run overlaps an image cell rectangle** (§8.1). Capture the raw stream, resolve every
+   image placement to its cell rectangle, and assert the intersection is empty. This is the
+   machine form of *Zerado never draws on a cover*, and it is a hard fail.
+3. **The chrome-cyan count is 0**, and every remaining cyan run's payload is `◉`, `ZERADO` or
+   `[*]` (§15).
+4. **Amber is ≤ 10 % at the worst case**, not just the drawn one: force all eight Wide tiles to
+   `IN PROGRESS` and assert **120 cells of 1920 → 6.3 %**.
+5. **The mockups add up.** Every body row in §3.2, §3.3, §4, §5.2, §5.5, §9.1, §12.1 and §13
+   measures its stated width with the **width-aware** function, with **Ambiguous = 1** — and the
+   same assertion passes with **Ambiguous = 2** for every line that is not inside a padded field
+   ([`../01-design-system.md`](../01-design-system.md) §1.2 rules 1 and 2).
+6. **A banner costs zero covers** (**D-15-5**). Force each of `Z-04` B1–B7 in cover mode at
+   80 × 24 and assert the visible cover count is **8** in every case, with `gutterY = 0`.
+7. **The text deck is byte-identical to `Z-04`.** Run with image support forced off and the note
+   dismissed; diff the render against `Z-04` §3's golden. **Zero differences**, including the
+   73-cell footer with `a add` restored.
+8. **The note appears only after `v`, and only once.** Start with no image support: assert the
+   first paint has no note and no `x` in the footer; press `v`, assert the note and the 70-cell
+   footer; press `x`, assert the note is gone, `covers.note_dismissed` is written, and `v` has
+   left the footer; restart the process and assert the note does not return.
+9. **The note never outranks a banner or the filter bar** (§9). Force `OFFLINE` + no image
+   support + `v` and assert body row 1 is the banner; clear the banner and assert the note
+   returns.
+10. **`v` preserves the focused game in both directions** (§14.2). Scroll to game 380 of 412 in
+    the list, press `v`, assert the same game is focused and visible in the deck; press `v` again
+    and assert the list is back on it, at the same offset. **By identity, not by index.**
+11. **The three tile words are distinguishable without colour.** Render with `NO_COLOR=1` and
+    assert `not fetched`, `nothing found` and `added by hand` are all present and legible, and
+    that a hand-added game shows `added by hand` and **no retry affordance**.
+12. **A cover arriving mid-scroll moves nothing.** With the deck open at an overflowing count,
+    complete an enrichment for a visible game and assert the type tile becomes a picture **in
+    place** — same cursor, same offset, same tile origin (R-10(b)).
+13. **The ledger triad survives the mode** at 412 covers: the identity column is populated and
+    human-readable (the identity row, untruncated) · the focused tile is always visible ·
+    `COVERS  n–m of 412` and the summary are **pinned outside the grid** and cannot be scrolled
+    off (R-10(a)(b)(c)).
+14. **At Tiny, `v` is unbound, absent from the footer, and silent.** Resize from 80 to 32 with
+    the deck open and assert the list renders, the same game is focused, and **no line is printed
+    about covers**.
+15. **`ZERADO_NO_IMAGES=1` draws no image at all** — not fewer, none — and the screen is
+    identical to the no-support render.
+16. **Artifacts:** the eight of [`03-responsive.md`](../../blueprint/03-responsive.md) §7,
+    **plus** `80 × 24` for: the mixed deck, the note, the note dismissed, offline with a partly
+    cached deck, a filter active in cover mode, and `NO_COLOR`. Plus one at **412 covers**,
+    scrolled to the end, for criterion 13 — which a frozen golden cannot prove.

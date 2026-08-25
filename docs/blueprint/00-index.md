@@ -257,6 +257,30 @@ that has none.
 
 ---
 
+## The environment, in one place
+
+Seven variables, specified across seven documents. `fft-tui-designer` pointed out that they had
+five homes and no index — and a builder needs the whole set in one look, because they interact:
+`NO_COLOR` and `ZERADO_ASCII` both change what a cell contains, and both change what a width
+measurement returns.
+
+| Variable | Effect | Specified in |
+|---|---|---|
+| `NO_COLOR` | **Zero SGR sequences.** Not a reduced palette — none. Glyph and label carry every state | brand manual §5.4 · [`03-responsive.md`](./03-responsive.md) |
+| `ZERADO_ASCII` | Switches the **whole glyph vocabulary** to ASCII, not just the state column | [`03-responsive.md`](./03-responsive.md) §5c |
+| `ZERADO_NO_AUDIO` | No sound at all. Settings shows *overridden*, not *off* | [`12-audio.md`](./12-audio.md) §10 |
+| `ZERADO_NO_IMAGES` | Forces `NullImages`; the text deck renders | [`17-images.md`](./17-images.md) §4 |
+| `ZERADO_REDUCED_MOTION` | The scanner pip parks at centre, full weight, and does not travel | [`03-responsive.md`](./03-responsive.md) §5 |
+| `ZERADO_DB` | Overrides the library file path | [`06-data-seams.md`](./06-data-seams.md) §5.2 |
+| `ZERADO_LANG` | Overrides locale; wins over the setting and over `LANG` | [`16-i18n.md`](./16-i18n.md) §5 |
+
+**Two properties hold across all seven:** each is honoured **without a restart** where that is
+possible, and each is **visible in `Z-09 Settings`** as an override rather than silently changing a
+value the player thinks they chose. A setting the environment has overridden must never render as
+though the player set it.
+
+---
+
 ## Rendering this bundle
 
 Every document in the bundle carries an `archetype:` line and renders through the FlowForge

@@ -34,7 +34,7 @@ ticket: "#2"
 | **Phase** | 1 |
 | **Kind** | **Route — the root.** Stack position `[1]`. Can never be popped (`04-navigation-and-focus.md` §1 rule 1) |
 | **Route in** | Start-up, when a library exists **or** a provider has ever been connected. From `Z-01`, `Z-03`, `Z-05` (`Esc`), `Z-08`, `Z-09`, `Z-10` |
-| **Route out** | `⏎` → `Z-05` · `s` → `Z-06` · `/` → `Z-07` (a **mode**, not a route) · `a` → `Z-08` · `r` → `Z-03` · `,` → `Z-09` · `?` → `Z-10` |
+| **Route out** | `⏎` → `Z-05` · `s` → `Z-06` · `/` → `Z-07` (a **mode**, not a route) · **`v` → `Z-15` (also a mode)** · `a` → `Z-08` · `r` → `Z-03` · `,` → `Z-09` · `?` → `Z-10` |
 | **Shape** | **Ledger** — shape 1 of the five (`02-composition.md` §3) |
 | **Composition** | ≤ 119 cols: single-pane list · ≥ 120 cols: **list ∥ detail** |
 | **Offline class** | **WORKS** (`07-offline-contract.md` §2). Identical with the network off — every row, every state, every count |
@@ -77,7 +77,7 @@ Header-left equals content-left. Drawn to exact cell count; the outer rule is th
 │     ⊘  ABANDONED    Sekiro: Shadows Die Twice                       3h   STM   │
 │     ○  NOT STARTED  Sid Meier's Civilization VI: Gathering St…      0h   STM   │
 │   ROWS  4–15 of 247                                                            │
-│   ↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit    │
+│   ↑↓ move  ⏎ open  s status  / filter  r sync  v covers  ? help  q quit        │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -184,7 +184,7 @@ The list sheds its `source` column; the pane carries it. **28 game rows.**
 │      ○  NOT STARTED  Vampire Survivors                             0h  │  LAST SYNCED  3 hours ago                │  │
 │      ⊘  ABANDONED    Wasteland 3                                   9h  │                                          │  │
 │    ROWS  4–31 of 247                                                   └──────────────────────────────────────────┘  │
-│    ↑↓ move   ⏎ detail   tab pane   s status   / filter   a add   r sync   ? help   q quit                            │
+│    ↑↓ move   ⏎ detail   tab pane   s status   / filter   a add   r sync   v covers   ? help   q quit                 │
 │                                                                                                                      │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -353,10 +353,12 @@ be introduced on this screen without a visible carrier already in this spec.**
    LIBRARY                                                            ▮ AUDIO
 ```
 ```
-   ↑↓ move  ⏎ open  s status  / filter  a add  r sync  m mute  ? help  q quit
+   ↑↓ move  ⏎ open  s status  / filter  m mute  v covers  ? help  q quit
 ```
-*(74 cells — with `m` present the footer separator tightens from 3 to 2 per §9.2. Default,
-audio never enabled: the 73-cell 3-space line of §3.)*
+*(**69 cells.** With `m` **and** `v covers` present the line composes to 93 at 3-space separators
+and 84 at 2-space, so §9.2's ladder drops `a add` and then `r sync` and lands here. With `m` but
+no `v` — a terminal that draws no images, note dismissed — it is the 74-cell line
+`↑↓ move  ⏎ open  s status  / filter  a add  r sync  m mute  ? help  q quit`.)*
 
 ---
 
@@ -378,6 +380,7 @@ Every row is a real screen, including the one nobody writes down.
 | **L10** | **412 rows, scrolled to the end** | Overflow | R-10(a)(b)(c) all hold — §12 | — | — |
 | **L11** | **Detail pane focused** (ExtraWide) | `Tab` or `⏎` | Pane border goes heavy; the ledger cursor stays visible in chrome, not amber | — | §13 |
 | **L12** | **Below the refusal floor** | `< 24` cols or `< 8` rows | **Frameless.** One sentence, `exit 2` at start-up; a running session keeps running | all | §11.3 |
+| **L14** | **The capability note is showing** | `v` pressed on a terminal that draws no images, note not yet dismissed | The note takes body row 1, where the banner goes; the pinned block grows down and the scroll region absorbs it, per D-04-2. It is **not** a banner: it is raised by a capability rather than a failure, and it is dismissible — a banner never is | **1 game row** (12 → 11) | [`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §5.2 · §5.3 |
 | **L13** | **A sync stopped returning some rows — they are tombstoned and out of the default view** | `absent_since IS NOT NULL` on ≥ 1 row (`06-data-seams.md` §2.4) | The ledger renders **exactly as L4** — the absent rows are simply not in the default row set. The pinned summary appends `<n> absent` and degrades one step to make room (§10.3) | — | §10.3 |
 
 > **L13 · The default-view exclusion rule, stated because a row that is invisible has to be
@@ -446,6 +449,12 @@ and defers the price wording to Phase 3 with its reason. B7 above is that wordin
 `B6 > B5 > B3 > B4 > B7 > B2 > B1`. Action-required outranks informational; the most specific
 outranks the most general.
 
+**And body row 1 has one more claimant now.** `Z-15`'s capability note shares this row and sits
+**below every banner**: `Z-07`'s filter bar > any banner > the note. A stale or incomplete
+library outranks a missing picture, and a filter the player is typing into outranks both. The
+note is not lost when it yields — it returns on the next render where nothing outranks it
+([`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §9).
+
 ### 8.2 · Mockup — L5, a sync that stopped halfway
 
 The list is **real but partial**. 11 game rows, not 12: the banner is on the never-hide list
@@ -475,7 +484,7 @@ The list is **real but partial**. 11 game rows, not 12: the banner is on the nev
 │   ▌ ◉  ZERADO       Return of the Obra Dinn                         9h   STM   │
 │     ⊘  ABANDONED    Sekiro: Shadows Die Twice                       3h   STM   │
 │   ROWS  4–14 of 247                                                            │
-│   ↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit    │
+│   ↑↓ move  ⏎ open  s status  / filter  r sync  v covers  ? help  q quit        │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -594,6 +603,8 @@ footer** (`04-navigation-and-focus.md` §6).
 | `Tab` / `Shift-Tab` | Next / previous region | global | **ExtraWide only** — `R = 2`. Below 120 there is one region and `Tab` does nothing and is not listed |
 | `s` | Set this game's status → `Z-06` | screen | **Set-status everywhere, always** (`04-navigation-and-focus.md` §3.2). Not live on an empty library — there is no row — and therefore not in that footer |
 | `c` | Connect a store → `Z-02` | screen | **Only on an empty library** (§8.3). Not live once a row exists |
+| **`v`** | **Cover deck → `Z-15` (a mode)** | screen | Bound whenever the deck is reachable — **not** at Tiny, **not** on an empty library, and **not** once the capability note has been dismissed on a terminal that draws no images ([`Z-15-cover-deck.md`](./Z-15-cover-deck.md) §10.1) |
+| **`x`** | **Dismiss the capability note** | screen | **Only while the note is showing** (`Z-15` §5.4). Writes `covers.note_dismissed` and never asks again |
 | `/` | Filter and search → `Z-07` (a mode) | screen | |
 | `f` | Jump to the state chips of `Z-07` | screen | Enters filter mode with the chip row focused |
 | `a` | Add a game by hand → `Z-08` | screen | |
@@ -613,13 +624,16 @@ shows **no error**.
 
 | Screen state | Footer | Cells |
 |---|---|---|
-| Populated, audio never enabled | `↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit` | **73** |
-| Populated, audio enabled | `↑↓ move  ⏎ open  s status  / filter  a add  r sync  m mute  ? help  q quit` | **74** |
-| ExtraWide | `↑↓ move   ⏎ detail   tab pane   s status   / filter   a add   r sync   ? help   q quit` | 86 ≤ 112 |
+| **Populated, covers available, audio never enabled** | `↑↓ move  ⏎ open  s status  / filter  r sync  v covers  ? help  q quit` | **69** |
+| **Populated, covers available, audio enabled** | `↑↓ move  ⏎ open  s status  / filter  m mute  v covers  ? help  q quit` | **69** |
+| **The capability note showing** (`Z-15` §5.2) | `↑↓ move  ⏎ open  s status  / filter  r sync  x dismiss  ? help  q quit` | **70** |
+| **No image support, note dismissed — `v` retired** | `↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit` | **73** |
+| Populated, no covers, audio enabled | `↑↓ move  ⏎ open  s status  / filter  a add  r sync  m mute  ? help  q quit` | **74** |
+| ExtraWide | `↑↓ move   ⏎ detail   tab pane   s status   / filter   a add   r sync   v covers   ? help   q quit` | 97 ≤ 112 |
 | First run (L1) | `c connect a store   a add by hand   , settings   ? help   q quit` | **64** |
 | Empty from provider (L2) | `r try again   c Steam settings   , settings   ? help   q quit` | 61 |
-| Narrow 40 | `↑↓ ⏎ / s   ? help   q quit` | 26 |
-| Tiny 32 | `⏎ open  ? help  q quit` | 22 |
+| Narrow 40 | `↑↓ ⏎ / s v   ? help   q quit` | 28 |
+| Tiny 32 | `⏎ open  ? help  q quit` | 22 — **`v` is not offered below 40 columns** (`Z-15` D-15-8) |
 
 ### 9.2 · The footer degrade ladder — declared, not improvised
 
@@ -627,6 +641,10 @@ shows **no error**.
 2. If the composed width exceeds `BodyRect.w`, the separator tightens to **2**.
 3. If it still exceeds, hints drop in this order:
    `a add` → `r sync` → `m mute` → `s status` → `/ filter` → `⏎ open` → `↑↓ move`.
+   **`v covers` and `x dismiss` are not on the drop list** — the first is the only way to reach a
+   Phase 1 screen and the second is the only way out of a notice, and a hint that is the sole
+   route to something is not a hint the ladder may spend. This is the same exemption `? help` and
+   `q quit` hold at the other end, for the same reason.
 4. **`? help` and `q quit` are the last two to go** (`04-navigation-and-focus.md` §6).
 
 The line is **measured** with the width-aware function (`01-design-system.md` §1.2 rule 2),
@@ -801,10 +819,12 @@ indeterminate wait; the scanner is reserved for those and never used ambiently
   the filter; `zerado` in the summary's prose. Never camel-cased, never `Zerado.app`.
 - **Say the number** — `247 games`, `147 of 247 synced`, `41 hours`. Never *a lot of*.
 - **No exclamation marks. No emoji. The user is never a "gamer".**
-- **Type-neutral where a neutral word is equally natural** — `TITLE` not `GAME`,
-  `ROWS  4–15 of 247`, `247 games in the library.` This costs nothing today and means the
-  media-item generalisation does not force a copy rewrite later. Phase 1 says **game** where a
-  game is what the player is looking at, and the copy is not contorted to avoid it.
+- **Zerado is a games product and the copy says so.** `247 games`, `open this game`,
+  `add a game by hand`. Where a word is neutral it is neutral because it names a **field or a
+  unit** — `TITLE` heads a column and `ROWS` counts rows, and both would read the same in any
+  ledger. It is not neutral in order to leave room for some other kind of thing.
+  `11-media-model.md` rev B is explicit — *"Zerado is a games product"* — and the one affordance
+  kept for a possible future is a database column, never a word on a screen.
 
 ---
 
@@ -839,7 +859,7 @@ indeterminate wait; the scanner is reserved for those and never used ambiently
 │  ▌ ◉ Return of the Obra Dinn           │
 │      ZERADO · 9h · Steam               │
 │  ROWS  4–10 of 247                     │
-│  ↑↓ ⏎ / s   ? help   q quit            │
+│  ↑↓ ⏎ / s v   ? help   q quit          │
 │                                        │
 └────────────────────────────────────────┘
 ```
@@ -962,7 +982,7 @@ is nothing below. **Focus is never nowhere.**
 │     ◐  IN PROGRESS  Zoo Tycoon: Ultimate Animal Collection          2h   STM   │
 │   ▌ ◉  ZERADO       Zuma's Revenge                                 31h   STM   │
 │   ROWS  401–412 of 412                                                         │
-│   ↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit    │
+│   ↑↓ move  ⏎ open  s status  / filter  r sync  v covers  ? help  q quit        │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1127,7 +1147,7 @@ subset. The render below is the §3 screen with colour stripped, character for c
 │     ⊘  ABANDONED    Sekiro: Shadows Die Twice                       3h   STM   │
 │     ○  NOT STARTED  Sid Meier's Civilization VI: Gathering St…      0h   STM   │
 │   ROWS  4–15 of 247                                                            │
-│   ↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit    │
+│   ↑↓ move  ⏎ open  s status  / filter  r sync  v covers  ? help  q quit        │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1168,7 +1188,8 @@ information disappears, the screen was encoding meaning in colour.** Nothing abo
 | State chip | Build fresh · `lipgloss` + the width-aware pad | No `bubbles` primitive fits and none should be forced |
 | Status bar / pinned summary | Build fresh · `lipgloss` join + width-aware truncation | |
 | Detail pane (ExtraWide) | See `Z-05-game-detail.md` §16 | One view, two hosts — built once, mounted twice |
-| Filter bar | **`bubbles/textinput` — direct fit** | See `Z-07-filter-and-search.md` §16 |
+| Filter bar | **`bubbles/textinput` — direct fit** | See `Z-07-filter-and-search.md` §17 |
+| Cover grid | **Build fresh** — the deck is a **mode of this screen** and swaps the body renderer only | See `Z-15-cover-deck.md` §16. The header band, the pinned row, the position row and the footer are this screen's and are reused unchanged |
 | Empty state | Build fresh · `lipgloss` text layout | Trivial, and worth doing well |
 | Degrade banner | Build fresh · one `lipgloss` row | |
 | Scroll-position row | Build fresh · one `lipgloss` row | |

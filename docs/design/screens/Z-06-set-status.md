@@ -479,8 +479,9 @@ row the player pressed `s` on is still visible behind and beside the box (§4).
 - **Nothing here claims an unbuilt capability.** No "suggest marking this zerado", no
   achievement percentage, no mood tag. `05-state-machine.md` §4 permits a *suggestion* in
   **Phase 2**; Phase 1 does not carry one.
-- **Type-neutral where equally natural** — `Clear override`, `Every state is yours.`,
-  `Added by hand.` Phase 1 says *game* where a game is what the player is looking at.
+- **Zerado is a games product and the copy says so.** `Added by hand.` means a disc or a
+  cartridge. `Clear override` and `Every state is yours.` are neutral because they name a
+  **mechanism**, which has no type to be neutral about (`11-media-model.md` rev B).
 
 ---
 
@@ -757,7 +758,7 @@ records.
 | **D-06-2** | The box is 11 rows in all three variants; variant B fills rows 8–9 with the provenance note rather than shrinking (§3.1) | `34 × 11` is bound as fixed; and a box that changes height between two presses of the same key reads as a glitch. The note also teaches the override model at the one moment the player is looking at it |
 | **D-06-3** | Vertically centred in `BodyRect`, not in the terminal (§4) | Clears the pinned summary row, which R-10(c) requires on screen at any row count — in one line of arithmetic, at every tier, with no special case |
 | **D-06-4** | `?` is inert while the overlay is open; it works normally when `Z-06` is a route at Tiny (§11) | A modal is not a page, it prints its own keys, and `04-navigation-and-focus.md` §1 rule 2 forbids stacking on an overlay |
-| **D-06-5** | `ZERADO_ASCII=1` also swaps box drawing to `+ - |`, the marker to `>` and `×` to `x` (§13.1) | The box-drawing family is Ambiguous-width and an overlay is where that bites hardest; the escape hatch must cover it |
+| **D-06-5** | `ZERADO_ASCII=1` also swaps box drawing to `+ - \|`, the marker to `>` and `×` to `x` (§13.1) | The box-drawing family is Ambiguous-width and an overlay is where that bites hardest; the escape hatch must cover it |
 | **D-06-6** | Focus starts on the current effective state; the fifth item is never the initial focus (§12.2) | The player sees where the game *is* before moving, and every state stays the same distance away — which is what keeps `ZERADO` no harder and no easier than the rest |
 | **D-06-7** | The consequence line has two forms — `<Provider> says <STATE>` and `back to <STATE>` (§10.1) | A provider without a playtime capability has no opinion to attribute; naming one would invent a fact |
 

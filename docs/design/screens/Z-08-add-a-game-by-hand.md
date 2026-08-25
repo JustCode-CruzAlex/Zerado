@@ -350,7 +350,7 @@ than `--z-text`.
 | 7 | **Added** | `⏎` with both required fields | §3.4 — receipt, form cleared except `PLATFORM`, focus back on `TITLE` | §10 |
 | 8 | **Write failed** | `Store.AddManual` returns an error | message block replaces the help rows; **the form keeps every value** | §10 · **W** |
 | 9 | **Offline** | network off | **nothing changes.** `Z-08` is `WORKS` — no banner, no notice, no difference. Rendering an offline banner on the one screen that never needed a network would be a banner that is furniture ([`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §3) | — |
-| 10 | **Loading** | **N/A** — the only read is the distinct-platform list for the help line, which is local and already resolved before first paint. If it were ever slow, the help line renders **without** the list rather than showing a spinner | — |
+| 10 | **Loading** | first paint | **N/A** — the only read is the distinct-platform list for the help line, which is local and already resolved before first paint. If it were ever slow, the help line renders **without** the list rather than showing a spinner | — |
 | 11 | **Partial** | **N/A** — one row, one transaction | — | — |
 | 12 | **Audio** | | rows as [`Z-01-first-run.md`](./Z-01-first-run.md) §8 rows 10–12. **No cue fires on an add** — the closed cue list (§15.3) is sync complete, error, and a game becoming `ZERADO`; adding is none of them | — |
 | 13 | **`NO_COLOR`** | env | §12 | identical text |

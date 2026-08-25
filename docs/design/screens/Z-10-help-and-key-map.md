@@ -368,7 +368,7 @@ list is owned by that origin's spec, not by this one.
 | **`Z-04` Library, empty** | `ON THIS SCREEN — LIBRARY` + the prose line | `Z-04-library.md` §9 — **§6 above** |
 | **`Z-05` Game detail** | `ON THIS SCREEN — GAME DETAIL` | `Z-05-game-detail.md` §14 |
 | **`Z-06` Set status** | `ON THIS SCREEN — SET STATUS` | `Z-06-set-status.md` §11 — **Tiny only**, see below |
-| **`Z-07` Filter mode** | `ON THIS SCREEN — LIBRARY` **plus block 2** `IN FILTER MODE` | `Z-07-filter-and-search.md` §13 |
+| **`Z-07` Filter mode** | `ON THIS SCREEN — LIBRARY` **plus block 2** `IN FILTER MODE` | `Z-07-filter-and-search.md` §14 |
 | `Z-08` Add a game by hand | `ON THIS SCREEN — ADD A GAME BY HAND` | `Z-08-…md` §"key map" |
 | `Z-09` Settings | `ON THIS SCREEN — SETTINGS` | `Z-09-…md` §"key map" |
 | `Z-11` Fatal error | **unreachable** | `?` is not bound there; only `q` and `Ctrl-C` work |
@@ -603,9 +603,11 @@ Absent when nothing is scrolled.
 - **No exclamation marks. No emoji. Never call the user a "gamer".**
 - **Casing** — `Zerado` in the breadcrumb. No state chip appears on this screen, so `ZERADO`
   does not appear at all; the filter-mode row says `filter by state`, not `filter by ZERADO`.
-- **Type-neutral where equally natural** — `move the cursor`, `first row · last row`,
-  `filter and search`, `ROWS`. `open this game` and `add a game by hand` say *game* because a
-  game is what the player is looking at.
+- **Zerado is a games product and the copy says so.** `open this game`,
+  `set this game's status`, `add a game by hand`, `sync with Steam`. `move the cursor`,
+  `first row · last row` and `ROWS` are neutral because each names a **movement or a unit** and
+  would read the same in any list — not because the copy is leaving room for another kind of
+  thing (`11-media-model.md` rev B).
 
 ---
 

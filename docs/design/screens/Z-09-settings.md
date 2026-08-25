@@ -30,7 +30,7 @@ ticket: "#2"
 | **Kind** | Route |
 | **Routes in** | `,` from anywhere |
 | **Routes out** | `Z-02 Connect a store` (`⏎` on a Steam row) · `Z-03 Sync` (`⏎` on `Last sync`) · pop on `Esc` |
-| **Offline class** | **WORKS** ([`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §2) — *"Every dial reads and writes locally. Connecting a store is `Z-02`, a separate screen with its own class — Settings only routes there"* |
+| **Offline class** | **WORKS** ([`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §2) — *"Every dial reads and writes locally. Connecting a store is `Z-02`, a separate screen with its own class — Settings only routes there"*. The **radio** has its own class in the same table — it streams, so offline it stops — and this screen is where that is stated, in the `Radio` row's own value (§10.3). The screen does not change class because one of the things it reports about does |
 | **Writes** | `setting(key, value)` ([`09-erd.md`](../../blueprint/09-erd.md) §1). Never a credential — that is the `Vault`'s |
 
 ---
@@ -84,8 +84,8 @@ outside the scroll — the same discipline R-10(c) puts on the ledger's summary.
    AUDIO
      Audio               On
      Output              CoreAudio, built-in output
-     Music               On
-     Music volume        60
+     Radio               On
+     Radio volume        60
      Interface sounds    On
      FX volume           80
 
@@ -107,8 +107,8 @@ outside the scroll — the same discipline R-10(c) puts on the ledger's summary.
 
      Audio               On
      Output              CoreAudio, built-in output
-     Music               On
-     Music volume        60
+     Radio               On
+     Radio volume        60
      Interface sounds    On
      FX volume           80
 
@@ -147,8 +147,8 @@ The honest screen. This is the state a player reaches from `Z-01` with `,`.
    AUDIO
      Audio               Off
      Output              No audio device. Zerado is silent.
-     Music               On
-     Music volume        60
+     Radio               On
+     Radio volume        60
      Interface sounds    On
      FX volume           80
      Audio is off. These are kept, and take effect when you turn it on.
@@ -228,8 +228,8 @@ to position.
     AUDIO
       Audio               On
       Output              CoreAudio, built-in output
-      Music               On
-      Music volume        60
+      Radio               On
+      Radio volume        60
       Interface sounds    On
       FX volume           80
 
@@ -361,6 +361,7 @@ traversal (makes `↑↓` feel broken, and the player still needs to reach a lon
 | 8 | **Audio off** *(the default)* | `Enabled == false` | §3.4's AUDIO group + its note | `Audio is off. These are kept, and take effect when you turn it on.` |
 | 9 | **Audio unavailable** — five reasons | `AudioState.Reason` | the `Output` row states it, **once**, and nothing else changes | §10 · the `Output` matrix |
 | 10 | **`ZERADO_NO_AUDIO` set** | env | `Audio   On, overridden by ZERADO_NO_AUDIO` — **overridden, not off**, because those are different facts ([`12-audio.md`](../../blueprint/12-audio.md) §10) | §10 |
+| **10a** | **Radio on, no network** | the stream cannot open | The `Radio` row reads `On. No network, so no music.` **The switch still says the player's choice; the sentence says what is happening.** No banner, no cue, no retry key — a stream that ends when the network does is behaving correctly | §10.3 |
 | 11 | **Build has no audio player** | default build, no `-tags audio` | the AUDIO group renders **its head and one line, and no dials** — §8.1 | `This build was made without audio. Nothing here can make a sound.` |
 | 12 | **`NO_COLOR` set** | env | `Colour   Off, NO_COLOR is set` — read-only, and it says **who** set it | §10 |
 | 13 | **`ZERADO_ASCII=1` set** | env | `Glyphs   ASCII, forced by ZERADO_ASCII` | §10 |
@@ -434,8 +435,8 @@ read-only channel (§7.1):
 | `API key` | `↑↓ move   ⏎ replace   d disconnect   esc back   ? help   q quit` |
 | `Last sync` | `↑↓ move   ⏎ sync now   d disconnect   esc back   ? help   q quit` |
 | `Not connected` | `↑↓ move   ⏎ connect   esc back   ? help   q quit` |
-| `Audio`, `Music`, `Interface sounds` | `↑↓ move   ⏎ toggle   esc back   ? help   q quit` |
-| `Music volume`, `FX volume` | `↑↓ move   ←→ volume   esc back   ? help   q quit` |
+| `Audio`, `Radio`, `Interface sounds` | `↑↓ move   ⏎ toggle   esc back   ? help   q quit` |
+| `Radio volume`, `FX volume` | `↑↓ move   ←→ volume   esc back   ? help   q quit` |
 | `Glyphs`, `Motion` | `↑↓ move   ←→ change   esc back   ? help   q quit` |
 | confirmation open | `y disconnect   esc keep` |
 
@@ -487,8 +488,9 @@ that safe to act on.
 | `Output`, `ci` | `No audio on this machine. Zerado is silent.` |
 | `Output`, `env_disabled` | `Silent. ZERADO_NO_AUDIO asked for no sound.` |
 | `Output`, `init_failed` | `The audio device did not start. Zerado is silent.` |
-| `Music` · `Interface sounds` | `On` · `Off` |
-| `Music volume` · `FX volume` | `60` · `80` — a number, `0` to `100` |
+| `Radio` · `Interface sounds` | `On` · `Off` |
+| **`Radio`, on with no network** | **`On. No network, so no music.`** — 28 cells. Not an error, not amber, and it raises nothing anywhere else |
+| `Radio volume` · `FX volume` | `60` · `80` — a number, `0` to `100` |
 | group note, audio off | `Audio is off. These are kept, and take effect when you turn it on.` |
 | group note, no audio in the build | `This build was made without audio. Nothing here can make a sound.` |
 
@@ -496,11 +498,18 @@ that safe to act on.
 notice, no error a screen has to handle — `Cue()` cannot fail because it has no error return
 ([`12-audio.md`](../../blueprint/12-audio.md) §4).
 
-**Music and Interface sounds are independent, deliberately.** *"Someone may want the keyclicks
+**Radio and Interface sounds are independent, deliberately.** *"Someone may want the keyclicks
 without the soundtrack, or the soundtrack without the keyclicks, and neither is the odd request"*
 ([`12-audio.md`](../../blueprint/12-audio.md) §1). They are never collapsed into one switch — which
 is also what satisfies **WCAG 1.4.2 Audio Control** three times over: opt-in only, independently
 mutable, independently volumed.
+
+**They are also independent about the network, and that is the point of the split.** The radio
+**streams**, so with no connection there is no music — and that is fine, not a fault, and it
+raises nothing. Interface sounds are local cues and keep working offline like everything else in
+this product. **Nothing is bundled**, so there is no fallback track and nothing to apologise for:
+the row simply says what is true. Founder direction, 2026-08-25 —
+*"let's skip the bundle music, if the user is offline no music, that's it."*
 
 **Volume is a number, not a bar** — *design decision.* The count is the information and the bar is
 the ornament ([`../01-design-system.md`](../01-design-system.md) §8.1); a bar here would also be
@@ -600,7 +609,7 @@ scanning.**
       On
     Output
       CoreAudio, built-in output
-    Music
+    Radio
   ▄ 1–15 of 36
 
   ↑↓ move  ⏎ replace  esc  ?
@@ -650,9 +659,9 @@ Responsive table: *"Values below labels."* Same two-line row, band collapsed to 
      On
    Output
      CoreAudio, built-in output
-   Music
+   Radio
      On
-   Music volume
+   Radio volume
      60
    Interface sounds
      On
@@ -694,8 +703,8 @@ Zero SGR; bold goes with it. The characters are unchanged:
    AUDIO
      Audio               On
      Output              CoreAudio, built-in output
-     Music               On
-     Music volume        60
+     Radio               On
+     Radio volume        60
      Interface sounds    On
      FX volume           80
 
@@ -755,7 +764,7 @@ a documented way out (`esc`), and it is what 2.1.2 asks for.
 **33 cells** of `80 × 24 = 1920` → **1.7 %**. At ExtraWide, where all four heads are on screen at
 once: 33 of `120 × 40 = 4800` → **0.7 %**.
 
-**The temptation this screen resists.** `Audio  On` and `Music  On` are the kind of value that
+**The temptation this screen resists.** `Audio  On` and `Radio  On` are the kind of value that
 invites a "success" colour. They are `--z-text`, like every other value. Cyan means *a game is
 finished*, not *this switch is up* — failure-gallery item 3.
 
@@ -787,6 +796,11 @@ finished*, not *this switch is up* — failure-gallery item 3.
    `no_device`, `ssh`, `ci`, `env_disabled`, `init_failed` — and assert the `Output` row's sentence.
 4. **`ZERADO_NO_AUDIO` shows as overridden, not off** (§10.3), and `NO_COLOR` shows as `Off,
    NO_COLOR is set`, naming the variable.
+4a. **The radio states the network honestly and raises nothing.** With `Radio` on, cut the
+   network: assert the row reads `On. No network, so no music.`, that the switch still reads the
+   player's choice, that `Interface sounds` is unaffected and still fires, and that **no banner
+   appears on any screen** — grep every render for `radio`, `stream` and `music`. `Z-09` is the
+   only place it is mentioned.
 5. **A build without the audio player shows no dials** (§8.1) — the AUDIO group is a head and one
    sentence.
 6. **Audio raises no banner, on any screen** — grep every other screen's render for `audio`,
@@ -822,10 +836,33 @@ finished*, not *this switch is up* — failure-gallery item 3.
 3. **"Group ∥ values" at ExtraWide (§4.1)** is read as *label column beside value column*, not as a
    master–detail split, because a split would hide values behind a selection. Confirm the reading.
 4. **The Audio group's row set (§10.3)** is six rows: the opt-in, the honest backing, two channel
-   switches and two volumes. [`12-audio.md`](../../blueprint/12-audio.md) §7's **interim
-   recommendation** — FX bundled, **music user-supplied from a local directory** — would add a
-   seventh, `Music folder`, with the same row shape and the value `~/Music/zerado` or
-   `Not set. Music is off until there is somewhere to read it from.` If the founder accepts §7,
-   that row lands here and this spec revises to rev B.
+   switches and two volumes. The **bundled-versus-user-supplied music question is closed** —
+   founder direction, 2026-08-25, made the music a **stream**, so there is no local directory to
+   point at and no seventh `Music folder` row. [`12-audio.md`](../../blueprint/12-audio.md) §1,
+   §3 and §7 still describe a bundled subsystem and are stale — item **6** below.
+
+   **What is genuinely open is the station.** The direction names *"synthwave / 80s stations"* —
+   plural — and this spec has **not** invented a picker, because a control nobody asked for is
+   the anti-pattern this bundle rejects. If the player is to choose, it is a seventh row,
+   `Station`, with the same row shape and a value like `Synthwave` cycled by `←→`, and this spec
+   revises to rev B. If Zerado picks one station and never says so, the row set stays at six.
 5. **Labels are sentence case on this screen and UPPERCASE on the two forms (§5.1).** The reason is
    countable — twenty-two uppercase strings would flatten the group heads. Confirm the exception.
+6. **Upstream: [`12-audio.md`](../../blueprint/12-audio.md) still describes the audio the founder
+   replaced.** §1 calls the music channel *"a background bed"*; §3 is headed *"Bundled, never
+   streamed"* and states *"Zerado's audio makes no network requests, ever"*; §5's build tag, §7's
+   whole licensing section and its user-supplied-directory recommendation all rest on that. The
+   2026-08-25 direction makes the music a **stream**, which
+   [`07-offline-contract.md`](../../blueprint/07-offline-contract.md) §2 has already absorbed —
+   it now carries `Interface FX · WORKS` and `Radio · NEEDS THE NETWORK` as separate rows. The
+   two spine documents disagree, and this screen renders the offline contract's version.
+   **Owner: `fft-tui-architect`.**
+
+   Two consequences that are not this screen's to settle. **(a)** §7's licensing problem largely
+   dissolves — a stream is not redistributed inside the binary — but it is replaced by a
+   different question, which is whose stream and under what terms. **(b)** The ratified promise
+   *"the only network traffic is `Zerado` reaching out to the services you've connected"*
+   ([`../03-designer-manual.md`](../03-designer-manual.md) §5.9) now has to cover an opt-in
+   radio stream. It is defensible — the player turns it on, so it is a service they connected —
+   but it is a **published** line and it is the founder's to confirm, not a designer's to
+   reinterpret. Routed rather than assumed.

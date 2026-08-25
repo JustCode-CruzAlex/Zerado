@@ -91,7 +91,7 @@ Derived from [`02-composition.md`](../../blueprint/02-composition.md) §1.3; not
 
      Look around first       An empty library, and every key that works
 
-   Music and interface sounds are off until you turn them on in Settings.
+   Radio and interface sounds are off until you turn them on in Settings.
 
 
 
@@ -124,7 +124,7 @@ Refines the drawn mockup in [`07-offline-contract.md`](../../blueprint/07-offlin
 
      Look around first       An empty library, and every key that works
 
-   Music and interface sounds are off until you turn them on in Settings.
+   Radio and interface sounds are off until you turn them on in Settings.
 
 
 
@@ -176,7 +176,7 @@ layout, not a breathing one; the measure cap exists for exactly this.
 
       Look around first       An empty library, and every key that works
 
-    Music and interface sounds are off until you turn them on in Settings.
+    Radio and interface sounds are off until you turn them on in Settings.
 ```
 
 *(rows 20–37 blank — the block is **top-aligned**, per [`02-composition.md`](../../blueprint/02-composition.md) §2; ruler digits mark columns 1, 11 … 111, `A` = 101, `B` = 111.)*
@@ -393,7 +393,7 @@ architect to fold into the global table.
 | door 3 title | `Look around first` |
 | door 3 reason (Standard+) | `An empty library, and every key that works` |
 | door 3 reason (Narrow−) | `An empty library` |
-| audio note (Standard+) | `Music and interface sounds are off until you turn them on in Settings.` |
+| audio note (Standard+) | `Radio and interface sounds are off until you turn them on in Settings.` |
 | audio note (Narrow−) | `Sound is off. See Settings.` |
 | footer, default | `↑↓ move   ⏎ choose   , settings   ? help   q quit` |
 | footer, door closed | `↑↓ move   ⏎ choose   r check again   , settings   ? help   q quit` |
@@ -510,7 +510,7 @@ Bold is an SGR sequence and is therefore **also gone**. This is the render:
 
      Look around first       An empty library, and every key that works
 
-   Music and interface sounds are off until you turn them on in Settings.
+   Radio and interface sounds are off until you turn them on in Settings.
 
    ↑↓ move   ⏎ choose   r check again   , settings   ? help   q quit
 
