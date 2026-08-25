@@ -100,9 +100,27 @@ Collected here so the gate has them in one place.
    free tier. **A founder action, not a resolved fact.**
    *(The price-intelligence feature is unaffected: current price, all-time low and the "wait or
    buy" verdict all remain. Only the commission tag went.)*
-3. ~~**The light-mode CVD gap**~~ — **absorbed into D7.** It is no longer a one-palette task but a
-   **theme-contract** requirement: no theme ships without passing the four-state validation, light
-   or dark. A standing gate rather than a one-time check.
+3. **The light state set FAILS the four-state gate — measured, not suspected.** This was previously
+   carried as *"never CVD-verified"*. It has now been verified, and it does not pass:
+
+   | Pair | Simulation | ΔE2000 | Floor |
+   |---|---|---|---|
+   | `not started × zerado` | protanopia | **5.41** | 10.0 |
+   | `zerado × abandoned` | deuteranopia | **8.91** | 10.0 |
+
+   **The cause is specific and it is upstream.** Brand manual §4.5 claims the paper expression is
+   *"the same hues carried to ink weight"*, and four of the five carry within 9.5° of hue. But light
+   `not started` is rotated **173°** and lands **1.1°** from `#9FB0C6` — *the blue-cast steel that
+   brand §4.4 explicitly rejected on the dark side, for collapsing against the cyan.* **The dark
+   set's own correction was never carried to paper.**
+
+   This is `fft-brand-architect`'s to repair through the §10 governance procedure.
+   [`../design/05-theme-system.md`](../design/05-theme-system.md) §3.4 carries a feasibility proof
+   of a minimum-motion repair reaching a 10.83 floor, explicitly **non-binding** — it demonstrates
+   the problem is fixable, it does not choose the fix.
+
+   Until it is repaired, **Zerado ships no light theme**, because D7's gate is a gate rather than a
+   preference. That is the mechanism working, and it is why the gate was worth building.
 4. ~~**Whether `playtime` is generic progress or a typed game fact**~~ — **WITHDRAWN.** The
    divergence existed to keep one derivation across media types; the media types were pruned, so the
    argument died with them. `playtime_minutes` is a plain column.

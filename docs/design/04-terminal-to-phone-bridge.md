@@ -100,6 +100,14 @@ be the **same string**, not a re-written one (§7).
 
 Zerado is dark-native on every surface.
 
+**Dark-native is not dark-only.** Light is a **first-class second expression**, designed in brand
+§4.5 and selected by the order in `05-theme-system.md` §3.5 — `NO_COLOR` first, then an explicit
+setting, then background detection, then dark. Dark is the *fallback when nothing answers*, and
+that is a measured position rather than a preference: brand §5.3 measured the palette against five
+popular **dark** grounds and every state cleared 4.5:1 on all five, so guessing light on a failed
+probe would guess against the only evidence there is. On a phone, step 3 is the platform's own
+light/dark setting — but see §8.1: the light state set does not yet pass its own gate.
+
 ### 2.6 · The casing convention
 
 `Zerado` the product · `zerado` the command · *zerado* the status in prose · **`ZERADO`** the
@@ -284,8 +292,14 @@ chip, not a decoration beside it.
 If a redraw changes a mark's **fill ratio or stroke weight**, it changes how the four read under
 dichromacy — the terminal's ΔE floor was measured on colour, but the glyph is what carries the
 remainder at the tight pair. **Any redraw is reviewed against the same worst pair: zerado ×
-abandoned under deuteranopia**, where the colours sit at **ΔE 11.9** and the mark is doing real
-work.
+abandoned under deuteranopia**, where the colours sit at **ΔE 11.81** (the pinned method of
+`05-theme-system.md` §2.1; the manual records 11.9) and the mark is doing real work.
+
+**On a phone this review widens, because a phone can theme.** The pair to protect is the tightest
+pair **of the active theme**, not of the default — and in the DISTINCT band (10 ≤ ΔE < 15) the
+glyph is carrying more load than it does in the default. `05-theme-system.md` §2.6 states the
+consequence plainly: co-render is what makes a marginal theme *degraded* rather than *dangerous*,
+and a redraw that weakens the glyph spends exactly that margin.
 
 ---
 
@@ -357,30 +371,57 @@ the **Phase 1 spine**, and belong in `fft-tui-architect`'s deliverable.
 
 Recorded now, while they are cheap.
 
-### 8.1 · The light-mode state colours are **not** CVD-verified
+### 8.1 · The light-mode state colours **fail** CVD separation — measured
 
-Brand §4.4 ran the Viénot / Brettel / Mollon simulation on the **dark** state set and recorded
-the **ΔE 11.9** floor. The light expression of brand §4.5 is implemented in `tokens.css` **§10**
-(the `[data-z-surface="paper"]` block), and it defines a **different set of four state colours**
-for light grounds:
+> **Status changed rev A.** This section previously recorded the light state set as
+> *CVD-unverified* and flagged it for measurement. **It has now been measured, and it fails.**
+> The measurement, the cause and a minimum-motion repair are in `05-theme-system.md` §3.2–§3.4;
+> what follows is the summary and what it means for Phase 4.
+
+Brand §4.4 ran the Viénot / Brettel / Mollon simulation on the **dark** state set. The light
+expression of brand §4.5 is implemented in `tokens.css` **§10** (the `[data-z-surface="paper"]`
+block), and it defines a **different set of four state colours** for light grounds:
 
 | State | Light value | Ratio on `#FFFFFF` |
 |---|---|---|
-| Not started | `#5E6A7A` | 5.50 |
-| In progress | `#8A4F00` | 6.56 |
-| Zerado | `#0A6070` | 7.19 |
-| Abandoned | `#6D3D93` | 7.30 |
+| Not started | `#5E6A7A` | 5.50 *(the manual's)* |
+| In progress | `#8A4F00` | 6.56 *(the manual's)* |
+| Zerado | `#0A6070` | 7.19 *(the manual's)* |
+| Abandoned | `#6D3D93` | **7.67** *(computed — `tokens.css` §10 records 7.30; see below)* |
 
-Their **contrast** ratios are recorded. Their **CVD separation is not** — no simulation is
-recorded for this set anywhere in the manual or the tokens, and brand §4.5 contains no CVD
-paragraph at all. Contrast and colour-vision separation are different measurements; clearing one
-says nothing about the other.
+Contrast is fine. **Separation is not.** Under the pinned method (`05-theme-system.md` §2.1),
+**two of the six pairs fail the ΔE ≥ 10 bar**, both computed:
 
-A phone will meet the system light mode. **Before any Zerado light theme ships on a phone, the
-paper/light state set must be simulated for protanopia and deuteranopia across all six pairs, to
-the same ΔE ≥ 10 bar.** Owner: `fft-brand-architect`. Do not assume it passes because the dark
-set did — the dark set's own first draft failed at ΔE 8.8, which is exactly why this check
-exists.
+| Pair | Worst model | ΔE | |
+|---|---|---|---|
+| not-started × zerado | protanopia | **5.41** | ✗ |
+| zerado × abandoned | deuteranopia | **8.91** | ✗ |
+
+**The cause is a single un-carried hue, and it is the one that mattered.** Brand §4.5 claims the
+paper colours are *"the same hues carried to ink weight"*, and four of five are — abandoned within
+0.12°, scanner within 0.41°, cyan within 3.11°, amber within 9.50°. **Not-started is rotated
+173.02°**, from the dark set's warm `h 92.97°` to `h 265.99°` — landing **1.1°** from `#9FB0C6`,
+the blue-cast steel that brand §4.4 *explicitly rejected* on the dark side for collapsing against
+the cyan. The dark set's hard-won correction was not carried to paper, and the 5.41 above is that
+omission measured.
+
+**Two consequences, both binding.**
+
+1. **No Zerado light theme ships — on a phone or in the terminal — until this is repaired.**
+   `05-theme-system.md` §3.4 demonstrates a minimum-motion repair along axes canon already
+   ratified (carry the hue; restore the lightness spread), reaching a floor of **10.83**. That is
+   a feasibility proof, **not** a token change. Owner: `fft-brand-architect`, through brand
+   governance §10.
+2. **`tokens.css` §10's ratio for `--z-state-abandoned` is wrong.** It records `7.30:1`;
+   `#6D3D93` on `#FFFFFF` measures **7.67:1** — recomputed with the same WCAG formula that
+   reproduces all thirty-four other brand figures exactly. Nothing shipped broken (the true value
+   is higher), but the correction belongs in `tokens.css`, `tokens.json` and the manual in one
+   commit.
+
+**And the general point that outlives this particular defect:** *"someone should check the light
+palette"* was an open note for as long as this document existed. It is now a **gate** —
+`05-theme-system.md` §2.2 — which means no theme, light or dark, default or harvested, can reopen
+this class of gap silently again. That is the difference between a flag and a mechanism.
 
 ### 8.2 · The dark surface the ratios were measured against
 

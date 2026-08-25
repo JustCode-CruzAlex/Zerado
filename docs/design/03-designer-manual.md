@@ -28,8 +28,9 @@ reviewed, which decisions are closed, and how to reopen one if you genuinely mus
 | 6 | `00-design-brief.md` | Which guidelines govern, and the acceptance bar. |
 | 7 | `01-design-system.md` | The components you assemble from. |
 | 8 | `02-colour-budget.md` | The colour rule you will be failed against. |
-| 9 | FlowForge TUI Design Manual (#2371) + Spacing Canon (#2435) | The terminal craft bar and every spacing number. |
-| 10 | `PLAY-NOTES.md` | The DeLorean-and-KITT argument in the founder's own words. Read it last, and let it decide the close calls. |
+| 9 | `05-theme-system.md` | What a theme must supply, and what makes one INVALID. Read it before you assume a hex. |
+| 10 | FlowForge TUI Design Manual (#2371) + Spacing Canon (#2435) | The terminal craft bar and every spacing number. |
+| 11 | `PLAY-NOTES.md` | The DeLorean-and-KITT argument in the founder's own words. Read it last, and let it decide the close calls. |
 
 **The bar, so it can be failed:** **retro-*future*, never retro-nostalgia.** Neon, CRT glow,
 grid horizon, chrome type, scanner sweep, amber-on-black readout — the eighties' own idea of
@@ -43,7 +44,8 @@ a variation.** The object has just been unboxed. It is clean, it is lit, it is p
 | Surface / decision | Owner | Not theirs |
 |---|---|---|
 | **Guideline authority** — which corpora govern, the design brief, the acceptance bar | `fft-design-architect` | Does not draw screens |
-| **Brand identity** — the manual, the 200 tokens, contrast, CVD, **the ANSI-256 derivations** | `fft-brand-architect` | The only role that may change a token |
+| **The theme contract** — what a theme supplies, the four-state validation gate, the tiers | `fft-design-architect` | `05-theme-system.md`. Does not author a palette |
+| **Brand identity** — the manual, the 200 tokens, contrast, CVD, **the ANSI-256 derivations**, **the light-default repair** | `fft-brand-architect` | The only role that may change a token |
 | **Terminal composition** — layout tree, pane budget, focus state machine, navigation model, Charm adoption, responsive tier map, the visual QA gate | `fft-tui-architect` | The head of the terminal lane |
 | **Per-screen visual design** — the mockup, hierarchy, co-render application, spacing tokens, state tables, copy | `fft-tui-designer` | Does not decide composition or guidelines |
 | **`View` / `Update` line code** | `fft-tui` | Does not redesign in code |
@@ -173,8 +175,11 @@ The states, their colours, glyphs, ASCII fallbacks and labels are ratified and *
 - **The warm grey `#A5A29B`** is load-bearing engineering, not taste. The blue-cast `#9FB0C6`
   collapsed against the cyan at **ΔE 8.8** under deuteranopia; the warm grey measures **25.8**.
   **Never "correct" it back toward blue.**
-- **The floor to protect is ΔE 11.9** — zerado × abandoned under deuteranopia. The one place
-  glyph and label genuinely carry load rather than merely reinforce.
+- **The tightest pair is zerado × abandoned under deuteranopia** — the manual records **ΔE 11.9**,
+  the pinned method of `05-theme-system.md` §2.1 measures **11.81**. The one place glyph and label
+  genuinely carry load rather than merely reinforce. **The floor to protect is ΔE 10.0**, the
+  manual's own *"≥ 10 is distinct"* — not the default's own measurement, which would be a bar
+  defined by the thing being measured.
 
 ### 5.2 · The palette and the contrast table
 
@@ -300,8 +305,11 @@ not ceremonial — each step exists because skipping it has broken something.
    with the tokens is worse than no manual.
 5. **If it touches a colour used for text, recompute the contrast ratio.** Do not estimate it.
 6. **If it touches a state colour, re-run the CVD simulation on all six pairs** with the
-   Viénot / Brettel / Mollon dichromat model, measuring separation as CIEDE2000. **The 11.9
-   minimum is the floor to protect.**
+   Viénot / Brettel / Mollon dichromat model, measuring separation as CIEDE2000 — **under the
+   method pinned in `05-theme-system.md` §2.1**, which fixes the matrices, the white point and
+   the clamp so two implementations agree. **The floor to protect is ΔE 10.0**, the manual's own
+   *"≥ 10 is distinct"*. The dark default measures **11.81** at its tightest pair under that
+   method, so it clears the floor rather than defining it.
 7. **If it touches a colour used in the terminal, re-derive the ANSI-256 index** by
    nearest-neighbour search in CIELAB. **Never adjust the old index by hand.**
 8. **If it touches a state, the state-chip spec reopens too** (`01-design-system.md` §3) — and

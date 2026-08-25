@@ -20,7 +20,8 @@ is a stale copy. Where a number appears here it was read at its source and the s
 
 **Companion documents:** `01-design-system.md` (the component vocabulary) ·
 `02-colour-budget.md` (the colour rule) · `03-designer-manual.md` (how we work) ·
-`04-terminal-to-phone-bridge.md` (Phase 4).
+`04-terminal-to-phone-bridge.md` (Phase 4) · `05-theme-system.md` (what a theme must supply, and
+what makes one valid).
 
 ---
 
@@ -65,11 +66,18 @@ retro-nostalgia.
 > **unmeasured** — say so and flag it for measurement. Guessing is a defect, not a shortcut.
 > §9 lists the values currently unmeasured.
 >
-> **The ΔE figures carry one caveat worth knowing:** the manual does not pin the CVD model variant
-> or the white point, so its digits are **not independently reproducible** — an independent
-> implementation returns 11.02 and 12.07 where the manual records 8.8 and 11.9. The ordering
-> claims those numbers support all hold; only the digits move. Pinning the model is
-> `fft-brand-architect`'s, upstream. See `01-design-system.md` §3.2.
+> **The ΔE figures carry one caveat worth knowing:** the manual does not pin the CVD model variant,
+> the white point, or the gamut-clamping rule, so its digits are **not independently reproducible**
+> — two independent implementations of its own named method disagree with it, and with each other,
+> in the third significant figure. The ordering claims those numbers support all hold; only the
+> digits move. See `01-design-system.md` §3.2.
+>
+> **The model is now pinned.** `05-theme-system.md` §2.1 fixes the matrices, the D65 white point,
+> the linear-RGB clamp and the CIEDE2000 parameters, because a validation gate cannot be built on
+> an unpinned method. Under the pinned method the dark default's tightest pair measures **11.81**
+> where the manual records 11.9. **Every ΔE printed in Zerado design documents from rev A onward
+> is either the manual's, cited as the manual's, or computed under §2.1 and marked as computed.**
+> Reconciling the manual's own digits to the pinned method is `fft-brand-architect`'s, upstream.
 
 ---
 
@@ -428,6 +436,14 @@ applicable lines pass, evidenced by a rendered artifact rather than a claim.
     been reviewed against this brief, and has been **validated by the founder before merge**.
     No founder-validated screenshot → not GOLDEN.
 
+**Theme** *(added rev A — see `05-theme-system.md`)*
+29. Line 15's ratios are measured against **the active theme's own ground**, not against
+    `--z-surface`, whenever a theme other than the default is active. A theme that cannot clear
+    4.5:1 on its own ground never activates (`05-theme-system.md` §2.2 G2).
+30. The screen is correct under **at least one theme from each shipped tier** — brand-true,
+    player, monochrome — with co-render intact in all three. Colour is the fast path in every
+    tier; it is the answer in none.
+
 ---
 
 ## 11 · Routing — who builds what
@@ -435,7 +451,9 @@ applicable lines pass, evidenced by a rendered artifact rather than a claim.
 | Work | Owner |
 |---|---|
 | Guideline authority, this brief, the acceptance bar | `fft-design-architect` |
-| Brand manual, tokens, **the ANSI-256 derivations in §9** | `fft-brand-architect` |
+| **The theme contract, the four-state validation gate, the tiers** (`05-theme-system.md`) | `fft-design-architect` |
+| Brand manual, tokens, **the ANSI-256 derivations in §9**, **the light-default CVD repair** (`05-theme-system.md` §3.2) | `fft-brand-architect` |
+| The theme **picker** — where it lives, navigation, live preview | `fft-tui-architect` |
 | Terminal **composition** — layout tree, pane budget, focus model, Charm adoption, tier map | `fft-tui-architect` |
 | Per-screen **visual design** — mockup, hierarchy, co-render, spacing tokens, state tables | `fft-tui-designer` |
 | `View` / `Update` line code | `fft-tui` |
@@ -464,3 +482,7 @@ heads, one product.
    mispronounced by screen readers in the terminal and this cannot be fixed there. Recorded as
    an accepted cost, consistent with the naming risks already accepted in `naming.md`. Confirm
    it stays accepted.
+5. **The theme system (`05-theme-system.md`).** It carries its own founder questions — the
+   ΔE floor, the light default's measured failure, a wrong ratio at source, the gate/tier split,
+   `retro-82`, and the one exception ever made to "Zerado does not paint a background". Those are
+   §8 of that document and are not repeated here.

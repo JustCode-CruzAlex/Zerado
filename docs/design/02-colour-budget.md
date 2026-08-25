@@ -198,6 +198,14 @@ promise red calls it a fault. Offline is **chrome** (`01-design-system.md` §12)
 Also never: the `ABANDONED` state (that is orchid), a destructive action's *body text*, a
 low-price flag (a good price is not an alarm), a heading, a border, or the terminal mark.
 
+> **The red band is reserved in every theme, not just the default** (added rev A). This closed
+> list is what `05-theme-system.md` §2.2 line **G5** enforces on theme data: no state colour may
+> be selected from CIELAB `C* > 18` with hue in `[345°, 45°)` — the band centred on the brand's
+> own scanner hue (`#FF2E2E` measures h 34.99°, computed). A theme that put a state there would
+> make the alarm colour mean `ABANDONED` on every row of the ledger, which is exactly what this
+> section forbids. **It is the one line of the theme gate that is a ratified rule rather than a
+> measurement**, and this is the ratification it rests on.
+
 ---
 
 ## 6 · Chrome — structure
@@ -284,8 +292,13 @@ Colour changes go through brand governance (§10), not through a screen PR:
 1. Change the token in **`tokens.css` and `tokens.json`** — same commit.
 2. Update the affected section of the **brand manual** — same commit.
 3. If it touches a colour used for text, **recompute the contrast ratio.** Do not estimate it.
-4. If it touches a **state** colour, **re-run the CVD simulation on all six pairs.** The
-   **ΔE 11.9** minimum (zerado × abandoned under deuteranopia) is the floor to protect.
+4. If it touches a **state** colour, **re-run the CVD simulation on all six pairs** — under the
+   method pinned in `05-theme-system.md` §2.1, not an unpinned one. **The floor to protect is
+   ΔE 10.0**, the brand manual's own stated *"≥ 10 is distinct"* threshold. The dark default's
+   tightest pair (zerado × abandoned under deuteranopia) measures **11.81** under the pinned
+   method, where the manual records 11.9 — so the default clears the floor with headroom rather
+   than defining it. *Do not use the default's own measurement as the bar: a floor set at the
+   thing being measured is a tautology, and it would move every time this palette was touched.*
 5. If it touches a colour used in the terminal, **re-derive the ANSI-256 index** by
    nearest-neighbour search in CIELAB — never adjust the old one by hand.
 
@@ -328,6 +341,13 @@ Run against the founder-facing rendered artifact. Every line is pass or fail; th
 18. ☐ With `NO_COLOR=1`, **no information is lost** — same screen, same meaning, zero SGR.
 19. ☐ No copy refers to a colour, a shape or a position (`"the cyan one"`, `"the row on the
     right"`) — WCAG 1.3.3.
+
+**Theme** *(added rev A — `05-theme-system.md`)*
+20. ☐ Every colour on screen came from a **semantic token**, never a hex read out of
+    `01-design-system.md` §1.4. That table is the default theme's resolution, not a palette.
+21. ☐ The budget was counted against the **active theme's** earned, ambient and alarm colours —
+    not against the default's hexes. *"Cyan"* means *the theme's earned colour*; in `retro-82` it
+    is a teal, and the count is the same.
 
 **Any unchecked box is a failed review.** Not a note, not a nit — a fail. That is what makes
 this a budget rather than an opinion.

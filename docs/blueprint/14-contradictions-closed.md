@@ -21,7 +21,7 @@ Every contradiction the three deliverables found in each other, enumerated so th
 > too: it is **29**, not 25. The original figure double-counted two items and omitted the six the
 > design architect found.
 
-**29 distinct findings, all 29 closed.**
+**35 findings: 29 from the cross-check (all closed), 6 more from building D7's theme gate (4 closed, 2 open upstream).**
 
 Two of them — #15 and #17 — were briefly marked *reopened* and *partial* after `fft-tui-designer`
 read this register against head and found it over-claiming. Both were then closed by commit
@@ -81,6 +81,28 @@ landed.
 | **27** | **`Z-09` read as master/detail at ExtraWide** would break its own must-not rule by composition rather than by a click, and interleave reading order under 1.3.2 | Never master/detail, at any tier; the width buys a wider gutter |
 | **28** | **`schema_migration` could not supply a fact `Z-11`'s copy promised** — a schema number cannot name a binary | Added `written_by`, which cannot be backfilled later |
 | **29** | **`state` versus `status` were both in use with no rule** | Named convention: *state* is what the player sees, *status* is what the machine stores and commands |
+
+---
+
+## D · Found by the theme validation, after the founder amendment — 6
+
+Building D7's gate immediately found things a gate is for. Numbered separately because they arrived
+after the 29 and are **not** all closed.
+
+| # | Finding | State |
+|---|---|---|
+| **30** | **The light state set fails its own gate** — `not started × zerado` **5.41** (protan), `zerado × abandoned` **8.91** (deutan), floor 10.0. Brand §4.5's light `not started` is rotated 173° and lands 1.1° from `#9FB0C6`, *the blue-cast steel §4.4 rejected on the dark side.* The dark correction was never carried to paper | **OPEN** — `fft-brand-architect`, and no light theme ships until it is repaired |
+| **31** | **`tokens.css` §10 records `7.30:1` for `--z-state-abandoned`; it measures `7.67:1`** — 1 of 35 brand contrast figures that did not reproduce | **OPEN** — upstream |
+| **32** | **My light-theme list was wrong in four places.** I relayed `solitude` and `ethereal` as light (both are `mode = "dark"`) and omitted `lupine` and `rose-pine` (both light). **Mine — I passed a list on without checking it**, in a bundle whose standard is that claims are verified at source | **CLOSED** — corrected from the files |
+| **33** | **The theme corpus is two dialects, not one.** 32 files are flat-ANSI; 3 use omarchy's semantic schema and have no `colorN` at all. Both define `background`/`foreground`/`accent`, so a semantic file **parses clean and yields sixteen empty slots** — the exact defect FlowForge shipped and documented as `#5368` | **CLOSED** — the loader must reject, not silently accept |
+| **34** | **No harvested light theme reaches a usable tier.** `catppuccin-latte`, `flexoki-light` and `rose-pine` each clear 4.5:1 on only **2 of 18** entries; `catppuccin-latte`'s yellow is **2.31:1**. Systematic, not coincidence — omarchy light palettes are authored for syntax highlighting, not body text | **CLOSED** — Zerado's light offering must be its own authored expression |
+| **35** | **The ΔE floor was a tautology.** 11.9 is the default palette's own measurement under an unpinned method, so the floor moved whenever the palette did. Replaced with the manual's own *"≥ 10 is distinct"* | **CLOSED** — floor 10.0, method pinned |
+
+**Finding 32 is mine and is the one worth keeping.** A list arrived in a relay, I passed it to a
+specialist as fact, and four of its entries were wrong. Nothing downstream broke, because the
+specialist checked the files rather than trusting me — which is the same reason two of my width
+assertions were caught earlier. The lesson is not *be more careful*; it is that **the habit of
+verifying at source is what makes a chain of agents safe to run at all.**
 
 ---
 

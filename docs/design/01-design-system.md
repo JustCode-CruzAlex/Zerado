@@ -180,10 +180,33 @@ exceptions — the confirmation overlay and the command palette — may paint
 `--z-surface-overlay` to establish modality, but must **also** carry a
 `--z-border-strong` border so they remain legible at 16 colours where the fill vanishes.
 
+> **One narrow exception, added rev A: an explicitly selected theme** (`05-theme-system.md` §3.6).
+> When the user names a theme — a persisted preference or `--theme <name>` — Zerado paints that
+> theme's declared `background`, and only then. The defaults, whether chosen by background
+> detection or by falling through to dark, stay ink-only.
+>
+> **Why this does not reopen the rule.** The argument above is about *consent*: painting a
+> terminal nobody asked you to paint is squatting; painting the ground of the theme the user just
+> named is delivering what they asked for. Reason (1) is untouched — the default still survives
+> the user's own background, which is what brand §5.3 measured. Reasons (2) and (3) are untouched
+> outright. **And the consequence above holds in every theme without amendment:** painting one
+> flat ground is not elevation, and no region may be separated from another by fill at any colour
+> depth, in any theme.
+
 ### 1.4 · The colour resolution table
 
 The only colours a Zerado terminal component may use. Ratios are measured against
 `--z-surface` and were read from the brand manual's table — none is estimated.
+
+> **This table is the DEFAULT theme's resolution** (added rev A). It stays the reference — the
+> default *is* the brand — but a component references the **semantic token**, never the hex. Under
+> any other theme the same tokens resolve to that theme's supplied and derived values, measured
+> against **that theme's own ground**, per `05-theme-system.md` §1. Two consequences worth stating
+> here rather than in a footnote: `--z-primary` always resolves to the same value as
+> `--z-state-in-progress`, and `--z-accent` to the same value as `--z-state-zerado`, in every
+> theme — that binding is what keeps brand §4.1's *one common, one earned* argument structurally
+> true. **A component that reads a hex from this table instead of a token is a defect in every
+> theme but one.**
 
 > **This table names SEMANTICS, per brand §10's three layers** — *primitive* carries the raw
 > value and is **never referenced by a component**; *semantic* carries the meaning and is what
@@ -414,20 +437,29 @@ monochrome terminal, a screenshot in a bug report, and colour-vision deficiency 
 **The warm grey `#A5A29B` is load-bearing engineering.** The first draft's blue-cast
 `#9FB0C6` collapsed against the cyan at **ΔE 8.8 under deuteranopia**; the warm grey measures
 **25.8**. It must never be "corrected" back toward blue. The tightest surviving pair is
-**zerado × abandoned at ΔE 11.9 under deuteranopia** — the floor to protect, and the one place
-where glyph and label genuinely carry load rather than merely reinforce.
+**zerado × abandoned under deuteranopia** — the manual's **ΔE 11.9**, and **11.81** under the
+method pinned in `05-theme-system.md` §2.1 — the one place where glyph and label genuinely carry
+load rather than merely reinforce. **The floor to protect is ΔE 10.0** (the manual's own *"≥ 10 is
+distinct"*), which the default clears with headroom rather than defining.
 
-> **On those ΔE digits, stated at the same standard this document holds elsewhere.** They are
-> **the brand manual's figures** (§4.4), reproduced — not independently recomputed here. An
-> independent implementation of Viénot/Brettel/Mollon + CIEDE2000 returned **11.02** for the
-> rejected `#9FB0C6` and **12.07** for the shipping floor, against the manual's 8.8 and 11.9.
+> **On those ΔE digits, stated at the same standard this document holds elsewhere.** 8.8 and 25.8
+> are **the brand manual's figures** (§4.4), reproduced — not independently recomputed here.
+> Independent implementations of Viénot/Brettel/Mollon + CIEDE2000 disagree with the manual **and
+> with each other** in the third significant figure: one returned **11.02** for the rejected
+> `#9FB0C6` and **12.07** for the shipping floor; the method now pinned in `05-theme-system.md`
+> §2.1 returns **11.09** and **11.81**, against the manual's 8.8 and 11.9.
 >
-> **The load-bearing claims survive that gap intact:** `zerado × abandoned` really is the tightest
-> pair, the warm grey really does separate far better than the blue-cast grey, and every pair
-> clears the ΔE ≥ 10 bar under both implementations. **What is not reproducible is the exact
-> digit**, because the manual does not pin the model variant or the white point. Pinning them is
-> `fft-brand-architect`'s, upstream. Cite these as the manual's figures, not as measurements of
-> your own — the same rule this document applies to contrast ratios.
+> **The load-bearing claims survive that spread intact:** `zerado × abandoned` really is the
+> tightest pair, the warm grey really does separate far better than the blue-cast grey, and every
+> pair clears the ΔE ≥ 10 bar under every implementation tried. **What was not reproducible was
+> the exact digit**, because the manual pins neither the model variant, nor the white point, nor
+> the gamut clamp.
+>
+> **That is why `05-theme-system.md` §2.1 pins all three** — a validation gate cannot rest on a
+> method two implementations read differently. From rev A the rule is: **cite the manual's digits
+> as the manual's, or compute under §2.1 and mark the figure as computed.** Never present one as
+> the other. Reconciling the manual's own numbers to the pinned method is `fft-brand-architect`'s,
+> upstream.
 
 ### 3.3 · Casing — where `ZERADO` and `zerado` each belong
 

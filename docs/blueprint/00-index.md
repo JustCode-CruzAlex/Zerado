@@ -40,7 +40,7 @@ off. The brand manual already said what it looks like.
 | | [`17-images.md`](./17-images.md) | **Cover art is foundational** — Kitty/Ghostty, with a supported degrade |
 | | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
 | | [`14-contradictions-closed.md`](./14-contradictions-closed.md) | The cross-check register — all 29 findings, enumerated |
-| **B · design** | [`../design/`](../design/) | The design system and the designer manual |
+| **B · design** | [`../design/`](../design/) | The design system, the designer manual, and [the theme system](../design/05-theme-system.md) |
 | **C · screens** | [`../design/screens/`](../design/screens/) | **Eleven** implementation-ready specs — one per Phase 1 screen |
 
 **Deliverable C, in full** — each carries all sixteen required sections from
@@ -193,11 +193,13 @@ that has none.
    Every verdict names the evidence it rests on. If the draft surfaces, the verdicts should be
    re-checked against it — none of them depend on prose we could not read, but that claim is
    worth testing.
-2. **IGDB's commercial terms are unresolved** and Zerado's funding model is commercial. The
-   metadata seam is designed so the provider is swappable and so that *having no metadata at
-   all* is a first-class designed state rather than an error state — see
-   [`06-data-seams.md`](./06-data-seams.md) §3. What Phase 2 looks like if IGDB says no is
-   written down there.
+2. **IGDB is answered, with one founder action outstanding.** Affiliate links are dropped, so
+   Zerado is cleanly **non-commercial** — free software, donation-supported, zero revenue — and
+   IGDB's published test is whether the *project generates revenue*. **This is a reading of their
+   published rationale, not a legal opinion:** the outstanding action is a direct confirmation from
+   IGDB that a donation-funded open-source project qualifies for the free tier. The metadata seam
+   stays provider-agnostic regardless, because that hedge was right for reasons that never depended
+   on IGDB's answer.
 3. **Two token vocabularies meet here, and both are correct — which nothing said.** The
    underived-index list names `--z-scanner-900` (`#5C1414`) and `--z-amber-900` (`#8A5E00`), while
    the component-facing colour list names `--z-scanner-track` and `--z-primary-muted` for the same
@@ -209,7 +211,11 @@ that has none.
    component list is right to name the semantic, and the derive-these list is right to name the
    primitive, because an ANSI-256 index is derived from a **raw value**. Neither should change; the
    layer relationship simply needed stating, and now does.
-4. **Nine ANSI-256 indices are underived** — the primitives `--z-scanner-300` (error text),
+4. **`tokens.css` §10 records `7.30:1` for `--z-state-abandoned`; it measures `7.67:1`.** One
+   figure out of 35 brand contrast values that did not reproduce — the other 34 did, exactly. Small,
+   and worth fixing precisely because the other 34 are right: a table that is 34/35 correct is
+   trusted, which is what makes the one wrong entry dangerous.
+5. **Nine ANSI-256 indices are underived** — the primitives `--z-scanner-300` (error text),
    `--z-scanner-900` (the scanner track), `--z-amber-900` (inert track), `--z-chrome-500`
    (tertiary text) and five others have no derived terminal index. The list is
    [`../design/00-design-brief.md`](../design/00-design-brief.md) §9, which now carries an explicit
@@ -217,27 +223,37 @@ that has none.
    one. Deriving them is `fft-brand-architect`'s job (brand manual §10 requires a
    nearest-neighbour search in CIELAB, never an eyeballed index), and until it is done those
    components are correct but plainer than designed.
-5. **The light-mode state colours have never been CVD-verified.** `tokens.css` §10 defines a
-   separate four-colour state set for light grounds; their contrast is recorded, their
-   colour-vision separation is not. The dark set's own first draft failed at ΔE 8.8 under
-   deuteranopia, so this is not a formality — and Phase 4 will meet system light mode.
-6. **The ΔE figures quoted throughout are the brand manual's measurements, not this bundle's.**
+6. **The light state set has now been verified, and it FAILS.** Previously carried as
+   *"never verified"*. Measured under the method pinned in
+   [`../design/05-theme-system.md`](../design/05-theme-system.md) §2.1: `not started × zerado`
+   **5.41** under protanopia and `zerado × abandoned` **8.91** under deuteranopia, against a floor
+   of 10.0. The cause is that brand §4.5's light `not started` is rotated 173° in hue and lands
+   1.1° from `#9FB0C6` — **the exact blue-cast steel §4.4 rejected on the dark side.** The dark
+   set's correction was never carried to paper. `fft-brand-architect` repairs it; until then no
+   light theme ships, which is D7's gate doing its job.
+7. **The ΔE figures quoted throughout are the brand manual's measurements, not this bundle's.**
    Every `ΔE` in these documents is quoted from `brand-manual.md` §4.4, which states the model
    (Viénot, Brettel & Mollon 1999 + CIEDE2000) but **does not pin the model variant or the white
-   point** — so an independent implementation will not land on the same digits. An independent
+   point** — so independent implementations do not land on the same digits, and three of them
+   did not: the manual's **11.9**, an independent reviewer's **12.07**, and this bundle's now-pinned
+   method's **11.81**. [`../design/05-theme-system.md`](../design/05-theme-system.md) §2.1 **pins
+   it** — matrices, D65, the linear-RGB clamp, CIEDE2000 with `kL=kC=kH=1` — because a validation
+   gate cannot rest on a method two implementations read differently. An independent
    check of the rejected `#9FB0C6` reproduced **11.02** against the manual's **8.8**, and of the
    shipping floor **12.07** against **11.9** (1.4%). The *load-bearing* claims reproduce: the
    tightest pair really is `zerado × abandoned`, and the warm grey really does separate far better
    than the blue-cast grey it replaced. **Pinning the variant and white point upstream is
    `fft-brand-architect`'s job**, and until it is done these numbers should be read as the
    manual's, not as independently verified.
-7. **The contrast claim is precise, and worth stating precisely.** It is *"AA on Zerado's own
+8. **The contrast claim is precise, and worth stating precisely.** It is *"AA on Zerado's own
    ground and on five measured popular terminal themes, with `NO_COLOR` as the unconditional
    fallback."* An unqualified "WCAG AA" would not be true on an arbitrary user-chosen theme, and
    the product should not claim it.
 
-8. **Terminal inline-image support is not assumed anywhere.** Cover art is a Phase 2 question
-   and is inventoried, not specified. The Phase 1 deck is text, by design and not by omission.
+9. **Cover art is foundational, and the degrade is the design.** Reversed from revision A, which
+   deferred it. Kitty and iTerm2 are targeted, Sixel is deferred with reasons, and a terminal
+   without image support is a **supported configuration** — the full text deck plus a once-only
+   dismissible note. See [`17-images.md`](./17-images.md).
 
 ---
 
