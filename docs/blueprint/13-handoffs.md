@@ -153,11 +153,31 @@ Collected here so the gate has them in one place.
 7. **The nine underived ANSI-256 indices.** `fft-brand-architect` derives them by nearest-neighbour
    search in CIELAB; four components ship an interim uncoloured rendering until then.
    *(Still open.)*
-8. **The landing page now contradicts the product on two points.** `content/landing-copy.md` §11 and
-   §14 promise *"a premium account or a donation"*, and §16 carries an **affiliate disclosure**.
-   Both are now wrong: donation-only, no affiliate. That copy is **published**, and it is ticket #1's
-   surface, not this bundle's — so it is named here rather than edited. **Someone has to change the
-   page.**
+8. **The published page currently makes a money claim the product has decided not to honour.**
+   `content/landing-copy.md` §16 carries an **affiliate disclosure** — *"`Zerado` earns a commission
+   when you buy a game through a price link on this page"* — and §11 and §14 promise *"a premium
+   account or a donation"*. Affiliate is dropped and premium is dropped. Both statements are live on
+   a public page.
+
+   **This is not a documentation lag.** `fft-design-architect` put it better than my first phrasing
+   did, so it is recorded in its words:
+
+   > *a stale money claim on a public page is not a documentation lag, it is the page telling
+   > visitors the product earns a commission it has decided not to earn.*
+
+   My earlier version of this item said the page *"contradicts the product"*, which is accurate and
+   far too comfortable — it reads as a sync chore that can queue behind other work. It cannot. A
+   consistency problem can wait; **a published untrue statement about money cannot**, and it is the
+   only item on this list that is currently visible to people outside the project.
+
+   **It cannot be fixed inside this bundle.** That copy is ticket #1's surface. It needs whoever
+   owns the page, and it needs them before the affiliate decision is announced anywhere else.
+
+   *(One knock-on, already handled: the page is authority #1 in the design brief's precedence rule,
+   so a design obeying the amendment contradicted authority #1 as written. The rule now reads that
+   authority #1 is the **ratified promise set**, not the page's current bytes, and a founder
+   amendment postdating the page governs.)*
+
 9. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned; the
    observation survives only as a note in [`11-media-model.md`](./11-media-model.md)'s Appendix —
    [`11-media-model.md`](./11-media-model.md)'s Appendix. Costs nothing now, costs a migration

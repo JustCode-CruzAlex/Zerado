@@ -1347,13 +1347,17 @@ Two corollaries worth stating, because they are the ones that get missed:
 
 ### 15.2 · The two channels — separately mutable, separately volumed
 
-| Channel | What it is | Muting |
-|---|---|---|
-| **Music** | Ambient bed, if enabled | Independent mute and independent volume |
-| **Interface FX** | Discrete event cues | Independent mute and independent volume |
+| Channel | What it is | Availability | Muting |
+|---|---|---|---|
+| **Music** | **Streamed radio stations** — somebody else's stream, chosen by the player. **Nothing is bundled** | **Needs the network.** Offline it stops, and that is fine | Independent mute and independent volume |
+| **Interface FX** | Discrete event cues, local | **Always** — local files, no network | Independent mute and independent volume |
 
 They are **never** a single "sound on/off" switch. A player who wants event confirmation without
 a soundtrack — or a soundtrack without clicks — must get exactly that.
+
+**The two channels have different availability, and that is by design.** FX are local and always
+work; radio is online by nature and stops when the network does. Neither carries information
+(§15.1), so neither loss costs the player anything (`12-audio.md` §3).
 
 ### 15.3 · Which events may carry a cue — a closed list
 
@@ -1390,10 +1394,12 @@ tomorrow*.
 | Condition | Behaviour |
 |---|---|
 | No audio device | **silent, no error, no warning** |
-| Running over SSH | silent |
+| Running over SSH | silent **by default** — the sound would play on the wrong machine. **Overridable**, because a forwarded session is a real case |
 | Running in CI, or no TTY | silent |
 | `ZERADO_NO_AUDIO` set | silent — mirrors `NO_COLOR` exactly |
 | Player has not opted in (**the default**) | silent; no indicator, no `m` key (§5.2) |
+| **No network** | **Radio stops. FX are unaffected** — they are local. Not an error, not a banner: radio is online by nature, and *"works with the network off"* is a promise about the **library** |
+| **A station fails to play** | **It is a station, not an error.** It reports that it could not connect and the player picks another. **Never a modal, and it never stops the library** |
 
 > **Mute stops the music bed — it does not merely silence it.** *Design decision, and it is an
 > implementation constraint rather than a UI one.* No separate pause control is added: `m` is
@@ -1402,6 +1408,12 @@ tomorrow*.
 > bed that keeps a goroutine and a device handle alive contradicts *"it's a text program, it
 > starts instantly"* and the no-leaked-goroutine bar, for no benefit the player can hear.
 > Unmuting restarts it. FX need no equivalent: they are discrete and hold nothing between cues.
+>
+> **Because music is now a stream, "release" means the connection too.** Muting must close the
+> stream, not merely stop decoding it — a muted Zerado that keeps pulling bytes from someone
+> else's server is spending the player's bandwidth on silence, and it is awkward against *"the
+> only network traffic is the services you've connected"*: the player connected that station and
+> has just told Zerado to stop it. *(Extension of `12-audio.md` §6, which states the device half.)*
 
 **Audio never blocks, never warns, and never fails a run.** A missing sound device is not a
 degrade worth a banner — unlike the network, no public promise depends on audio, so §12's
@@ -1444,11 +1456,29 @@ one channel alone (§15.1).
 > distinguishable over a music bed — is real, but it is a **design** requirement, not a WCAG
 > obligation, and it is owned by §15.2's independent volumes.
 
-### 15.7 · Open — the founder's call, flagged not resolved
+### 15.7 · Licensing — CLOSED, by removing its cause
 
-Bundled music must be **DRM-free and licensed for commercial redistribution.** That is a founder
-decision recorded in the spine's ADR, not a design decision, and no design here assumes a
-specific track, library, or licence.
+**There is no open founder call here.** Nothing is bundled, so **there is nothing to license,
+nothing to attribute and nothing to carry in the binary.** The most expensive open question in
+the audio design was **dissolved rather than answered** (`ADR-0001`; `12-audio.md` §7).
+
+**Zerado streams; it does not host, cache or redistribute** — the same posture any podcast or
+radio client takes. The default station list ships as **data, user-editable, not compiled in**: a
+plain file the player can add to, reorder or replace. Two rules ride with it:
+
+1. **Every default URL is verified to resolve before it ships** — and by a check that can be
+   re-run, not a one-time look. A dead station in the default list is a broken first impression
+   that arrives silently months later.
+2. **A station that fails to play is a station, not an error** (§15.5).
+
+> **Correction, recorded rather than quietly overwritten.** An earlier revision of this section
+> read: *"Bundled music must be DRM-free and licensed for commercial redistribution — a founder
+> decision, flagged not resolved."* That is **doubly wrong now**, and by two separate founder
+> decisions on **2026-08-25**: bundling was replaced by streamed stations, so nothing needs a
+> redistribution licence; and affiliate links were dropped, so Zerado is **non-commercial** —
+> free software, donation-supported, **zero revenue** — and a *commercial* redistribution right
+> is not the thing it would need even if it did bundle. A reader who saw the earlier revision
+> should know it moved, rather than wonder whether they misremembered it.
 
 ---
 
