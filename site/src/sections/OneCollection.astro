@@ -41,7 +41,10 @@ import CoverGrid from '../components/CoverGrid.astro';
       </div>
     </div>
 
-    <figure class="z-one-collection__figure" role="img" aria-labelledby="one-collection-caption">
+    {/* No role on the <figure>: CoverGrid already carries role="img" on its own
+         <div>, where it is valid. A duplicate here was both redundant and
+         disallowed by ARIA-in-HTML. */}
+    <figure class="z-one-collection__figure">
       <CoverGrid labelledby="one-collection-caption" />
       <figcaption id="one-collection-caption" class="z-caption z-mockup-caption">
         <span>

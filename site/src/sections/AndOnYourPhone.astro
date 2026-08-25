@@ -20,10 +20,18 @@ import MockupCaption from '../components/MockupCaption.astro';
     </p>
   </div>
 
-  <figure class="z-phone-section__figure" role="img" aria-labelledby="phone-caption">
+  <figure class="z-phone-section__figure">
+    {/* role="img" lives on this wrapper, not on the <figure>: ARIA-in-HTML
+           does not allow role=img on <figure>, and Chromium consequently does NOT
+           apply the presentational-children rule — the whole mockup's fabricated
+           library ("Celeste … ZERADO", "412 games") was being read out to screen
+           readers as if it were real content. On a div the role is valid and the
+           subtree collapses to the caption, which is the only honest reading. */}
+    <div class="z-mockup-frame" role="img" aria-labelledby="phone-caption">
     <div class="z-phone-section__frames">
       <PhoneFrame rear />
       <PhoneFrame />
+    </div>
     </div>
     <MockupCaption
       id="phone-caption"

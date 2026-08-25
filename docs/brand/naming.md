@@ -165,8 +165,8 @@ Recorded from the naming round:
 > **Stated plainly, because it matters:** this was a *conflict scan*, not a legal
 > clearance. It is enough to proceed with a landing page and a public
 > repository. It is **not** a registrability opinion, and it should not be
-> treated as one. Before the name carries revenue — which, under the affiliate
-> model, is the moment the first commission lands — it needs a real trademark
+> treated as one. Before the name carries revenue — and as of 2026-08-25 there
+> is none, the affiliate model having been dropped — it needs a real trademark
 > search by someone qualified to give that opinion, in the classes and
 > territories that will actually matter.
 

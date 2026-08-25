@@ -24,9 +24,9 @@ Two things are **settled and not open for a drive-by pull request**:
   reviewed; the copy in `docs/content/landing-copy.md` is normative and the
   layout contract is `docs/design/blueprint.md`. A change there is a
   conversation first — open an issue.
-- **The ratified product decisions** — the affiliate-only funding stance with no
-  donate button, the English-page-with-Portuguese-words rule, and the "no phase
-  is marked done until it is done" rule.
+- **The ratified product decisions** — that Zerado earns no revenue and carries
+  no donate button, the English-page-with-Portuguese-words rule, and the "no
+  phase is marked done until it is done" rule.
 
 If you are not sure whether something is in that category, open a
 [question issue](../../issues/new/choose) and ask. That costs a minute and saves
@@ -87,8 +87,11 @@ a guard. CI runs the same script.
 
 ### The QA harness
 
-The accessibility and content checks that produced
-[`docs/qa/qa-report.md`](docs/qa/qa-report.md) are re-runnable:
+The forensic scripts that produced
+[`docs/qa/qa-report.md`](docs/qa/qa-report.md) are captured from the build
+rather than maintained as a suite — nothing in CI runs them, and
+[`docs/qa/harness/README.md`](docs/qa/harness/README.md) says what each one
+answers. They still run:
 
 ```bash
 cd docs/qa/harness

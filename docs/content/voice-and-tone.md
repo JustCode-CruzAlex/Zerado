@@ -52,7 +52,7 @@ language, they will forgive niche, and they will not forgive hype.
 
 **5 · The community layer costs money later**
 - ✗ "We're SO excited to announce our amazing new social features — coming soon!"
-- ✓ "These run on servers, and servers cost money — so this part will need a premium account
+- ✓ "These run on servers, and servers cost money — so this part will be supported by donation
   or a donation once it exists."
 - State the cost before anyone asks. Up front reads as respect; discovered later reads as a
   catch. And disclosure is not an ask — never follow this sentence with a button.

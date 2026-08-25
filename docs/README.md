@@ -35,7 +35,9 @@ in [`../site/README.md`](../site/README.md).
 |---|---|
 | [`qa/qa-report.md`](qa/qa-report.md) | axe-core **0 violations** at 375/768/1280/1920, 0 contrast failures across 284 text nodes, cross-browser results. |
 | [`qa/screenshots/`](qa/screenshots) | 30 captures — four viewports × three engines, plus reduced-motion, focus and defect-history shots. |
-| [`qa/harness/`](qa/harness) | The checks, **re-runnable**. See [`../CONTRIBUTING.md`](../CONTRIBUTING.md). |
+| [`qa/harness/`](qa/harness) | The forensic scripts that produced the evidence above — **captured from the build, not a maintained suite**, and nothing in CI runs them. [`qa/harness/README.md`](qa/harness/README.md) says what each one answers and how to run it. The gate that *does* run on every PR is [`../scripts/check-page.mjs`](../scripts/check-page.mjs). |
+| [`qa/screenshots-live/`](qa/screenshots-live) | The **live** `zerado.app` at 375 / 768 / 1280 / 1920, captured after deploy. |
+| [`performance/live/`](performance/live) | Lighthouse against the **live** URL — 100/100/100/100 on desktop and mobile. |
 | [`performance/performance-report.md`](performance/performance-report.md) | Lighthouse **100/100** mobile and desktop · LCP 1504 ms / 366 ms · **CLS 0.000**, over six runs. |
 | [`review/review.md`](review/review.md) | The verdict: **GOLDEN**, 0 blocking, 0 major. |
 

@@ -160,6 +160,32 @@ check('every store row exposes its status to assistive technology', 'the co-rend
     `${rows.length} row(s), ${bare.length} with no accessible status word`];
 });
 
+// --- the money position ------------------------------------------------------
+// Amended 2026-08-25 (content/landing-copy.md, Amendments 3 and 4): the affiliate
+// model is dropped and there is no premium account. The page states that the
+// Phase 4 layer will be donation-supported and asks for nothing — ratified
+// decision Q6's "disclosure is not an ask" still governs. These pin the positive
+// claims specifically, so the honest negations ("there is no commission…") pass.
+const REVENUE_CLAIMS = [
+  /\baffiliate\b/i,
+  /earns? a commission/i,
+  /premium account or/i,
+  /\bcommission when\b/i
+];
+
+check('the page claims no revenue', 'the affiliate model is dropped', () => {
+  const visible = html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, ' ');
+  const hits = REVENUE_CLAIMS.map(re => visible.match(re)?.[0]).filter(Boolean);
+  return [hits.length === 0, hits.join(', ') || 'none'];
+});
+
+check('the community layer is stated as donation-supported', 'the amended Q3 position', () => {
+  const community = html.match(/<section[^>]*id="community"[\s\S]*?<\/section>/)?.[0] ?? '';
+  const text = community.replace(/<[^>]+>/g, ' ');
+  return [/donation/i.test(text) && !/premium account or/i.test(text),
+    /donation/i.test(text) ? 'states donation-supported' : 'NO donation statement'];
+});
+
 // --- report --------------------------------------------------------------
 let failed = 0;
 for (const r of results) {

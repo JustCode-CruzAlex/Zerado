@@ -7,8 +7,10 @@
  * @prop {string} href
  * @prop {string} label — visible button text
  * @prop {boolean} [rel] — true adds rel="noopener noreferrer" (external links
- *   per design/blueprint.md §2.1). GitHub opens in the same tab by design —
- *   no target="_blank" is ever set on this page.
+ *   per design/blueprint.md §2.1). CTAButton never sets target="_blank":
+ *   GitHub opens in the same tab by design. This is a statement about THIS
+ *   component only — PoweredByFlowForge does open in a new tab, correctly
+ *   paired with rel="noopener noreferrer".
  */
 interface Props {
   variant: 'primary' | 'secondary';

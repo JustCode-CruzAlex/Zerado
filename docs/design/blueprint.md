@@ -2,7 +2,7 @@
 title: Zerado — Landing Page Design Blueprint
 discipline: DESIGN
 doc-no: ZRD-DESIGN-01
-rev: B
+rev: C
 date: 2026-08-24
 amended: 2026-08-25
 status: normative — the build implements this; the quality gate diffs against it
@@ -66,6 +66,38 @@ itself.
 `['In progress', 'Planned', 'Planned', 'Planned']` and fails CI on any drift, in
 either direction. This document and that gate now agree; before this amendment
 they did not, which is the defect this record exists to close.
+
+#### Amendment 2 — 2026-08-25 · the money position · rev B → rev C
+
+**What changed.** §11 states the Phase 4 community layer is **donation-supported**
+rather than needing "a premium account or a donation", and §16's footer band
+states that Zerado **earns nothing** rather than disclosing an affiliate
+commission.
+
+**Authority.** Two founder instructions, 2026-08-25. On the premium tier:
+*"let's not have premium account for now and only donation, so we're not
+commercial app."* On the affiliate model, conditionally: *"if is a must to fit
+the non-commercial, drop it, and keep only the donation."* The condition is met —
+the metadata provider Phase 2 depends on scopes its free tier by whether the
+**project generates revenue**, and an affiliate commission is exactly that.
+
+**Clauses amended.** §2 (§11) — the "nearest link is the affiliate disclosure"
+note. §2 (§16) — the disclosure band's contents. §8 — the cover-art rationale,
+whose first reason cited the page being commercial.
+
+**What did NOT change, and remains under §9.**
+
+- **Zero funding controls.** No donate button, no sponsor button, no funding CTA.
+  Ratified decision Q6's "disclosure is not an ask" is untouched and still
+  governs; the page *states* the position and *invites* nothing.
+- **§07 price intelligence is untouched** — all-time low, current price and the
+  wait-or-buy verdict all render exactly as ratified. Only an affiliate tag on an
+  outbound link was dropped, and the blueprint never specified that tag.
+- The footer's **disclosure band is retained** as a structural element.
+
+**Enforcement.** `scripts/check-page.mjs` asserts the page makes no revenue claim
+and that §11 states donation support, and continues to assert zero funding
+controls. All three fail CI on regression.
 
 ### 1.1 Section inventory — all sixteen, in the ratified order
 
@@ -335,7 +367,8 @@ non-negotiable and one stamp is one thing to miss:
 Body copy §11 verbatim, including the premium-or-donation sentence. **There is no button, no
 link, no price and no tier name in this section** — `blueprint.tokens.json` records
 `"interactiveElements": 0` for §11 so the gate can assert it. The nearest link is in the footer
-and it is the affiliate disclosure text, not an ask.
+and it is the footer's money-disclosure text, not an ask. (Amended 2026-08-25 — §1.0,
+Amendment 2: §11 states donation support, not "premium account or donation".)
 
 Panel contents (three mini-panels: a comment thread, a review, a public profile), 2–3 lines each,
 generic handles (`@rafa`, `@kim`, `@sol`). ≥768 three across; <768 one column, all three kept.
@@ -431,8 +464,11 @@ Three bands inside `<footer role="contentinfo">`, separated by `--z-border` hair
 1. **Links band** — `Join the waitlist` · `View on GitHub` (copy §16's repeated links, no new
    strings), plus the contact line (copy §16) with `alex@flowforgesoft.com` as a `mailto:` link
    with no pre-filled subject (it is a contact address, not the waitlist).
-2. **Disclosure band** — affiliate disclosure, copy §16 verbatim, at 15px `--z-text-secondary`.
+2. **Disclosure band** — the money disclosure, copy §16 verbatim, at 15px `--z-text-secondary`.
    This is the page's only funding statement outside §11, and neither is a button.
+   (Amended 2026-08-25 — §1.0, Amendment 2: this band carried an affiliate disclosure
+   at rev A. The affiliate model is dropped; the band now states that Zerado earns
+   nothing. The band itself is retained — its removal would leave a structural gap.)
 3. **Company band** — "A FlowForgeSoft product." plus `PoweredByFlowForge`:
    `site/public/flowforge-logo.svg` at 28px (its viewBox is `0 0 36 36`) with the caption
    "Powered by FlowForge." at 13px `--z-text-tertiary`.
@@ -979,10 +1015,12 @@ real game covers, and here is exactly why — and what he is getting instead, wh
 
 **Why not real covers.** Three independent reasons, any one of which would be enough:
 
-1. **Cover art is copyrighted.** This is a commercial page — `decisions.md` Q6 puts an affiliate
-   revenue model in the footer. Embedding a dozen publishers' artwork on a page that earns
-   commission is a legal exposure the customer would inherit from us. We do not hand a customer
-   a liability inside a deliverable.
+1. **Cover art is copyrighted.** Embedding a dozen publishers' artwork is a legal exposure
+   the customer would inherit from us, and we do not hand a customer a liability inside a
+   deliverable. *(At rev A this reason also cited the page being commercial under an
+   affiliate model. That model was dropped on 2026-08-25 — §1.0, Amendment 2 — which
+   weakens this particular argument but does not remove it: the artwork is copyrighted
+   either way, and reasons 2 and 3 below are untouched.)*
 2. **The page is required to be fully self-contained.** No external image requests. Real covers
    would mean either hotlinking a storefront CDN (an external request, and a dependency that
    404s the day someone re-arts a game) or redistributing the files ourselves, which is the same

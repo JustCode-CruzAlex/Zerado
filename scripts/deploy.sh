@@ -75,15 +75,26 @@ RELEASE="$(date -u +%Y%m%d-%H%M%S)"
 say "Shipping release ${RELEASE} to ${HOST}"
 
 ssh "$REMOTE" "mkdir -p ${ROOT}/releases/${RELEASE}"
-rsync -az --delete --chmod=D755,F644 site/dist/ "${REMOTE}:${ROOT}/releases/${RELEASE}/"
+# No --chmod: macOS ships openrsync, which rejects it outright
+# ("invalid argument"). Permissions are normalised on the server instead,
+# which works with whichever rsync the operator happens to have.
+rsync -az --delete site/dist/ "${REMOTE}:${ROOT}/releases/${RELEASE}/"
 
 # --- switch, atomically --------------------------------------------------
 say "Switching current -> ${RELEASE}"
 ssh "$REMOTE" bash -euo pipefail <<SWITCH
   test -f "${ROOT}/releases/${RELEASE}/index.html" || { echo "Upload incomplete — refusing to switch."; exit 1; }
-  # Validate BEFORE the switch. Under `set -e` a failing `nginx -t` after the
+  find "${ROOT}/releases/${RELEASE}" -type d -exec chmod 755 {} +
+  find "${ROOT}/releases/${RELEASE}" -type f -exec chmod 644 {} +
+  # Validate BEFORE the switch. Under set -e a failing "nginx -t" after the
   # symlink move would abort with the new release already live and the reload
-  # never issued — a state the atomicity below is supposed to make impossible.
+  # never issued -- a state the atomicity below is supposed to make impossible.
+  #
+  # NO BACKTICKS ANYWHERE IN THIS HEREDOC. It is unquoted (<<SWITCH, not
+  # <<'SWITCH') because it needs ${ROOT} and ${RELEASE} expanded locally -- and
+  # that also makes backticks command substitution, executed on the OPERATOR'S
+  # machine. A comment that merely QUOTED an nginx command really did run it
+  # locally on the first deploy -- including while documenting this very trap.
   nginx -t
   ln -sfn "${ROOT}/releases/${RELEASE}" "${ROOT}/current.tmp"
   mv -Tf "${ROOT}/current.tmp" "${ROOT}/current"
@@ -94,13 +105,24 @@ ssh "$REMOTE" bash -euo pipefail <<SWITCH
 SWITCH
 
 # --- verify --------------------------------------------------------------
+# `|| echo 000` matters: under `set -e` a bare `code=$(curl …)` that exits
+# non-zero kills the script at the assignment, so the diagnosis below — and the
+# rollback hint — would never print. curl exits 60 on a certificate-name
+# mismatch, which is exactly what happens if HOST is a raw IP rather than
+# zerado.app, so the failure mode this guards is a likely one, not a theoretical
+# one. The release is already live at this point; only the check is in doubt.
 say "Verifying the live page"
-code=$(curl -s -o /dev/null -w '%{http_code}' "https://${HOST}/")
-[ "$code" = "200" ] || die "https://${HOST}/ returned ${code}. Roll back with: $0 --rollback"
+code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://${HOST}/" || echo 000)
+if [ "$code" != "200" ]; then
+  echo "  https://${HOST}/ returned ${code}"
+  [ "$code" = "000" ] && echo "  (000 = no HTTP response: TLS failure, DNS, or a firewall. If HOST is an IP," \
+                              "the certificate is for zerado.app and will not match — use the hostname.)"
+  die "Verification failed. The release IS live; roll back with: $0 --rollback"
+fi
 
 for path in / /index.html; do
   printf '  %-14s ' "$path"
-  curl -sI "https://${HOST}${path}" | grep -i 'cache-control' | tr -d '\r' || echo '(no cache-control!)'
+  curl -sI --max-time 20 "https://${HOST}${path}" | grep -i 'cache-control' | tr -d '\r' || echo '(no cache-control!)'
 done
 
 say "Deployed ${RELEASE}. Roll back with: $0 --rollback"

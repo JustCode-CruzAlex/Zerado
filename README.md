@@ -58,9 +58,10 @@ product: marking a game *zerado*, in Zerado, is the whole point of it.
 **Pre-alpha. Nothing is runnable yet.** There is no binary to download, no
 `go install` line that works, and no Go code in this repository.
 
-What exists today is **Phase 0 — Foundation**: the landing page at
-[zerado.app](https://zerado.app), the brand system, the ratified copy, the design
-blueprint, and this repository. That is the public face, not the product.
+What exists today is **Phase 0 — Foundation**: the landing page, **live at
+[zerado.app](https://zerado.app)** since 2026-08-25, plus the brand system, the
+ratified copy, the design blueprint, and this repository. That is the public
+face, not the product.
 
 **Phase 1 is in progress as of 2026-08-25** — the spine, design system and screen
 specs ([#2](../../issues/2)). In progress means exactly that: work has started and
@@ -292,12 +293,15 @@ issue tracker — see [SECURITY.md](SECURITY.md).
 Zerado itself is free, and this section exists so that nothing about how it is
 paid for is a surprise later.
 
-- **Affiliate commission.** When a price link in Zerado leads to a purchase,
-  Zerado earns a commission. It costs you nothing extra, and it does not change
-  which prices you are shown.
-- **The Phase 4 community layer will need a premium account or a donation.**
-  Comments, reviews and public profiles run on servers, and servers cost money.
-  Nothing is decided about price, tiers, or a date.
+- **Zerado earns nothing.** There is no affiliate commission, no advertising and
+  nothing for sale. The price links go to the store and take no cut. This was a
+  deliberate change on 2026-08-25: an affiliate model would have made Zerado a
+  revenue-generating project, and the metadata provider Phase 2 depends on
+  reserves its free tier for projects that are not.
+- **The Phase 4 community layer will be donation-supported.** Comments, reviews
+  and public profiles run on servers, and servers cost money. There is no
+  premium account and no paid tier, and nothing is decided about how donations
+  would work or when.
 
 **There is no donate button, no sponsor button and no funding call to action** —
 not in this README, not in the repository, and not on the landing page. This is

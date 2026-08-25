@@ -48,7 +48,14 @@ const ROWS = [
       </div>
     </div>
 
-    <figure class="z-hero__frame" role="img" aria-labelledby="hero-caption">
+    <figure class="z-hero__frame">
+      {/* role="img" lives on this wrapper, not on the <figure>: ARIA-in-HTML
+           does not allow role=img on <figure>, and Chromium consequently does NOT
+           apply the presentational-children rule — the whole mockup's fabricated
+           library ("Celeste … ZERADO", "412 games") was being read out to screen
+           readers as if it were real content. On a div the role is valid and the
+           subtree collapses to the caption, which is the only honest reading. */}
+      <div class="z-mockup-frame" role="img" aria-labelledby="hero-caption">
       <TerminalFrame
         variant="live"
         title="zerado — library"
@@ -71,6 +78,7 @@ const ROWS = [
           </div>
         </div>
       </TerminalFrame>
+      </div>
       <MockupCaption
         id="hero-caption"
         text="An illustration of Zerado's terminal library view. This is a mockup of the planned interface, not a screenshot — the program isn't runnable by visitors yet."

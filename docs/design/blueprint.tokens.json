@@ -700,14 +700,15 @@
         "PhaseBadge",
         "muted-panel-watermark"
       ],
-      "mustState": "premium account or donation",
+      "mustState": "donation",
       "mustNotContain": [
         "donate button",
         "sponsor button",
         "price",
         "tier name",
         "date"
-      ]
+      ],
+      "mustStateNote": "Amended 2026-08-25 (blueprint.md §1.0, Amendment 2). At rev B this read \"premium account or donation\"; the premium half was removed by founder instruction. Still zero funding controls."
     },
     {
       "index": 12,
@@ -1574,7 +1575,7 @@
   },
   "coverGrid": {
     "realGameCoverArt": false,
-    "reason": "cover art is copyrighted; the page is commercial (affiliate model) and must be fully self-contained; IGDB commercial licensing is an open risk per decisions.md",
+    "reason": "cover art is copyrighted and the page must be fully self-contained; the metadata provider licensing for Phase 2 is an open risk. (Amended 2026-08-25: this reason previously cited the page being commercial under an affiliate model, which was dropped — blueprint.md §1.0, Amendment 2.)",
     "tileCount": 12,
     "aspectRatio": "3 / 4",
     "columns": {

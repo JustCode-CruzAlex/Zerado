@@ -12,6 +12,26 @@ for whoever revisits this.
 
 ---
 
+## ✅ Deployed — this runbook was executed, not just written
+
+**`https://zerado.app` has been live since 2026-08-25.** Every step below was run
+end to end against the real droplet, and the steps were corrected where reality
+disagreed with them. Four things this run caught that a desk-written runbook
+would have shipped broken:
+
+| What broke | Fix |
+|---|---|
+| `http2 on;` is nginx **≥ 1.25.1**. Ubuntu 24.04 ships **1.24.0**, where it is an unknown directive and a fatal parse error. | `listen 443 ssl http2;`, which works on both |
+| The full config declares `listen ... ssl`, so nginx would not load before a certificate existed — and certbot would not issue one against a config nginx could not load | An HTTP-only bootstrap config (Step 4), then the real one (Step 5) |
+| `gzip_types text/html` → `[warn] duplicate MIME type` on every config test | `text/html` removed; nginx always gzips it |
+| `rsync --chmod` is rejected by macOS's openrsync | Permissions normalised server-side instead |
+
+Live results: **Lighthouse 100/100/100/100 on desktop and mobile**, axe-core **0
+violations** at all four viewports, TLS valid to 2026-11-23, and
+`certbot renew --dry-run` green.
+
+---
+
 ## Where things stand
 
 Verified **2026-08-25**:
@@ -181,23 +201,72 @@ Let's Encrypt validates over HTTP against these names and will fail otherwise.
 > **TTL note.** 3600 (one hour) is right for a record you may need to move. Lower
 > it to 300 for a day *before* a planned IP change, then put it back.
 
-## Step 4 — nginx, the config, and the site
+## Step 4 — nginx, and the HTTP-only bootstrap
+
+**Read this first, because the obvious order does not work.** The full config
+(`zerado.app.conf`) declares `listen 443 ssl` with real certificate paths. nginx
+treats a missing `ssl_certificate` as `[emerg]` — a fatal parse error, not a
+warning — so it will not load that file before the certificate exists. And
+certbot runs its own `nginx -t` before doing anything, so a config nginx cannot
+load *also* blocks certbot from issuing the certificate that would fix it.
+
+The way out is a throwaway HTTP-only config that serves the ACME challenge.
+Install it, get the certificate, then swap in the real one.
 
 ```bash
 ssh root@"$IP" bash -s <<'REMOTE'
 set -euo pipefail
 apt-get update -qq
-apt-get install -y -qq nginx certbot python3-certbot-nginx rsync
+apt-get install -y -qq nginx certbot rsync
 mkdir -p /var/www/zerado/releases /var/www/certbot /etc/nginx/snippets
 nginx -v
 REMOTE
 ```
 
-**Expect:** `nginx version: nginx/1.24.x` or newer.
+**Expect:** `nginx version: nginx/1.24.0` on Ubuntu 24.04.
 
-Now ship the config. **The snippet is not optional:** nginx discards every
-inherited `add_header` in any `location` that declares one of its own, so each
-location re-includes the full set from this file.
+> Only `certbot` is installed, not `python3-certbot-nginx`. This deploy uses
+> `certbot certonly --webroot`, which does not need the nginx plugin — and the
+> plugin would try to rewrite the config we carefully wrote.
+
+Now the bootstrap config:
+
+```bash
+scp docs/deploy/nginx/zerado.app.bootstrap.conf root@"$IP":/etc/nginx/sites-available/zerado.app
+
+ssh root@"$IP" bash -s <<'REMOTE'
+set -euo pipefail
+ln -sf /etc/nginx/sites-available/zerado.app /etc/nginx/sites-enabled/zerado.app
+rm -f /etc/nginx/sites-enabled/default
+nginx -t
+systemctl reload nginx
+REMOTE
+
+curl -s http://zerado.app/
+```
+
+**Expect:** `nginx: configuration file /etc/nginx/nginx.conf test is successful`,
+and `curl` prints `zerado.app — provisioning`. This test genuinely passes: the
+bootstrap config declares no TLS at all.
+
+## Step 5 — TLS, then the real config, then proving renewal
+
+Issue the certificate over HTTP-01, using the webroot the bootstrap config is
+already serving:
+
+```bash
+ssh root@"$IP" certbot certonly --webroot -w /var/www/certbot \
+  -d zerado.app -d www.zerado.app \
+  --agree-tos -m alex@flowforgesoft.com --non-interactive
+```
+
+**Expect:** `Successfully received certificate.` and paths under
+`/etc/letsencrypt/live/zerado.app/`.
+
+> No `--redirect` flag: the HTTP→HTTPS 308s are already in `zerado.app.conf`.
+> Passing it would have certbot rewrite a config it did not author.
+
+The certificate now exists, so the real config will load. Swap it in:
 
 ```bash
 scp docs/deploy/nginx/snippets/zerado-headers.conf root@"$IP":/etc/nginx/snippets/
@@ -205,36 +274,23 @@ scp docs/deploy/nginx/zerado.app.conf              root@"$IP":/etc/nginx/sites-a
 
 ssh root@"$IP" bash -s <<'REMOTE'
 set -euo pipefail
-ln -sf /etc/nginx/sites-available/zerado.app /etc/nginx/sites-enabled/zerado.app
-rm -f /etc/nginx/sites-enabled/default
 nginx -t
+systemctl reload nginx
 REMOTE
 ```
 
-**Expect:** `nginx: configuration file /etc/nginx/nginx.conf test is successful`.
-
-`nginx -t` will complain about the missing certificate until Step 5 — that is
-expected at this point and is why certbot runs next.
-
-## Step 5 — TLS, and proving renewal works
-
-```bash
-ssh root@"$IP" certbot --nginx \
-  -d zerado.app -d www.zerado.app \
-  --agree-tos -m alex@flowforgesoft.com --redirect --non-interactive
-```
-
-**Expect:** `Successfully received certificate.` and a path under
-`/etc/letsencrypt/live/zerado.app/`.
+**Expect:** `test is successful` again — this time with TLS configured. If it
+fails here, the certificate did not issue; go back a step rather than editing
+the config.
 
 **Renewal is verified, not assumed.** certbot installs a systemd timer; confirm
-both that it exists and that a renewal actually succeeds end to end:
+the timer exists *and* that a renewal actually completes end to end:
 
 ```bash
 ssh root@"$IP" bash -s <<'REMOTE'
 set -euo pipefail
 echo "--- the timer that will do it ---"
-systemctl list-timers certbot.timer --all
+systemctl list-timers certbot.timer --all --no-pager
 echo "--- a real renewal, against the staging endpoint ---"
 certbot renew --dry-run
 echo "--- what is installed and when it expires ---"
@@ -244,32 +300,36 @@ REMOTE
 
 **Expect:** the timer is `active`; the dry run ends with
 `Congratulations, all simulated renewals succeeded`; `certbot certificates`
-shows `zerado.app` and `www.zerado.app` on one certificate with ~89 days left.
+shows both names on one certificate with ~89 days left.
 
-If the dry run fails, renewal *will* fail silently in 60 days. Fix it now — it is
-almost always port 80 being closed or the ACME location block being missing.
+If the dry run fails, renewal *will* fail silently in 60 days. Fix it now — it
+is almost always port 80 being closed, or the ACME `location` block having been
+dropped from the config.
 
 ## Step 6 — Deploy
 
 One command, from a clean checkout of this repository:
 
 ```bash
-ZERADO_HOST="$IP" ./scripts/deploy.sh
+./scripts/deploy.sh
 ```
 
-It builds the site, **runs the page invariants before anything leaves your
-machine**, rsyncs into a timestamped release directory, flips the `current`
-symlink atomically, reloads nginx, prunes old releases, and then verifies the
-live URL returns 200.
+**Do not pass `ZERADO_HOST="$IP"`.** The certificate is issued for `zerado.app`,
+so pointing the script at a raw IP fails the TLS handshake on a name mismatch
+and the final verification reports `000`. DNS already resolves by Step 3, so the
+default host is correct.
 
-**Expect:** it ends with `Deployed 20260825-…` and prints the `Cache-Control`
-header for `/` and `/index.html`.
+It builds the site, **runs the page invariants before anything leaves your
+machine**, rsyncs into a timestamped release directory, validates nginx, flips
+the `current` symlink atomically, reloads nginx, prunes old releases, and
+verifies the live URL returns 200.
+
+**Expect:** it ends with `Deployed 20260825-…` and prints `no-cache` for both
+`/` and `/index.html`.
 
 It is **idempotent** — running it twice produces a second release and the same
 live result. Nothing is ever half-deployed: the symlink swap is a single atomic
 rename, so a visitor sees either the old release or the new one.
-
-Once DNS resolves you can drop the override and just run `./scripts/deploy.sh`.
 
 ### Rollback
 

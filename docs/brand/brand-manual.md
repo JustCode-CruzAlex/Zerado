@@ -624,7 +624,7 @@ breathless.
 **5 · Introducing the community layer**
 
 - ✗ "We're SO excited to announce our amazing new social features — coming soon to revolutionise how you share your gaming journey!"
-- ✓ "Comments, reviews and public profiles. These run on servers that cost money, so this part will need a premium account or a donation. Not built yet — Phase 4."
+- ✓ "Comments, reviews and public profiles. These run on servers that cost money, so this part will be supported by donation. Not built yet — Phase 4." *(Amended 2026-08-25: the premium-account half was removed — see content/landing-copy.md, Amendment 3.)*
 - *State the cost before anyone asks. Up front reads as respect; later reads as a catch.*
 
 **6 · Explaining why it's a terminal app**

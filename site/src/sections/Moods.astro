@@ -39,7 +39,14 @@ const MATCHES = [
       ))}
     </div>
 
-    <figure class="z-moods__frame" role="img" aria-labelledby="moods-caption">
+    <figure class="z-moods__frame">
+      {/* role="img" lives on this wrapper, not on the <figure>: ARIA-in-HTML
+           does not allow role=img on <figure>, and Chromium consequently does NOT
+           apply the presentational-children rule — the whole mockup's fabricated
+           library ("Celeste … ZERADO", "412 games") was being read out to screen
+           readers as if it were real content. On a div the role is valid and the
+           subtree collapses to the caption, which is the only honest reading. */}
+      <div class="z-mockup-frame" role="img" aria-labelledby="moods-caption">
       <TerminalFrame variant="still" title="zerado — pick a mood" counter="4 moods" keybar="↑↓ move · enter pick · esc back">
         <div class="z-moods__picker">
           <ul class="z-moods__mood-list">
@@ -56,6 +63,7 @@ const MATCHES = [
           </ul>
         </div>
       </TerminalFrame>
+      </div>
       <MockupCaption
         id="moods-caption"
         text="Mockup of Zerado's mood picker in the terminal, showing mood categories — including 'Mindless grind' and 'Quick fifteen minutes' — next to the games that match each one."

@@ -1,7 +1,12 @@
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 const b=await chromium.launch();
-const ctx=await b.newContext({viewport:{width:1280,height:1000}});
+// Viewport comes from argv so this file covers every breakpoint. It used to
+// have a 375-wide twin that differed on this one line and nothing else.
+//   node contrast.mjs            -> 1280x1000
+//   node contrast.mjs 375 812    -> 375x812
+const W=Number(process.argv[2]||1280), H=Number(process.argv[3]||1000);
+const ctx=await b.newContext({viewport:{width:W,height:H}});
 const p=await ctx.newPage();
 await p.goto('http://localhost:4321/',{waitUntil:'networkidle'});
 const axe=await new AxeBuilder({page:p}).withTags(['wcag2aa','wcag21aa']).analyze();

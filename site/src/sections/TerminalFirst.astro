@@ -23,7 +23,14 @@ import MockupCaption from '../components/MockupCaption.astro';
       </div>
     </div>
 
-    <figure class="z-terminal-first__frame" role="img" aria-labelledby="terminal-first-caption">
+    <figure class="z-terminal-first__frame">
+      {/* role="img" lives on this wrapper, not on the <figure>: ARIA-in-HTML
+           does not allow role=img on <figure>, and Chromium consequently does NOT
+           apply the presentational-children rule — the whole mockup's fabricated
+           library ("Celeste … ZERADO", "412 games") was being read out to screen
+           readers as if it were real content. On a div the role is valid and the
+           subtree collapses to the caption, which is the only honest reading. */}
+      <div class="z-mockup-frame" role="img" aria-labelledby="terminal-first-caption">
       <TerminalFrame
         variant="still"
         title="zerado — Hollow Knight"
@@ -39,6 +46,7 @@ import MockupCaption from '../components/MockupCaption.astro';
           <p class="z-detail__continued">           enrichment is wired in.</p>
         </div>
       </TerminalFrame>
+      </div>
       <MockupCaption
         id="terminal-first-caption"
         text="Mockup of a game's detail page in the terminal, showing its status, mood tags and price history in one screen."
