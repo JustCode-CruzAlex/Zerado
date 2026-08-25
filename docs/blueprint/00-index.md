@@ -128,7 +128,22 @@ that has none.
    all* is a first-class designed state rather than an error state — see
    [`06-data-seams.md`](./06-data-seams.md) §3. What Phase 2 looks like if IGDB says no is
    written down there.
-3. **Terminal inline-image support is not assumed anywhere.** Cover art is a Phase 2 question
+3. **Nine ANSI-256 indices are underived** — `--z-scanner-300` (error text), `--z-scanner-900`
+   (the scanner track), `--z-amber-900`, `--z-text-tertiary` and five others have no derived
+   terminal index. Four components ship an interim **uncoloured** rendering rather than a guessed
+   one. Deriving them is `fft-brand-architect`'s job (brand manual §10 requires a
+   nearest-neighbour search in CIELAB, never an eyeballed index), and until it is done those
+   components are correct but plainer than designed.
+4. **The light-mode state colours have never been CVD-verified.** `tokens.css` §10 defines a
+   separate four-colour state set for light grounds; their contrast is recorded, their
+   colour-vision separation is not. The dark set's own first draft failed at ΔE 8.8 under
+   deuteranopia, so this is not a formality — and Phase 4 will meet system light mode.
+5. **The contrast claim is precise, and worth stating precisely.** It is *"AA on Zerado's own
+   ground and on five measured popular terminal themes, with `NO_COLOR` as the unconditional
+   fallback."* An unqualified "WCAG AA" would not be true on an arbitrary user-chosen theme, and
+   the product should not claim it.
+
+6. **Terminal inline-image support is not assumed anywhere.** Cover art is a Phase 2 question
    and is inventoried, not specified. The Phase 1 deck is text, by design and not by omission.
 
 ---

@@ -63,6 +63,10 @@ So Zerado does not drop the label. **It changes the row's shape instead.**
     IN PROGRESS · 12h · Steam
 ```
 
+> **The glyph field is two columns at every tier**, including the two-line rows above — two of
+> the four state glyphs are Ambiguous-width and would otherwise shear the column on terminals
+> configured for double-width ambiguity. See [`02-composition.md`](./02-composition.md) §2.2.1.
+
 The two-line row costs half the visible rows (36 × 16 gives **8 games** instead of 16) and buys
 back the full label, the source, and an untruncated title on most games. That is the right
 trade: at 40 columns a player is reading, not scanning.

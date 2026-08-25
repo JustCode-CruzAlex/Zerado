@@ -151,18 +151,50 @@ Row column budget, 74 columns:
 
 | Field | Cols | Note |
 |---|---|---|
-| focus gutter | 2 | `▌ ` on the focused row, two spaces otherwise — **position, not colour** |
-| state chip | 13 | glyph + space + label; `NOT STARTED` is the longest at 11 |
+| focus field | 2 | **fixed width, padded at render time** — see §2.2.1 |
+| state chip | 14 | glyph field **2** + space + label; `NOT STARTED` is the longest at 11 |
 | gutter | 2 | |
-| **title** | **43** | the identity column — R-10(a) |
+| **title** | **42** | the identity column — R-10(a) |
 | gutter | 2 | |
 | playtime | 6 | right-aligned, `  41h` |
 | gutter | 2 | |
 | source | 4 | `STM` / `PHY` |
 | | **74** | |
 
-Forty-three columns for the title is comfortable: it holds *Return of the Obra Dinn* (24) and
+Forty-two columns for the title is comfortable: it holds *Return of the Obra Dinn* (24) and
 *The Legend of Zelda: Breath of the Wild* (39) without truncation.
+
+#### 2.2.1 · Why the glyph and focus fields are two columns, not one
+
+**The four state glyphs are not one width class.** Verified against Unicode 16.0
+`EastAsianWidth`:
+
+| Glyph | Codepoint | Class |
+|---|---|---|
+| `○` not started | U+25CB | **Ambiguous** |
+| `◐` in progress | U+25D0 | **Ambiguous** |
+| `◉` zerado | U+25C9 | Neutral |
+| `⊘` abandoned | U+2298 | Neutral |
+| `▌` focus marker | U+258C | **Ambiguous** |
+
+An Ambiguous-width character is **one cell in most terminals and two** where the user has set
+`ambiguous-width=double` — common in CJK-configured terminals and in several popular emulators'
+defaults. So on the most-used component in the product, two of the four states would render one
+cell wider than the other two, and every column to their right would shear by one.
+
+**This is fixed in rendering, not by changing the glyphs.** The glyphs are ratified and
+CVD-verified; they are not the problem. The row reserves a **fixed two-column field** for the
+glyph and a **fixed two-column field** for the focus marker, and pads to that width using a
+width-aware measurement at render time. Every downstream column then starts at a fixed offset
+whatever the terminal decides an Ambiguous glyph is worth.
+
+The rendering rule, the measurement helper and the `ZERADO_ASCII=1` escape hatch belong to the
+design system — [`../design/01-design-system.md`](../design/01-design-system.md) §1.2. The spine's
+job here is only to say that the budget **reserves two columns**, and why.
+
+> Found by `fft-design-architect` while writing deliverable B, and independently confirmed
+> against `unicodedata` before this budget was corrected. The first draft of this document
+> budgeted one column and would have sheared the state column on a real class of terminals.
 
 ### 2.3 · Layout budget — `Z-04` at ExtraWide 120×40
 
