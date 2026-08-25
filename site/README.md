@@ -7,8 +7,11 @@ same-origin HTML, CSS and self-hosted fonts/SVG.
 
 ## Requirements
 
-- Node.js 18.20.8+ (built and tested on Node v25.4.0)
-- npm 9+ (tested on npm 11.7.0)
+- Node.js **22.12.0+** — required by Astro 7 (built and tested on Node v25.4.0)
+- npm 10+ (tested on npm 11.7.0)
+
+The requirement is declared in `package.json` under `engines`, and CI builds on
+Node 22 and 24.
 
 ## Install
 

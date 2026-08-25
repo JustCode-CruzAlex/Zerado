@@ -55,7 +55,15 @@ npm run build     # static output → site/dist/
 npm run preview   # http://localhost:4321/
 ```
 
-Node.js 18.20.8+ and npm 9+. `npm run check` runs Astro's type check.
+Node.js **22.12.0+** and npm 10+ — Astro 7 refuses to run on anything older,
+and `package.json` declares it under `engines`. CI builds on Node 22 and 24.
+
+`npm run check` runs Astro's type check, but it is **not** wired into CI and it
+is not installable out of the box: it needs `@astrojs/check` and `typescript`,
+which this project deliberately does not depend on. Install them locally if you
+want it (`npm i -D @astrojs/check typescript`); do not commit them without
+raising it first, since the page ships zero JavaScript and the dependency tree
+is kept deliberately small.
 
 > ⚠️ **Never verify a build by opening `site/dist/index.html` over `file://`.**
 > Astro emits root-absolute asset paths; the page will render unstyled and

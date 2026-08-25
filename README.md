@@ -195,7 +195,7 @@ npm run preview # http://localhost:4321/
 > root-absolute asset paths, so over `file://` the CSS never loads and the fonts
 > are CORS-blocked — the page looks broken when it is not. Use `npm run preview`.
 
-Requires Node.js 18.20.8+ and npm 9+. Full site notes:
+Requires Node.js **22.12.0+** and npm 10+ (Astro 7's floor). Full site notes:
 [`site/README.md`](site/README.md).
 
 ## Configuration
