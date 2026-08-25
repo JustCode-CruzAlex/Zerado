@@ -1,0 +1,395 @@
+# FlowForge work-node ledger (ADR-0053) — feature/ticket nodes keyed by
+# FF-native work-ids. parent_work_id is the sole parentage authority;
+# provider/provider_ref are replaceable pointers. Work-ids are collision-
+# resistant, so merge-concatenation of distinct nodes is harmless.
+schema_version = 1
+
+[[node]]
+work_id = "wk_3HN1HXJBYX"
+kind = "feature"
+provider = ""
+provider_ref = ""
+parent_work_id = ""
+title = "Zerado Phase 1 — CLI/TUI MVP (ADR-0001 bundle)"
+created_at = "2026-08-25T18:23:24Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J01W1C"
+kind = "ticket"
+provider = "github"
+provider_ref = "26"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-7 — [SEC] The Vault — OS keychain, 0600 file fallback, and the honest line about which is in use"
+created_at = "2026-08-25T18:24:50Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J05CCS"
+kind = "ticket"
+provider = "github"
+provider_ref = "20"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-9 — [QA] The golden-file TUI harness and the no-network harness"
+created_at = "2026-08-25T18:24:39Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0AWHZ"
+kind = "ticket"
+provider = "github"
+provider_ref = "12"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-4 — [DATA] The migration runner — forward-only, idempotent, transactional — and schema v1"
+created_at = "2026-08-25T18:24:25Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0E4EK"
+kind = "ticket"
+provider = "github"
+provider_ref = "29"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-8 — [PROVIDER] The Steam syncer — streaming, tombstoning, batch-transactional upsert, item_uid"
+created_at = "2026-08-25T18:24:57Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0HF1J"
+kind = "ticket"
+provider = "github"
+provider_ref = "22"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-1 — [TUI] The route stack, the single overlay slot, focus, and one key registry"
+created_at = "2026-08-25T18:24:42Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0JN4P"
+kind = "ticket"
+provider = "github"
+provider_ref = "24"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-4 — [TUI] Z-11 Fatal error — frameless, silent, and dependent on nothing"
+created_at = "2026-08-25T18:24:45Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0JRHJ"
+kind = "ticket"
+provider = "github"
+provider_ref = "23"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-2 — [TUI] The frame — header band, footer, status bar, spacing tokens, five tiers, the refusal floor"
+created_at = "2026-08-25T18:24:43Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0R4KJ"
+kind = "ticket"
+provider = "github"
+provider_ref = "15"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-11 — [IMAGES] The image seam — capability detection failing closed, NullImages, Kitty and iTerm2"
+created_at = "2026-08-25T18:24:30Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J0TQ7P"
+kind = "ticket"
+provider = "github"
+provider_ref = "11"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-2 — [INFRA][CI] The pipeline — test, lint, the build matrix and the coverage floor"
+created_at = "2026-08-25T18:24:24Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J1BC74"
+kind = "ticket"
+provider = "github"
+provider_ref = "18"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-5 — [DATA] The Store seam — pure-Go SQLite, the query layer, derived status and tombstones"
+created_at = "2026-08-25T18:24:37Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J2864B"
+kind = "ticket"
+provider = "github"
+provider_ref = "17"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-3 — [I18N] The catalogue, x/text, width-aware measurement and the no-literals lint that fails the build"
+created_at = "2026-08-25T18:24:36Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J28R4H"
+kind = "ticket"
+provider = "github"
+provider_ref = "30"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-10 — [AUDIO] The radio player behind -tags audio — two channels, m, stations as data"
+created_at = "2026-08-25T18:24:58Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J2AWP9"
+kind = "ticket"
+provider = "github"
+provider_ref = "21"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-8 — [THEME] The KITT theme — kitt.toml, plus delorean and retro-82, with attribution"
+created_at = "2026-08-25T18:24:41Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J2B36Z"
+kind = "ticket"
+provider = "github"
+provider_ref = "27"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-9 — [IMAGES] The cover cache — XDG cache, bounded, evicting, Warm off the render path"
+created_at = "2026-08-25T18:24:52Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J2DRB2"
+kind = "ticket"
+provider = "github"
+provider_ref = "28"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-3 — [TUI] The component library — state chip, ledger row, banner, empty, error, progress, the scanner"
+created_at = "2026-08-25T18:24:55Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J2FG3D"
+kind = "ticket"
+provider = "github"
+provider_ref = "13"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-6 — [THEME] The theme engine — token contract, both dialects, SUPPLIED/DERIVED/PINNED, the loader"
+created_at = "2026-08-25T18:24:26Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J2TQCM"
+kind = "ticket"
+provider = "github"
+provider_ref = "19"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-7 — [THEME] The four-state validator — G1-G5, CIEDE2000 + CVD, deterministic selection"
+created_at = "2026-08-25T18:24:39Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J3C21H"
+kind = "ticket"
+provider = "github"
+provider_ref = "10"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-1 — [INFRA][GO] Repo skeleton, module layout, Makefile, lint and the cross-compile matrix"
+created_at = "2026-08-25T18:24:22Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J3KQXX"
+kind = "ticket"
+provider = "github"
+provider_ref = "25"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-6 — [PROVIDER] The provider seam — Provider/Syncer segregated, Capabilities, the registry, physical"
+created_at = "2026-08-25T18:24:48Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J3PXJ7"
+kind = "ticket"
+provider = "github"
+provider_ref = "14"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z0-10 — [AUDIO] The audio seam — NullAudio as the default build, the audio build tag, ZERADO_NO_AUDIO"
+created_at = "2026-08-25T18:24:28Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J40EPV"
+kind = "ticket"
+provider = "github"
+provider_ref = "43"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z3-1 — [TUI] Z-09 Settings — every dial visible, the Audio section, the honest availability lines"
+created_at = "2026-08-25T18:25:19Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J47HCV"
+kind = "ticket"
+provider = "github"
+provider_ref = "38"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-6 — [TUI] Z-07 Filter and search — the mode, the dynamic bar, the two-step Esc"
+created_at = "2026-08-25T18:25:11Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J49YZP"
+kind = "ticket"
+provider = "github"
+provider_ref = "45"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z3-3 — [QA] The offline, responsive and refusal-floor acceptance runs"
+created_at = "2026-08-25T18:25:22Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J4AK8E"
+kind = "ticket"
+provider = "github"
+provider_ref = "31"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-5 — [TUI] Z-04 Library — the ledger, the pinned summary, cursor-following scroll"
+created_at = "2026-08-25T18:25:00Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J4CZR3"
+kind = "ticket"
+provider = "github"
+provider_ref = "37"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-4 — [TUI] Z-05 Game detail — and the not-fetched vs known-empty distinction"
+created_at = "2026-08-25T18:25:10Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J4H8JV"
+kind = "ticket"
+provider = "github"
+provider_ref = "33"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-12 — [QA] The offline-contract harness — the no-network and stale-data property runs"
+created_at = "2026-08-25T18:25:03Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J4SJ55"
+kind = "ticket"
+provider = "github"
+provider_ref = "36"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-3 — [TUI] Z-08 Add a game by hand — a physical copy as a first-class row"
+created_at = "2026-08-25T18:25:09Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J54N4A"
+kind = "ticket"
+provider = "github"
+provider_ref = "32"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z1-11 — [AUDIO] Interface FX and the fourth co-render channel"
+created_at = "2026-08-25T18:25:02Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J58XWZ"
+kind = "ticket"
+provider = "github"
+provider_ref = "48"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z3-6 — [DOC] The Phase 1 sign-off pack — rendered artifacts for the default and one theme per tier"
+created_at = "2026-08-25T18:25:28Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J5G5RQ"
+kind = "ticket"
+provider = "github"
+provider_ref = "44"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z3-2 — [QA] The colour acceptance — the 17-line theme bar, NO_COLOR, the 16-colour floor, ZERADO_ASCII"
+created_at = "2026-08-25T18:25:21Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J5GC8F"
+kind = "ticket"
+provider = "github"
+provider_ref = "41"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-9 — [TUI] Z-01 First run — the three doors and the one quiet audio line"
+created_at = "2026-08-25T18:25:15Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J5PJNQ"
+kind = "ticket"
+provider = "github"
+provider_ref = "47"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z3-5 — [RELEASE] The cross-compiled matrix, both build tags, checksums and the install path"
+created_at = "2026-08-25T18:25:26Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J5Y8TM"
+kind = "ticket"
+provider = "github"
+provider_ref = "42"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-5 — [TUI] Z-06 Set status — the overlay, the route at Tiny, and the four-state machine"
+created_at = "2026-08-25T18:25:18Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J6HSWH"
+kind = "ticket"
+provider = "github"
+provider_ref = "34"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-1 — [TUI] Z-02 Connect a store — the form generated from Capabilities().Credentials"
+created_at = "2026-08-25T18:25:05Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J7EAJZ"
+kind = "ticket"
+provider = "github"
+provider_ref = "35"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-2 — [TUI] Z-03 Sync — honest progress, the scanner, PARTIAL, and the readout"
+created_at = "2026-08-25T18:25:08Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J7GRC1"
+kind = "ticket"
+provider = "github"
+provider_ref = "39"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-7 — [TUI] Z-15 Cover deck — the deck, and the once-only dismissible note"
+created_at = "2026-08-25T18:25:13Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J7P6BY"
+kind = "ticket"
+provider = "github"
+provider_ref = "46"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z3-4 — [I18N] The one-file proof — add pt-BR and change no code"
+created_at = "2026-08-25T18:25:24Z"
+lifecycle = "active"
+
+[[node]]
+work_id = "wk_3HN1J7ZN0X"
+kind = "ticket"
+provider = "github"
+provider_ref = "40"
+parent_work_id = "wk_3HN1HXJBYX"
+title = "Z2-8 — [TUI] Z-10 Help and key map — generated from the one key registry"
+created_at = "2026-08-25T18:25:14Z"
+lifecycle = "active"
