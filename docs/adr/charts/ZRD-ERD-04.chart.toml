@@ -1,0 +1,302 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-ERD-04"
+title = "ZERADO — THE MIGRATION DECISION AT START-UP  ·  SHEET 4"
+subtitle = "there is no DBA. The program migrates its own file, or it refuses and says why"
+width = 1900
+height = 1640
+
+[titleblock]
+dwg_title = "ZERADO MIGRATION - THE FIVE OUTCOMES"
+discipline = "DATA"
+sheet = "04 OF 12"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "Forward-only. Every path ends in an open file or a named refusal."
+project = "Zerado"
+author = "fft-database"
+
+[[node]]
+id = "start"
+title = "START"
+sublines = ["open $ZERADO_DB", "one owned connection"]
+color = "brand"
+shape = "rect"
+x = 810
+y = 130
+w = 280
+h = 80
+
+[[node]]
+id = "pre"
+title = "PRECONDITIONS"
+sublines = [
+  "sqlite_version() >= 3.37.0 ?",
+  "  (STRICT tables)",
+  "PRAGMA foreign_keys = ON",
+  "PRAGMA journal_mode = WAL",
+  "PRAGMA busy_timeout = 5000",
+]
+color = "brand"
+shape = "rect"
+x = 780
+y = 250
+w = 340
+h = 150
+
+[[node]]
+id = "read"
+title = "READ THE LADDER"
+sublines = [
+  "SELECT MAX(version)",
+  "  FROM schema_migration",
+]
+color = "brand"
+shape = "rect"
+x = 780
+y = 440
+w = 340
+h = 90
+
+[[node]]
+id = "fresh"
+title = "A · NO FILE"
+sublines = [
+  "apply 0001..HEAD in order,",
+  "each in its own transaction,",
+  "each writing its own row.",
+  "",
+  "A fresh install runs the SAME",
+  "ladder an upgrade runs. There",
+  "is no separate create script,",
+  "because the two always drift.",
+]
+color = "ok"
+shape = "rect"
+x = 60
+y = 610
+w = 340
+h = 230
+
+[[node]]
+id = "equal"
+title = "B · EQUAL"
+sublines = [
+  "max(version) == HEAD",
+  "",
+  "Open it. Nothing to do.",
+  "The common path, and it",
+  "costs one page read.",
+]
+color = "ok"
+shape = "rect"
+x = 440
+y = 610
+w = 300
+h = 230
+
+[[node]]
+id = "behind"
+title = "C · BEHIND"
+sublines = [
+  "max(version) < HEAD",
+  "",
+  "1. destructive step ahead?",
+  "   VACUUM INTO",
+  "   library.db.pre-<v>",
+  "2. apply the gap, in order",
+  "3. PRAGMA foreign_key_check",
+  "4. COMMIT, per migration",
+]
+color = "accent"
+shape = "rect"
+x = 780
+y = 610
+w = 340
+h = 230
+
+[[node]]
+id = "ahead"
+title = "D · AHEAD  —  REFUSE"
+sublines = [
+  "max(version) > HEAD",
+  "",
+  "A newer binary wrote this file.",
+  "Z-11 names BOTH versions:",
+  "  the file's, from written_by",
+  "  the running one",
+  "",
+  "This is why written_by exists.",
+]
+color = "err"
+shape = "rect"
+x = 1160
+y = 610
+w = 340
+h = 230
+
+[[node]]
+id = "foreign"
+title = "E · FOREIGN  —  REFUSE"
+sublines = [
+  "no schema_migration table,",
+  "but the file is not empty.",
+  "",
+  "Some other program's SQLite",
+  "file, or a corrupted one.",
+  "Never migrate a schema you",
+  "did not write.",
+]
+color = "err"
+shape = "rect"
+x = 1540
+y = 610
+w = 300
+h = 230
+
+[[node]]
+id = "fail"
+title = "A MIGRATION FAILS MID-WAY"
+sublines = [
+  "The transaction rolls back. The file is byte-identical to what it was.",
+  "The program REFUSES to run and names three things: the migration that failed,",
+  "the error, and the backup path if one was taken.",
+  "There is no half-applied version, because the bookkeeping INSERT is inside",
+  "the same transaction as the DDL it records.",
+]
+color = "err"
+shape = "rect"
+x = 460
+y = 910
+w = 980
+h = 170
+
+[[node]]
+id = "open"
+title = "OPEN  —  the library is usable"
+sublines = ["clean shutdown: wal_checkpoint(TRUNCATE), then close  ->  exactly one file"]
+color = "ok"
+shape = "rect"
+x = 460
+y = 1140
+w = 980
+h = 80
+
+[[edge]]
+from = "start"
+to = "pre"
+label = ""
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "pre"
+to = "read"
+label = ""
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "read"
+to = "fresh"
+label = "A"
+style = "solid"
+from_side = "l"
+to_side = "t"
+
+[[edge]]
+from = "read"
+to = "equal"
+label = "B"
+style = "solid"
+from_side = "l"
+to_side = "t"
+
+[[edge]]
+from = "read"
+to = "behind"
+label = "C"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "read"
+to = "ahead"
+label = "D"
+style = "solid"
+from_side = "r"
+to_side = "t"
+
+[[edge]]
+from = "read"
+to = "foreign"
+label = "E"
+style = "solid"
+from_side = "r"
+to_side = "t"
+
+[[edge]]
+from = "behind"
+to = "fail"
+label = "on error"
+style = "dashed"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "behind"
+to = "open"
+label = "ok"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "equal"
+to = "open"
+label = ""
+style = "solid"
+from_side = "b"
+to_side = "l"
+
+[[edge]]
+from = "fresh"
+to = "open"
+label = ""
+style = "solid"
+from_side = "b"
+to_side = "l"
+
+[[free]]
+text = "FORWARD-ONLY. There are no down migrations: a mistake is corrected by a NEW migration, never by reversing one."
+color = "accent"
+x = 80
+y = 1280
+w = 1740
+
+[[free]]
+text = "A RELEASED MIGRATION IS IMMUTABLE. Editing 0001 after a release means two files claim version 1 and disagree about what it did."
+color = "accent"
+x = 80
+y = 1310
+w = 1740
+
+[[free]]
+text = "EVERY PATH ENDS SOMEWHERE NAMED. The program opens the file, or it refuses and says which version wrote it and which one is running."
+color = "err"
+x = 80
+y = 1340
+w = 1740
+
+[[free]]
+text = "Silently proceeding against a schema you do not understand is how one file becomes two incompatible files."
+color = "err"
+x = 80
+y = 1370
+w = 1740

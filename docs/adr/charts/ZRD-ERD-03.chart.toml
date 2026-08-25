@@ -1,0 +1,352 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-ERD-03"
+title = "ZERADO — PHYSICAL DATA MODEL  ·  SHEET 3"
+subtitle = "the line between what a machine can re-fetch and what only the player can supply"
+width = 1900
+height = 1800
+
+[titleblock]
+dwg_title = "ZERADO PHYSICAL MODEL - TRUTH, REPLICA, CACHE"
+discipline = "DATA"
+sheet = "03 OF 12"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "Phase 1 DDL. The sync statement cannot name a truth column."
+project = "Zerado"
+author = "fft-database"
+
+[[zone]]
+title = "library.db  —  ONE FILE, and a clean shutdown leaves exactly one"
+color = "brand"
+x = 60
+y = 150
+w = 1780
+h = 800
+
+[[node]]
+id = "item"
+title = "item          IDENTITY + PROVIDER REPLICA"
+sublines = [
+  "id                     INTEGER PK",
+  "item_uid               TEXT NN     merge hint - indexed, NOT unique",
+  "item_type              TEXT NN     CHECK = 'game'  <- the whole door",
+  "provider_id            TEXT NN  }  UNIQUE - the upsert's conflict target",
+  "provider_ref           TEXT NN  }",
+  "acquisition            TEXT NN     CHECK digital | physical",
+  "title / sort_title / search_title  TEXT NN   two derived, two jobs",
+  "platform               TEXT NN",
+  "playtime_minutes       INTEGER NULL  NULL = source cannot know",
+  "last_played_at         TEXT NULL     NULL = not reported",
+  "owned_since            TEXT NULL     YYYY | YYYY-MM | YYYY-MM-DD",
+  "steam_appid / achievements_total / _unlocked",
+  "absent_since           TEXT NULL     tombstone, NEVER a delete",
+  "merged_into            INTEGER NULL  FK item(id)",
+  "last_synced_at         TEXT NULL     PER ROW - a PARTIAL run leaves gaps",
+  "created_at / updated_at  TEXT NN",
+]
+color = "accent"
+shape = "cyl"
+x = 100
+y = 210
+w = 700
+h = 640
+
+[[node]]
+id = "iuser"
+title = "item_user          TRUTH - only the player writes here"
+sublines = [
+  "item_id            PK, FK item(id) ON DELETE CASCADE",
+  "status_manual      TEXT NULL   NULL = derive on read",
+  "status_changed_at  TEXT NULL   survives a CLEAR - Phase 4 LWW",
+  "rating             INTEGER NULL   Phase 2 writes it",
+  "notes              TEXT NULL      Phase 2 writes it",
+  "",
+  "1:1, materialised by trigger. The sync's UPSERT",
+  "CANNOT erase a status: the statement cannot",
+  "name a column in this table.",
+]
+color = "ok"
+shape = "cyl"
+x = 860
+y = 210
+w = 560
+h = 340
+
+[[node]]
+id = "conn"
+title = "provider_connection"
+sublines = [
+  "provider_id PK · account_ref",
+  "(an id, NEVER a secret)",
+  "connected_at · last_sync_at",
+  "last_sync_status",
+  "NO FK from item.provider_id",
+]
+color = "brand"
+shape = "cyl"
+x = 1440
+y = 210
+w = 380
+h = 240
+
+[[node]]
+id = "syncrun"
+title = "sync_run"
+sublines = [
+  "id PK · provider_id FK CASCADE",
+  "started_at · finished_at",
+  "status running|ok|partial|",
+  "       failed|cancelled",
+  "items_seen >= new + changed (CHECKed)",
+  "error_kind  CHECKed class,",
+  "not a stack trace",
+  "retention: 50 per provider (trigger)",
+]
+color = "brand"
+shape = "rect"
+x = 1440
+y = 450
+w = 380
+h = 260
+
+[[node]]
+id = "view"
+title = "item_view          THE READ SURFACE"
+sublines = [
+  "item  JOIN  item_user  ON  item_id",
+  "effective_status = status_manual ??",
+  "   (playtime_minutes > 0 ? in_progress : not_started)",
+  "DERIVED, never stored. NULL playtime and 0 playtime",
+  "both fall to not_started - which is what derive() returns",
+  "for both, so the derivation needs nothing from code.",
+]
+color = "accent"
+shape = "rect"
+x = 860
+y = 600
+w = 560
+h = 250
+
+[[node]]
+id = "setting"
+title = "setting"
+sublines = ["key PK · value", "local truth. never syncs."]
+color = "muted"
+shape = "rect"
+x = 100
+y = 880
+w = 340
+h = 50
+
+[[node]]
+id = "migration"
+title = "schema_migration"
+sublines = ["version PK · applied_at · written_by"]
+color = "muted"
+shape = "rect"
+x = 480
+y = 880
+w = 340
+h = 50
+
+[[node]]
+id = "meta"
+title = "metadata          CACHE  (Phase 2)"
+sublines = [
+  "item_id PK/FK  CASCADE",
+  "sinopse · cover_ref · released_at",
+  "genres (JSON)",
+  "source_provider · attribution",
+  "fetched_at NOT NULL - every row",
+  "carries its own age",
+  "cover_ref CHECKed NOT a URL",
+]
+color = "gold"
+shape = "cyl"
+x = 100
+y = 1000
+w = 430
+h = 240
+
+[[node]]
+id = "price"
+title = "price_quote          CACHE  (Phase 3)"
+sublines = [
+  "PK (item_id, shop, currency)",
+  "UPSERT in place, never appended",
+  "current_cents · low_cents · low_at · url",
+  "observed_at  NOT NULL",
+  "NO history table, so no retention",
+  "rule to forget. NO affiliate_url",
+  "column - its absence IS the rule.",
+]
+color = "gold"
+shape = "cyl"
+x = 560
+y = 1000
+w = 430
+h = 240
+
+[[node]]
+id = "mood"
+title = "mood_tag / item_mood          (Phase 2)"
+sublines = [
+  "mood_tag  id PK · key UNIQUE · label",
+  "           (no applies_to - pruned)",
+  "item_mood  (item_id, mood_id) PK",
+  "           source  user | inferred    confidence",
+  "ONLY source='user' crosses to Phase 4 -",
+  "the ONE place the line is a column,",
+  "not a table boundary.",
+]
+color = "gold"
+shape = "cyl"
+x = 1020
+y = 1000
+w = 430
+h = 240
+
+[[node]]
+id = "vault"
+title = "Vault  —  OUTSIDE the file"
+sublines = [
+  "OS keychain, or credentials.json 0600",
+  "the player's own keys.",
+  "Never inside a backup.",
+]
+color = "err"
+shape = "rect"
+x = 1470
+y = 1000
+w = 350
+h = 240
+
+[[edge]]
+from = "item"
+to = "iuser"
+label = "1 : 1"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "item"
+to = "view"
+label = "read"
+style = "dashed"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "conn"
+to = "syncrun"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "item"
+to = "meta"
+label = "1 : 0..1"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "item"
+to = "price"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "item"
+to = "mood"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "conn"
+to = "vault"
+label = "keys"
+style = "dashed"
+from_side = "b"
+to_side = "t"
+
+[[free]]
+text = "THE LINE IS A TABLE BOUNDARY, NOT A CONVENTION."
+color = "ok"
+x = 100
+y = 1250
+w = 1740
+
+[[free]]
+text = "A sync writes item, and only item. It cannot destroy a status, a note or a rating, because the UPSERT statement cannot NAME a column in item_user."
+color = "ok"
+x = 100
+y = 1280
+w = 1740
+
+[[free]]
+text = "A physical row needs no separate guard: physical implements Provider and NOT Syncer, so no sync statement ever reaches it. D1 is what makes this rule enforceable."
+color = "ok"
+x = 100
+y = 1308
+w = 1740
+
+[[free]]
+text = "Measured cost of the split: +9.8 us on the root screen's page query, +128 us on a whole cold open of 400 titles. Cold open total: 842 us."
+color = "ok"
+x = 100
+y = 1336
+w = 1740
+
+[[free]]
+text = "NO FK FROM item.provider_id TO provider_connection - DELIBERATELY."
+color = "err"
+x = 100
+y = 1394
+w = 1740
+
+[[free]]
+text = "A connection is a relationship the player can END; the library outlives it. An FK would force a choice between deleting a library on"
+color = "err"
+x = 100
+y = 1422
+w = 1740
+
+[[free]]
+text = "disconnect and forbidding disconnect while items exist. Both are wrong, so there is no FK. The association resolves in code, against"
+color = "err"
+x = 100
+y = 1450
+w = 1740
+
+[[free]]
+text = "the compiled-in provider registry - which ADR-0001 D1 makes the authority anyway (Capabilities, never the database)."
+color = "err"
+x = 100
+y = 1478
+w = 1740
+
+[[free]]
+text = "KEY   violet = identity and provider replica   ·   green = TRUTH, only the player writes it   ·   gold = CACHE, safe to discard, every"
+color = "fg2"
+x = 100
+y = 1536
+w = 1740
+
+[[free]]
+text = "row stamped with its age   ·   blue = sync bookkeeping   ·   grey = local-only, never syncs   ·   red = outside the library file"
+color = "fg2"
+x = 100
+y = 1564
+w = 1740
