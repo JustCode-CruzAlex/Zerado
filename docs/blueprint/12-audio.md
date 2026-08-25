@@ -190,7 +190,20 @@ The performance bar is 60 fps and zero goroutine leaks, and audio is the classic
 | **Never hangs on device failure** | Device init happens **once, off the render path**, with a timeout. A failure sets `Available=false` and `Reason`, and the program continues silent |
 | **Never errors at a screen** | `Cue()` has no error return. There is no failure a screen could usefully handle |
 | **Never blocks shutdown** | `Close()` has its own timeout. A stuck audio device does not stop `q` from quitting |
-| **Muting music RELEASES the device** | Muting the music channel **halts decode and releases the audio device** — it does not hold a gain of zero. Unmuting restarts it. A muted bed holding a goroutine and a device handle open contradicts both the no-leak bar and *"it starts instantly"*, for nothing anyone can hear. FX need no equivalent: they hold nothing between cues |
+| **Muting music RELEASES the device AND the connection** | Muting the music channel **halts decode, releases the audio device, and closes the stream** — it does not hold a gain of zero, and it does not keep pulling bytes. Unmuting reconnects. FX need no equivalent: they hold nothing between cues |
+
+> **The connection half was added when music became a stream, and it matters more than the device
+> half.** The original rule was written when music was a local bed, where "release" could only mean
+> the audio device. A muted Zerado that keeps pulling bytes from someone else's server is **spending
+> the player's bandwidth on silence** — and it sits badly against the published promise that *"the
+> only network traffic is `Zerado` reaching out to the services you've connected"*: the player
+> connected that station, and has just told Zerado to stop it.
+>
+> Reconnecting on unmute costs a moment of buffering. That is the correct trade: a stream the player
+> has muted is a stream they are not listening to, and the honest thing is to stop taking it.
+>
+> *(Raised by `fft-design-architect`, which noticed that the spine had adopted its device-half rule
+> verbatim and that the rule's scope had moved underneath it.)*
 
 **A cue is always the second signal, never the first.** The visible change happens on the frame it
 happens on; the sound follows or does not. Nothing waits for audio.

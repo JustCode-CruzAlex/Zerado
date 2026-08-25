@@ -187,6 +187,29 @@ matches.
 
 ---
 
+## The lesson round F actually taught
+
+Two founder decisions landed on **the same day**: affiliate links dropped, and bundled music
+replaced by streamed stations. The sweep that followed caught the first and missed the second —
+twice, at two different levels.
+
+- The **spine** swept `affiliate` and not `bundled music`, so the decision record kept a licensing
+  commitment that no longer existed.
+- The **design lane** was then asked to sweep the three files the reviewer named, fixed those, and
+  found the fourth residue only because the ADR happened to be open beside it.
+
+Same failure, one level apart, and neither is carelessness: **a sweep can only look for what it was
+told to look for.** "Sweep harder" does not generalise, and neither does a longer keyword list.
+
+> **What generalises: an amendment should enumerate everything it supersedes at the moment it
+> lands.** Two supersessions arrived together and only one had a name attached, so the sweep had a
+> keyword where it needed a checklist.
+
+That is a process finding rather than a document one, and it is recorded here because this register
+is the only place in the bundle where the *pattern* of a failure is kept next to its instances.
+
+---
+
 ## What the register is actually evidence of
 
 Not that the bundle was written carelessly — every one of these was found **before** the bundle was
