@@ -1,0 +1,102 @@
+---
+/**
+ * Section 06 — one-collection. Two halves (connected stores / physical
+ * shelf) + 12-tile CoverGrid. Ref: design/blueprint.md §2 (§06);
+ * content/landing-copy.md §06.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StoreRow from '../components/StoreRow.astro';
+import CoverGrid from '../components/CoverGrid.astro';
+---
+
+<section id="one-collection" aria-labelledby="one-collection-heading" class="z-section z-section--surface">
+  <div class="z-container">
+    <SectionEyebrow index={6} id="one-collection" />
+    <SectionHeading id="one-collection-heading" text="One collection, everything you own" />
+
+    <div class="z-one-collection__halves">
+      <div>
+        <p class="z-readout z-one-collection__overline">Connected stores</p>
+        <p class="z-body z-one-collection__text">
+          Steam is what Phase 1 builds — your library, playtime and status, kept current on
+          its own. PlayStation, GOG and EA come after: connect an account, see it in the same list.
+        </p>
+        <div class="z-one-collection__stores">
+          <StoreRow status="planned" label="Steam" />
+          <StoreRow status="planned" label="PlayStation" />
+          <StoreRow status="planned" label="GOG" />
+          <StoreRow status="planned" label="EA" />
+        </div>
+      </div>
+      <div>
+        <p class="z-readout z-one-collection__overline">The physical shelf</p>
+        <p class="z-body z-one-collection__text">
+          Add the discs and cartridges next to your desk by hand — title, platform, done. Each
+          one gets the same mood tag and status as anything synced automatically, and, once cover
+          art and <span lang="pt-BR">sinopse</span> — Portuguese for synopsis, a short plot
+          summary — are wired in, the same page as everything else. A physical copy isn't a
+          second-class row in the list.
+        </p>
+      </div>
+    </div>
+
+    {/* No role on the <figure>: CoverGrid already carries role="img" on its own
+         <div>, where it is valid. A duplicate here was both redundant and
+         disallowed by ARIA-in-HTML. */}
+    <figure class="z-one-collection__figure">
+      <CoverGrid labelledby="one-collection-caption" />
+      <figcaption id="one-collection-caption" class="z-caption z-mockup-caption">
+        <span>
+          Mockup of a cover-art grid showing synced and manually-added games side by side, with
+          one cover labelled 'Physical' to show a hand-entered disc or cartridge sitting in the
+          same collection as everything else.
+        </span>
+        <span class="z-one-collection__tile-disclosure">
+          Cover tiles are illustrative artwork, not real game covers.
+        </span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .z-one-collection__halves {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--z-space-7);
+    margin-block-end: var(--z-space-7);
+  }
+
+  @media (min-width: 768px) {
+    .z-one-collection__halves {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .z-one-collection__overline {
+    color: var(--z-text-tertiary);
+  }
+
+  .z-one-collection__text {
+    color: var(--z-text-secondary);
+    margin-block: var(--z-space-3);
+  }
+
+  .z-one-collection__stores {
+    display: flex;
+    flex-direction: column;
+    margin-block-start: var(--z-space-3);
+  }
+
+  .z-mockup-caption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-2);
+    margin-block-start: var(--z-space-3);
+  }
+
+  .z-one-collection__tile-disclosure {
+    color: var(--z-text-tertiary);
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+/**
+ * PlatformTag — plain text on a solid --z-surface plate, bottom-left of a
+ * CoverTile. PHYSICAL co-renders colour + glyph + word.
+ * Ref: design/blueprint.md §7.5.
+ *
+ * @prop {import('../data/coverGrid').PlatformTagKind} kind
+ */
+interface Props {
+  kind: 'STEAM' | 'GOG' | 'EA' | 'PS' | 'PHYSICAL';
+}
+
+const { kind } = Astro.props;
+const isPhysical = kind === 'PHYSICAL';
+---
+
+<span class={`z-platform-tag ${isPhysical ? 'z-platform-tag--physical' : ''}`}>
+  {isPhysical && <span aria-hidden="true">▣ </span>}{kind}
+</span>
+
+<style>
+  .z-platform-tag {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--z-space-2);
+    padding-block: 2px;
+    background: var(--z-surface);
+    color: var(--z-steel);
+    font-family: var(--z-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--z-radius-sm);
+  }
+
+  .z-platform-tag--physical {
+    color: var(--z-primary);
+  }
+</style>

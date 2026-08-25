@@ -1,0 +1,168 @@
+---
+/**
+ * TerminalFrame — the shared chassis for all three terminal mockups.
+ * Ref: design/blueprint.md §7.3.
+ *
+ * @prop {"live" | "still" | "muted"} variant
+ * @prop {string} title — chrome-bar left text, e.g. "zerado — library"
+ * @prop {string} [counter] — chrome-bar right text, e.g. "412 games · 6 zerado"
+ * @prop {string} [keybar] — footer keybar text
+ */
+interface Props {
+  variant: 'live' | 'still' | 'muted';
+  title: string;
+  counter?: string;
+  keybar?: string;
+}
+
+const { variant, title, counter, keybar } = Astro.props;
+---
+
+<div class={`z-frame z-frame--${variant}`}>
+  <div class="z-frame__chrome">
+    <span class="z-frame__title">{title}</span>
+    {counter && <span class="z-frame__counter">{counter}</span>}
+  </div>
+  <div class="z-scanner-track z-scanner-track--parked" aria-hidden="true">
+    <div class="z-scanner-track__pip"></div>
+  </div>
+  <div class="z-frame__screen">
+    {variant === 'muted' && (
+      <div class="z-frame__watermark-clip" aria-hidden="true">
+        <div class="z-frame__watermark">PHASE 4 PHASE 4 PHASE 4 PHASE 4 PHASE 4 PHASE 4</div>
+      </div>
+    )}
+    <div class="z-frame__content">
+      <slot />
+    </div>
+  </div>
+  {keybar && <div class="z-frame__keybar">{keybar}</div>}
+</div>
+
+<style>
+  .z-frame {
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-radius-md);
+    background: var(--z-bg);
+    box-shadow: var(--z-elevation-2);
+    overflow: hidden;
+  }
+
+  .z-frame__chrome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--z-space-3);
+    padding-inline: 12px;
+    padding-block: var(--z-space-2);
+    font-family: var(--z-font-mono);
+    font-size: 13px;
+    color: var(--z-text-tertiary);
+  }
+
+  @media (min-width: 768px) {
+    .z-frame__chrome {
+      padding-inline: 16px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .z-frame__chrome {
+      padding-inline: 24px;
+    }
+  }
+
+  .z-frame__title,
+  .z-frame__counter {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .z-frame__screen {
+    position: relative;
+    background: var(--z-bg);
+    padding: 12px;
+    font-family: var(--z-font-mono);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--z-text);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  @media (min-width: 768px) {
+    .z-frame__screen {
+      padding: 16px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .z-frame__screen {
+      padding: 24px;
+      font-size: 15px;
+    }
+  }
+
+  .z-frame__keybar {
+    padding-inline: 12px;
+    padding-block: var(--z-space-2);
+    border-block-start: 1px solid var(--z-border-strong);
+    font-family: var(--z-font-mono);
+    font-size: 13px;
+    color: var(--z-text-tertiary);
+  }
+
+  @media (min-width: 768px) {
+    .z-frame__keybar {
+      padding-inline: 16px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .z-frame__keybar {
+      padding-inline: 24px;
+    }
+  }
+
+  /* --- muted variant — §11 community example panel --------------------------
+     Reason: blueprint §11 specifies 55% opacity for this content, but the
+     panel's handles and messages are real, non-decorative text (unlike the
+     aria-hidden watermark) — measured, 55% drops --z-text-secondary on
+     --z-surface from 9.36:1 to 3.53:1, failing WCAG 2.2 AA (4.5:1). 72%
+     is the lowest opacity that keeps every text colour used inside this
+     panel (--z-text-secondary, --z-accent) at or above 4.5:1, so the panel
+     still reads as visibly de-emphasised without an AA violation. */
+  .z-frame--muted .z-frame__content {
+    opacity: 0.72;
+  }
+
+  /* Reason: the clip wrapper (overflow: hidden, not auto) is what stops the
+     rotated/scaled watermark below from inflating .z-frame__screen's own
+     scrollable-overflow region — an overflow:hidden descendant clips its
+     own children and does not propagate their overflow further up, so the
+     scroll backstop on .z-frame__screen stays reserved for real content. */
+  .z-frame__watermark-clip {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .z-frame__watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--z-space-6);
+    transform: rotate(-18deg) scale(1.4);
+    font-family: var(--z-font-mono);
+    font-size: 13px;
+    letter-spacing: var(--z-tracking-readout);
+    color: var(--z-chrome-500);
+    opacity: 0.14;
+    user-select: none;
+  }
+</style>

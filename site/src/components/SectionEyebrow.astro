@@ -1,0 +1,19 @@
+---
+/**
+ * SectionEyebrow — zero-padded ratified index + ratified section id, uppercase.
+ * Ref: design/blueprint.md §6.3.
+ *
+ * @prop {number} index — 1-16, the section's ratified position
+ * @prop {string} id — the section's ratified id, e.g. "moods"
+ */
+interface Props {
+  index: number;
+  id: string;
+}
+
+const { index, id } = Astro.props;
+const padded = String(index).padStart(2, '0');
+const label = id.replace(/-/g, ' ');
+---
+
+<span class="z-eyebrow">{padded} · {label}</span>

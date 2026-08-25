@@ -1,0 +1,54 @@
+---
+/**
+ * CommunityPanel — three mini-panels (comment thread, review, public
+ * profile), generic handles. Rendered inside a TerminalFrame variant="muted"
+ * chassis, which supplies the watermark. Ref: design/blueprint.md §2 (§11).
+ */
+---
+
+<div class="z-community-panel">
+  <div class="z-community-panel__col">
+    <p class="z-community-panel__handle">@rafa</p>
+    <p class="z-community-panel__body">"Finally moved Hollow Knight to zerado. Metroidvania streak continues."</p>
+  </div>
+  <div class="z-community-panel__col">
+    <p class="z-community-panel__handle">@kim</p>
+    <p class="z-community-panel__body">★★★★★ — "Mood sort is the whole product. Never scrolling for twenty minutes again."</p>
+  </div>
+  <div class="z-community-panel__col">
+    <p class="z-community-panel__handle">@sol</p>
+    <p class="z-community-panel__body">412 games · 6 zerado · currently: tactical, full focus</p>
+  </div>
+</div>
+
+<style>
+  .z-community-panel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--z-space-5);
+  }
+
+  @media (min-width: 768px) {
+    .z-community-panel {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .z-community-panel__col {
+    padding: var(--z-space-4);
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-radius-md);
+  }
+
+  .z-community-panel__handle {
+    font-family: var(--z-font-mono);
+    color: var(--z-accent);
+    margin-block-end: var(--z-space-2);
+  }
+
+  .z-community-panel__body {
+    color: var(--z-text-secondary);
+    font-size: var(--z-text-sm);
+    line-height: 1.6;
+  }
+</style>

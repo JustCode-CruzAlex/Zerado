@@ -1,0 +1,62 @@
+---
+/**
+ * PhaseCard — one roadmap phase. Ref: design/blueprint.md §2 (§12).
+ *
+ * @prop {number} phase — 1-4
+ * @prop {string} name — e.g. "CLI/TUI MVP"
+ * @prop {string} line — e.g. "Your library, your statuses, stored locally."
+ * @prop {"planned" | "in-progress"} status — from data/roadmap.ts
+ */
+import StatusMarker from './StatusMarker.astro';
+import type { PhaseStatus } from '../data/roadmap';
+
+interface Props {
+  phase: number;
+  name: string;
+  line: string;
+  status: PhaseStatus;
+}
+
+const { phase, name, line, status } = Astro.props;
+---
+
+<div class="z-phase" data-phase={phase}>
+  <span class="z-readout z-phase__eyebrow">Phase {phase}</span>
+  <p class="z-phase__name">{name}</p>
+  <p class="z-phase__line">{line}</p>
+  <StatusMarker status={status} />
+</div>
+
+<style>
+  .z-phase {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-2);
+    /* Stretch to the grid cell so a two-line title (Phase 3, "Recommendations &
+       Budget") does not leave its card hanging 28px below its neighbours. The
+       section's whole argument is "four phases, one glance" — a ragged bottom
+       edge reads improvised. Review MINOR-2. */
+    height: 100%;
+    padding: var(--z-space-5);
+    background: var(--z-surface-raised);
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-radius-md);
+  }
+
+  .z-phase__eyebrow {
+    color: var(--z-text-tertiary);
+    margin-block-end: 0;
+  }
+
+  .z-phase__name {
+    font-family: var(--z-font-body);
+    font-weight: var(--z-weight-bold);
+    color: var(--z-text);
+  }
+
+  .z-phase__line {
+    font-size: var(--z-text-sm);
+    color: var(--z-text-secondary);
+    flex-grow: 1;
+  }
+</style>

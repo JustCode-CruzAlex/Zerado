@@ -1,0 +1,99 @@
+---
+/**
+ * CoverTile — one art-directed tile of the twelve. No real cover art; four
+ * CSS treatments × three hue keys. Non-interactive: no hover, no link.
+ * Ref: design/blueprint.md §7.5.
+ *
+ * @prop {import('../data/coverGrid').Treatment} treatment
+ * @prop {import('../data/coverGrid').Hue} hue
+ * @prop {import('../data/coverGrid').PlatformTagKind} platformTag
+ */
+import PlatformTag from './PlatformTag.astro';
+
+interface Props {
+  treatment: 'A' | 'B' | 'C' | 'D';
+  hue: 'amber' | 'cyan' | 'steel' | 'orchid';
+  platformTag: 'STEAM' | 'GOG' | 'EA' | 'PS' | 'PHYSICAL';
+}
+
+const { treatment, hue, platformTag } = Astro.props;
+
+const HUE_TOKEN: Record<string, string> = {
+  amber: '--z-primary',
+  cyan: '--z-accent',
+  steel: '--z-steel',
+  orchid: '--z-orchid-500'
+};
+const hueVar = `var(${HUE_TOKEN[hue]})`;
+---
+
+<div class={`z-tile z-tile--${treatment}`} style={`--z-tile-hue: ${hueVar}`} aria-hidden="true">
+  <div class="z-tile__art"></div>
+  <div class="z-tile__tag">
+    <PlatformTag kind={platformTag} />
+  </div>
+</div>
+
+<style>
+  .z-tile {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: var(--z-void);
+    border-radius: var(--z-radius-sm);
+    overflow: hidden;
+  }
+
+  .z-tile__art {
+    position: absolute;
+    inset: 0;
+  }
+
+  .z-tile__tag {
+    position: absolute;
+    left: var(--z-space-2);
+    bottom: var(--z-space-2);
+  }
+
+  /* A · grid horizon */
+  .z-tile--A .z-tile__art {
+    background-image:
+      repeating-linear-gradient(to right, color-mix(in srgb, var(--z-tile-hue) 35%, transparent) 0 1px, transparent 1px 12px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--z-tile-hue) 35%, transparent) 0 1px, transparent 1px 12px),
+      linear-gradient(to bottom, transparent 55%, color-mix(in srgb, var(--z-tile-hue) 45%, transparent) 100%);
+  }
+
+  /* B · scanline field */
+  .z-tile--B .z-tile__art {
+    background-image:
+      radial-gradient(circle at 70% 35%, color-mix(in srgb, var(--z-tile-hue) 70%, transparent) 0, transparent 22%),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--z-tile-hue) 18%, transparent) 0 2px, transparent 2px 5px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--z-tile-hue) 12%, var(--z-void)), var(--z-void));
+  }
+
+  /* C · brushed panel */
+  /* C · brushed chrome — the DeLorean's unpainted stainless.
+     Was a single 4%-wide steel band hardcoded to --z-steel on --z-void, so all
+     three C tiles rendered identically and read as empty rather than art-directed
+     (review MINOR: "about four of twelve tiles read as near-empty"). Now: a broad
+     hue-tinted sheen, a faint counter-sheen for the brushed cross-grain, fine
+     directional grain, and a lifted base so the tile has a body. */
+  .z-tile--C .z-tile__art {
+    background:
+      linear-gradient(135deg,
+        transparent 22%,
+        color-mix(in srgb, var(--z-tile-hue) 26%, transparent) 40%,
+        color-mix(in srgb, var(--z-chrome-100) 34%, transparent) 50%,
+        color-mix(in srgb, var(--z-tile-hue) 26%, transparent) 60%,
+        transparent 78%),
+      linear-gradient(48deg, transparent 46%, color-mix(in srgb, var(--z-chrome-100) 10%, transparent) 50%, transparent 54%),
+      repeating-linear-gradient(135deg,
+        color-mix(in srgb, var(--z-chrome-100) 5%, transparent) 0 1px,
+        transparent 1px 5px),
+      linear-gradient(160deg, var(--z-surface-raised) 0%, var(--z-void) 70%);
+  }
+
+  /* D · phosphor arc */
+  .z-tile--D .z-tile__art {
+    background: radial-gradient(circle at 30% 70%, color-mix(in srgb, var(--z-tile-hue) 55%, transparent) 0%, transparent 45%), var(--z-void);
+  }
+</style>

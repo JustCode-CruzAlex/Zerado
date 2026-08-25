@@ -1,0 +1,31 @@
+---
+/**
+ * The Zerado nav lockup. One variant, never re-set in type, never glowed.
+ * Non-interactive per design/blueprint.md §6.3 (components: Logotype,
+ * interactive: false) — it is not a link; the nav's own links carry focus.
+ * Ref: design/blueprint.md §7.8. viewBox is 0 0 364 64.
+ */
+---
+
+<span class="z-logotype">
+  <img src="/logo.svg" alt="Zerado" width="364" height="64" />
+</span>
+
+<style>
+  .z-logotype {
+    display: inline-flex;
+    inline-size: 120px;
+    flex-shrink: 0;
+  }
+
+  .z-logotype img {
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  @media (min-width: 768px) {
+    .z-logotype {
+      inline-size: 140px;
+    }
+  }
+</style>

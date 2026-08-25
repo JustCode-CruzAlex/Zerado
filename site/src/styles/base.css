@@ -1,0 +1,260 @@
+/* ============================================================================
+   ZERADO — BASE LAYER
+   Page-level tokens the blueprint calls for that brand/tokens.css does not
+   define (component-scale, not brand-scale), plus typography classes,
+   container/grid primitives and section rhythm.
+   Ref: design/blueprint.md §2, §4, §5.
+   ========================================================================== */
+
+:root {
+  /* --- Page padding — blueprint §5.1 --------------------------------------- */
+  --z-pad-x: 20px;
+
+  /* --- Container widths — blueprint §2 intro / §5.1 ------------------------ */
+  --z-container-max: 1180px;
+  --z-container-narrow-px: 760px;
+
+  /* --- The hero's own H1 clamp — blueprint §4.2, a measured value ---------- */
+  --z-h1-hero: clamp(1.875rem, 1.3053rem + 2.4309vw, 3.25rem);
+
+  /* --- Fluid H2 — blueprint §4.1 -------------------------------------------- */
+  --z-h2-fluid: clamp(1.5rem, 1.1rem + 1.7vw, 2.125rem);
+
+  /* --- Declared exception: phone hardware radius — blueprint §7.8 §6.3 ----- */
+  --z-phone-radius: 28px;
+
+  /* --- StatusMarker default token block — blueprint §2 §12 ----------------- */
+  --z-status-color: var(--z-steel);
+  --z-status-track: var(--z-amber-900);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --z-pad-x: 24px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Foundations
+   ------------------------------------------------------------------------- */
+
+html {
+  background: var(--z-bg);
+  color: var(--z-text);
+  font-family: var(--z-font-body);
+  font-size: 100%;
+}
+
+body {
+  background: var(--z-bg);
+  color: var(--z-text);
+  font-size: var(--z-text-base);
+}
+
+/* ---------------------------------------------------------------------------
+   Containers & grid
+   ------------------------------------------------------------------------- */
+
+.z-container {
+  width: 100%;
+  max-width: var(--z-container-max);
+  margin-inline: auto;
+  padding-inline: var(--z-pad-x);
+}
+
+.z-container-narrow {
+  width: 100%;
+  max-width: var(--z-container-narrow-px);
+  margin-inline: auto;
+  padding-inline: var(--z-pad-x);
+}
+
+.z-grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--z-gutter);
+}
+
+/* cols 1–7 of the 12-col grid — the hero / terminal-first copy column */
+.z-cols-1-7 {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 1280px) {
+  .z-cols-1-7 {
+    grid-column: 1 / span 7;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Section rhythm — blueprint §5.1 --z-section-y (64 / 80 / 96 / 96)
+   ------------------------------------------------------------------------- */
+
+.z-section {
+  padding-block: 64px;
+}
+
+@media (min-width: 768px) {
+  .z-section {
+    padding-block: 80px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .z-section {
+    padding-block: 96px;
+  }
+}
+
+.z-section--bg {
+  background: var(--z-bg);
+}
+
+.z-section--surface {
+  background: var(--z-surface);
+}
+
+/* ---------------------------------------------------------------------------
+   Typography classes — blueprint §4.1
+   ------------------------------------------------------------------------- */
+
+.z-eyebrow {
+  display: block;
+  font-family: var(--z-font-mono);
+  font-size: var(--z-text-caption);
+  font-weight: var(--z-weight-medium);
+  letter-spacing: var(--z-tracking-readout);
+  text-transform: uppercase;
+  color: var(--z-text-tertiary);
+  margin-block-end: var(--z-space-3);
+}
+
+.z-h1 {
+  font-family: var(--z-font-display);
+  font-weight: var(--z-weight-bold);
+  font-size: var(--z-h1-hero);
+  line-height: var(--z-leading-tight);
+  letter-spacing: var(--z-tracking-h1);
+  text-transform: uppercase;
+  color: var(--z-text);
+}
+
+.z-h1 span {
+  display: block;
+}
+
+.z-h2 {
+  font-family: var(--z-font-display);
+  font-weight: var(--z-weight-semibold);
+  font-size: var(--z-h2-fluid);
+  line-height: var(--z-leading-snug);
+  letter-spacing: var(--z-tracking-h2);
+  text-transform: uppercase;
+  color: var(--z-text);
+  margin-block-end: var(--z-space-5);
+}
+
+.z-h2--quiet {
+  font-size: clamp(1.5rem, 1.35rem + 0.5vw, 1.75rem);
+}
+
+.z-h2__emphasis {
+  color: var(--z-primary);
+}
+
+.z-h2__emphasis--muted {
+  color: var(--z-text-secondary);
+}
+
+.z-h3 {
+  font-family: var(--z-font-body);
+  font-weight: var(--z-weight-bold);
+  font-size: var(--z-text-h3);
+  line-height: var(--z-leading-snug);
+  color: var(--z-text);
+}
+
+.z-body-lg {
+  font-size: var(--z-text-lg);
+  line-height: var(--z-leading-relaxed);
+  color: var(--z-text);
+}
+
+.z-body {
+  font-size: var(--z-text-base);
+  line-height: var(--z-leading-normal);
+  color: var(--z-text-secondary);
+}
+
+.z-body-sm {
+  font-size: var(--z-text-sm);
+  line-height: 1.6;
+  color: var(--z-text-tertiary);
+}
+
+.z-caption {
+  font-size: var(--z-text-caption);
+  line-height: 1.5;
+  color: var(--z-text-tertiary);
+}
+
+.z-readout {
+  font-family: var(--z-font-mono);
+  font-size: var(--z-text-caption);
+  font-weight: var(--z-weight-medium);
+  letter-spacing: var(--z-tracking-readout);
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+   Focus — never removed. blueprint §6.2, §8.4.
+   ------------------------------------------------------------------------- */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--z-focus-ring-width) solid var(--z-focus-ring);
+  outline-offset: var(--z-focus-ring-offset);
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------------------- */
+
+.z-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.z-skip {
+  position: absolute;
+  top: -100%;
+  left: var(--z-space-4);
+  z-index: 100;
+  padding: var(--z-space-3) var(--z-space-5);
+  background: var(--z-accent);
+  color: var(--z-accent-contrast);
+  font-weight: var(--z-weight-semibold);
+  border-radius: var(--z-radius-md);
+  transition: top var(--z-duration-fast) var(--z-ease-standard);
+}
+
+.z-skip:focus-visible {
+  top: var(--z-space-4);
+  outline-color: var(--z-focus-ring);
+}
+
+/* the one place the body must never scroll sideways — blueprint §5.5 */
+html,
+body {
+  overflow-x: hidden;
+}

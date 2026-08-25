@@ -1,0 +1,33 @@
+---
+/**
+ * PhaseBadge — mono readout chip, amber on raised surface.
+ * Ref: design/blueprint.md §2 (§10, §11), §6.3.
+ *
+ * @prop {string} text — the badge text, e.g. "PHASE 4" or the fuller §11 stamp
+ */
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<span class="z-phase-badge">{text}</span>
+
+<style>
+  .z-phase-badge {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--z-space-3);
+    padding-block: var(--z-space-2);
+    background: var(--z-surface-raised);
+    border: 1px solid var(--z-primary);
+    border-radius: var(--z-radius-sm);
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-caption);
+    font-weight: var(--z-weight-medium);
+    letter-spacing: var(--z-tracking-readout);
+    text-transform: uppercase;
+    color: var(--z-primary);
+  }
+</style>
