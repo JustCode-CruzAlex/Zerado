@@ -29,6 +29,14 @@ in [`../site/README.md`](../site/README.md).
 | [`design/blueprint.md`](design/blueprint.md) | Per-section layout at four breakpoints, component inventory, applied tokens, motion inventory. |
 | [`design/blueprint.tokens.json`](design/blueprint.tokens.json) | The machine-readable half — the assertions the QA harness checks the built page against. |
 
+## Data — the physical model
+
+| | |
+|---|---|
+| [`data/00-index.md`](data/00-index.md) | The physical data model (ticket #5): the ERD drawn in both themes, the SQLite DDL that runs, the migration strategy, the indexing plan with every index tied to a named query, and the line between what only the player can supply and what a machine can fetch again. |
+| [`data/schema/migrations/`](data/schema/migrations) | The executable ladder. `0001` is Phase 1; `0002` and `0003` are written and do not ship with it. |
+| [`data/evidence/measurements.md`](data/evidence/measurements.md) | Every performance number in that bundle, measured on `modernc.org/sqlite` — the driver the product ships — with the rig, the method and the limits stated. Cold open on a 400-title library: **842 µs**. |
+
 ## Evidence
 
 | | |
