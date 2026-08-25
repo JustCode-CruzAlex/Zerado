@@ -5,6 +5,7 @@ import (
 	"go/token"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"testing"
@@ -225,20 +226,138 @@ func TestNoShippedCodeImportsAFake(t *testing.T) {
 	}
 }
 
-// TestTheModuleHasNoThirdPartyDependencies, for now.
+// TestEveryImportIsStandardLibraryOrLocal asserts what this stage of the
+// contracts actually promises: the module's dependency set is the Go standard
+// library and nothing else.
 //
-// Not a permanent rule — Bubble Tea, x/text and a SQLite driver are all
-// decided and all arrive with the implementation. It is an assertion about
-// *this* stage: the contracts are pure Go with a standard-library-only
-// dependency set, which is what lets every seam be exercised offline with no
-// module download and means this module has no go.sum at all — go.mod
-// declares no require, so there is nothing to lock.
-func TestTheModuleHasNoThirdPartyDependencies(t *testing.T) {
-	b, err := os.ReadFile(filepath.Join(moduleRoot(t), "go.mod"))
+// It replaces TestTheModuleHasNoThirdPartyDependencies, which could not fail.
+// That test read go.mod and either ended without asserting anything (no
+// require) or called t.Skip (require present) — there was no input for which
+// it reported a failure. A test that cannot fail is a green light nobody
+// earned, which is the same defect class as the hand-maintained fault.Kinds()
+// slice repaired in the previous round, and it was found the same way: by
+// somebody asking what would make it go red.
+//
+// This one has a real subject. It walks every non-test import in the module
+// and fails on any path that is neither module-local nor standard library.
+//
+// It is not a permanent rule. Bubble Tea, x/text and a SQLite driver are all
+// decided and all arrive with the implementation; at that point this test is
+// updated to an allow-list of the decided dependencies rather than deleted,
+// because "which third-party packages may this module import" stays a question
+// worth answering out loud.
+//
+// The stdlib test is the usual one: a standard-library path has no dot in its
+// first segment, because a dot there is a domain name. It is applied after the
+// module-local check, since the module path itself contains one.
+func TestEveryImportIsStandardLibraryOrLocal(t *testing.T) {
+	var checked int
+	for pkg, imports := range pkgImports(t) {
+		for _, imp := range imports {
+			checked++
+			if strings.HasPrefix(imp, module) {
+				continue
+			}
+			first, _, _ := strings.Cut(imp, "/")
+			if strings.Contains(first, ".") {
+				t.Errorf("%s imports %q, which is a third-party dependency.\n"+
+					"At this stage the contracts are standard-library-only: that is what lets\n"+
+					"every seam be exercised offline with no module download, and why this\n"+
+					"module has no go.sum. If the dependency is decided, add it to this test's\n"+
+					"allow-list so the set stays something somebody chose.", pkg, imp)
+			}
+		}
+	}
+	if checked == 0 {
+		t.Fatal("no imports were examined; the walk is broken and this assertion would pass vacuously")
+	}
+}
+
+// TestEveryDocReferenceResolves fails on a doc comment that cites a document
+// which does not exist.
+//
+// This is the third instance of the same defect in two review rounds: two
+// files cited a dossier document under a name it carried before it shipped,
+// and both were found by a human reading comments — the most expensive way to
+// find a broken link, and the one that stops happening the moment nobody has
+// time.
+//
+// It matters more here than in most codebases. This ticket's deliverable is
+// explicitly "the reasoning beside each signature", and that reasoning is
+// load-bearing precisely because it points at the ratified document a decision
+// came from. A citation that does not resolve is a decision whose provenance
+// has quietly been lost, in the one place the product keeps its provenance.
+//
+// Two citation styles are checked, because the comments use both: a full path
+// from the repository root, and the bare filename the blueprint and screen
+// specs are referred to by. The bare form resolves against a basename index of
+// docs/, which is looser than a path check and still catches the failure that
+// actually happens — a document renamed or never written.
+func TestEveryDocReferenceResolves(t *testing.T) {
+	root := moduleRoot(t)
+	docs := filepath.Join(root, "docs")
+
+	// A basename index of everything under docs/, for the bare-filename form.
+	byName := map[string]bool{}
+	if err := filepath.WalkDir(docs, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if !d.IsDir() {
+			byName[d.Name()] = true
+		}
+		return nil
+	}); err != nil {
+		t.Fatalf("indexing docs/: %v", err)
+	}
+	if len(byName) == 0 {
+		t.Fatal("docs/ indexed empty; every bare-filename assertion below would fail spuriously")
+	}
+
+	fullPath := regexp.MustCompile(`docs/[A-Za-z0-9._/-]+\.(?:md|toml|svg|json|css)`)
+	bareName := regexp.MustCompile(`\b(?:Z-\d{2}|\d{2})-[a-z0-9-]+\.md\b`)
+
+	var checked int
+	err := filepath.WalkDir(root, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			if d.Name() == ".git" || d.Name() == "site" || d.Name() == "docs" {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+		if !strings.HasSuffix(path, ".go") {
+			return nil
+		}
+		b, rerr := os.ReadFile(path)
+		if rerr != nil {
+			return rerr
+		}
+		rel, _ := filepath.Rel(root, path)
+
+		for _, m := range fullPath.FindAllString(string(b), -1) {
+			checked++
+			if _, serr := os.Stat(filepath.Join(root, m)); serr != nil {
+				t.Errorf("%s cites %s, which does not exist.\n"+
+					"A citation that does not resolve is a decision whose provenance has been\n"+
+					"lost, in a deliverable whose value is that its reasoning is traceable.", rel, m)
+			}
+		}
+		for _, m := range bareName.FindAllString(string(b), -1) {
+			checked++
+			if !byName[m] {
+				t.Errorf("%s cites %s, and no file of that name exists under docs/.", rel, m)
+			}
+		}
+		return nil
+	})
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("walking the module: %v", err)
 	}
-	if strings.Contains(string(b), "require") {
-		t.Skip("dependencies have arrived with the implementation; this stage-assertion has served its purpose")
+	if checked == 0 {
+		t.Fatal("no doc references were examined; the patterns are broken and this would pass vacuously")
 	}
+	t.Logf("%d doc references checked against %d files under docs/", checked, len(byName))
 }

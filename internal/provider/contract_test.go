@@ -117,6 +117,11 @@ func TestComposeRefusesAnIncompleteForm(t *testing.T) {
 		{"platform": "PS2"},
 		{"title": "Ico"},
 		{"title": "   ", "platform": "PS2"},
+		// Unicode whitespace, for the same reason the credential path checks
+		// it: a title arrives by paste. A NBSP-only title minted into a real
+		// Item is a row whose identity column is invisible.
+		{"title": "\u00a0", "platform": "PS2"},
+		{"title": "Ico", "platform": "\u3000"},
 	} {
 		_, err := m.Compose(e)
 		if err == nil {

@@ -21,7 +21,7 @@
 // carries an item_type constrained to 'game'. That is the whole affordance,
 // it costs two columns, and it is why the Go type here is [Game] with no
 // generic parameter and no MediaType field. See
-// docs/api/06-divergences-from-the-spine.md for the reconciliation with the
+// docs/api/06-divergences.md for the reconciliation with the
 // ticket's wording.
 package library
 

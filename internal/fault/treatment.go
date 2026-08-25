@@ -54,7 +54,7 @@ const (
 // Treatment returns how this Kind is permitted to appear.
 //
 // The mapping is here, once, rather than in each screen, because the property
-// worth protecting is that the twelve Kinds do not silently converge on two
+// worth protecting is that the thirteen Kinds do not silently converge on two
 // treatments. A screen may choose different words; it may not choose a
 // different class.
 func (k Kind) Treatment() Treatment {

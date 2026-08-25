@@ -202,16 +202,27 @@ func MessageKeyOf(err error) i18n.Key {
 // has an exported URL field, and a Steam URL carries the player's API key in
 // its query string.
 //
-// So the redaction is moved into the type, where it holds for every caller
-// including the ones that have not been written yet. The cause stays reachable
-// through errors.Is and errors.As for a sink that has been told it may see it.
+// # Why a value receiver
+//
+// The first version of this method took a pointer receiver, and that made the
+// redaction a property of the pointer rather than of the type. encoding/json
+// does not invoke a pointer method for a non-addressable value, so
+// json.Marshal of a Fault VALUE — or of a struct that embeds one, which is
+// exactly the log-sink case named above — fell back to reflection over the
+// exported fields and emitted the whole cause, URL and key included.
+//
+// A value receiver is in the method set of both Fault and *Fault, so every
+// spelling redacts. Nothing in this module could reach the value path (New
+// returns a pointer and no caller dereferences), which is why it was found by
+// probing rather than by a failure — and why the test below probes all three
+// spellings rather than the one the code happens to use today.
+//
+// The cause stays reachable through errors.Is and errors.As for a sink that
+// has been told it may see it.
 //
 // The shape matches the CLI's ErrorBody deliberately: one machine-readable
 // description of a failure, in one shape, wherever it is serialised.
-func (f *Fault) MarshalJSON() ([]byte, error) {
-	if f == nil {
-		return []byte("null"), nil
-	}
+func (f Fault) MarshalJSON() ([]byte, error) {
 	out := struct {
 		Kind              string `json:"kind"`
 		Op                string `json:"op,omitempty"`

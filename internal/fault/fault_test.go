@@ -240,16 +240,34 @@ func TestMarshallingAFaultDropsTheCause(t *testing.T) {
 	f := fault.New(fault.KindRateLimited, "steam.Sync",
 		fault.WithSubject("Steam"), fault.WithCause(leak), fault.WithRetryAfter(30*time.Second))
 
+	// All three spellings, because the first version of MarshalJSON took a
+	// pointer receiver and only the first of these redacted. encoding/json
+	// does not invoke a pointer method for a non-addressable value, so the
+	// value and embedded forms fell back to reflection over the exported
+	// fields and emitted the whole cause — and the embedded form is precisely
+	// the log-sink case the method exists for.
+	spellings := map[string]any{
+		"pointer":  f,
+		"value":    *f,
+		"embedded": struct{ F fault.Fault }{*f},
+		"slice":    []fault.Fault{*f},
+	}
+	for name, subject := range spellings {
+		b, err := json.Marshal(subject)
+		if err != nil {
+			t.Fatalf("%s: marshal: %v", name, err)
+		}
+		for _, forbidden := range []string{"SECRET-KEY-9F2", "api.steampowered.com", "Cause", "cause"} {
+			if contains(string(b), forbidden) {
+				t.Fatalf("marshalling a Fault as a %s leaked %q: %s", name, forbidden, b)
+			}
+		}
+	}
+
 	b, err := json.Marshal(f)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	for _, forbidden := range []string{"SECRET-KEY-9F2", "api.steampowered.com", "Cause", "cause"} {
-		if contains(string(b), forbidden) {
-			t.Fatalf("marshalling a Fault leaked %q: %s", forbidden, b)
-		}
-	}
-
 	var got map[string]any
 	if err := json.Unmarshal(b, &got); err != nil {
 		t.Fatalf("unmarshal: %v", err)
@@ -260,8 +278,12 @@ func TestMarshallingAFaultDropsTheCause(t *testing.T) {
 	if got["retry_after_seconds"] != float64(30) {
 		t.Fatalf("retry_after_seconds = %v; the one field a scripted caller acts on was dropped", got["retry_after_seconds"])
 	}
-	if _, err := json.Marshal((*fault.Fault)(nil)); err != nil {
+	nilBytes, err := json.Marshal((*fault.Fault)(nil))
+	if err != nil {
 		t.Fatalf("marshalling a nil Fault: %v", err)
+	}
+	if string(nilBytes) != "null" {
+		t.Fatalf("a nil Fault marshalled as %s, want null", nilBytes)
 	}
 }
 

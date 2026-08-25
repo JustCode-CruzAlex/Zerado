@@ -116,8 +116,15 @@ type Quote struct {
 	URL string
 }
 
-// DiscountPercent returns how far below the all-time low the current price
+// DiscountPercent returns how far ABOVE the all-time low the current price
 // sits, as a percentage of the low, rounded toward zero.
+//
+// Above, not below: it computes (Current - Low) / Low, so a price at the low
+// returns 0, one below it returns a negative, and a full-price game returns a
+// large positive. That direction is what [Quote.Verdict] reads — pct <= 0 is
+// VerdictAtLow — and the name reads as its opposite, which is why the
+// direction is spelled out here rather than left to be inferred from the
+// arithmetic.
 //
 // It returns 0 and false when either amount is unknown or the currencies
 // differ, rather than computing across currencies — a percentage derived from

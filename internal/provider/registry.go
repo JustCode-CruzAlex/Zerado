@@ -29,7 +29,9 @@ type Registry struct {
 // The order is display order — Z-02's picker and Z-09's groups both render it
 // — so it is the caller's to choose and is preserved rather than sorted.
 // A duplicate ID is a programming error and the later registration wins, which
-// is reported by [Registry.Duplicates] rather than silently tolerated.
+// is recorded and reported by [Registry.Collisions] rather than silently
+// tolerated. [Duplicates] answers the same question about a slice that has not
+// been registered yet.
 func NewRegistry(ps ...Provider) *Registry {
 	r := &Registry{byID: make(map[ID]Provider, len(ps))}
 	for _, p := range ps {

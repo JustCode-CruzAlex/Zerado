@@ -13,6 +13,7 @@ package providertest
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/JustCode-CruzAlex/Zerado/internal/fault"
@@ -141,18 +142,20 @@ func (m *Manual) Compose(e provider.Entry) (provider.Item, error) {
 	return it, nil
 }
 
-func trim(s string) string {
-	start, end := 0, len(s)
-	for start < end && isSpace(s[start]) {
-		start++
-	}
-	for end > start && isSpace(s[end-1]) {
-		end--
-	}
-	return s[start:end]
-}
-
-func isSpace(b byte) bool { return b == ' ' || b == '\t' || b == '\n' || b == '\r' }
+// trim is strings.TrimSpace, which folds Unicode whitespace.
+//
+// It was a hand-rolled byte-wise ASCII loop, which is the same shape and the
+// same defect that provider.isBlank carried: a pasted title can contain
+// U+00A0 NO-BREAK SPACE or U+3000 IDEOGRAPHIC SPACE just as a pasted
+// credential can, and a whitespace-only title would then have been minted into
+// a real Item while the sibling credential path correctly refused it.
+//
+// This file is designated in the package comment as the reference
+// implementation the physical provider will be, so a defect here propagates
+// into shipped code rather than staying in a test double. That is exactly why
+// the credential-path fix had to be carried across rather than left as a
+// one-package repair.
+func trim(s string) string { return strings.TrimSpace(s) }
 
 // Manual implements Provider and Enterer. It does NOT implement Syncer, and
 // there is deliberately no assertion here that it does — the absence is the

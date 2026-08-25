@@ -90,8 +90,17 @@ still silently inherit a switch default:
 | `TestTaxonomyIsTotal` | as before, now over a set that is actually complete |
 
 Verified by re-running the reviewer's own probe: inserting `KindThrottled` between `KindConflict` and
-`KindCancelled` now fails **four assertions across two packages**, by number, naming each missing
-case.
+`KindCancelled` now fails **three assertions across two packages**, by number, naming each missing
+case — `TestTaxonomyIsTotal` and `TestNoKindFallsThroughToTheDefaults` in `fault`, and
+`TestNoKindSilentlyInheritsTheInternalExitCode` in `cli`.
+
+**Three, not four.** `TestKindsCoversTheWholeRange` cannot fire on a mid-block insert, and that is
+correct rather than a gap: it checks `Kinds()` against the range `Kinds()` is now derived from, so it
+guards the *other* probe — a future contributor reintroducing a literal slice. The table above says
+so; a claim of "four assertions" shipped alongside it in the PR body and the commit message, and was
+wrong. *(Refuted by the review at `fbef7f1`, which ran the probe rather than reading the claim.
+Corrected here rather than restated, because a bundle whose value is that its numbers are checked
+cannot carry an unchecked one about its own tests.)*
 
 Two doc comments that asserted the enforcement while it did not exist — `treatment.go` and
 `exit.go` — were corrected rather than quietly fixed. A comment claiming a guarantee the code does
