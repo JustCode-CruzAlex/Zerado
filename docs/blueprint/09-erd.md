@@ -15,8 +15,8 @@ The schema, drawn. Two sheets, each rendered in both the brand-black and the cya
 
 | Sheet | Drawing | Spec | Rendered |
 |---|---|---|---|
-| **01 of 08** | Phase 1 core — one SQLite file, and the two things deliberately outside it | [`ZRD-ERD-01.chart.toml`](../adr/charts/ZRD-ERD-01.chart.toml) | [`svg/ZRD-ERD-01.svg`](../adr/charts/svg/ZRD-ERD-01.svg) · [cyanotype](../adr/charts/svg/ZRD-ERD-01.cyanotype.svg) |
-| **02 of 08** | Phase 2 enrichment and the Phase 4 sync boundary | [`ZRD-ERD-02.chart.toml`](../adr/charts/ZRD-ERD-02.chart.toml) | [`svg/ZRD-ERD-02.svg`](../adr/charts/svg/ZRD-ERD-02.svg) · [cyanotype](../adr/charts/svg/ZRD-ERD-02.cyanotype.svg) |
+| **01 of 09** | Phase 1 core — one SQLite file, and the two things deliberately outside it | [`ZRD-ERD-01.chart.toml`](../adr/charts/ZRD-ERD-01.chart.toml) | [`svg/ZRD-ERD-01.svg`](../adr/charts/svg/ZRD-ERD-01.svg) · [cyanotype](../adr/charts/svg/ZRD-ERD-01.cyanotype.svg) |
+| **02 of 09** | Phase 2 enrichment and the Phase 4 sync boundary | [`ZRD-ERD-02.chart.toml`](../adr/charts/ZRD-ERD-02.chart.toml) | [`svg/ZRD-ERD-02.svg`](../adr/charts/svg/ZRD-ERD-02.svg) · [cyanotype](../adr/charts/svg/ZRD-ERD-02.cyanotype.svg) |
 
 ```bash
 flowforge chart render docs/adr/charts/ZRD-ERD-01.chart.toml   # both themes

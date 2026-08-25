@@ -214,9 +214,10 @@ BodyRect.h = height − HeaderBand(tier, hasSubtitle) − 1 (footer)
 whether the screen actually supplies a non-blank subtitle. Disagreement between them is the
 defect class that clipped a FlowForge screen once already; it is forbidden by construction.
 
-**Zerado's per-screen subtitle policy is a design decision** and lives in
-`01-design-system.md` §2.4 — not every screen carries one, and a subtitle-less screen must pay
-no body row.
+**Zerado declines the subtitle row on every screen** — a composition decision owned by the spine
+(`docs/blueprint/02-composition.md` §1.2). `HeaderBandHeight` is therefore always the 3-row base
+and `hasSubtitle` is always `false`, which means the single-sizer desync **cannot occur in Zerado
+by construction**: the flag has exactly one value.
 
 ---
 
@@ -296,8 +297,9 @@ deliverable A. This section constrains that work; it does not perform it.
    never an index, never a store ID.
 3. **Regions are earned, not assumed.** Per the inherited verdict: the status summary is the
    **one pinned summary row** of R-10(c), not a region. The filter is a **mode** of the list
-   below 120 columns. The detail pane exists **only at ≥80 columns**. Four simultaneous regions
-   at 80 starve both the title column and the pane.
+   below 120 columns. **Two regions only when there is room for both to be correct** — which the
+   spine resolves at **120 columns**, not 80: an 80-column split leaves the identity column around
+   15 characters and fails R-10(a) on its face. Below 120 the detail is a route, not a pane.
 4. **Hierarchy comes from the grid.** No glow, no gradients, no fluid type in the terminal
    (brand §9). Rank is carried by case, weight, colour role, box drawing and spacing — in that
    order — and by nothing else.
@@ -351,8 +353,8 @@ applicable lines pass, evidenced by a rendered artifact rather than a claim.
 1. Nothing is flush against any terminal edge at any tier ≥ Narrow; header-left **equals**
    content-left, verified by column number on an ANSI-stripped render.
 2. Every spacing value comes from a named token at its tier value (§5.2). Zero magic numbers.
-3. `HeaderBand(tier, hasSubtitle)` matches the screen's actual subtitle; a subtitle-less screen
-   pays **no** body row and shows no blank fourth line.
+3. The header band is the **3-row base** with `hasSubtitle` false (Zerado carries no subtitles),
+   so no screen pays a body row for a blank fourth line.
 4. The breadcrumb is `Zerado ✦ <Screen>` — two segments, no faked empty segment; the
    current-screen segment never truncates.
 

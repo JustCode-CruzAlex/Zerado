@@ -14,7 +14,7 @@ Four decisions that are expensive to reverse once Phase 1 code exists. They are 
 because they constrain each other: the sync boundary decides what persistence must carry, and
 persistence decides what the provider seam can promise.
 
-**Drawings for this ADR** — eight sheets, each rendered in both themes, under
+**Drawings for this ADR** — nine sheets, each rendered in both themes, under
 [`charts/`](./charts/):
 
 | Sheet | Drawing | Bears on |
@@ -26,6 +26,7 @@ persistence decides what the provider seam can promise.
 | 06 | Navigation | D3 |
 | 07 | The provider seam | D1 |
 | 08 | The offline contract | D1, D2 |
+| 09 | Screen anatomy at the 80 × 24 design floor | D3 |
 
 ---
 

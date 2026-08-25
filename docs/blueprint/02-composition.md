@@ -68,6 +68,11 @@ exists to forbid cannot occur here because the flag has one value.
 
 ### 1.3 · The body canvas — the numbers every screen spec starts from
 
+> **Drawn:** sheet 09, [`ZRD-FRAME-01`](../adr/charts/ZRD-FRAME-01.chart.toml) —
+> [svg](../adr/charts/svg/ZRD-FRAME-01.svg) · [cyanotype](../adr/charts/svg/ZRD-FRAME-01.cyanotype.svg).
+> The 80 × 24 frame row by row, with every token named and the 74-column game row broken out.
+
+
 ```
 BodyRect.w = width  − 2·leftInset
 BodyRect.h = height − HeaderBandHeight − 1 (footer)

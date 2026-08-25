@@ -114,8 +114,9 @@ Reproducible, so two reviewers reach the same verdict.
 
 3. **Classify each run by its payload**, not by its position:
    - payload contains `◉`, `ZERADO`, or `[*]` → **STATE cyan** → *not counted*
-   - payload is the focus gutter `▸` or the focused row's leading glyph → **focus ring** →
-     *not counted*
+   - payload is a focused **control's** ring (a text input, a form field) → **focus ring** →
+     *not counted*. Note the ledger's row cursor is `▌` in **amber**, not cyan, so it never
+     appears in a cyan scan at all
    - anything else → **CHROME cyan** → *counted*
 4. **Pass if the chrome-cyan count is 0 or 1. Fail at 2 or more.**
 
@@ -266,8 +267,9 @@ removing focus rings for aesthetics would be a self-inflicted wound on exactly t
 product is for. In a terminal there is **no pointer at all** — the ring is not an accessibility
 courtesy, it is the only way to know where you are.
 
-Focus is carried by three channels so it survives `NO_COLOR` and 16 colours: the `▸` gutter
-(position), bold (weight), the ring (colour).
+Focus is carried by three channels so it survives `NO_COLOR` and 16 colours: the `▌` gutter
+marker (position), bold (weight), and colour — `--z-primary` amber on a ledger row cursor,
+`--z-focus-ring` cyan on a focused control. Any two of the three are enough.
 
 ---
 
@@ -315,7 +317,7 @@ Run against the founder-facing rendered artifact. Every line is pass or fail; th
 13. ☐ Rendered at 16 colours, no two regions merge.
 14. ☐ Every control boundary is `--z-border-strong`; `--z-border` marks no control.
 15. ☐ The focus ring is present on the focused element — in this state, on this screen.
-16. ☐ Focus survives `NO_COLOR`: the `▸` gutter and bold still identify it.
+16. ☐ Focus survives `NO_COLOR`: the `▌` gutter marker and bold still identify it.
 
 **Co-render**
 17. ☐ Every state shows **colour and glyph and label**.

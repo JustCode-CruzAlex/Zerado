@@ -123,7 +123,7 @@ the brand entirely.
 | **Orbitron as terminal display type** | It never rendered in a terminal anyway. | Orbitron **returns** on the phone, under its hard rule: display only, never below 23 px equivalent, never prose, never more than about eight words, always uppercase, always tracked out. |
 | **The terminal mark `[0]`** | Bracket-and-zero is a terminal artefact. | `logo-mark.svg`. Full colour requires a dark ground; on light use `logo-mono-black.svg`. |
 | **The five column tiers (40/60/80/120)** | Columns are not a phone dimension. | M3 window size classes / platform size classes (§6). The *principle* survives: **design for the smallest real surface first, and let the largest add panes rather than rescue them.** |
-| **The 32-column refusal floor** | No phone is too narrow. | Not carried. |
+| **The 24-column / 8-row refusal floor** | No phone is too narrow. | Not carried. |
 
 ---
 

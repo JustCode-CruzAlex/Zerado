@@ -203,7 +203,7 @@ row 2      Zerado ✦ Library                        ← breadcrumb, begins at c
 row 3   (blank)                                    ← InterElementGap = 1
 row 4      LIBRARY                                 ← title, begins at col 4
 row 5   (blank)                                    ← InnerPaddingY + InterElementGap
-row 6      ▸ ◉  ZERADO       Return of the Obra …  ← body, begins at col 4
+row 6      ▌ ◉ ZERADO       Return of the Obra D…  ← body, begins at col 4
 ```
 
 `leftInset = OuterMarginX (2) + InnerPaddingX (1) = 3`, so every visible row begins at
@@ -436,21 +436,22 @@ row grows a line instead.
 
 Fixed left = **18 cols**. Right block (Standard+) = **7 cols**.
 
-### 4.3 · Title width, computed per tier
+### 4.4 · Title width, computed per tier
 
 | Tier | Width | `leftInset` | Body | Hours? | **Title** |
 |---|---|---|---|---|---|
 | ExtraWide | 120 | 4 | 112 | one line | **81** |
 | Wide | 80 | 3 | 74 | one line | **43** |
 | Standard | 60 | 3 | 54 | one line, no source | **29** |
-| Narrow | 40 | 2 | 36 | **two lines** | **34** on line 1 |
-| Tiny | 32 | 1 | 30 | **two lines** | **28** on line 1 |
+| Narrow | 40 | 2 | 36 | **two lines** | **32** on line 1 |
+| Tiny | 32 | 1 | 30 | **two lines** | **26** on line 1 |
 
 At Wide and ExtraWide the source column and its gap cost 6 columns; at Standard they are shed.
-Below 60 the two-line form gives the title nearly the whole body width, which is why the narrow
-tiers have a **longer** usable title than Standard does.
+Below 60 the two-line form spends only 4 columns before the title — gutter, gap and the glyph
+field — so the narrow tiers get a **longer** usable title than Standard does. That is the
+two-line row paying for itself.
 
-### 4.4 · The refusal floor — 24 columns or 8 rows
+### 4.5 · The refusal floor — 24 columns or 8 rows
 
 **Owned by the spine** (`docs/blueprint/03-responsive.md` §6). Below **24 columns or 8 rows**
 Zerado does not render a degraded interface. It prints one line and exits with status `2`:
@@ -470,7 +471,7 @@ replaces the screen with the same sentence and keeps running** — it does not e
 because the player is probably dragging a divider and will drag it back. Exit is for start-up
 only.
 
-### 4.5 · Row states
+### 4.6 · Row states
 
 | State | Rendering |
 |---|---|
@@ -481,7 +482,7 @@ only.
 | Price-flagged (Phase 3) | a `▪` marker in `--z-primary` after the hours; never red — a good price is not an alarm |
 | Loading placeholder | title renders `—` in `--z-text-tertiary`; the chip renders its real state. **Never a spinner per row.** |
 
-### 4.6 · `NO_COLOR`
+### 4.7 · `NO_COLOR`
 
 Zero SGR. This is the brand manual's own ratified rendering (§5.4):
 
@@ -494,7 +495,7 @@ Zero SGR. This is the brand manual's own ratified rendering (§5.4):
 
 Focus is carried by the `▌` gutter and bold.
 
-### 4.7 · The ledger triad — non-negotiable (R-10)
+### 4.8 · The ledger triad — non-negotiable (R-10)
 
 - **(a)** The title column is populated on every row with a human title.
 - **(b)** The viewport follows the cursor; the selection is **always** visible, and cursor plus
@@ -506,7 +507,7 @@ Focus is carried by the `▌` gutter and bold.
 **Proven at 400 rows, not at a 12-row golden.** A frozen golden asserts one render at one size;
 it never exercises "scroll to row 380 and check the selection is visible."
 
-### 4.8 · Reuse verdict
+### 4.9 · Reuse verdict
 
 **`bubbles/table` does not fit as-is** — it is the primitive that, hand-rolled per screen inside
 FlowForge, independently dropped the title, the scroll and the pinned footer on two different
@@ -569,19 +570,26 @@ Build fresh — a `lipgloss` join with the width-aware truncation from §1.2.
 
 ## 6 · Detail pane
 
-One game, expanded. **Exists only at ≥80 columns** (inherited verdict 4).
+One game, expanded. Verdict 4 set the floor for a detail *pane* at 80 columns; the spine
+resolved it at **120**, on the same R-10(a) arithmetic. Below 120 the detail is a **route**.
 
-### 6.1 · Presentation, by tier — *design decision refining verdict 4*
+### 6.1 · Presentation, by tier
 
-| Tier | Behaviour |
-|---|---|
-| ExtraWide `120+` | May be **persistent** beside the ledger: body 112 → ledger 64 · gutter 2 · pane 46 |
-| Wide `80–119` | **On demand**: opens on `enter`, closes on `esc`. Body 74 → ledger 44 · gutter 2 · pane 28 |
-| Standard and below `<80` | **Not a pane** — a separate full screen, pushed and popped |
+**Owned by the spine** (`docs/blueprint/02-composition.md` §2.1). The detail is **one view with
+two hosts**:
 
-At 80 columns an always-on pane costs the ledger 30 columns of title width the player did not
-ask for. Regions are earned. Verdict 4 sets the floor at 80; this decides that at 80 the pane is
-summoned rather than assumed.
+| Tier | Library composition | Where the detail lives |
+|---|---|---|
+| **ExtraWide `120+`** | list ∥ detail — body 112 → ledger 64 · gutter 2 · pane 46 | a **pane**; `Enter` moves focus into it |
+| Tiny · Narrow · Standard · **Wide** | single-pane list | a **route**, reached with `Enter`, left with `Esc` |
+
+**Why not at 80.** Splitting a 74-column body gives roughly 44 for the list and 28 for the pane,
+which drops the identity column to about 15 columns after the state chip and the playtime figure
+— `Return of the Ob…`, a plain R-10(a) failure — and a 28-column pane cannot hold a *sinopse*
+either. **Two regions only when there is room for both to be correct.**
+
+**Consequence for this spec:** the detail component is written **host-agnostic**, built once and
+mounted twice. Nothing in it may assume a border, a pane width, or a surrounding route.
 
 ### 6.2 · Anatomy — Wide tier, pane 28 cols
 
@@ -790,6 +798,11 @@ a bounce reads as a cartoon. The sinusoid is the only one that reads as *hardwar
 divider in the terminal. Ambient animation burns a redraw budget for nothing and is exactly the
 nostalgia-kitsch brand §1 rules out. If the denominator is known, use §8 instead.
 
+Two further rules from the spine: **one at a time** — never two sweeps on one screen; and **at
+Tiny the sweep is dropped, not shrunk.** Below 40 columns a three-cell pip on a ~28-cell track is
+a blinking dash that reads as a glitch rather than as hardware, so the count line replaces it —
+more information in less space.
+
 ### 9.4 · Interim rendering
 
 `--z-scanner-track` `#5C1414` has **no derived ANSI-256 index**. Until it does, the track
@@ -798,10 +811,10 @@ invented.
 
 ### 9.5 · Reduced motion
 
-Under `ZERADO_NO_MOTION` (or a platform reduced-motion signal), the pip **parks at the centre of
-its track at full intensity** and the ticker stops — `pipLeft = round((W − 3) / 2)`. It is
-deliberately **not hidden**: the lit slot is an identity element, the travel is the decoration
-(brand §7.3).
+The terminal's reduced-motion signal is **`NO_COLOR` or an explicit `ZERADO_REDUCED_MOTION`**
+(spine, `docs/blueprint/03-responsive.md` §5). Under either, the pip **parks at the centre of its
+track at full weight** and the ticker stops — `pipLeft = round((W − 3) / 2)`. It is deliberately
+**not hidden**: the lit slot is an identity element, the travel is the decoration (brand §7.3).
 
 ### 9.6 · Performance
 
@@ -871,7 +884,7 @@ next action.** "Something went wrong" is the one sentence a terminal user cannot
 
 ### 10.4 · Spacing / `NO_COLOR` / 40 columns
 
-Centred vertically in `BodyRect`, left-aligned text starting at `leftInset`, `InterElementGap`
+Top-aligned in `BodyRect`, left-aligned text starting at `leftInset`, `InterElementGap`
 between blocks. `NO_COLOR`: zero SGR — the copy carries itself entirely. At 40 columns the
 copy re-wraps and the key hints stack one per line. **The copy is never truncated** — an empty
 state that gets cut off has failed at its only job.
@@ -1092,9 +1105,11 @@ column `--z-text-tertiary`. `esc` closes (2.1.2); it must not entirely obscure t
    an interim uncoloured rendering because of it: the determinate track (§8.2), the scanner
    track (§9.4), error text (§11.2) and tertiary text. They are correct and honest, but they are
    not the designed colour. Confirm the derivation is scheduled before Phase 1 screens are built.
-2. **The 32-column refusal floor** (§4.5). Computed from the field budget, not chosen. Confirm
-   that below 32 columns an honest refusal is preferred to a ledger with a 9-column title.
+2. **The two-line row below 60 columns** (§4.2), which is the spine's answer to keeping the state
+   label at every tier. It halves visible rows at Narrow and Tiny — 8 games instead of 16 on a
+   40 × 24 terminal. Confirm that reading a full row beats scanning a truncated one at that width.
 3. **No letterspacing in the terminal** (§1.5). The readout role loses its 0.18em tracking.
    Confirm — or nominate the single hero label that may carry it.
-4. **The detail pane is summoned, not assumed, at 80 columns** (§6.1). Confirm this refinement
-   of verdict 4.
+4. **The detail pane starts at 120 columns** (§6.1), per the spine — at 80 the split would leave
+   the identity column around 15 characters and fail R-10(a). Below 120 the detail is a route,
+   not a pane. Confirm the single detail spec mounted two ways.
