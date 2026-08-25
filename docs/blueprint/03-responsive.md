@@ -138,9 +138,10 @@ Zerado needs at least 24 columns and 8 rows. This terminal is 20 x 6.
 
 Three reasons this is a refusal and not a degrade:
 
-1. At 24 columns the *title* — the one column R-10(a) makes mandatory — is down to about 16
-   characters, so every row would be an ellipsis. A list of ellipses is not a smaller library
-   view; it is a broken one.
+1. At 24 columns the body is 22 wide, and after the two-column focus field, the two-column glyph
+   field and their space, the *title* — the one column R-10(a) makes mandatory — has **17
+   characters**. `The Legend of Zel…`, `Return of the Ob…`, `Disco Elysium: T…`: every row becomes
+   an ellipsis. A list of ellipses is not a smaller library view; it is a broken one.
 2. A degrade that cannot show the state has abandoned the co-render rule, and the co-render rule
    is the product's accessibility mechanism, not a style.
 3. Refusing is honest, actionable and one line. Rendering garbage is none of the three.
