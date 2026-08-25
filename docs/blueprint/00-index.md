@@ -34,8 +34,10 @@ off. The brand manual already said what it looks like.
 | | [`07-offline-contract.md`](./07-offline-contract.md) | What works with the network off, what degrades, how it is shown |
 | | [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) | The prior concept draft — what survives, what does not, why |
 | | [`09-erd.md`](./09-erd.md) · [`10-flows.md`](./10-flows.md) | The data model and the process flows, **drawn** |
-| | [`11-media-model.md`](./11-media-model.md) | **Games first, not games only** — the core entity is a media item; the four states verified across four types |
-| | [`12-audio.md`](./12-audio.md) | **Audio ships in Phase 1** — bundled, off by default, fully removable |
+| | [`11-media-model.md`](./11-media-model.md) | **The door stays open** — one column and a table name, and nothing else generalised |
+| | [`12-audio.md`](./12-audio.md) | **Audio ships in Phase 1** — streamed radio, off by default, fully removable |
+| | [`16-i18n.md`](./16-i18n.md) | **i18n from the first line** — no string literal in code, and the second language is one file |
+| | [`17-images.md`](./17-images.md) | **Cover art is foundational** — Kitty/Ghostty, with a supported degrade |
 | | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
 | | [`14-contradictions-closed.md`](./14-contradictions-closed.md) | The cross-check register — all 29 findings, enumerated |
 | **B · design** | [`../design/`](../design/) | The design system and the designer manual |
@@ -58,7 +60,7 @@ verified to an exact cell count:
 | `Z-09` Settings | [`Z-09-settings.md`](../design/screens/Z-09-settings.md) |
 | `Z-10` Help and key map | [`Z-10-help-and-key-map.md`](../design/screens/Z-10-help-and-key-map.md) |
 | `Z-11` Fatal error | [`Z-11-fatal-error.md`](../design/screens/Z-11-fatal-error.md) |
-| **decisions** | [`../adr/`](../adr/) | ADR-0001 — the four expensive-to-reverse decisions |
+| `Z-15` Cover deck | [`Z-15-cover-deck.md`](../design/screens/Z-15-cover-deck.md) |
 
 The drawings live at [`../adr/charts/`](../adr/charts/) as `.chart.toml` specs and render to
 `svg/` in both the brand-black and cyanotype themes.
@@ -141,8 +143,8 @@ line between the two.
 
 ### 3 · Are the settled decisions the right ones to freeze?
 
-[`../adr/ADR-0001-zerado-foundational-architecture-provider-seam-persistence-n.md`](../adr/)
-records the four, each with its alternatives and what it costs to reverse after Phase 1 code
+[`ADR-0001-zerado-foundational-architecture.md`](../adr/ADR-0001-zerado-foundational-architecture.md)
+records **all nine**, each with its alternatives and what it costs to reverse after Phase 1 code
 exists:
 
 | Decision | Cost to reverse after Phase 1 |
@@ -151,8 +153,11 @@ exists:
 | **D2 · one SQLite file, pure-Go driver, credentials outside it** | High for the file; **low** for the driver |
 | **D3 · a route stack with overlays, not tabs** | Medium — retraining users is the real cost, not the code |
 | **D4 · the Phase 4 sync boundary** | Highest — it decides what the schema must carry from Phase 1 |
-| **D5 · a media-polymorphic core** | Highest — retrofitting a type dimension rewrites every table and every seam |
-| **D6 · audio, bundled and off by default** | Low for the design; the **licensing** question is the expensive part |
+| **D5 · the door stays open** | **Low** — one column and a table name. Revision A's polymorphic core was pruned by founder direction |
+| **D6 · audio, streamed and off by default** | Low — and the licensing question is **closed**, because nothing is bundled |
+| **D7 · themes are data, and must pass the four-state contract** | Medium — the token contract is what every component reads |
+| **D8 · terminal images are foundational** | Medium-high — Phase 1 screens are designed around covers existing |
+| **D9 · i18n from the first line** | **Highest of the three** — retrofitting i18n is the canonical expensive migration |
 
 ---
 

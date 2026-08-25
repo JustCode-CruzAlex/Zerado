@@ -55,8 +55,12 @@ library, and it is fully specified, because a builder cannot build it from the l
 | **Z-09** | Settings | Route | Every dial the product has, grouped, with the current value visible without opening anything. **Includes the Audio section** — the opt-in, the two channels, two volumes, and an honest line when audio is unavailable ([`12-audio.md`](./12-audio.md)) |
 | **Z-10** | Help and key map | Route | Every key that does anything, on the screen it does it on |
 | **Z-11** | Fatal error | Route (**frameless**) | When the program cannot continue, say what broke, where the file is, and what to try — in the plainest possible renderer |
+| **Z-15** | Cover deck | Mode of Z-04 | Show the collection as covers. **Moved into Phase 1 by founder direction** — *"without image is not an option"*. A terminal with no image support is supported, not refused: it shows the text deck and a quiet, dismissible note recommending Ghostty or Kitty |
 
-**Eleven Phase 1 screens.** The ticket proposed nine; §3 records the amendment.
+**Twelve Phase 1 screens.** The ticket proposed nine; §3 records the amendments.
+
+`Z-15` keeps its number rather than being renumbered `Z-12`: IDs are **flat and stable** (§1), and
+renumbering a screen because its phase moved is exactly what that rule exists to prevent.
 
 ### Phase 2 — Enrichment · *covers, synopsis, prices, moods*
 
@@ -65,7 +69,7 @@ library, and it is fully specified, because a builder cannot build it from the l
 | Z-12 | Enrichment sync | Route | Fetching covers and *sinopse*; a second, separate sync from the store sync |
 | Z-13 | Mood picker | Route | "What is tonight for?" — the mood, then the games that match |
 | Z-14 | Mood tags | Overlay | Assign or correct a game's mood tags by hand |
-| Z-15 | Cover deck | Mode of Z-04 | The visual mode of the library. **Depends on terminal inline-image support, which is not assumed** — the text deck stays the default |
+| ~~Z-15~~ | *(moved to Phase 1 — see above)* | | Cover art was Phase 2 on the assumption that inline images could not be relied on. Founder direction 2026-08-25 reversed it: images are foundational, with a graceful degrade for terminals that lack them |
 | Z-16 | Price history | Mode of Z-05 | Current price, all-time low, and when the low was |
 | Z-17 | Command palette | Overlay | Earned here, not in Phase 1 — see §4 |
 
@@ -164,7 +168,7 @@ Recorded so they are not re-proposed, and so the reason survives.
 |---|---|
 | **Splash screen** | Contradicts "it starts instantly." Rejected permanently — never |
 | **Command palette** (`Z-17`) | A palette earns its place when the surface is bigger than the key map. With eleven screens and one home, `?` and a footer hint are better. **Phase 2** — and `:` and `Ctrl-K` are **reserved and unbound from Phase 1** so it can claim them without retraining anyone |
-| **Cover deck** (`Z-15`) | There is no cover art until Phase 2, and terminal inline images are not assumed |
+| ~~Cover deck~~ | **No longer deferred.** Founder direction moved it into Phase 1 — *"Images on terminal is a must… without image is not an option"* |
 | **Onboarding tour** | The product is eleven screens. A tour is what you build when the product cannot explain itself |
 | **A dashboard / home distinct from the library** | The library **is** the home. A dashboard above it would be a screen whose only content is a summary of the screen below it — and that summary is already one pinned row |
 | **Account / login** | There is no account before Phase 4. That is a ratified public promise, not a scheduling choice |

@@ -22,7 +22,21 @@ that true rather than usually-true.
 
 ## 1 · The contract in one sentence
 
-> **Every screen reads from the local file. Nothing renders from a network response.**
+> **Your library is always yours. Not every feature is a library.**
+
+Founder direction, 2026-08-25, correcting an earlier draft that drew this too strictly:
+
+> *"working offline doesn't mean if I'm online I have some features that will not fly on offline, so
+> radio/streaming only works when online; if offline we can't stream, so an obvious degradation."*
+
+The first draft treated *local-first* as *everything works offline*, and that is a stricter promise
+than the page makes and a worse product than the page describes. **Local-first means the library —
+the collection, the states, the notes, the ratings — is readable and editable with the network off,
+always, completely.** It does not mean a radio stream plays without a network. Some features are
+online by nature, they always were, and saying so is honesty rather than retreat.
+
+What does not change: **every screen reads from the local file, and nothing renders from a network
+response.** That is still the mechanism.
 
 The seam architecture already forces it ([`06-data-seams.md`](./06-data-seams.md) §1): providers
 write to the store, screens read from the store, and the two never meet. So the offline
@@ -36,10 +50,20 @@ them:
 |---|---|---|
 | **WORKS** | Reads only local state. Behaves identically | Nothing. No banner, no notice, no difference |
 | **DEGRADES** | Has local data, but it is not fresh | The **degrade banner** — what is stale, and how stale |
-| **REFUSES** | Needs the network to do anything at all | An honest refusal naming the reason and the retry key |
+| **NEEDS THE NETWORK** | Online by nature. Offline it stops | It states its own condition where it lives |
 
 **A feature is never in two classes**, and the class does not change with the weather. If a
-screen is `WORKS`, it works with the machine in a Faraday cage.
+feature is `WORKS`, it works with the machine in a Faraday cage.
+
+**`NEEDS THE NETWORK` is not a failure class.** How it *states* its condition depends on what kind
+of thing it is:
+
+| Kind | Offline behaviour |
+|---|---|
+| An **action** the player just took — `Z-02` submit, `Z-03` sync | A **refusal**, naming what happened, why, and the next action. The player asked; they are owed an answer |
+| An **ambient feature** — the radio | It **stops**, and says so where it lives. A stream that ends when the network does is behaving correctly, and should read the way a song ending reads, not the way an error reads |
+
+The bar is that **every degrade is visible and never silent.** It is not that every degrade is loud.
 
 ---
 
@@ -57,18 +81,21 @@ screen is `WORKS`, it works with the machine in a Faraday cage.
 | Add a game by hand (`Z-08`) | **WORKS** | The whole point of a physical shelf |
 | Settings (`Z-09`) | **WORKS** | Every dial reads and writes locally. *Connecting* a store is `Z-02`, a separate screen with its own class — Settings only routes there |
 | Help (`Z-10`) | **WORKS** | It is compiled in |
-| **Sync (`Z-03`)** | **REFUSES** | Names the reason, shows when the last sync was, offers `r` to retry |
-| **Connect a store (`Z-02`)** | **REFUSES** | Cannot validate a key without reaching the provider. Says so on submit, keeps what was typed |
+| **Sync (`Z-03`)** | **NEEDS THE NETWORK** | Names the reason, shows when the last sync was, offers `r` to retry |
+| **Connect a store (`Z-02`)** | **NEEDS THE NETWORK** | Cannot validate a key without reaching the provider. Says so on submit, keeps what was typed |
 | First run (`Z-01`) | **WORKS** | The "add a game by hand" door still opens. A player with no network can still start using the product today |
-| Audio (`Z-09 § Audio`) | **WORKS** | Bundled, never streamed — there is no audio network traffic at all. This is the design choice that lets audio ship without amending a ratified promise ([`12-audio.md`](./12-audio.md) §3) |
+| Interface FX (`Z-09 § Audio`) | **WORKS** | Short cues, local, no network. They keep working offline |
+| **Radio** (`Z-09 § Audio`) | **NEEDS THE NETWORK** | It streams, so offline it **stops** — and that is fine. No bundled music, so there is nothing to fall back to and nothing to apologise for ([`12-audio.md`](./12-audio.md)) |
+| **Cover art** (`Z-15`) | **DEGRADES** | Fetched online, cached, then available offline. An uncached cover shows the designed no-cover tile, never a broken-image box ([`17-images.md`](./17-images.md)) |
 | Fatal error (`Z-11`) | **WORKS** | It reports a local failure and depends on nothing. It is the one screen that is *more* reliable offline, because it reaches for nothing at all |
 
-**Nine of the eleven Phase 1 screens are `WORKS`** — `Z-01`, `Z-04`, `Z-05`, `Z-06`, `Z-07`,
-`Z-08`, `Z-09`, `Z-10`, `Z-11`. **Two are `REFUSES`** — `Z-02` and `Z-03`, the two that are
-definitionally about reaching somewhere else. **None is `DEGRADES` in Phase 1**, because there is
-nothing cached to be stale about until Phase 2 adds metadata and prices.
+**Nine of the twelve Phase 1 screens are `WORKS`** — `Z-01`, `Z-04`, `Z-05`, `Z-06`, `Z-07`,
+`Z-08`, `Z-09`, `Z-10`, `Z-11`. **Two `NEED THE NETWORK`** — `Z-02` and `Z-03`, the two that are
+definitionally about reaching somewhere else, and both state it as a refusal because both are
+actions the player just took. **One `DEGRADES`** — `Z-15`, the cover deck, which caches what it
+fetched and shows a designed tile for what it has not.
 
-Eleven screens, three classes, every screen in exactly one — which is the §1 invariant holding,
+Twelve screens, three classes, every screen in exactly one — which is the §1 invariant holding,
 stated as a count so it can be checked rather than asserted.
 
 ### Phase 2 and later
@@ -79,10 +106,10 @@ stated as a count so it can be checked rather than asserted.
 | Mood tags the player set | **WORKS** | Local |
 | Mood tags inferred | **DEGRADES** | Whatever was inferred last, with its age |
 | Prices (`Z-16`) | **DEGRADES** | Last known quote, **always with its age**. Never a bare number |
-| Enrichment sync (`Z-12`) | **REFUSES** | Same shape as `Z-03` |
+| Enrichment sync (`Z-12`) | **NEEDS THE NETWORK** | Same shape as `Z-03` |
 | Tonight (`Z-18`) | **WORKS** | Mood and time are local facts. This is the headline feature and it is offline-complete by design |
 | Watchlist (`Z-20`) | **DEGRADES** | Verdicts computed from the last known prices, each stamped |
-| Community, profiles, comments (Phase 4) | **REFUSES** | They are definitionally other people |
+| Community, profiles, comments (Phase 4) | **NEEDS THE NETWORK** | They are definitionally other people |
 
 ---
 

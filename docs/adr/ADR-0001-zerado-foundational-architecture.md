@@ -1,7 +1,7 @@
 ---
 archetype: adr-detail
 adr: ADR-0001
-title: "Zerado foundational architecture — provider seam, persistence, navigation model, Phase 4 sync boundary, media-polymorphic core, audio"
+title: "Zerado foundational architecture — provider seam, persistence, navigation, Phase 4 sync, the open door, audio, themes, images, i18n"
 status: PROPOSED
 date: 2026-08-25
 ticket: "#2"
@@ -9,7 +9,7 @@ ticket: "#2"
 
 # ADR-0001 · Zerado foundational architecture
 
-Six decisions that are expensive to reverse once Phase 1 code exists. They are recorded together
+Nine decisions that are expensive to reverse once Phase 1 code exists. They are recorded together
 because they constrain each other: the sync boundary decides what persistence must carry, and
 persistence decides what the provider seam can promise.
 
@@ -27,6 +27,8 @@ persistence decides what the provider seam can promise.
 | 08 | The offline contract | D1, D2 |
 | 09 | Screen anatomy at the 80 × 24 design floor | D3 |
 | 10 | The audio subsystem and its degrade ladder | D6 |
+
+*(The drawings predate D7–D9; themes, images and i18n are specified in prose and carry no sheet. Recorded rather than left for a reader to notice.)*
 
 ---
 
@@ -229,7 +231,7 @@ Three things this forces into the **Phase 1** schema:
 
 | Considered | Rejected because |
 |---|---|
-| **Sync the whole library** | Contradicts local-first in spirit, makes the server expensive enough to break the "premium account or a donation" statement, and stores data the player already has two other copies of |
+| **Sync the whole library** | Contradicts local-first in spirit, makes the server expensive enough to break the donation-supported statement, and stores data the player already has two other copies of |
 | **Sync credentials so a new device is zero-setup** | A ratified promise says the keys are the player's own. Centralising them makes Zerado a credential custodian, which is a different company |
 | **Add `game_uid` in Phase 4 instead** | The migration would have to invent stable identities for rows whose titles the player has since edited. One column and one index now; an unwritable migration later |
 | **CRDTs / an operation log** | Correct for concurrent multi-writer editing. The conflicting parties here are one person on two devices who agree about what they did. Real complexity for a case that does not exist |
@@ -251,64 +253,45 @@ migration onward.
 
 ---
 
-## D5 · The core entity is a **media item**, not a game
+## D5 · The door stays open — one column and a table name
 
 ### Decision
 
-`media_item` is the core entity, carrying a `media_type`. `game` is the first type; `book` is the
-second; `film` and `series` are a plausible third and fourth. **Phase 1 ships games only** — the
-column is constrained to `'game'`, there is no `--type` flag, and a Phase 1 player cannot tell this
-decision exists.
+Zerado is a **games** product. Two decisions, both reversible, keep books possible without shaping
+anything now: the core table is called **`item`**, not `games`; and it carries an **`item_type`**
+column, `CHECK`ed to `'game'`.
 
-- **Shared facts live on the core:** ownership, acquisition (digital or physical), the four states,
-  progress, mood tags, rating, notes, the source provider, price history.
-- **Type-specific facts live in a typed extension:** `media_game` (Steam appid, achievements);
-  later `media_book`, `media_film`, `media_series`.
-- **Progress is generic** — `value` + `unit` + `source` — rather than a typed `playtime`. This
-  diverges from the letter of the founder direction and the reason is in
-  [`../blueprint/11-media-model.md`](../blueprint/11-media-model.md) §1: it is what keeps the
-  four-state derivation **one function** instead of one per type.
-- **Derived versus manual is a capability of the `(provider, media type)` pair, not of the type.**
-  A Steam game derives; a cartridge does not; a paper book does not; a Kindle book would. Phase 1
-  already needs this for physical copies, so the mechanism is not new work.
-- **The provider seam gains `MediaTypes()`** and per-type `Capabilities`. Nothing else reshapes.
-- **Mood tags carry a type-neutral `key` and a per-type `label`** — one engine, per-type vocabulary.
+That is the entire affordance. No typed extensions, no generic progress, no interface parameterised
+on a type with one value.
 
-**The four states were verified type by type, not assumed** — see
-[`../blueprint/11-media-model.md`](../blueprint/11-media-model.md) §2. Two findings, in §4:
+**This supersedes revision A of this decision**, which specified a full media-polymorphic core with
+typed extensions for books, films and series. Founder direction, 2026-08-25: *"At this point don't
+even think on books and other media types. What I would like is let that door open."* The
+speculation was beginning to shape Phase 1 tables and Phase 1 states, which is the cost that makes
+speculative generality expensive rather than merely unused. The reasoning is kept as a short
+appendix in [`../blueprint/11-media-model.md`](../blueprint/11-media-model.md), shaping nothing.
 
-- **F-1 · a film has no meaningful `IN PROGRESS`**, so **`film` and `series` should be two types**,
-  not one "video" type. Costs nothing now; costs a migration later.
-- **F-2 · an ongoing series needs *caught up*, and it must not become a fifth state.** The four are
-  ratified and CVD-verified at a measured ΔE floor of 11.9 under deuteranopia; a fifth colour would
-  have to be re-verified against that, for one type, in a later phase. Model *caught up* as a derived
-  presentation of `IN PROGRESS` from typed facts.
+**One consequence worth naming: the generic-progress divergence is withdrawn.** Revision A modelled
+playtime as `progress_value` + `_unit` + `_source`, arguing it kept the four-state derivation a
+single function across media types. That argument died with the media types. `playtime_minutes` is a
+plain column — which is what the original direction said, and it closes a founder-gate item by
+removing its cause rather than answering it.
 
 ### Alternatives
 
 | Considered | Rejected because |
 |---|---|
-| **Keep it games-only; add types when books arrive** | The retrofit rewrites every table, every seam and the whole state machine. This is the single most expensive thing in the bundle to defer, which is why it is the one thing designed ahead of need |
-| **One table with nullable type-specific columns** | A `game` row carrying null `isbn` and `page_count` — the table grows a column per type forever and every query learns which nulls are meaningful |
-| **JSON blob for type-specific facts** | Unqueryable and unconstrained. The typed facts are exactly what a type-specific screen filters on |
-| **A plugin/registry for media types** | An abstraction with one implementation for the whole life of Phase 1. Three types are foreseen and they ship in the binary |
-| **Playtime as a typed game fact (the direction's letter)** | Forks the four-state derivation per type. Recorded as an open founder question in [`../blueprint/13-handoffs.md`](../blueprint/13-handoffs.md) §5 |
+| **Full polymorphic core** (revision A) | Pruned by the founder. It was shaping Phase 1 for a type that does not exist |
+| **Nothing at all — call the table `games`** | The retrofit renames the central table and every foreign key referencing it, on a file the product promises never to lose. Two columns of foresight buy that away |
+| **A plugin/registry for types** | An abstraction with one implementation, indefinitely |
 
 ### Consequences
 
-**Easier:** adding books should be one migration, one provider, one typed extension and one label
-set — with **zero** changes to the state machine, the recommender, the offline contract or any
-existing screen. That is a measurable test, and it is the one to hold this decision to.
+**Easier:** Phase 1 reads as a games product, because it is one. **Harder:** every query carries an
+`item_type` predicate it does not yet need — one cheap predicate, and the price of not doing the
+retrofit. **Cost to reverse: low**, which is the point.
 
-**Harder:** every Phase 1 query carries a `media_type` predicate it does not yet need, and one join
-to `media_game` for facts that could have been columns. Both are cheap at this size, and both are
-the price of not doing the retrofit.
-
-**Cost to reverse:** **highest, jointly with D4.** It is the shape of every table and every seam.
-
----
-
-## D6 · Audio ships in Phase 1 — **bundled, off by default, fully removable**
+## D6 · Audio ships in Phase 1 — **streamed radio, off by default, fully removable**
 
 > **This reverses a verdict recorded in this same bundle** — see
 > [`../blueprint/08-prior-draft-analysis.md`](../blueprint/08-prior-draft-analysis.md) §3, kept
@@ -322,9 +305,11 @@ the price of not doing the retrofit.
 rejected was a *network streamer, always on*. What ships is a *local, bundled, opt-in subsystem, off
 by default, that makes no network requests at all*.
 
-- **Bundled, never streamed.** No CDN, no fetch, no cache warm. This is what keeps three ratified
-  promises intact — *no background telemetry*, *works with the network off*, *the only traffic is
-  services you connected* — and it makes audio `WORKS` in the offline contract.
+- **Streamed, never bundled.** Music is internet radio the player chooses — synthwave, 80s — and
+  **nothing ships in the binary.** Interface FX are local and always available. Founder direction,
+  2026-08-25: *"let's skip the bundle music, if the user is offline no music, that's it."*
+  Radio therefore `NEEDS THE NETWORK` and FX are `WORKS`; a stream stopping when the network does is
+  an honest degradation of a feature that is online by nature, not a broken promise.
 - **Off by default**, with an explicit opt-in in `Z-09 Settings § Audio`. A terminal program that
   makes noise on first run is one people uninstall before they have seen anything else. This also
   satisfies **WCAG 1.4.2 Audio Control** structurally rather than by a bolted-on control.
@@ -341,17 +326,16 @@ by default, that makes no network requests at all*.
 - **Audio is never the only carrier of information** — the co-render rule extended to a fourth
   channel. The test is `ZERADO_NO_AUDIO=1` and lose nothing, the same test `NO_COLOR` passes.
 
-### The open founder decision — music licensing
+### The licensing question is CLOSED, by removing its cause
 
-**Bundled tracks must be DRM-free and licensed for commercial redistribution, or they do not
-ship.** Both halves bite: the repository is **public**, so tracks are redistributed by every clone
-and every release artifact; and the funding model is **affiliate commission**, so a
-"non-commercial use" licence does not cover it — the same trap already identified for IGDB.
+Revision A carried an open founder decision: bundled tracks would need commercial redistribution
+rights from a public repository. **Nothing is bundled, so there is nothing to license, nothing to
+attribute and no repo weight.** The most expensive open question in the audio design was dissolved
+rather than answered.
 
-> **Recommendation, for the founder to accept or refuse:** ship Phase 1 with **interface FX only**,
-> and make the **music bed user-supplied** (point Zerado at a local directory). That delivers the
-> feeling, removes the licensing blocker from the critical path entirely, and leaves a bundled
-> soundtrack as a later addition once rights are actually cleared. Audio ships either way.
+**Stations ship as data, user-editable, not compiled in** — with the requirement that every default
+URL is verified to resolve before it ships, and re-checkable thereafter. A dead station in the
+default list is a broken first impression that arrives silently months later.
 
 ### Alternatives
 
@@ -378,6 +362,123 @@ list, not a specialist's.
 
 ---
 
+## D7 · Themes are data, and every theme must pass the four-state contract
+
+### Decision
+
+A theme is a **data file**, never code. Zerado adopts FlowForge's theme approach and its omarchy
+corpus — **35 files verified at source**, including `delorean` and `retro-82`, under MIT with
+attribution.
+
+- **The dark default is the brand palette** from the site mocks; **light is first-class**, based on
+  the brand manual's §4.5 paper expression rather than invented.
+- **Every theme must satisfy the four-state contract or FAIL VALIDATION** — the four states
+  distinguishable by colour with **measured CVD separation**, and every text pair clearing 4.5:1 on
+  that theme's own ground. **A theme that cannot express four distinguishable states does not ship
+  broken; it does not ship.**
+- Glyph and label are theme-invariant, so co-render holds even where colour degrades — which is what
+  makes a marginal theme *degraded* rather than *dangerous*.
+
+The token contract and the validation are specified in
+[`../design/05-theme-system.md`](../design/05-theme-system.md).
+
+**This closes the light-mode CVD gap properly.** It stops being *"someone should check the light
+palette"* and becomes *"no theme ships without passing this"* — a standing gate rather than a
+one-time task.
+
+### Alternatives
+
+| Considered | Rejected because |
+|---|---|
+| **One theme, the brand's** | The founder asked for the FlowForge set. And a terminal product whose users have strong theme opinions is a product that will be re-themed with or without permission |
+| **Themes as Go code** | A theme becomes a release. It must be a file a player can drop in |
+| **Accept any palette** | The four states are the product's most-used visual system. A theme that collapses two of them silently breaks the one thing co-render exists to protect |
+
+### Consequences
+
+**Easier:** a theme is a contribution, not a change. **Harder:** validation must exist and run, and
+some attractive palettes will fail it — which is the decision working, not misfiring.
+**Cost to reverse: medium** — the token contract is what every component reads.
+
+---
+
+## D8 · Terminal images are foundational, with an honest degrade
+
+### Decision
+
+Cover art is **Phase 1**, reversing revision A which deferred it and declined to assume inline
+images. Founder direction: *"without image is not an option."*
+
+**Kitty graphics protocol** (Kitty, Ghostty) plus **iTerm2**; **Sixel deferred** with its reasons.
+**Capability detection at startup, failing closed** — never a config flag the player must find, and
+never guessing yes.
+
+**A terminal without image support is a supported configuration**, not a warning state: it renders
+the full text deck, plus a **once-only, dismissible** note that Ghostty or Kitty would show covers.
+Never recurring, never blocking, never phrased as a fault in the player's setup.
+
+Covers are **cache, never truth** — XDG cache, bounded, evicting; deleting it costs only bandwidth.
+`Cover()` **never fetches and never blocks**: a missing cover is never worth a dropped frame.
+
+### Alternatives
+
+| Considered | Rejected because |
+|---|---|
+| **Defer to Phase 2** (revision A) | Optimised for the terminal instead of the player. A game library without covers is a spreadsheet |
+| **Require an image-capable terminal** | Refuses a supported configuration to avoid designing a degrade |
+| **Half-block / ASCII art covers** | A picture of a picture, and precisely the retro-kitsch the brand rules out |
+| **Sixel in Phase 1** | Poor colour fidelity on photographic content and slow at deck sizes. Revisit on evidence |
+
+### Consequences
+
+**Easier:** the product looks like what it is. **Harder:** a whole capability axis to detect, cache
+and bound, and a degrade path that must stay genuinely first-class rather than becoming a
+second-class citizen once covers look good. **Cost to reverse: medium-high** — it is a seam, but
+Phase 1 screens are designed around covers existing.
+
+---
+
+## D9 · Internationalisation from the first line
+
+### Decision
+
+**No user-facing string literal in code.** Every string comes from a catalogue, by key, enforced by
+a **lint that fails the build** — not a convention. English is the only language in v1; adding
+`pt-BR` must be **adding one file**, with no code change.
+
+`golang.org/x/text`, already in the dependency set, for plural rules, locale-aware number, currency
+and date formatting, collation, and locale negotiation.
+
+**Four things naive i18n misses, all specified**: terminal **cell width** (the TUI-specific one, and
+already biting *today* — `Pokémon` and `Ōkami` are not ASCII); **currency**, because the budget
+feature is money in the player's own currency; **plurals** via CLDR, exercised by the English
+catalogue so the mechanism is live from day one; and **collation**, because byte order already
+mis-sorts accented titles in English.
+
+**`zerado` and `sinopse` stay Portuguese** — ratified brand vocabulary carried with a translator
+note, so no future translator "fixes" them.
+
+Founder direction, naming it as a scar: *"we will not make the same mistake we did on FlowForge."*
+
+### Alternatives
+
+| Considered | Rejected because |
+|---|---|
+| **Retrofit when a second language is wanted** | The strings a retrofit misses are the ones nobody looks at — errors, empty states, the fatal screen. The worst screens to meet an unreadable language on |
+| **`map[string]string`** | No plurals, no CLDR. It becomes `x/text` eventually, having lost the intervening strings |
+| **`go-i18n`** | Capable, but a second dependency for what `x/text` already does |
+| **A convention instead of a lint** | A rule nobody can check is a convention, and conventions lose to deadlines |
+
+### Consequences
+
+**Easier:** the second language is a file. Width-correct rendering is a *side effect* of doing this
+properly, and it fixes a defect that exists today. **Harder:** every string costs a key, and the lint
+will occasionally be wrong and need an allow-list entry with a reason. **Cost to reverse: highest of
+the three added here** — retrofitting i18n into a finished product is the canonical expensive
+migration, which is exactly why it starts now.
+
+---
+
 ## What this ADR does not decide
 
 Named so they are not assumed to have been settled here:
@@ -396,7 +497,7 @@ Named so they are not assumed to have been settled here:
 
 ## Status
 
-**PROPOSED.** **All six** — D1 through D6 — are the third of the founder's three ratification
+**PROPOSED.** **All nine** — D1 through D9 — are the third of the founder's three ratification
 questions. Ratifying the bundle ratifies them; that ratification is itself the authorization to
 emit the Phase 1 implementation tickets, with no second approval step.
 

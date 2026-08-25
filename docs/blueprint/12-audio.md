@@ -22,19 +22,26 @@ proposal outright, with five reasons. **That verdict is superseded.** Audio ship
 job is to design it, not to decide whether it exists.
 
 **The reversal is not a change of mind about the same object — the object changed.** What was
-rejected was a *network streamer, always on*. What ships is a *local, bundled, opt-in subsystem,
-off by default, that makes no network requests at all*. Three of the five objections retire because
-of that, not because they were overruled.
+rejected was a *network streamer, always on, bundled into the product's identity*. What ships is an
+**opt-in subsystem, off by default**, whose music is somebody else's radio station that the player
+chooses and can stop in one keystroke, and whose only always-available part is a handful of local
+interface cues. Three of the five objections retire because of that, not because they were
+overruled.
+
+*(The design moved twice: the first reversal specified bundled tracks; founder direction on
+2026-08-25 then removed bundling entirely in favour of streamed stations. Both moves are recorded
+rather than folded, because the second one **dissolved** the licensing question rather than
+answering it, and that is worth being able to see.)*
 
 The five reasons are not deleted. Two survive the reversal as **binding constraints**, and one of
 those is still an open founder decision:
 
 | Original objection | Status after the reversal |
 |---|---|
-| Contradicts *"no telemetry"*, *"works with the network off"*, *"only traffic is services you connected"* | **Retired — the object changed.** What was rejected was a *network streamer, always on*; what ships is a *local, bundled, opt-in* subsystem making no network requests at all. §3 |
+| Contradicts *"no telemetry"*, *"works with the network off"*, *"only traffic is services you connected"* | **Retired — the object changed.** A station the player chose and can stop in one keystroke is a *connected service*, not background telemetry; and *"works with the network off"* is a promise about the **library**, not about every feature. §3 |
 | Costs the pure-Go single-binary distribution (cgo) | **Survives as a requirement** — §5 |
 | Costs the 60 fps and zero-goroutine-leak budget | **Survives as a requirement** — §6 |
-| Acquires a music-rights surface | **Survives as a founder decision, unresolved** — §7 |
+| Acquires a music-rights surface | **DISSOLVED.** Nothing is bundled, so there is nothing to license — §7 |
 | Nostalgia-kitsch versus retro-future | **The founder's call, and it is made.** §8 records the bar the sound has to clear so the reversal does not quietly become the thing the brand manual rules out |
 
 > **Provenance.** The direction reached this session as an agent relay, which by its own header
@@ -46,12 +53,20 @@ those is still an open founder decision:
 
 ## 1 · What it is
 
+> **Founder, 2026-08-25:** *"we can have radio stations that play synthwave 24/7, and others that
+> play only 80's… To me the audio is done."* And decisively: *"let's skip the bundle music, if the
+> user is offline no music, that's it. Easy peasy, and we don't worry about that."*
+
 Two independent channels:
 
-| Channel | What it is | Default |
-|---|---|---|
-| **Music** | A background bed. The retro-future soundtrack | **off** |
-| **Interface FX** | Short cues: a completed sync, an error, a state change to `ZERADO` | **off** |
+| Channel | What it is | Online? | Default |
+|---|---|---|---|
+| **Radio** | Streamed stations — synthwave 24/7, 80s | **Yes.** Offline it stops, and that is fine | **off** |
+| **Interface FX** | Short local cues: a completed sync, an error, a state change to `ZERADO` | No — local, always available | **off** |
+
+**Nothing is bundled.** That single decision removes an entire class of problem: no licensing
+question, no attribution surface, no repo weight, and no argument about which tracks. The music is
+somebody else's stream, played when there is a network and silent when there is not.
 
 They mute independently and have independent volumes. Someone may want the keyclicks without the
 soundtrack, or the soundtrack without the keyclicks, and neither is the odd request.
@@ -78,20 +93,23 @@ mute with the two channels independently controllable.
 
 ---
 
-## 3 · Bundled, never streamed — and this is what keeps the public promises intact
+## 3 · Streamed, never bundled — and the promises still hold
 
 The published page says *"no telemetry running in the background"*, *"Runs with the network off"*,
 and *"The only network traffic is `Zerado` reaching out to the services you've connected."*
 
-**Zerado's audio makes no network requests, ever.** Tracks and cues are bundled with the binary or
-read from a local path. There is no streamer, no CDN, no fetch, no cache warm.
+**A radio stream does not violate any of those, and the reason is the word *connected*.** The player
+turns audio on and chooses a station; from then on the stream is a service they connected, exactly
+like Steam. It is not background telemetry, because the player started it and can stop it in one
+keystroke. It is not traffic they did not ask for.
 
-That is not a limitation accepted reluctantly. It is the design decision that lets audio ship at
-all without amending a ratified promise — and it means audio is **`WORKS`** in the offline contract
-([`07-offline-contract.md`](./07-offline-contract.md)), like every other local-only feature.
+*"Runs with the network off"* is the promise the earlier draft read too strictly. It means **the
+library works offline** — see [`07-offline-contract.md`](./07-offline-contract.md) §1. A stream that
+stops when the network does is an obvious, honest degradation of a feature that is online by nature,
+not a broken promise.
 
-A streamed soundtrack would be a different product decision requiring a different ratification, and
-it is out of scope.
+So: **interface FX are `WORKS`** — local, always. **Radio `NEEDS THE NETWORK`** — offline it stops,
+says so where it lives, and there is nothing to fall back to because nothing is bundled.
 
 ---
 
@@ -179,35 +197,23 @@ happens on; the sound follows or does not. Nothing waits for audio.
 
 ---
 
-## 7 · Licensing — unresolved, and it is a founder decision
+## 7 · Stations are data — and the licensing question is closed
 
-**Bundled music must be DRM-free and licensed for commercial redistribution, or it does not ship.**
+**The music-licensing gate item is closed, by removing its cause.** Nothing ships in the binary, so
+there is nothing to license, nothing to attribute and nothing to argue about. This was the most
+expensive open question in the audio design and it was dissolved rather than answered.
 
-The constraint is sharper here than for most projects, and both halves bite:
+**The default station list ships as data, not compiled in**, and is user-editable — a plain file the
+player can add to, reorder or replace. Two rules:
 
-- **The repository is public and open-source.** Bundled tracks are redistributed by every clone,
-  every fork and every release artifact.
-- **The product is commercial.** The funding model is affiliate commission, so a
-  "non-commercial use" licence does not cover it — the same trap already identified for IGDB
-  ([`06-data-seams.md`](./06-data-seams.md) §3).
+1. **Every URL in the default list must be verified to resolve before it ships.** A dead station in
+   the default list is a broken first impression, and it is the kind of rot that arrives silently
+   months later. The list needs a check that can be re-run, not a one-time look.
+2. **A station that fails to play is a station, not an error.** It reports that it could not connect
+   and the player picks another. It never becomes a modal, and it never stops the library.
 
-**Do not assume a track is usable.** A licence that permits "free use with attribution" frequently
-does not permit redistribution inside a binary, and rarely contemplates commercial use.
-
-| Needs a decision | Note |
-|---|---|
-| Which tracks, under which licence | Named, with the licence text archived in-repo |
-| Whether tracks are **bundled** or **user-supplied** (point Zerado at your own directory) | User-supplied sidesteps licensing entirely and is worth considering as the Phase 1 answer |
-| Attribution surface | Where the credit renders — `Z-10 Help` is the natural home |
-
-> **Interim recommendation, for the founder to accept or refuse:** ship Phase 1 with **interface FX
-> only** — short cues that are cheap to originate or to license cleanly — and make the **music bed
-> user-supplied**, pointed at a local directory. That delivers the feeling, removes the licensing
-> blocker from the critical path entirely, and leaves a bundled soundtrack as a later addition once
-> the rights are actually cleared. This is a recommendation, not a decision; the founder's
-> instruction was that audio ships, and it ships either way.
-
----
+Zerado streams; it does not host, cache or redistribute. That keeps it clearly on the side of a
+client, which is the same posture any podcast or radio client takes.
 
 ## 8 · What Zerado sounds like — the bar, so it can be failed
 

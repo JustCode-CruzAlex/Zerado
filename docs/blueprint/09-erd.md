@@ -17,9 +17,10 @@ ticket: "#2"
 > needed to make the architecture argument, and are illustrative of intent rather than a schema to
 > run. [`13-handoffs.md`](./13-handoffs.md) states which claims are load-bearing.
 
-> **The core entity is a `media_item`, not a `game`.** Games are the first media type; books are the
-> second and films/series a plausible third. Phase 1 ships games only — see
-> [`11-media-model.md`](./11-media-model.md).
+> **Zerado is a games model.** The core entity is `item` — not `games`, and carrying an `item_type`
+> constrained to `'game'` — which is the whole of the "door stays open" affordance in
+> [`11-media-model.md`](./11-media-model.md). There are no typed extensions, no generic progress and
+> no second type. Playtime is playtime.
 
 The schema, drawn. Two sheets, each rendered in both the brand-black and the cyanotype theme.
 
@@ -43,60 +44,52 @@ deliberately outside the library file, or the one payload that crosses the sync 
 
 ## 1 · Phase 1 — the tables
 
-### `media_item` — the row everything else hangs off
-
-Type-neutral. Everything genuinely shared across games, books and films lives here.
+### `item` — the row everything else hangs off
 
 | Column | Type | Notes |
 |---|---|---|
 | `id` | `INTEGER PK` | local surrogate |
-| `media_uid` | `TEXT NOT NULL` | **indexed, not unique.** A Phase 4 merge *hint* — see §4 |
-| **`media_type`** | `TEXT NOT NULL` | `game` in Phase 1, and **constrained to it**. `book` · `film` · `series` later |
+| `item_uid` | `TEXT NOT NULL` | **indexed, not unique.** A Phase 4 merge *hint* — see §4 |
+| **`item_type`** | `TEXT NOT NULL` | `'game'`, **constrained to it**. The door-open affordance, and nothing more |
 | `provider_id` | `TEXT NOT NULL` | `steam` · `physical` · … |
 | `provider_ref` | `TEXT NOT NULL` | the provider's own id. Steam appid; a UUID for physical |
-| `acquisition` | `TEXT NOT NULL` | `digital` · `physical` — shared by every type |
+| `acquisition` | `TEXT NOT NULL` | `digital` · `physical` |
 | `title` · `sort_title` | `TEXT NOT NULL` | articles stripped, diacritics folded |
 | `platform` | `TEXT NOT NULL` | |
-| **`progress_value`** | `INTEGER NULL` | generic. `NULL` = not reported |
-| **`progress_unit`** | `TEXT NULL` | `minutes` (games) · `pages` · `percent` · `episodes` |
-| **`progress_source`** | `TEXT NOT NULL` | `derived` · `manual` — from the provider's capability |
-| `last_used_at` | `TEXT NULL` | last played / read / watched. **`NULL` = not reported, not never** |
+| **`playtime_minutes`** | `INTEGER NOT NULL DEFAULT 0` | provider-reported. **Zero is a real value** and is distinct from *this provider does not report playtime* — see `Capabilities.Playtime` |
+| `last_played_at` | `TEXT NULL` | **`NULL` = not reported, not never played** |
 | `owned_since` | `TEXT NULL` | |
+| `steam_appid` | `TEXT NULL` | |
+| `achievements_total` · `achievements_unlocked` | `INTEGER NULL` | may *suggest* `ZERADO` in Phase 2; never sets it |
 | `status_manual` | `TEXT NULL` | `not_started` · `in_progress` · `zerado` · `abandoned` · `NULL` |
 | `status_changed_at` | `TEXT NULL` | decides the Phase 4 conflict |
 | `rating` · `notes` | | the player's own |
-| **`absent_since`** | `TEXT NULL` | Set when a **complete** sync stops returning it; cleared when it returns. **Never a reason to delete** — see [`06-data-seams.md`](./06-data-seams.md) §2.4 |
-| `merged_into` | `INTEGER NULL` | FK → `media_item.id`, so a Phase 4 merge never rewrites keys |
+| `absent_since` | `TEXT NULL` | Set when a **complete** sync stops returning it; cleared when it returns. **Never a reason to delete** — [`06-data-seams.md`](./06-data-seams.md) §2.4 |
+| `merged_into` | `INTEGER NULL` | FK → `item.id`, so a Phase 4 merge never rewrites keys |
 | `created_at` `updated_at` | `TEXT NOT NULL` | |
 
 ```sql
 UNIQUE (provider_id, provider_ref)
-INDEX  (media_uid)
-INDEX  (media_type, sort_title)
+CHECK  (item_type = 'game')
+INDEX  (item_uid)
+INDEX  (sort_title)
 ```
 
-**Why `progress` is generic rather than a typed `playtime`:** it is what keeps the four-state
-derivation a single function instead of one per type. For a game the unit is `minutes` and the value
-*is* the playtime, so nothing is duplicated. The reasoning — and the fact that this diverges from the
-letter of the founder direction — is in [`11-media-model.md`](./11-media-model.md) §1.
+**Game facts live on the item, not in a typed extension.** Revision A split them into a
+`media_game` table to serve a polymorphic core; with books pruned there is no second type to
+separate them from, and a join that serves one type is machinery without a purpose. When a second
+type is genuinely on the table, that is the moment to decide between an extension table and nullable
+columns — with a real second type in hand to decide against.
+
+**`playtime_minutes` is a plain column, not generic progress.** Revision A modelled it as
+`progress_value` + `_unit` + `_source`, on the argument that it kept the four-state derivation a
+single function across media types. **That argument died with the media types**, so the divergence
+is withdrawn and playtime is playtime — which is what the founder's direction said in the first
+place.
 
 **`effective_status` is not a column.** It is derived on read:
-`status_manual ?? derive(progress, capabilities)`. A stored derived value has two ways to be wrong —
-stale, or written by the wrong path. A derived one has none. See
-[`05-state-machine.md`](./05-state-machine.md) §6.
-
-### `media_game` — the typed extension, Phase 1's only one
-
-| Column | Notes |
-|---|---|
-| `media_item_id` `PK/FK` | one row per game |
-| `steam_appid` | |
-| `achievements_total` · `achievements_unlocked` | may *suggest* `ZERADO` in Phase 2; never sets it |
-
-Its siblings — `media_book` (author · ISBN · page count · publisher · format), `media_film`
-(runtime · director), `media_series` (seasons · episodes released · has-ended) — are **not built in
-Phase 1**. They are named so the shape is visibly extensible, and so finding F-1 (film and series
-are two types, not one) is not rediscovered later.
+`status_manual ?? derive(playtime_minutes, capabilities)`. A stored derived value has two ways to be
+wrong — stale, or written by the wrong path. A derived one has none.
 
 ### `provider_connection`
 
@@ -144,10 +137,10 @@ what is no longer around to ask.
 
 | Table | Key columns | The rule it carries |
 |---|---|---|
-| `metadata` | `media_item_id PK/FK` · `sinopse` · `cover_ref` · `released_at` · `genres` · `source_provider` · `attribution` · **`fetched_at NOT NULL`** | `cover_ref` is a **local cache path, never a remote URL** — nothing renders from the network. `attribution` comes from the provider, so swapping the source swaps the credit |
-| `price_quote` | `media_item_id FK` · `shop` · `currency` · `current_cents` · `low_cents` · `low_at` · `url` · `affiliate_url` · **`observed_at NOT NULL`** | `affiliate_url` and the disclosure obligation live in the same row, so a refactor cannot separate them |
+| `metadata` | `item_id PK/FK` · `sinopse` · `cover_ref` · `released_at` · `genres` · `source_provider` · `attribution` · **`fetched_at NOT NULL`** | `cover_ref` is a **local cache path, never a remote URL** — nothing renders from the network. `attribution` comes from the provider, so swapping the source swaps the credit |
+| `price_quote` | `item_id FK` · `shop` · `currency` · `current_cents` · `low_cents` · `low_at` · `url` · `affiliate_url` · **`observed_at NOT NULL`** | `affiliate_url` and the disclosure obligation live in the same row, so a refactor cannot separate them |
 | `mood_tag` | `id PK` · **`key`** · **`applies_to[]`** · `label` | The engine reasons over the type-neutral `key`; the interface shows the per-type `label`. One engine, per-type vocabulary — [`11-media-model.md`](./11-media-model.md) §6 |
-| `media_mood` | `media_item_id FK` · `mood_id FK` · `source` (`user` \| `inferred`) · `confidence` | `source` is what decides whether a tag crosses the Phase 4 boundary. **Only `user` does** |
+| `item_mood` | `item_id FK` · `mood_id FK` · `source` (`user` \| `inferred`) · `confidence` | `source` is what decides whether a tag crosses the Phase 4 boundary. **Only `user` does** |
 
 **Every enrichment row carries its age, and the column is `NOT NULL`.** That is the schema
 enforcing [`07-offline-contract.md`](./07-offline-contract.md) §4 rather than the renderer
@@ -167,10 +160,10 @@ only shows what is inside teaches the wrong lesson.
 
 ---
 
-## 4 · `media_uid` — the one Phase 1 column that exists for Phase 4
+## 4 · `item_uid` — the one Phase 1 column that exists for Phase 4
 
 ```
-media_uid = uuidv5( namespace_zerado, media_type + "|" + normalise(title) + "|" + normalise(platform) )
+item_uid = uuidv5( namespace_zerado, item_type + "|" + normalise(title) + "|" + normalise(platform) )
 ```
 
 `normalise` lowercases, strips punctuation and leading articles, and folds diacritics.
@@ -178,7 +171,7 @@ media_uid = uuidv5( namespace_zerado, media_type + "|" + normalise(title) + "|" 
 It is **stable, not authoritative.** Two editions of one game may collide; the same game may fail
 to match across platforms. So three rules travel with it:
 
-1. `media_uid` is **indexed, not unique**. `(provider_id, provider_ref)` remains the uniqueness
+1. `item_uid` is **indexed, not unique**. `(provider_id, provider_ref)` remains the uniqueness
    constraint. It is **type-scoped**: the same title as a game and as a film are two items, and
    should be.
 2. Phase 4's merge treats it as a **hint** and shows ambiguous matches to the player rather than
@@ -198,7 +191,7 @@ Sheet 02's right-hand zone. The single red box is the point of the drawing:
 
 | Crosses the boundary | Never crosses |
 |---|---|
-| `state_change` — `media_uid`, `status_manual`, `status_changed_at` | the library itself |
+| `state_change` — `item_uid`, `status_manual`, `status_changed_at` | the library itself |
 | user-assigned mood tags (`game_mood.source = 'user'`) | `playtime_minutes` · `last_played_at` |
 | manually-entered games — **the only rows not re-derivable from a store** | cover art · *sinopse* · prices |
 | | **credentials. Ever.** |
@@ -207,7 +200,7 @@ The rule underneath: **only what the player typed crosses.** Everything a machin
 each device recomputes from the player's own sources with the player's own keys.
 
 That is a privacy posture and also an economics one: it is what keeps the Phase 4 server small
-enough to be supportable by a premium account or a donation, which is itself a published
+enough to be supportable by **donations alone**, which is itself a published
 statement.
 
 Conflict resolution is **last-write-wins on `status_changed_at`**, per game. The limit is stated

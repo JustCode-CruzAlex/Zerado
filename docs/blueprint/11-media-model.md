@@ -1,264 +1,81 @@
 ---
-title: Zerado — the media model
+title: Zerado — the door stays open
 discipline: ARCHITECTURE
 doc-no: ZRD-SPINE-11
-rev: A
+rev: B
 date: 2026-08-25
 status: draft — for founder ratification
 archetype: concept-explainer
 ticket: "#2"
 ---
 
-# The media model — games first, not games only
+# The door stays open
 
-> **Founder direction, 2026-08-25:** *"later we will add BOOKS to Zerado, which will work the same
-> way — books that people own, indication, books to read by mood or state of the reader. Not now,
-> but the database can be prepared for when that happens, maybe even MOVIES and TV SHOWS after."*
+> **Founder, 2026-08-25:** *"At this point don't even think on books and other media types. What I
+> would like is let that door open, because at some point books can be a part of Zerado."*
 
-**Phase 1 ships games and only games.** No book screens, no book providers, no book commands, no
-`--type` flag. What changes is the **shape**, so that adding books later is a new type rather than
-a rewrite.
-
-This is the most expensive thing in the bundle to retrofit, which is why it is designed now and
-built later.
+**Zerado is a games product.** This document is one page long on purpose.
 
 ---
 
-## 1 · The core entity is a **media item**, and `game` is its first type
+## 1 · What this replaces, and why the correction is recorded
 
-```
-media_item                          ← everything genuinely shared lives here
-  ├── media_game     (Phase 1)      ← Steam appid, achievements
-  ├── media_book     (Phase N)      ← author, ISBN, page count, publisher
-  ├── media_film     (Phase N)      ← runtime, director
-  └── media_series   (Phase N)      ← §4 explains why this is not the same type as film
-```
+Revision A of this document was a full media-polymorphic model: a `media_item` core, typed
+extensions for books, films and series, a four-type state verification, and two findings about how
+films and series differ. It was written in good faith against a direction to *"prepare the database"*
+for books and possibly films.
 
-### What is shared, and therefore lives on the core
+**That over-reached, and the founder pruned it.** The speculation is exactly what he is cutting, and
+it was beginning to shape Phase 1 tables and Phase 1 states — which is the cost that makes
+speculative generality expensive rather than merely unused.
 
-Ownership · acquisition (**digital or physical**) · the four states · progress · mood tags · the
-player's rating · the player's notes · the source provider · price history · everything the
-recommender reads.
-
-### What is type-specific, and therefore lives in a typed extension
-
-| Type | Facts that are genuinely only true of it |
-|---|---|
-| `game` | Steam appid, achievements unlocked / total |
-| `book` | author, ISBN, page count, publisher, format (print · ebook · audio) |
-| `film` | runtime, director |
-| `series` | seasons, episodes released, whether the series has ended |
-
-### One deliberate refinement of the direction, with the reason
-
-The direction lists **`playtime_hours` as a game fact**. This blueprint models it as **generic
-progress on the core** instead:
-
-```
-progress_value   INTEGER NULL     -- 41
-progress_unit    TEXT             -- minutes | pages | percent | episodes
-progress_source  TEXT             -- derived | manual
-```
-
-For a game the unit is `minutes` and the value *is* the playtime — nothing is duplicated, and
-`media_game` keeps only what is genuinely game-only.
-
-The reason this is worth diverging on: the direction also requires that **`IN PROGRESS` be derived
-for games and settable for books.** If progress is a game column, that rule has to be re-implemented
-per type, and the four-state derivation stops being one function. With progress on the core, the
-derivation is written **once** and reads a capability. §3 shows it.
-
-If the founder prefers playtime as a typed field, it is a small change — but the derivation then
-forks per type, and that fork is the thing worth avoiding.
+The correction is recorded rather than silently applied, because revision A is in the PR history and
+a reader who finds it should know it was superseded deliberately and by whom.
 
 ---
 
-## 2 · The four states generalise — verified, type by type
+## 2 · The one affordance, and it is cheap
 
-The direction asked for this to be checked rather than assumed. It was checked, and the answer is
-**yes for all four states across all four types**, with two findings in §4.
+**Two decisions, both reversible, both costing almost nothing today:**
 
-| State | `game` | `book` | `film` | `series` |
-|---|---|---|---|---|
-| `○` **NOT STARTED** | owned, never launched | owned, never opened | owned, never watched | owned, never started |
-| `◐` **IN PROGRESS** | playing it | reading it | *see finding F-1* | watching it — **its most-used state** |
-| `◉` **ZERADO** | beaten, cleared | **finished the book** | watched to the end | watched to the end of what exists |
-| `⊘` **ABANDONED** | stopped, not going back | did not finish | stopped watching | dropped |
+1. **A type discriminator on the core entity.** One column, one value (`game`), constrained to it.
+   Adding a second value later is a migration that adds a row to a check constraint.
+2. **Do not name the table `games`.** Name it `item` — or anything that is not the word `games` —
+   so a future type does not require renaming the table every foreign key points at.
 
-**`ZERADO` is the strongest evidence the vocabulary is right, not the weakest.** The founder's own
-test — *"a book you finished IS zerado"* — holds because the word was never about games. It is
-Portuguese for *beaten, cleared, closed out*, and it came from an arcade counter rolling over
-(`naming.md`). A finished book is closed out. So is a finished series. The name generalises for the
-same reason it was chosen.
+That is the entire affordance. It is not a design for books; it is the absence of a decision that
+would make books expensive.
 
-`ABANDONED` generalises best of all: *did not finish* is a more familiar idea for books and series
-than it is for games.
+**Everything else is a games model.** Playtime is playtime. Achievements are achievements. The four
+states mean what they mean for a game. No column is generalised, no interface takes a type
+parameter, no screen has a mode it does not need, and **nothing in Phase 1 is shaped by a media type
+that does not exist.**
 
 ---
 
-## 3 · Derived versus manual is a **capability**, not a type
+## 3 · What the cost would have been, stated so the trade is visible
 
-This is the mechanism that makes the direction's requirement — *derived for games, settable for
-books* — cost nothing.
+Had the type dimension been retrofitted instead, the migration would have had to rename the central
+table and every foreign key referencing it, and add a discriminator to rows that predate the concept
+— on a file that lives on the player's machine and that Zerado promises never to lose.
 
-Derivation is **not** keyed on `media_type`. It is keyed on the **(provider, type) pair's declared
-capability**, which is where the truth actually lives:
-
-| Item | Provider reports progress? | `IN PROGRESS` is |
-|---|---|---|
-| A Steam game | yes, minutes played | **derived** |
-| A cartridge on a shelf (`physical`) | no — a cartridge has no telemetry | **manual** |
-| A paper book | no — there is no page counter | **manual** |
-| A Kindle book, *if* a provider is ever written for it | yes, percent read | **derived** |
-| A series tracked by a provider | yes, episodes watched | **derived** |
-| A series tracked by hand | no | **manual** |
-
-Two things follow, and both matter:
-
-1. **The same type can be derived for one item and manual for another.** A Steam game and a
-   cartridge are both `game`; one derives and one does not. **Phase 1 already needs this**, which
-   means the mechanism the founder asked for is not new work — it is the mechanism physical copies
-   already forced.
-2. **Books are not a special case.** A paper book is manual for exactly the reason a cartridge is
-   manual: nothing is reporting. The generic rule already covers it.
-
-The derivation, written once for every type that will ever exist:
-
-```go
-func derive(p Progress, c Capabilities) Status {
-    if !c.Progress {          // nothing is reporting — the player owns the state
-        return StatusNotStarted
-    }
-    if p.Value > 0 {
-        return StatusInProgress
-    }
-    return StatusNotStarted
-}
-```
-
-`Capabilities.Playtime` from [`06-data-seams.md`](./06-data-seams.md) is renamed
-**`Capabilities.Progress`**, and gains a `ProgressUnit`. That is the whole change.
+Two columns' worth of foresight buys that away. Anything beyond two columns is buying insurance for
+a fire that may never happen, in a phase whose job is to ship a games tracker.
 
 ---
 
-## 4 · Two findings the check surfaced
+## Appendix · Not now
 
-The direction asked: *"If a type needs a state the others do not, that is a finding worth naming."*
-Two, and neither requires a fifth state.
+Recorded only so the thinking is not re-done from scratch if books are ever actually on the table.
+**None of this shapes Phase 1, and none of it should be read as a plan.**
 
-### F-1 · A film has no meaningful `IN PROGRESS` — which means **film and series are different types**
+- The four states — *not started* · *in progress* · *zerado* · *abandoned* — do generalise to a book.
+  A book you finished **is** *zerado*; the word was never about games. That is a reassuring
+  observation, not a design.
+- Progress has a different unit and a different source per type, and for a paper book there is no
+  automatic signal at all. Zerado already handles that case for physical copies, so the mechanism
+  would not be new.
+- Films and series are **not** the same kind of thing, and treating them as one type would be the
+  first mistake. That is a note for a future ticket, not a finding for this one.
 
-A 110-minute film is watched or it is not. "In progress" for a film means *"I paused it"*, which is
-a **session**, not a state. For a **series**, `IN PROGRESS` is the most-used state in the type.
-
-If film and series were one type, one of them would carry a state it cannot use and the other would
-carry a progress unit it does not have (`minutes` versus `episodes`).
-
-> **Recommendation: model `film` and `series` as two types when they arrive, not one "video" type.**
-> Costs nothing now. Costs a migration later.
-
-### F-2 · An ongoing series needs *"caught up"*, and it must **not** become a fifth state
-
-You have watched every episode released, but the series has not ended. That is not `ZERADO` — it is
-not finished. It is technically `IN PROGRESS`, but the player is not mid-anything; they are waiting.
-
-**Do not add a fifth state.** The four are ratified, CVD-verified at a measured ΔE floor of 11.9
-under deuteranopia, and designed around a co-render rule that a fifth colour would have to be
-re-verified against — for one type, in a later phase.
-
-> **Recommendation: model *caught up* as a derived presentation of `IN PROGRESS`**, computed from
-> typed facts in `media_series` (`episodes_watched == episodes_released && !series_ended`). The
-> state stays `◐ IN PROGRESS`; the detail view says *"Caught up. Next episode not out yet."*
-
-Naming this now is the point. It is exactly the pressure that would otherwise arrive in Phase N as
-*"can we just add one more state?"* — and the answer needs to be already written down, with the CVD
-cost attached.
-
----
-
-## 5 · The provider seam generalises without reshaping
-
-A provider declares the media types it serves:
-
-```go
-type Provider interface {
-    ID() ProviderID
-    Display() string
-    MediaTypes() []MediaType     // steam → [game] · openlibrary → [book] · tmdb → [film, series]
-    Capabilities(MediaType) Capabilities
-}
-```
-
-`Capabilities` is per **(provider, type)** because one provider can serve two types with different
-abilities — TMDB reports episode counts for a series and a runtime for a film.
-
-The streamed `Item` carries its type and its typed extension:
-
-```go
-type Item struct {
-    Type        MediaType
-    ProviderRef string
-    Title       string
-    Progress    *Progress        // nil = not reported
-    Acquisition Acquisition      // digital | physical
-    Extra       TypeExtension    // the typed payload; opaque to the core
-}
-```
-
-**Nothing in the Phase 1 seam is reshaped by this** — `MediaTypes()` is added, `Playtime` is renamed
-to `Progress`, and `Item` gains two fields. Steam declares `[game]`; `physical` declares `[game]`
-today and will declare `[game, book, film]` the day physical books matter, **without a new
-provider**, because a shelf is a shelf.
-
-That last point is the cleanest evidence the seam is right: the provider that most obviously
-generalises is the one this ticket added.
-
----
-
-## 6 · Mood tagging is type-aware without duplicating the engine
-
-*"Brain-dead after work"* means a different thing for a game, a book and a film. But it is **the same
-axis**: how much attention this asks for.
-
-So mood tags carry a **type-neutral key** and a **per-type label**:
-
-| `key` (the engine reasons over this) | Label for `game` | Label for `book` | Label for `film` |
-|---|---|---|---|
-| `low_attention` | Mindless grind | Light, short chapters | Something you can half-watch |
-| `story_heavy` | Story rich, kind of sad | A novel to sit inside | A film to feel |
-| `short_session` | Quick fifteen minutes | A chapter before bed | A short |
-| `full_focus` | Tactical, full focus | Dense, worth the effort | Demands the room dark |
-
-```
-mood_tag ( id, key, applies_to[], label )
-media_mood ( media_item_id, mood_id, source: user|inferred, confidence )
-```
-
-**One engine, one axis vocabulary, per-type labels.** The recommender never learns what a book is —
-it matches on `key`. The interface never shows a game a book's words.
-
-The Phase 1 labels are already published in `content/landing-copy.md` §04 and are binding; the
-`key` column is what lets them stay exactly as written while a second type gets its own.
-
----
-
-## 7 · What Phase 1 actually builds
-
-To be unambiguous, because "prepare the database" is the sentence most likely to turn into scope:
-
-| Built in Phase 1 | Not built in Phase 1 |
-|---|---|
-| `media_item` with `media_type`, constrained to `'game'` | Any other type value |
-| `media_game` | `media_book` · `media_film` · `media_series` |
-| Generic `progress` (value · unit · source) | Any non-`minutes` unit |
-| `MediaTypes()` on the provider seam, returning `[game]` | A books or film provider |
-| `mood_tag.key` + `applies_to`, all rows `['game']` | Per-type label sets |
-| A `media_uid` that is type-scoped | — |
-
-**No screen changes. No new commands. No `--type` flag.** A Phase 1 player cannot tell this document
-exists, and that is the correct outcome.
-
-The check that it worked is a thought experiment worth writing down: *adding books should be one
-migration, one provider, one typed extension, and one label set — and zero changes to the state
-machine, the recommender, the offline contract, or any existing screen.* If a future book ticket has
-to touch those, this design failed and the failure is measurable.
+**Nothing above is a commitment, a schema, or a phase.**

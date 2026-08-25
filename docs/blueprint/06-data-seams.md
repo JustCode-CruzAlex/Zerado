@@ -24,16 +24,11 @@ eventually lives in. **No implementation is written by this ticket.**
 > **shape, not signature**. [`13-handoffs.md`](./13-handoffs.md) states exactly which decisions are
 > load-bearing and which spellings are free to change.
 
-> **The core entity is a media item, not a game.** Games are the first media type; books are the
-> second and films/series a plausible third. Phase 1 ships games only, and the generalisation is a
-> *shape* decision with no Phase 1 surface. The seams below are written in their generic form; see
-> [`11-media-model.md`](./11-media-model.md).
-
 | § | Seam | Interface | Why it must be a seam |
 |---|---|---|---|
 | 2 | **Store provider** | `Provider` / `Syncer` | Steam first, then PlayStation, GOG, EA — and physical, which is not a store at all |
 | 3 | **Metadata** | `MetadataProvider` | IGDB's commercial terms are unresolved. The provider must be replaceable, and *having none* must be a designed state |
-| 4 | **Price history** | `PriceProvider` | The affiliate disclosure is a ratified promise; the seam is what makes it structural |
+| 4 | **Price history** | `PriceProvider` | Every quote carries its age, and a price without one is the product giving financial advice from memory |
 | 5 | **Persistence** | `Store` | One SQLite file is a public promise. The interface is what keeps it one file |
 | 5.4 | **Credentials** | `Vault` | The player's own keys. They must never be inside the file the player is told to back up and share |
 | — | **Audio** | `Audio` | Ships in Phase 1, bundled and off by default. Fully removable at runtime *and* at compile time. Specified in [`12-audio.md`](./12-audio.md) |
@@ -65,15 +60,13 @@ Three things fall out of that, all of them promises the page already made:
 ```go
 type ProviderID string   // "steam" · "physical" · "playstation" · "gog" · "ea"
 
-// Capabilities is what the provider can actually do FOR ONE MEDIA TYPE.
-// Every screen and every derivation reads this instead of switching on
-// ProviderID or on MediaType.
+// Capabilities is what the provider can actually do. Every screen and every
+// derivation reads this instead of switching on ProviderID.
 type Capabilities struct {
-    Sync        bool          // can fetch a library over the network
-    Progress    bool          // reports progress at all
-    ProgressUnit ProgressUnit // minutes | pages | percent | episodes
-    LastUsed    bool          // last played / read / watched
-    OwnedSince  bool          // reports an acquisition date
+    Sync        bool   // can fetch a library over the network
+    Playtime    bool   // reports minutes played
+    LastPlayed  bool   // reports a last-played timestamp
+    OwnedSince  bool   // reports an acquisition date
     Credentials []CredentialField // what Z-02 renders; empty means none needed
 }
 
@@ -81,10 +74,8 @@ type Capabilities struct {
 // that are a human with a keyboard.
 type Provider interface {
     ID() ProviderID
-    Display() string                       // "Steam", "Physical shelf"
-    MediaTypes() []MediaType               // steam -> [game] · tmdb -> [film, series]
-    Capabilities(MediaType) Capabilities   // per (provider, type) — one provider can
-                                           // serve two types with different abilities
+    Display() string          // "Steam", "Physical shelf"
+    Capabilities() Capabilities
 }
 
 // Syncer is implemented only by providers that can fetch. `physical` does
@@ -115,7 +106,7 @@ type Item struct {
 `physical` is a `Provider` and **not** a `Syncer`:
 
 ```go
-Capabilities{Sync: false, Progress: false, LastUsed: false,
+Capabilities{Sync: false, Playtime: false, LastPlayed: false,
              OwnedSince: true, Credentials: nil}
 ```
 
@@ -276,18 +267,28 @@ type Quote struct {
     Low        Money      // the all-time low
     LowAt      time.Time  // when. A low with no date is not information
     Shop       string
-    URL        string
-    // AffiliateURL is non-empty only when the link earns a commission.
-    // Disclosure is required WHENEVER it is non-empty, and the renderer
-    // enforces that — a price link cannot render without its disclosure.
-    AffiliateURL string
-    ObservedAt time.Time
+    URL        string      // a plain shop link. No affiliate tag, ever.
+    ObservedAt time.Time   // mandatory, and rendered — see 07 §4
 }
 ```
 
-The ratified promise is that Zerado discloses its affiliate commission. Putting the affiliate URL
-and the disclosure obligation **in the same struct** means the two cannot be separated by a later
-refactor. A copy rule can be forgotten in a code review; a type cannot.
+**There is no affiliate URL, and that is a decision, not an omission.** Founder direction,
+2026-08-25: affiliate links are dropped so that Zerado is cleanly **non-commercial** — free
+software, donation-supported, zero revenue.
+
+**The price feature survives intact.** Current price, the all-time low, when the low was, and the
+*"wait or buy"* verdict all remain exactly as designed. What goes is the commission tag on the
+outbound link, and with it the disclosure obligation that used to travel in this struct.
+
+Two consequences worth naming:
+
+- **It answers the IGDB question this bundle has carried since revision A.** IGDB's published test
+  is whether the *project generates revenue* — not whether it charges users. With no commission,
+  Zerado generates none. **Stated as a reading of IGDB's published rationale, not a legal opinion:**
+  the founder should confirm directly with IGDB that a donation-funded open-source project qualifies
+  for the free tier. That is a founder action, not a resolved fact, and it is on the gate list.
+- **The metadata seam stays provider-agnostic anyway.** The hedge was right for reasons that do not
+  depend on IGDB's answer, and removing it because one risk receded would be the wrong lesson.
 
 `ObservedAt` is mandatory and is rendered. **Zerado never shows a price without its age** — that
 rule is repeated in [`07-offline-contract.md`](./07-offline-contract.md) §4 because it is the
@@ -417,7 +418,7 @@ The rule underneath: **only what the player typed crosses.** Everything a machin
 each device recomputes.
 
 That is not only a privacy posture — it is what keeps the Phase 4 server small enough to be
-supportable by a premium account or a donation, which is itself a ratified public statement. A
+supportable by **donations alone**, which is itself a public statement. A
 server that stored everyone's whole library would cost what the page says it will not.
 
 ### 6.2 · The one thing Phase 1 must get right: game identity
@@ -473,4 +474,4 @@ implementation, forever.
 | **The clock** | A `func() time.Time` field on the structs that need it is enough for tests. An interface for this is ceremony |
 | **The filesystem** | `os` plus a configurable root. `io/fs` where reading is all that is needed |
 | **HTTP** | A shared `*http.Client` with a timeout, injected. Providers do not construct their own — that is how a "works offline" claim quietly stops being true |
-| **A media-type registry** | `MediaType` is a closed enum, not a plugin point. Three types are foreseen and they ship in the binary. A registry would be an abstraction with one implementation for the entire life of Phase 1 |
+| **A media-type abstraction** | Zerado is a games product. `item_type` exists and is CHECKed to `'game'`; that is the whole affordance ([`11-media-model.md`](./11-media-model.md)). An interface parameterised on a type that has one value is machinery without a purpose |

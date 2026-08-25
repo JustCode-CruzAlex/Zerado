@@ -36,13 +36,12 @@ what makes a game move between them.
 ## 1 · The model in one line
 
 ```
-effective_status = status_manual ?? derive(progress, provider_capabilities)
+effective_status = status_manual ?? derive(playtime_minutes, provider_capabilities)
 ```
 
-> **These four states are not games-only.** They generalise to books, films and series, and that was
-> verified type by type rather than assumed — including the two findings the check surfaced (a film
-> has no meaningful `IN PROGRESS`; an ongoing series needs *caught up*, and it must **not** become a
-> fifth state). See [`11-media-model.md`](./11-media-model.md) §2 and §4. Phase 1 ships games only.
+> **Zerado is a games product and these are game states.** An earlier revision generalised them
+> across media types; that was pruned by founder direction on 2026-08-25 and the reasoning is kept
+> as a short appendix in [`11-media-model.md`](./11-media-model.md), shaping nothing here.
 
 A game has **one nullable manual status** and a **derivation** that runs when there is none.
 That is the whole model, and everything else in this document follows from it.
@@ -64,11 +63,10 @@ type Game struct {
     // StatusManual is the player's explicit choice, or nil if they have
     // never expressed one. A sync NEVER writes this field.
     StatusManual *Status
-    // Progress is provider-reported and GENERIC — value + unit + source.
-    // For a game the unit is minutes and the value is the playtime.
-    // Zero is a real value and is distinct from "this provider does not
-    // report progress at all" — see Capabilities.Progress.
-    Progress Progress
+    // PlaytimeMinutes is provider-reported. Zero is a real value and is
+    // distinct from "this provider does not report playtime at all" —
+    // see Capabilities.Playtime.
+    PlaytimeMinutes int
 }
 ```
 
@@ -78,19 +76,18 @@ type Game struct {
 
 | Transition | Kind | Trigger |
 |---|---|---|
-| `NOT STARTED → IN PROGRESS` | **Derived** | A sync reports `progress > 0` on an item with `status_manual = NULL` |
+| `NOT STARTED → IN PROGRESS` | **Derived** | A sync reports `playtime_minutes > 0` on an item with `status_manual = NULL` |
 | every other transition | **User action** | The player chooses it in `Z-06` |
 
 The derivation:
 
 ```go
-func derive(p Progress, c Capabilities) Status {
-    if !c.Progress {
-        // Nothing is reporting. A cartridge has no telemetry, and
-        // neither does a paper book — the same rule covers both.
+func derive(playtimeMinutes int, c Capabilities) Status {
+    if !c.Playtime {
+        // The provider cannot know. A cartridge has no telemetry.
         return StatusNotStarted
     }
-    if p.Value > 0 {
+    if playtimeMinutes > 0 {
         return StatusInProgress
     }
     return StatusNotStarted
@@ -99,15 +96,9 @@ func derive(p Progress, c Capabilities) Status {
 
 ### 2.1 · The derivation is provider-capability-dependent, and this matters
 
-> This is also the mechanism that makes the media generalisation free: derivation is keyed on the
-> **(provider, type) capability**, never on the type itself. A Steam game derives; a cartridge does
-> not; a paper book does not; a Kindle book would. One function, every type.
-> [`11-media-model.md`](./11-media-model.md) §3.
-
-For a provider that reports progress (Steam reports minutes played), `NOT STARTED` and
-`IN PROGRESS` are *facts* until
+For a provider that reports playtime (Steam), `NOT STARTED` and `IN PROGRESS` are *facts* until
 the player overrides them. For a provider that does not (`physical`, and any store whose API
-does not expose progress), **all four states are manual, always** — the derivation has no input
+does not expose playtime), **all four states are manual, always** — the derivation has no input
 and returns `NOT STARTED` as the honest default.
 
 This is why physical copies are modelled as a **provider with capabilities**

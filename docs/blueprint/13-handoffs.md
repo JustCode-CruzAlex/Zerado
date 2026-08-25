@@ -90,28 +90,34 @@ ones to preserve, and each has its reasoning in [`09-erd.md`](./09-erd.md) or
 
 Collected here so the gate has them in one place.
 
-1. **Music licensing** — [`12-audio.md`](./12-audio.md) §7. Bundled tracks must be DRM-free and
-   licensed for **commercial redistribution** from a **public** repository. Recommendation on the
-   table: ship Phase 1 with interface FX only and a **user-supplied** music directory, which removes
-   the blocker from the critical path.
-2. **IGDB's commercial terms** — [`06-data-seams.md`](./06-data-seams.md) §3. Unresolved. The
-   architecture is built so the answer can be no.
-3. **Nine underived ANSI-256 indices** — [`00-index.md`](./00-index.md). Four components ship an
-   interim uncoloured rendering rather than a guessed index. `fft-brand-architect` derives them.
-4. **The light-mode state colours have never been CVD-verified** — the dark set's first draft failed
-   at ΔE 8.8, so this is not a formality, and Phase 4 meets system light mode.
-5. **Whether `playtime` is generic progress or a typed game fact** —
-   [`11-media-model.md`](./11-media-model.md) §1. This spine models it generically, against the
-   letter of the direction, so the four-state derivation stays one function instead of forking per
-   type. The reason is written down; the call is the founder's.
-6. **Brand manual §9's invariant list is now incomplete.** §9 names five invariants that carry the
-   identity across web, terminal and phone — the four states, amber-common/cyan-earned, the scanner
-   as the only signature motion, the voice, and dark by default. **Audio is a sixth**, and the brand
-   manual (rev A, 2026-08-24) predates the audio direction by one day. `fft-design-architect`
-   recorded the working invariant in the terminal-to-phone bridge rather than editing the brand
-   manual, which is correct: a downstream document quietly extending the brand's own invariant list
-   is exactly the drift §9 exists to prevent. **`fft-brand-architect` should add it through the
-   §10 governance procedure** — token and manual in the same commit.
-7. **Whether `film` and `series` are two media types** —
+1. ~~**Music licensing**~~ — **CLOSED by removing its cause.** Nothing is bundled; the music is
+   streamed radio the player chooses. There is nothing to license, attribute or weigh.
+2. ~~**IGDB's commercial terms**~~ — **ANSWERED, with one action outstanding.** Affiliate links are
+   dropped, so Zerado is cleanly **non-commercial**: free software, donation-supported, zero
+   revenue. IGDB's published test is whether the *project generates revenue*, and it now does not.
+   **This is a reading of IGDB's published rationale, not a legal opinion** — the remaining action
+   is a direct confirmation from IGDB that a donation-funded open-source project qualifies for the
+   free tier. **A founder action, not a resolved fact.**
+   *(The price-intelligence feature is unaffected: current price, all-time low and the "wait or
+   buy" verdict all remain. Only the commission tag went.)*
+3. ~~**The light-mode CVD gap**~~ — **absorbed into D7.** It is no longer a one-palette task but a
+   **theme-contract** requirement: no theme ships without passing the four-state validation, light
+   or dark. A standing gate rather than a one-time check.
+4. ~~**Whether `playtime` is generic progress or a typed game fact**~~ — **WITHDRAWN.** The
+   divergence existed to keep one derivation across media types; the media types were pruned, so the
+   argument died with them. `playtime_minutes` is a plain column.
+5. **Brand manual §9's invariant list is incomplete.** §9 names five invariants carrying identity
+   across web, terminal and phone. **Audio is a sixth**, and the manual predates it.
+   `fft-brand-architect` should add it through the §10 governance procedure — token and manual in
+   the same commit. *(Still open.)*
+6. **The nine underived ANSI-256 indices.** `fft-brand-architect` derives them by nearest-neighbour
+   search in CIELAB; four components ship an interim uncoloured rendering until then.
+   *(Still open.)*
+7. **The landing page now contradicts the product on two points.** `content/landing-copy.md` §11 and
+   §14 promise *"a premium account or a donation"*, and §16 carries an **affiliate disclosure**.
+   Both are now wrong: donation-only, no affiliate. That copy is **published**, and it is ticket #1's
+   surface, not this bundle's — so it is named here rather than edited. **Someone has to change the
+   page.**
+8. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned —
    [`11-media-model.md`](./11-media-model.md) §4, finding F-1. Costs nothing now, costs a migration
    later.

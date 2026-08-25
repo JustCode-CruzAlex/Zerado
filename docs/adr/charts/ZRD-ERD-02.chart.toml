@@ -21,8 +21,8 @@ author = "fft-tui-architect"
 
 [[node]]
 id = "gameref"
-title = "media_item"
-sublines = ["( SHEET 01 )", "id · media_uid · media_type", "provider_id + provider_ref"]
+title = "item"
+sublines = ["( SHEET 01 )", "id · item_uid · item_type", "provider_id + provider_ref"]
 color = "accent"
 shape = "cyl"
 x = 90
@@ -42,7 +42,7 @@ h = 1180
 id = "meta"
 title = "metadata"
 sublines = [
-  "media_item_id      PK / FK",
+  "item_id            PK / FK",
   "sinopse",
   "cover_ref     cache path, never a URL",
   "released_at · genres",
@@ -60,7 +60,7 @@ h = 250
 id = "price"
 title = "price_quote"
 sublines = [
-  "id PK  ·  media_item_id FK",
+  "id PK  ·  item_id FK",
   "shop · currency",
   "current_cents · low_cents · low_at",
   "url · affiliate_url",
@@ -87,8 +87,8 @@ h = 150
 
 [[node]]
 id = "gamemood"
-title = "media_mood"
-sublines = ["media_item_id FK  ·  mood_id FK", "source   user | inferred", "confidence"]
+title = "item_mood"
+sublines = ["item_id FK  ·  mood_id FK", "source   user | inferred", "confidence"]
 color = "gold"
 shape = "rect"
 x = 580
@@ -108,7 +108,7 @@ h = 880
 id = "statechange"
 title = "state_change"
 sublines = [
-  "media_uid",
+  "item_uid",
   "status_manual  ·  status_changed_at",
   "device_id FK  ·  applied_at",
   "THE ONLY PAYLOAD THAT CROSSES",
@@ -145,7 +145,7 @@ h = 180
 [[node]]
 id = "comment"
 title = "comment"
-sublines = ["id PK · account_id FK", "media_uid", "body · created_at"]
+sublines = ["id PK · account_id FK", "item_uid", "body · created_at"]
 color = "info"
 shape = "rect"
 x = 1290
@@ -156,7 +156,7 @@ h = 170
 [[node]]
 id = "review"
 title = "review"
-sublines = ["id PK · account_id FK", "media_uid", "rating · body · created_at"]
+sublines = ["id PK · account_id FK", "item_uid", "rating · body · created_at"]
 color = "info"
 shape = "rect"
 x = 1660
@@ -229,14 +229,14 @@ from_side = "b"
 to_side = "t"
 
 [[free]]
-text = "KEY    violet = the game row (sheet 01)    ·    gold = Phase 2 enrichment, every row stamped with fetched_at / observed_at    ·    blue = Phase 4 server side    ·    red = the only payload that crosses"
+text = "KEY    violet = the item (sheet 01)    ·    gold = Phase 2 enrichment, every row stamped with fetched_at / observed_at    ·    blue = Phase 4 server side    ·    red = the only payload that crosses"
 color = "fg2"
 x = 90
 y = 1390
 w = 1900
 
 [[free]]
-text = "state_change, comment and review key off media_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed."
+text = "state_change, comment and review key off item_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed."
 color = "err"
 x = 90
 y = 1450
@@ -248,3 +248,17 @@ color = "err"
 x = 90
 y = 1510
 w = 1900
+
+[[free]]
+text = "PHASE 2 — ENRICHMENT   ·   every row carries its age"
+color = "gold"
+x = 562
+y = 178
+w = 900
+
+[[free]]
+text = "PHASE 4 — THE SERVER SIDE   ·   the first time Zerado has an account at all"
+color = "info"
+x = 1262
+y = 178
+w = 900
