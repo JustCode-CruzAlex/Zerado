@@ -1,0 +1,60 @@
+---
+/**
+ * MakerLine — section 02. One line, rule-flanked, no heading.
+ * Ref: design/blueprint.md §2 (§02).
+ */
+---
+
+<section id="maker-line" class="z-maker-line">
+  <div class="z-container-narrow z-maker-line__row">
+    <span class="z-maker-line__rule" aria-hidden="true"></span>
+    <p class="z-maker-line__text">
+      <strong>Zerado</strong> is the second product from FlowForgeSoft, the company behind <strong>FlowForge</strong>.
+    </p>
+    <span class="z-maker-line__rule" aria-hidden="true"></span>
+  </div>
+</section>
+
+<style>
+  .z-maker-line {
+    padding-block: var(--z-space-7);
+    background: var(--z-surface);
+  }
+
+  .z-maker-line__row {
+    display: flex;
+    align-items: center;
+    gap: var(--z-space-5);
+  }
+
+  .z-maker-line__rule {
+    /* Reason: basis:0% means this item gets zero share of the negative
+       space during a flex-shrink pass, so it would render at 0px whenever
+       the row is narrower than the text's natural width — exactly
+       BLOCKING-1/MAJOR-2. min-width floors it so the flex resolver takes
+       the remainder from the text (which can wrap) instead. */
+    flex: 1 1 0%;
+    min-width: var(--z-space-5);
+    block-size: 1px;
+    background: var(--z-border);
+  }
+
+  .z-maker-line__text {
+    /* Reason: flex-shrink:0 (the previous value) pins this item at its
+       762px single-line intrinsic width forever, so it overflows the row
+       and gets clipped by the page's overflow-x:hidden backstop instead of
+       reflowing — blueprint §5.5 mechanism 1. Letting it shrink/wrap keeps
+       it a fixed (non-growing) width above the wrap point, matching the
+       original centred single-line look, and lets it wrap below it. */
+    flex: 0 1 auto;
+    min-width: 0;
+    text-align: center;
+    font-size: var(--z-text-lg);
+    color: var(--z-text-secondary);
+  }
+
+  .z-maker-line__text strong {
+    font-weight: var(--z-weight-regular);
+    color: var(--z-text);
+  }
+</style>

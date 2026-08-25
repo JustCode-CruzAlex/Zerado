@@ -1,0 +1,53 @@
+---
+/**
+ * TrustPoint — one of three. First sentence is the lead (H3-styled <p>), the
+ * remainder is body copy. Prefixed with an amber tick rule, no icon.
+ * Ref: design/blueprint.md §2 (§08), §7.7.
+ *
+ * @prop {string} lead — the first sentence
+ * @prop {string} rest — the remaining sentence(s)
+ */
+interface Props {
+  lead: string;
+  rest: string;
+}
+
+const { lead, rest } = Astro.props;
+---
+
+<div class="z-trust-point">
+  <div class="z-trust-point__tick" aria-hidden="true"></div>
+  <div>
+    <p class="z-trust-point__lead">{lead}</p>
+    <p class="z-trust-point__rest">{rest}</p>
+  </div>
+</div>
+
+<style>
+  .z-trust-point {
+    display: flex;
+    gap: var(--z-space-4);
+  }
+
+  .z-trust-point__tick {
+    flex-shrink: 0;
+    inline-size: 2px;
+    block-size: 24px;
+    background: var(--z-primary);
+    margin-block-start: 6px;
+  }
+
+  .z-trust-point__lead {
+    font-family: var(--z-font-body);
+    font-weight: var(--z-weight-bold);
+    font-size: var(--z-text-h3);
+    color: var(--z-text);
+    margin-block-end: var(--z-space-2);
+  }
+
+  .z-trust-point__rest {
+    font-size: var(--z-text-base);
+    color: var(--z-text-secondary);
+    line-height: var(--z-leading-normal);
+  }
+</style>

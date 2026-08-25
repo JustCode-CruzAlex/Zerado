@@ -1,0 +1,10 @@
+/* ============================================================================
+   ZERADO — GLOBAL STYLESHEET ENTRY
+   Import order matters: tokens first, then reset, then base (which consumes
+   tokens), then motion (which consumes both).
+   ========================================================================== */
+
+@import './tokens.css';
+@import './reset.css';
+@import './base.css';
+@import './motion.css';

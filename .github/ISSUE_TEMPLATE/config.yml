@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/JustCode-CruzAlex/Zerado/security/advisories/new
+    about: Never report a security problem in a public issue. Open a private advisory, or email alex@flowforgesoft.com with a subject starting Zerado-Security.
+  - name: 📋 Read the contributing guide first
+    url: https://github.com/JustCode-CruzAlex/Zerado/blob/main/CONTRIBUTING.md
+    about: What is useful to work on right now, branch and commit rules, and the review bar.
+  - name: ✉️ Join the waitlist
+    url: mailto:alex@flowforgesoft.com?subject=Zerado-WaitList
+    about: Zerado is pre-alpha and there is nothing to install yet. Tell us you are in and we will tell you when there is.

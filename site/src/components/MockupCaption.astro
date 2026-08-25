@@ -1,0 +1,25 @@
+---
+/**
+ * MockupCaption — the visible <figcaption> naming a mockup as a mockup.
+ * Load-bearing and non-negotiable per design/blueprint.md §7.1: every
+ * mockup figure's visible caption is that figure's alt text from
+ * content/landing-copy.md, verbatim.
+ *
+ * @prop {string} id — element id, target of the figure's aria-labelledby
+ * @prop {string} text — the caption text, verbatim from the copy file
+ */
+interface Props {
+  id: string;
+  text: string;
+}
+
+const { id, text } = Astro.props;
+---
+
+<figcaption id={id} class="z-caption z-mockup-caption">{text}</figcaption>
+
+<style>
+  .z-mockup-caption {
+    margin-block-start: var(--z-space-3);
+  }
+</style>

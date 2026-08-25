@@ -1,0 +1,101 @@
+---
+/**
+ * PriceCard — one worked example, centred, max 560px. The section a
+ * skeptical visitor screenshots. Ref: design/blueprint.md §2 (§07).
+ */
+import Sparkline from './Sparkline.astro';
+---
+
+<div class="z-price-card">
+  <span class="z-readout z-price-card__eyebrow">Price check</span>
+
+  <div class="z-price-card__row">
+    <span class="z-price-card__figure z-price-card__figure--today">$15</span>
+    <span class="z-readout z-price-card__tag">Today</span>
+  </div>
+
+  <hr class="z-price-card__rule" />
+
+  <div class="z-price-card__row">
+    <span class="z-price-card__figure z-price-card__figure--low">$8</span>
+    <span class="z-readout z-price-card__tag">All-time low · 3 months ago</span>
+  </div>
+
+  <div class="z-price-card__spark">
+    <Sparkline />
+  </div>
+
+  <p class="z-price-card__verdict">
+    "$15, and in budget. It's been $8. Maybe wait."
+  </p>
+</div>
+
+<style>
+  .z-price-card {
+    max-inline-size: 560px;
+    margin-inline: auto;
+    padding: var(--z-space-6);
+    background: var(--z-surface-raised);
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-radius-md);
+  }
+
+  .z-price-card__eyebrow {
+    display: block;
+    margin-block-end: var(--z-space-5);
+    color: var(--z-text-tertiary);
+  }
+
+  .z-price-card__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--z-space-4);
+    flex-wrap: wrap;
+  }
+
+  .z-price-card__figure {
+    font-family: var(--z-font-mono);
+    font-weight: var(--z-weight-bold);
+    line-height: 1;
+  }
+
+  .z-price-card__figure--today {
+    font-size: 34px;
+    color: var(--z-primary);
+  }
+
+  .z-price-card__figure--low {
+    font-size: 19px;
+    color: var(--z-steel);
+  }
+
+  @media (min-width: 768px) {
+    .z-price-card__figure--today {
+      font-size: 40px;
+    }
+    .z-price-card__figure--low {
+      font-size: var(--z-text-h3);
+    }
+  }
+
+  .z-price-card__tag {
+    color: var(--z-text-tertiary);
+    text-align: right;
+  }
+
+  .z-price-card__rule {
+    border: none;
+    border-block-start: 1px solid var(--z-border);
+    margin-block: var(--z-space-4);
+  }
+
+  .z-price-card__spark {
+    margin-block: var(--z-space-6);
+  }
+
+  .z-price-card__verdict {
+    font-size: var(--z-text-lg);
+    color: var(--z-primary);
+  }
+</style>

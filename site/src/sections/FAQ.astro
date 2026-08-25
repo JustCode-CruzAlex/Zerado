@@ -1,0 +1,48 @@
+---
+/**
+ * Section 14 — faq. Six FAQItems, native details/summary, all closed by
+ * default. Ref: design/blueprint.md §2 (§14); content/landing-copy.md §14.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FAQItem from '../components/FAQItem.astro';
+
+const ITEMS = [
+  {
+    q: 'Is it free?',
+    a: "Yes, and using it always will be. Zerado costs nothing and earns nothing — there is no commission on any link on this page and nothing here is for sale. Once the Phase 4 community layer exists it will be supported by donation, because comments and public profiles need a server and servers cost money. There is no premium account and no paid tier."
+  },
+  {
+    q: 'Do I need anything from Steam? Does my profile have to be public?',
+    a: "A free Steam API key, which takes a minute to generate. And yes — Steam only returns a library if the profile is public, or if the key belongs to that same account. If a profile is private, Steam won't share the list; that's a Steam setting, not something Zerado can work around."
+  },
+  {
+    q: 'Does my data leave my machine?',
+    a: "Your library lives in one SQLite file on your machine, and nothing needs an account to use it. The only network traffic is Zerado reaching out to the services you've connected — Steam, price data — using your own keys. Nothing about your library is sent to a Zerado-run server, because there isn't one."
+  },
+  {
+    q: 'Which stores work today, and which are later?',
+    a: 'None of them yet — nothing is runnable. Steam is what Phase 1 builds; PlayStation, GOG and EA follow. Physical discs and cartridges will be entered by hand from day one — no store integration required for those.'
+  },
+  {
+    q: 'Can I run my own server?',
+    a: "There's no server to run. Zerado is local-first: it reads your library and stores the result in one file on your own machine. The one thing that will eventually run centrally is the Phase 4 community layer — comments, reviews, public profiles — because sharing a comment with someone else requires a server somewhere."
+  },
+  {
+    q: 'How is this paid for?',
+    a: 'Right now it is not paid for at all — Zerado earns no money and nothing on this page is for sale. From Phase 4 the community layer will be donation-supported, because it is the one part that needs a server to run. Using Zerado will never cost anything.'
+  }
+];
+---
+
+<section id="faq" aria-labelledby="faq-heading" class="z-section z-section--surface">
+  <div class="z-container-narrow">
+    <SectionEyebrow index={14} id="faq" />
+    <SectionHeading id="faq-heading" text="Questions" />
+    <div class="z-faq-list">
+      {ITEMS.map((item) => (
+        <FAQItem question={item.q} answer={item.a} />
+      ))}
+    </div>
+  </div>
+</section>

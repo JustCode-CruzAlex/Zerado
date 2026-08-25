@@ -1,0 +1,43 @@
+---
+/**
+ * CoverGrid — twelve CoverTiles, role="img" labelled by its caption.
+ * Ref: design/blueprint.md §7.5.
+ *
+ * @prop {string} labelledby — id of the figcaption describing this figure
+ */
+import CoverTile from './CoverTile.astro';
+import { COVER_GRID_SEQUENCE } from '../data/coverGrid';
+
+interface Props {
+  labelledby: string;
+}
+
+const { labelledby } = Astro.props;
+---
+
+<div class="z-cover-grid" role="img" aria-labelledby={labelledby}>
+  {COVER_GRID_SEQUENCE.map((tile) => (
+    <CoverTile treatment={tile.treatment} hue={tile.hue} platformTag={tile.platformTag} />
+  ))}
+</div>
+
+<style>
+  .z-cover-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--z-space-3);
+  }
+
+  @media (min-width: 768px) {
+    .z-cover-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--z-space-4);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .z-cover-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+</style>

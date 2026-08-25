@@ -1,0 +1,119 @@
+---
+/**
+ * FAQItem — native details/summary, no JavaScript. All six closed by
+ * default. Ref: design/blueprint.md §2 (§14), §6.2.
+ *
+ * @prop {string} question
+ * @prop {string} answer
+ */
+interface Props {
+  question: string;
+  answer: string;
+}
+
+const { question, answer } = Astro.props;
+---
+
+<details class="z-faq-item">
+  <summary class="z-faq-item__summary">
+    <span class="z-faq-item__question">{question}</span>
+    <span class="z-faq-item__marker" aria-hidden="true">
+      <span class="z-faq-item__marker-plus">+</span>
+      <span class="z-faq-item__marker-minus">−</span>
+    </span>
+  </summary>
+  <p class="z-faq-item__answer">{answer}</p>
+</details>
+
+<style>
+  .z-faq-item {
+    border-block-end: 1px solid var(--z-border);
+    padding-block: var(--z-space-4);
+  }
+
+  .z-faq-item__summary {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--z-space-4);
+    cursor: pointer;
+    list-style: none;
+    min-block-size: 56px;
+    padding-block: var(--z-space-2);
+  }
+
+  .z-faq-item__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .z-faq-item__question {
+    font-family: var(--z-font-body);
+    font-weight: var(--z-weight-semibold);
+    font-size: var(--z-text-lg);
+    color: var(--z-text);
+    transition: color var(--z-duration-fast) var(--z-ease-standard);
+  }
+
+  .z-faq-item__summary:hover .z-faq-item__question {
+    color: var(--z-primary);
+  }
+
+  .z-faq-item__marker {
+    flex-shrink: 0;
+    display: grid;
+    grid-template-areas: 'marker';
+    place-items: center;
+    inline-size: 24px;
+    block-size: 24px;
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-lg);
+    color: var(--z-primary);
+    transition: color var(--z-duration-fast) var(--z-ease-standard);
+  }
+
+  .z-faq-item__summary:hover .z-faq-item__marker {
+    color: var(--z-primary-hover);
+  }
+
+  .z-faq-item__marker-plus,
+  .z-faq-item__marker-minus {
+    grid-area: marker;
+  }
+
+  .z-faq-item__marker-minus {
+    display: none;
+  }
+
+  .z-faq-item[open] .z-faq-item__marker-plus {
+    display: none;
+  }
+
+  .z-faq-item[open] .z-faq-item__marker-minus {
+    display: block;
+  }
+
+  .z-faq-item__answer {
+    max-inline-size: var(--z-measure);
+    margin-block-start: var(--z-space-3);
+    font-size: var(--z-text-base);
+    line-height: var(--z-leading-normal);
+    color: var(--z-text-secondary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .z-faq-item[open] .z-faq-item__answer {
+      animation: z-faq-expand var(--z-duration-base) var(--z-ease-out);
+    }
+  }
+
+  @keyframes z-faq-expand {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

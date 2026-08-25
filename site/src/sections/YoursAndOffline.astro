@@ -1,0 +1,45 @@
+---
+/**
+ * Section 08 — yours-and-offline. Three TrustPoints.
+ * Ref: design/blueprint.md §2 (§08); content/landing-copy.md §08.
+ */
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TrustPoint from '../components/TrustPoint.astro';
+---
+
+<section id="yours-and-offline" aria-labelledby="yours-and-offline-heading" class="z-section z-section--surface">
+  <div class="z-container">
+    <SectionEyebrow index={8} id="yours-and-offline" />
+    <SectionHeading id="yours-and-offline-heading" text="It's yours, and it's offline" />
+
+    <div class="z-trust-grid">
+      <TrustPoint
+        lead="One file on your machine."
+        rest="Your whole library lives in a single SQLite file you can back up, move, or delete — nobody else holds a copy."
+      />
+      <TrustPoint
+        lead="No account to use it."
+        rest="Nothing to sign up for, nothing to log into, before it works."
+      />
+      <TrustPoint
+        lead="Runs with the network off."
+        rest="Once your library is synced, Zerado doesn't need the internet to answer what to play tonight."
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .z-trust-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--z-space-6);
+  }
+
+  @media (min-width: 768px) {
+    .z-trust-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

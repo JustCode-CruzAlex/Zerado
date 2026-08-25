@@ -1,0 +1,61 @@
+/* ============================================================================
+   ZERADO — MOTION
+   The complete motion inventory is nine entries (design/blueprint.md §7.6).
+   This file owns the two keyframe-driven ones (the scanner sweep) and the
+   global reduced-motion collapse; per-component transitions (hover, FAQ
+   expand/collapse, link underline, focus ring) live scoped in their own
+   component files and already reference the --z-duration-* / --z-ease-*
+   tokens, which this file's reduced-motion block also collapses.
+   ========================================================================== */
+
+@keyframes z-scanner-sweep {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: calc(100% - var(--z-scanner-pip-width));
+  }
+}
+
+.z-scanner-track {
+  position: relative;
+  block-size: var(--z-scanner-track-h);
+  background: var(--z-scanner-track);
+  overflow: hidden;
+}
+
+.z-scanner-track__pip {
+  position: absolute;
+  inset-block: 0;
+  inline-size: var(--z-scanner-pip-width);
+  background: var(--z-scanner);
+  box-shadow: var(--z-glow-red);
+}
+
+/* The one live, animated scanner on the page — hero bottom edge only. */
+.z-scanner-track--live .z-scanner-track__pip {
+  animation: z-scanner-sweep var(--z-duration-scanner) var(--z-ease-scanner) infinite alternate;
+}
+
+/* Parked variant — chrome bars + the closing-CTA top edge (four instances). */
+.z-scanner-track--parked .z-scanner-track__pip {
+  left: calc(50% - (var(--z-scanner-pip-width) / 2));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Re-park, never hide — design/blueprint.md §7.6. */
+  .z-scanner-track--live .z-scanner-track__pip {
+    animation: none !important;
+    left: calc(50% - (var(--z-scanner-pip-width) / 2));
+    opacity: 1;
+  }
+}

@@ -1,0 +1,45 @@
+---
+/**
+ * Section 15 — closing-cta. One CTAButton primary, no secondary. Static
+ * (parked) scanner track as the section's top edge.
+ * Ref: design/blueprint.md §2 (§15); content/landing-copy.md §15.
+ */
+import ScannerRule from '../components/ScannerRule.astro';
+import CTAButton from '../components/CTAButton.astro';
+
+const WAITLIST = 'mailto:alex@flowforgesoft.com?subject=Zerado-WaitList';
+---
+
+<section id="closing-cta" class="z-section z-section--surface z-closing-cta">
+  <ScannerRule variant="parked" />
+  <div class="z-container-narrow z-closing-cta__inner">
+    <p class="z-body-lg z-closing-cta__line">
+      Nothing to install yet. Tell us you're in, and we'll tell you when there is.
+    </p>
+    <CTAButton variant="primary" href={WAITLIST} label="Join the waitlist" />
+    <p class="z-body-sm z-closing-cta__microcopy">
+      Opens your mail client, addressed and subject-lined already. No form, no account.
+    </p>
+  </div>
+</section>
+
+<style>
+  .z-closing-cta__inner {
+    text-align: center;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--z-space-5);
+    padding-block-start: var(--z-space-6);
+  }
+
+  .z-closing-cta__line {
+    color: var(--z-text);
+    max-inline-size: 560px;
+  }
+
+  .z-closing-cta__microcopy {
+    margin-block-start: calc(-1 * var(--z-space-2));
+  }
+</style>

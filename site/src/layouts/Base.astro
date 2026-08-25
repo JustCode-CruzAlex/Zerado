@@ -1,0 +1,113 @@
+---
+/**
+ * Base layout — document shell. Head data from content/seo.md, verbatim.
+ * Structure: skip link, <header role="banner"> nav, <main id="main">, and
+ * the page's <footer role="contentinfo"> is section 16, rendered by the
+ * page itself so it can sit as a sibling of <main> rather than inside it.
+ * Ref: design/blueprint.md §8.4.
+ *
+ * @prop {string} [title] — defaults to the ratified SEO title tag
+ * @prop {string} [description] — defaults to the ratified meta description
+ */
+import '../styles/global.css';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+// Perf F2: inline the @font-face block into <head> instead of a linked
+// stylesheet. `?raw` pulls the exact bytes at build time from
+// src/styles/fonts-face.css — moved out of public/ (perf F5) so the
+// now-unused, unhashed fonts.css request no longer ships in dist/ at all;
+// this file is the single source of truth for the font declarations.
+import fontsCss from '../styles/fonts-face.css?raw';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Zerado — terminal game library tracker, sorted by mood',
+  description = 'Zerado sorts your Steam library by mood and tracks price against the all-time low. Terminal-first, offline, one SQLite file you own. Join the waitlist.'
+} = Astro.props;
+
+const canonical = 'https://zerado.app/';
+const ogDescription = 'Zerado sorts your Steam library by mood and tracks price against the all-time low. Terminal-first, offline, one SQLite file you own.';
+const twitterTitle = 'Zerado — terminal game library tracker';
+const twitterDescription = 'Sorts your Steam library by mood. Tracks price against the all-time low. Terminal-first, offline, one file you own.';
+// Social scrapers do not resolve relative URLs, so this is absolute per-spec.
+const ogImage = 'https://zerado.app/og-card.png';
+// Honest alt text: the card itself carries a visible "MOCKUP OF THE PLANNED
+// INTERFACE" label, so this must not imply a real product screenshot.
+const ogImageAlt =
+  "The Zerado wordmark and tagline over a mockup of the terminal library view. The card is labelled 'MOCKUP OF THE PLANNED INTERFACE' — it is not a real screenshot.";
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Zerado',
+  url: 'https://zerado.app/',
+  description:
+    'Zerado is a terminal-first game-library tracker. It reads your game collection, sorts it by mood instead of genre, tracks price against the all-time low, and answers what to play tonight.',
+  applicationCategory: 'UtilitiesApplication',
+  author: { '@type': 'Organization', name: 'FlowForgeSoft' },
+  sameAs: ['https://github.com/JustCode-CruzAlex/Zerado']
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!--
+      Self-hosted fonts — no external CDN, ref: site/src/styles/fonts-face.css
+      (the source of truth; its @font-face rules are inlined below — perf F2:
+      a 484-byte-compressed stylesheet doesn't earn a render-blocking round
+      trip, and inlining also removes the unhashed fonts.css file from dist/
+      entirely — perf F5).
+
+      The JetBrains Mono preload is viewport-conditional — perf F1: above
+      the fold on mobile (<768, blueprint §2's own reflow band split) only
+      Space Grotesk and Orbitron are used; the mono terminal figure starts
+      below the fold there. Desktop (≥768) genuinely needs it above the
+      fold, so it keeps top-priority preload from that breakpoint up.
+    -->
+    <link rel="preload" href="/fonts/Orbitron-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SpaceGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/JetBrainsMono-latin.woff2" as="font" type="font/woff2" crossorigin media="(min-width: 768px)" />
+    <style set:html={fontsCss}></style>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zerado" />
+    <meta property="og:title" content="Zerado — terminal game library tracker, sorted by mood" />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={twitterTitle} />
+    <meta name="twitter:description" content={twitterDescription} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <SkipLink />
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

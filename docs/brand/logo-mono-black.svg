@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 364 64" role="img" aria-labelledby="zb-t zb-d">
+  <title id="zb-t">Zerado</title>
+  <desc id="zb-d">Single-colour black Zerado logotype for light, photographic or printed backgrounds.</desc>
+  <g id="zb-mark">
+    <rect x="14" y="9" width="36" height="46" rx="12" fill="none" stroke="#000000" stroke-width="10"/>
+    <rect x="22" y="28.5" width="20" height="7" rx="3.5" fill="#000000"/>
+  </g>
+  <g id="zb-wordmark" transform="translate(88 8)" fill="none" stroke="#000000" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round">
+    <path d="M4.5 4.5H31.5L4.5 43.5H31.5"/>
+    <path transform="translate(48 0)" d="M31.5 4.5H4.5V43.5H31.5M4.5 24H27"/>
+    <path transform="translate(92 0)" d="M4.5 43.5V4.5H20A10.75 10.75 0 0 1 20 26H4.5M19.5 26L31.5 43.5"/>
+    <path transform="translate(138 0)" d="M4.8 43.5L18 4.8L31.2 43.5M9.4 30H26.6"/>
+    <path transform="translate(185 0)" d="M4.5 4.5H19A16 19.5 0 0 1 19 43.5H4.5Z"/>
+    <rect transform="translate(238 0)" x="4.5" y="4.5" width="29" height="39" rx="12"/>
+  </g>
+</svg>

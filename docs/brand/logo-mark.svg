@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="zm-t zm-d">
+  <title id="zm-t">Zerado</title>
+  <desc id="zm-d">An arcade counter rolled back to zero, with a scanner light travelling through its slot.</desc>
+  <rect x="14" y="9" width="36" height="46" rx="12" fill="none" stroke="#FFB000" stroke-width="10"/>
+  <rect x="22" y="28.5" width="20" height="7" rx="3.5" fill="#6E1818"/>
+  <rect x="30" y="28.5" width="9" height="7" rx="3.5" fill="#FF2E2E"/>
+</svg>

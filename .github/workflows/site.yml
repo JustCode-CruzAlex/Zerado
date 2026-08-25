@@ -1,0 +1,70 @@
+name: site
+
+# Gating CI for the landing page. A pull request that breaks `npm run build`
+# fails here by design — see CONTRIBUTING.md, "The review bar".
+#
+# This workflow is path-filtered to site/**, because everything it does needs a
+# built page. The checks that must run on EVERY pull request regardless of what
+# it touched live in guardrails.yml, which carries no paths filter.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'scripts/check-page.mjs'
+      - '.github/workflows/site.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'scripts/check-page.mjs'
+      - '.github/workflows/site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Astro 7 requires >=22.12.0; site/package.json declares it under engines.
+        node: ['22', '24']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      # `npm ci` installs strictly from the lockfile: the build must succeed
+      # from a clean checkout with no network access beyond the npm registry.
+      - name: Install
+        working-directory: site
+        run: npm ci
+
+      - name: Build
+        working-directory: site
+        run: npm run build
+
+      # Every assertion in here is a ratified decision or a load-bearing page
+      # guarantee, and each one is mutation-tested — see the script's header.
+      - name: Page invariants
+        run: node scripts/check-page.mjs site/dist/index.html
+
+      - name: Upload the build
+        if: matrix.node == '24'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+          retention-days: 7

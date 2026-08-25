@@ -1,0 +1,77 @@
+---
+/**
+ * StateChip — one of the brand's four state definitions. Variant 3 (ZERADO)
+ * is composed differently on purpose: wider, glow-cyan, larger glyph.
+ * Ref: design/blueprint.md §2 (§05).
+ *
+ * @prop {import('../data/states').StateKey} state
+ * @prop {string} line — the chip's descriptive line
+ * @prop {boolean} [emphasised]
+ */
+import { STATES } from '../data/states';
+
+interface Props {
+  state: keyof typeof STATES;
+  emphasised?: boolean;
+}
+
+const { state, emphasised = false } = Astro.props;
+const def = STATES[state];
+---
+
+<div
+  class={`z-chip ${emphasised ? 'z-chip--emphasised' : ''}`}
+  style={`--z-chip-color: var(${def.token})`}
+>
+  <span class="z-chip__glyph" aria-hidden="true">{def.glyph}</span>
+  <span class="z-chip__label">{def.label}</span>
+  <span class="z-chip__line"><slot /></span>
+</div>
+
+<style>
+  .z-chip {
+    display: flex;
+    flex-direction: column;
+    gap: var(--z-space-2);
+    padding: var(--z-space-4);
+    background: var(--z-surface-raised);
+    border: 1px solid var(--z-border-strong);
+    border-radius: var(--z-radius-md);
+    flex: 1;
+  }
+
+  .z-chip__glyph {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--z-chip-color);
+  }
+
+  .z-chip__label {
+    font-family: var(--z-font-mono);
+    font-size: var(--z-text-caption);
+    font-weight: var(--z-weight-medium);
+    letter-spacing: var(--z-tracking-readout);
+    text-transform: uppercase;
+    color: var(--z-chip-color);
+  }
+
+  .z-chip__line {
+    font-size: var(--z-text-sm);
+    color: var(--z-text-secondary);
+  }
+
+  .z-chip--emphasised {
+    box-shadow: var(--z-glow-cyan);
+    border-color: var(--z-accent);
+  }
+
+  .z-chip--emphasised .z-chip__glyph {
+    font-size: 1.875rem;
+  }
+
+  @media (min-width: 768px) {
+    .z-chip--emphasised {
+      flex: 1.4;
+    }
+  }
+</style>
