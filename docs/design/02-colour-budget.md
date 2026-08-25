@@ -176,12 +176,12 @@ Measured the same way as §3.1, matching `ESC[38;5;214m` / `ESC[38;2;255;176;0m`
 
 ## 5 · Red — motion and alarm only, enumerated
 
-**A closed list of three. Nothing else in Zerado is ever red.**
+**A closed list of three uses. Nothing else in Zerado is ever red.**
 
 | # | Use | Token | Hex | ANSI-256 | Ratio | Note |
 |---|---|---|---|---|---|---|
 | 1 | The **scanner pip**, during a genuinely indeterminate wait | `--z-scanner` | `#FF2E2E` | **9** | 5.25 | Motion. Never ambient (`01-design-system.md` §9.3) |
-| 2 | The **destructive-confirmation annunciator** `▌` | `--z-scanner` | `#FF2E2E` | **9** | 5.25 | Alarm as **structure**, not as text |
+| 2 | The **alarm annunciator** `▌` — on a **destructive confirmation** (§13) **and on an error state** (§11) | `--z-scanner` | `#FF2E2E` | **9** | 5.25 | Alarm as **structure**, not as text. Both are alarms; both take the same bar |
 | 3 | **Error text** | `--z-scanner-300` | `#FF6B6B` | *underived* | **6.99** AA | **The readable red.** Interim: uncoloured + bold until the index is derived |
 
 ### 5.1 · The distinction that must not blur
@@ -310,7 +310,7 @@ Run against the founder-facing rendered artifact. Every line is pass or fail; th
 7. ☐ Body text is not amber.
 
 **Red**
-8. ☐ Red appears **only** as the scanner pip, a destructive annunciator, or error text.
+8. ☐ Red appears **only** as the scanner pip, an alarm annunciator (destructive confirmation **or** error state), or error text.
 9. ☐ `--z-scanner` (5.25) sets **no words**; error text uses `--z-scanner-300` (6.99) or the
    documented interim (uncoloured + bold).
 10. ☐ Offline is **not** red.

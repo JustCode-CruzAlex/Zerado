@@ -104,11 +104,20 @@ It carries exactly four things, always, in this order:
 3. **How stale what you are seeing is** — in units a person uses, not a timestamp.
 4. **The key that retries it**, whenever there is one — a degrade with no way out is a dead end.
 
-> **No `⚠`.** The obvious warning glyph U+26A0 is both Ambiguous-width *and* carries an emoji
-> presentation that many terminals render in colour at double width — which would break the
-> column budget and defeat the `NO_COLOR` guarantee at once. It is exactly the class of glyph
-> [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) §1 rejects. The label word does the
-> job better anyway: it is readable, greppable, and speakable by a screen reader.
+> **No `⚠`.** U+26A0 is listed **`Emoji`** in Unicode's `emoji-data.txt`, so it carries an emoji
+> presentation: many terminals render it in colour, from the font, which `NO_COLOR` cannot switch
+> off — and a coloured emoji presentation is typically double-width, which would break the column
+> budget. It is exactly the class of glyph [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md)
+> §1 rejects.
+>
+> **A correction, recorded rather than quietly fixed:** an earlier draft of this note also called
+> U+26A0 *Ambiguous* width. It is **Neutral** (UAX #11, verified against UCD at source). The
+> conclusion held, but one of its two premises did not — and in a bundle whose value is that its
+> facts are checked, a wrong premise that happens to reach the right answer is still a defect.
+> *(Caught by `fft-tui-designer`.)*
+>
+> The label word does the job better anyway: it is readable, greppable, and speakable by a screen
+> reader.
 
 And it obeys four rules:
 
@@ -136,10 +145,27 @@ The four Phase 1 refusals, in the ratified voice:
 
 | Situation | Copy |
 |---|---|
-| No network at all | `No network. Last synced 3 days ago — everything below still works. r to retry.` |
-| The provider is unreachable | `Steam didn't answer. Not your key — their end, or the connection. r to retry.` |
-| The key is rejected | `Steam rejected that key. Check it hasn't been regenerated. Settings → Steam.` |
+| No network at all | `No network. Last synced 3 days ago — everything below still works.` |
+| The provider is unreachable | `Steam didn't answer. Not your key — their end, or the connection.` |
+| The key is rejected | `Steam rejected that key. Check it hasn't been regenerated.` |
 | The library came back empty | `Steam returned an empty library. Game details are private on your profile — Steam won't share the list until that's public. Settings → Privacy.` |
+
+**Three rules the copy above obeys, each because the first draft broke it:**
+
+1. **The retry key is not baked into the sentence.** The first draft ended each line with `r to
+   retry.`, which is wrong on any screen with a text input focused: WCAG **2.1.4** means `r` types a
+   literal `r` there, so the copy would name a key that does nothing. The **screen** supplies the
+   affordance — `r to retry` on `Z-04`, `⏎ to try again` on `Z-02` — and the message supplies only
+   the fact.
+2. **A message never points at the screen the player is standing on.** `Settings → Steam` is useful
+   from the library and absurd on `Z-02`, which *is* the Steam settings. The destination is the
+   screen's to fill in, not the message's.
+3. **A message never describes a composition it cannot see.** The first draft's `— everything below
+   still works` names a library beneath the banner. That is true on `Z-04`, false on `Z-02` (nothing
+   is synced yet) and shapeless on `Z-03`, where the body *is* the message. The clause is now the
+   screen's to add where it is true.
+
+*(All three found by `fft-tui-designer` while writing `Z-02` and `Z-03`.)*
 
 Note what none of them say: *"Something went wrong."* That is the one sentence a terminal user
 cannot act on.
@@ -183,6 +209,20 @@ the build does not have presents something unbuilt as working.
 ## 5 · How the product knows it is offline
 
 **It does not guess, and it never probes.**
+
+> **One clarification, because §6 draws a first-run screen with the Connect door already disabled
+> before anything has failed.** Reading the operating system's **local routing table** — is there a
+> default route? — is *not* probing: it is a syscall against state the kernel already holds, it
+> emits **no packet**, it contacts nothing, and it is instant. That is what lets `Z-01` disable a
+> door at first paint without contradicting this section.
+>
+> The distinction that matters is **packet versus no packet**, not *knowing* versus *not knowing*. A
+> reachability check sends traffic to somebody; reading your own routing table does not. What
+> Zerado still refuses to do is send anything to anyone to find out whether it can.
+>
+> It is also honest about its own limits: a default route is not the internet. A machine can have
+> one and still not reach Steam — which is why the *classification* below is still driven by real
+> failures, and the routing-table read only ever downgrades an affordance, never claims success.
 
 There is no connectivity check, no background ping, no "am I online" heartbeat. Two reasons: a
 reachability probe is exactly the background network traffic the page promises does not exist,

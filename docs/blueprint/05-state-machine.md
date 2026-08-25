@@ -11,6 +11,13 @@ ticket: "#2"
 
 # The state machine
 
+> **A word on *state* versus *status*.** They are not used interchangeably in this bundle.
+> **State** is what the player sees — the four values, the chip, the column, the filter.
+> **Status** is what the machine stores and commands — `status_manual`, `SetStatus`, `Z-06 Set
+> status`. The distinction is small and consistent: prose about the player says *state*; anything
+> naming a column, a method or a command says *status*. *(Named by `fft-tui-designer` after finding
+> both words in use without a rule.)*
+
 The four game states, their legal transitions, and which are user actions versus derived facts.
 
 The states themselves — their colours, glyphs, ASCII fallbacks and labels — are settled in the

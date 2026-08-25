@@ -83,7 +83,7 @@ trade: at 40 columns a player is reading, not scanning.
 | **Z-06** Set status | Overlay 34 × 11 | Same | Same | Same | **Becomes a route** — the overlay does not fit |
 | **Z-07** Filter | Filter bar, 2 body rows | Same | Same | Filter bar takes 3 rows (chips wrap) | One filter at a time, cycled with `Tab` |
 | **Z-08** Add by hand | Field + help beside | Field, help below | Same | Help collapses | One field at a time |
-| **Z-09** Settings | Group ∥ values | Single-pane grouped list | Same | Values below labels | Values below labels |
+| **Z-09** Settings | Single-pane grouped list, **wider gutter** | Single-pane grouped list | Same | Values below labels | Values below labels |
 | **Z-10** Help | Two key columns | One key column | Same | Same | Same, scrolls more |
 | **Z-11** Fatal | Plain text | Plain text | Plain text | Plain text | Plain text |
 

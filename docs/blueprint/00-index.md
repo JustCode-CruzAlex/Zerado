@@ -38,7 +38,25 @@ off. The brand manual already said what it looks like.
 | | [`12-audio.md`](./12-audio.md) | **Audio ships in Phase 1** — bundled, off by default, fully removable |
 | | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
 | **B · design** | [`../design/`](../design/) | The design system and the designer manual |
-| **C · screens** | [`../design/screens/`](../design/screens/) | One implementation-ready spec per Phase 1 screen |
+| **C · screens** | [`../design/screens/`](../design/screens/) | **Eleven** implementation-ready specs — one per Phase 1 screen |
+
+**Deliverable C, in full** — each carries all sixteen required sections from
+[`../design/03-designer-manual.md`](../design/03-designer-manual.md) §3, and every mockup is
+verified to an exact cell count:
+
+| Screen | Spec |
+|---|---|
+| `Z-01` First run | [`Z-01-first-run.md`](../design/screens/Z-01-first-run.md) |
+| `Z-02` Connect a store | [`Z-02-connect-a-store.md`](../design/screens/Z-02-connect-a-store.md) |
+| `Z-03` Sync | [`Z-03-sync.md`](../design/screens/Z-03-sync.md) |
+| `Z-04` Library | [`Z-04-library.md`](../design/screens/Z-04-library.md) |
+| `Z-05` Game detail | [`Z-05-game-detail.md`](../design/screens/Z-05-game-detail.md) |
+| `Z-06` Set status | [`Z-06-set-status.md`](../design/screens/Z-06-set-status.md) |
+| `Z-07` Filter and search | [`Z-07-filter-and-search.md`](../design/screens/Z-07-filter-and-search.md) |
+| `Z-08` Add a game by hand | [`Z-08-add-a-game-by-hand.md`](../design/screens/Z-08-add-a-game-by-hand.md) |
+| `Z-09` Settings | [`Z-09-settings.md`](../design/screens/Z-09-settings.md) |
+| `Z-10` Help and key map | [`Z-10-help-and-key-map.md`](../design/screens/Z-10-help-and-key-map.md) |
+| `Z-11` Fatal error | [`Z-11-fatal-error.md`](../design/screens/Z-11-fatal-error.md) |
 | **decisions** | [`../adr/`](../adr/) | ADR-0001 — the four expensive-to-reverse decisions |
 
 The drawings live at [`../adr/charts/`](../adr/charts/) as `.chart.toml` specs and render to
@@ -136,6 +154,24 @@ exists:
 | **D6 · audio, bundled and off by default** | Low for the design; the **licensing** question is the expensive part |
 
 ---
+
+## The bundle checked itself
+
+The three deliverables were not written in isolation and then stapled together. Each specialist read
+the others' output and cross-checked it, and **25 contradictions were found and closed before this
+bundle was surfaced** — a stale row budget, a status bar in a forbidden row, refusal copy that named
+a key which cannot fire, a warning glyph whose stated reason was factually wrong, an ASCII fallback
+that covered one column of a screen made of the same problem, and a decision about a player's own
+data that had simply never been made.
+
+Two are worth naming because they show the mechanism working rather than the documents being tidy:
+
+- **`fft-tui-designer` refused to write copy for a case the seam had not decided** — what happens to
+  a game a sync stops returning — rather than inventing an answer about someone's file. It is now
+  decided ([`06-data-seams.md`](./06-data-seams.md) §2.4): tombstoned, never deleted.
+- **Two width assertions of mine did not survive checking**, and both are recorded as corrections
+  rather than quietly repaired. In a bundle whose value is that its facts are checked, a wrong
+  premise that happens to reach the right answer is still a defect.
 
 ## The honest gaps
 

@@ -124,9 +124,19 @@ are two types, not one) is not rediscovered later.
 
 ### `setting` · `schema_migration`
 
-`setting(key PK, value)` — everything `Z-09` writes. `schema_migration(version PK, applied_at)` —
-forward-only, and a database whose max version is **higher** than the binary knows about is a
-`Z-11 Fatal error`, not a silent downgrade.
+`setting(key PK, value)` — everything `Z-09` writes.
+
+`schema_migration(version PK, applied_at, **written_by**)` — forward-only, and a database whose max
+version is **higher** than the binary knows about is a `Z-11 Fatal error`, not a silent downgrade.
+
+**`written_by` is the reason this is not just `(version, applied_at)`.** `Z-11` promises to name
+*both* versions — the one that wrote the file and the one that is running — and a schema number
+alone cannot do that. A number tells the player their file is from the future; the binary version
+tells them *which release to go and fetch*, which is the only actionable half. Adding the column
+costs nothing now and cannot be backfilled later, because the binary that wrote a row is exactly
+what is no longer around to ask.
+
+*(Found by `fft-tui-designer`: `Z-11`'s copy required a fact the schema could not supply.)*
 
 ---
 

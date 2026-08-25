@@ -93,6 +93,12 @@ BodyRect.h = height − HeaderBandHeight − 1 (footer)
                     − 2·OuterMarginY − InnerPaddingY − InterElementGap
 ```
 
+> **`InnerPaddingY` is charged ONCE, not twice** — unlike `OuterMarginY`, which is charged for both
+> the top and the bottom. That asymmetry is the canon's, not a typo here: the single row is the
+> band-to-body respiro, and there is no matching row between the body and the reserved footer.
+> Stated explicitly because every mockup in the bundle has to add up against it, and a reader who
+> assumes symmetry will be one row out on every screen.
+
 | Terminal | Tier | `leftInset` | **Body `w × h`** |
 |---|---|---|---|
 | 32 × 24 | Tiny | 1 | **30 × 21** |
@@ -127,7 +133,7 @@ finished; a screen that requires more than 80 is a defect.
 | Z-06 | Set status | Overlay, centred, `34 × 11` fixed | 1 | choice list |
 | Z-07 | Filter and search | Mode of Z-04 — takes body rows 1–2, focus moves into it | 2 | filter bar · list |
 | Z-08 | Add a game by hand | Single-pane form (`huh`) | 1 | field group |
-| Z-09 | Settings | Single-pane grouped form | 1 | field group |
+| Z-09 | Settings | Single-pane grouped form — **never master/detail**, at any tier (§2.5) | 1 | field group |
 | Z-10 | Help and key map | Single-pane table in a viewport | 1 | viewport |
 | Z-11 | Fatal error | **Frameless.** Plain text, left-aligned, no chrome | 0 | — |
 
@@ -231,6 +237,21 @@ Body `112 × 32`, split **66 ∥ 2 ∥ 44**:
 
 Twenty-eight visible rows. The list drops its `source` column here — the detail pane carries it,
 and the title takes the space instead.
+
+### 2.5 · Why `Z-09 Settings` is never master/detail
+
+`Z-09` has a second region's worth of width at ExtraWide, and the obvious composition — groups on
+the left, the selected group's values on the right — is **forbidden**.
+
+`01-screen-inventory.md` §5 says `Z-09` *"must not hide a current value behind a submenu."* A
+master/detail settings screen hides every value in every unselected group, which is that rule broken
+by composition rather than by a click. It would also interleave the reading order under WCAG
+**1.3.2**: the sequence a screen reader follows stops matching the sequence the layout implies.
+
+At ExtraWide the extra width buys a **wider gutter between label and value** and longer help text —
+not a second region. Every current value stays on screen at every tier.
+
+*(Found by `fft-tui-designer` reading §3's degrade table against the inventory's must-not list.)*
 
 ### 2.4 · The overlay budget — `Z-06 Set status`
 
