@@ -85,22 +85,33 @@ One component: the **degrade banner**, one row at the top of the body, above eve
 including the pinned summary. It is specified in deliverable B; the spine fixes its **contract**:
 
 ```
- ⚠  OFFLINE   Showing your library as of 3 days ago.  r to retry
+ ▌ OFFLINE   Last synced 3 days ago. Everything here still works.
 ```
 
 It carries exactly four things, always, in this order:
 
-1. **A glyph and a label** — never colour alone (co-render rule). ASCII fallback `[!]`.
+1. **An uppercase label word** — `OFFLINE`, `PRICES OFFLINE`, `STEAM PROFILE PRIVATE`. The word
+   carries the state, so it survives with zero colour and needs no warning glyph. The leading
+   `▌` is **structural**, not a state channel.
 2. **What is unavailable** — the subject, not a generic apology.
 3. **How stale what you are seeing is** — in units a person uses, not a timestamp.
-4. **The key that retries it** — a degrade with no way out is a dead end.
+4. **The key that retries it**, whenever there is one — a degrade with no way out is a dead end.
+
+> **No `⚠`.** The obvious warning glyph U+26A0 is both Ambiguous-width *and* carries an emoji
+> presentation that many terminals render in colour at double width — which would break the
+> column budget and defeat the `NO_COLOR` guarantee at once. It is exactly the class of glyph
+> [`08-prior-draft-analysis.md`](./08-prior-draft-analysis.md) §1 rejects. The label word does the
+> job better anyway: it is readable, greppable, and speakable by a screen reader.
 
 And it obeys four rules:
 
 - **It never hides content it could have shown.** It is one row, at the top, and the body keeps
   the rest.
 - **It is never colour-only and never red.** Red is motion and alarm (brand manual §4.1); being
-  offline is neither. The banner is chrome and amber.
+  offline is neither — red would call a promised behaviour a fault. The banner is **chrome when
+  it is informational** and **amber only when the player must do something**. That distinction is
+  the rule, and the component spec is
+  [`../design/01-design-system.md`](../design/01-design-system.md) §12.
 - **It never appears when nothing is degraded.** A banner that is always there is furniture.
 - **It survives every tier.** Per [`03-responsive.md`](./03-responsive.md) §4 it is on the
   never-hide list: if the product is showing stale data, saying so outranks whatever the row was

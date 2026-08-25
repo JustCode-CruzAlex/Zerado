@@ -63,8 +63,9 @@ carry state; emoji carry nothing."** That alone is dispositive.
 3. **They degrade to tofu, not to a fallback.** A missing box-drawing character degrades to a
    recognisable near-miss. A missing emoji degrades to `□`, identically for all of them, which
    turns four distinct states into four identical boxes.
-4. **They cannot be typed, searched, or read aloud.** A player cannot grep a screenshot for 🎮,
-   and a screen reader announces an emoji's CLDR name, which is not the state's name.
+4. **They cannot be typed, searched, or read aloud.** Nobody greps a bug report for a
+   game-controller pictograph, and a screen reader announces an emoji's CLDR name, which is not
+   the state's name. `ZERADO` is a word: readable, greppable, speakable.
 
 ### What replaces it — already decided upstream
 The geometric progression from the brand manual §4.3, which was chosen as a **sequence**: an
