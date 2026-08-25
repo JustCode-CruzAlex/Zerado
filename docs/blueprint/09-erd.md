@@ -65,6 +65,7 @@ Type-neutral. Everything genuinely shared across games, books and films lives he
 | `status_manual` | `TEXT NULL` | `not_started` · `in_progress` · `zerado` · `abandoned` · `NULL` |
 | `status_changed_at` | `TEXT NULL` | decides the Phase 4 conflict |
 | `rating` · `notes` | | the player's own |
+| **`absent_since`** | `TEXT NULL` | Set when a **complete** sync stops returning it; cleared when it returns. **Never a reason to delete** — see [`06-data-seams.md`](./06-data-seams.md) §2.4 |
 | `merged_into` | `INTEGER NULL` | FK → `media_item.id`, so a Phase 4 merge never rewrites keys |
 | `created_at` `updated_at` | `TEXT NOT NULL` | |
 

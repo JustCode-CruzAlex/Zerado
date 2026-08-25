@@ -225,6 +225,38 @@ press, and it is deliberate: exiting a filter *editor* and clearing a filter are
 intentions, and a player who has just typed a search almost never means to throw it away. The
 footer says so at the moment it matters, so it is discoverable rather than clever.
 
+## 5b · One key registry — dispatch, footer and help are the same source
+
+Nothing in the first draft said **where a key's description lives**, which means dispatch, the
+footer hint and the help screen could each carry their own string. They would agree on the day they
+were written and drift within a month — and `Z-10 Help`'s entire promise is that it lists *"every
+key that does anything, on the screen it does it on."* A help screen maintained by hand is a help
+screen that lies.
+
+**Decision: a single key registry is the source of all three.** One entry per binding, carrying the
+key, its scope (global / screen / mode), its description, its availability predicate, and its
+handler. Dispatch reads it; the footer composes from it; `Z-10` is **generated** from it.
+
+The property this buys is the one worth having: **help cannot drift, because there is nothing for it
+to drift from.** A key that does nothing cannot be listed, and a key that does something cannot be
+missing.
+
+This is a spine requirement, not a screen's — `fft-tui-designer` correctly flagged that `Z-10`'s
+spec depends on it and that it must land before `Z-10` is built, or the screen's promise is broken
+on the day it ships.
+
+### 5c · Where `?` is unavailable, and why
+
+Two places, both deliberate, so the conformance statement can be written once and honestly:
+
+| Context | `?` does | Why |
+|---|---|---|
+| A **text input** has focus | Types a literal `?` | WCAG **2.1.4** — single-key shortcuts must not fire while a text input holds focus |
+| An **overlay** is open | Nothing | An overlay may not open another surface (§1, rule 2). `Esc` first, then `?` |
+
+Everywhere else `?` opens `Z-10`. The footer never lists `?` in either of those two contexts, which
+is the registry's availability predicate doing its job rather than a screen remembering.
+
 ## 6 · The footer
 
 One reserved row, on every framed screen (the Spacing Canon reserves it). It carries the keys
@@ -233,6 +265,15 @@ that work **on this screen right now**, in a fixed order:
 ```
  ↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit
 ```
+
+> **The audio annunciator is not in the footer, and not in the status row.** It sits **right-aligned
+> on the header band's title row**, on every framed screen. `fft-tui-designer` proposed this against
+> my original instruction and the reasoning is better than mine: `Z-05` as a route, `Z-06` as an
+> overlay and `Z-10` have **no status row**, so "put it in the status bar" would force a second
+> position — and WCAG **4.1.3** wants a status indicator in a *stable and predictable place*. The
+> title row is the only surface every framed screen has at every tier. It also avoids repurposing
+> the footer, which §6 forbids from carrying status, and avoids truncating the pinned summary, which
+> R-10(c) forbids. Adopted.
 
 Rules:
 - Keys that do nothing here are **not listed**. A footer that lies is worse than no footer.

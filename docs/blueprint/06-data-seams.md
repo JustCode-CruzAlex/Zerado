@@ -148,7 +148,47 @@ Adding GOG is: implement `Provider` + `Syncer`, declare the credential fields, r
 No screen changes, no route changes, no schema changes. **That is the test of whether this seam
 is right**, and it is the reason `Z-02` is named "connect a store" and not "connect Steam".
 
-### 2.4 · Why the sync streams
+### 2.4 · A game a sync stops returning is **tombstoned, never deleted**
+
+`fft-tui-designer` refused to write `Z-05` copy about this case because the seam never decided it,
+which was the right call — it is a decision about a player's own data. Decided here.
+
+**A sync that no longer returns a game does not delete it.** It sets `absent_since`, and the row
+stays.
+
+The reason is that *"the provider stopped returning it"* and *"the player no longer owns it"* are
+not the same fact, and only the first one is observable. A game can vanish from a Steam response
+because of a delisting, a region change, a family-share expiry, an API hiccup, a truncated page or a
+rate limit. Meanwhile the row carries **the player's own work** — the status, the notes, the mood
+tags, the fact that it is *zerado*. That is the one thing the product promises is theirs. Destroying
+it because a third-party API omitted a line is the product acting on someone else's say-so against
+its owner.
+
+Deletion is irreversible. Tombstoning is not. When the difference is that stark and the evidence is
+that weak, the reversible option wins.
+
+| Rule | |
+|---|---|
+| `absent_since` is set | on the first **complete, successful** sync that does not return the game |
+| It is cleared | the moment the game comes back — silently, with no notice |
+| Absent rows | are excluded from the **default** library view, remain findable by filter, and `Z-05` says plainly why |
+| Deletion | happens only when the **player** asks. Never as a consequence of a sync |
+
+**The guard that matters most: only a sync whose `status` is `ok` may tombstone anything.** A
+`partial`, `failed` or `cancelled` sync must not — in a truncated stream, *not returned* and *not
+reached* are indistinguishable. A sync returning **zero** items is the private-profile case, already
+a `REFUSES` ([`07-offline-contract.md`](./07-offline-contract.md) §3.1); it must never be read as
+"the player's whole library was removed."
+
+**`absent` is not a fifth state.** It is an orthogonal presence flag, for the same reason *caught
+up* is not a fifth state ([`11-media-model.md`](./11-media-model.md) §4, F-2): the four states are
+ratified and CVD-verified, and a game that is absent still has a status — usually the most valuable
+one, because a game you finished and no longer own is exactly the row you would be angriest to lose.
+
+A row that is absent **and** carries no player data at all — no manual status, no notes, no mood
+tags — may be **offered** for bulk removal. Offered, not done.
+
+### 2.5 · Why the sync streams
 
 `Sync` returns a channel rather than a slice for three reasons:
 

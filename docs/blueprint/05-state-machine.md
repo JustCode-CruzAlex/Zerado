@@ -57,10 +57,11 @@ type Game struct {
     // StatusManual is the player's explicit choice, or nil if they have
     // never expressed one. A sync NEVER writes this field.
     StatusManual *Status
-    // PlaytimeMinutes is provider-reported. Zero is a real value and is
-    // distinct from "this provider does not report playtime" — see
-    // Capabilities.Playtime.
-    PlaytimeMinutes int
+    // Progress is provider-reported and GENERIC — value + unit + source.
+    // For a game the unit is minutes and the value is the playtime.
+    // Zero is a real value and is distinct from "this provider does not
+    // report progress at all" — see Capabilities.Progress.
+    Progress Progress
 }
 ```
 
@@ -70,18 +71,19 @@ type Game struct {
 
 | Transition | Kind | Trigger |
 |---|---|---|
-| `NOT STARTED → IN PROGRESS` | **Derived** | A sync reports `playtime_minutes > 0` on a game with `status_manual = NULL` |
+| `NOT STARTED → IN PROGRESS` | **Derived** | A sync reports `progress > 0` on an item with `status_manual = NULL` |
 | every other transition | **User action** | The player chooses it in `Z-06` |
 
 The derivation:
 
 ```go
-func derive(playtime int, c Capabilities) Status {
-    if !c.Playtime {
-        // The provider cannot know. A cartridge has no telemetry.
+func derive(p Progress, c Capabilities) Status {
+    if !c.Progress {
+        // Nothing is reporting. A cartridge has no telemetry, and
+        // neither does a paper book — the same rule covers both.
         return StatusNotStarted
     }
-    if playtime > 0 {
+    if p.Value > 0 {
         return StatusInProgress
     }
     return StatusNotStarted
@@ -95,9 +97,10 @@ func derive(playtime int, c Capabilities) Status {
 > not; a paper book does not; a Kindle book would. One function, every type.
 > [`11-media-model.md`](./11-media-model.md) §3.
 
-For a provider that reports playtime (Steam), `NOT STARTED` and `IN PROGRESS` are *facts* until
+For a provider that reports progress (Steam reports minutes played), `NOT STARTED` and
+`IN PROGRESS` are *facts* until
 the player overrides them. For a provider that does not (`physical`, and any store whose API
-does not expose playtime), **all four states are manual, always** — the derivation has no input
+does not expose progress), **all four states are manual, always** — the derivation has no input
 and returns `NOT STARTED` as the honest default.
 
 This is why physical copies are modelled as a **provider with capabilities**
@@ -182,11 +185,14 @@ Recorded as a settled decision so it is not reopened as an optimisation.
    ⊘  ABANDONED
    ──────────────────────────
    ×  Clear override
-      Back to what Steam says: IN PROGRESS
+      Steam says IN PROGRESS
 ```
 
 The fifth item appears **only when `status_manual IS NOT NULL`**, and its second line names what
-the game will become — because "clear override" without that line is a button whose effect the
+the game will become — **in at most 27 cells**, because `Z-06`'s overlay is a fixed `34 × 11` with a
+28-cell content width. The first draft of this line read `Back to what Steam says: IN PROGRESS`,
+which is 36 cells and would have been truncated at exactly the point where it stops being
+informative. The requirement is the naming, not the wording — because "clear override" without that line is a button whose effect the
 player cannot predict.
 
 Note the consequence, and be honest about it in the copy: clearing an override on a game with

@@ -127,6 +127,29 @@ Under `prefers-reduced-motion` — or its terminal equivalent, which Zerado take
 the track at full weight** and does not travel. It is deliberately not hidden: the lit slot is an
 identity element, the travel is the decoration (brand manual §7.3).
 
+## 5b · `ZERADO_ASCII` covers every Ambiguous glyph, not just the state column
+
+The state glyphs have an ASCII column (`[ ] [~] [*] [x]`) for terminals where they cannot be relied
+on. But the state glyphs are **not the only Ambiguous-width characters on a Zerado screen** — the
+box-drawing family, the focus marker `▌`, and the scanner's `─`/`━` are all Ambiguous too, and they
+carry the frame itself.
+
+**`ZERADO_ASCII=1` therefore switches the whole glyph vocabulary, not one column:**
+
+| Role | Default | ASCII fallback |
+|---|---|---|
+| State | `○ ◐ ◉ ⊘` | `[ ] [~] [*] [x]` |
+| Focus marker | `▌` | `>` |
+| Box drawing | `┌─┐│└┘` | `+-+|+ +` |
+| Scanner track / pip | `─` / `━` | `-` / `=` |
+| Breadcrumb separator | `✦` | `>` |
+| Audio annunciator | `▮` / `▯` | `[*]` / `[ ]` |
+
+A fallback that rescues the state column while leaving the frame to shear would fix the smallest
+problem on the screen and leave the largest.
+
+*(Found by `fft-tui-designer`: the original scope covered only the state column.)*
+
 ## 6 · The refusal floor
 
 Below **24 columns or 8 rows**, Zerado does not render a degraded interface. It prints one line

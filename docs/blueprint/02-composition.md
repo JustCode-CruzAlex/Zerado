@@ -43,6 +43,20 @@ the same fixed per-tier values. Nothing here is re-derived and no screen may use
 | `HeaderBandHeight` (base) | 1 | 3 | 3 | 3 | 3 |
 | **`leftInset`** = `OuterMarginX + InnerPaddingX` | **1** | **2** | **3** | **3** | **4** |
 
+**A second named inset, added by this bundle.** `Z-05`'s detail pane and `Z-06`'s overlay are
+**bordered** surfaces, and their content sits inside the border by a further inset that the canon
+draws but never names. Reading a number off a mockup is how magic numbers get born, so:
+
+| Token | Value | What it does |
+|---|---|---|
+| **`BorderInsetX`** | **2** cols each side | Between a drawn border and the content inside it |
+| **`BorderInsetY`** | **0** rows | A bordered surface is already separated vertically; a row here would cost a content row for nothing |
+
+It is deliberately **not** `InnerPaddingX`, which it equals only at ExtraWide. Conflating them would
+make a bordered surface's content shift by one column between tiers for no reason.
+
+*(Named because `fft-tui-designer` found `Z-05` and `Z-06` both depending on an unnamed number.)*
+
 ### 1.2 · Decision — **Zerado screens carry no header subtitle**
 
 The canon allows a fourth header row for a subtitle at Standard and above. **Zerado declines
@@ -224,6 +238,10 @@ Fixed `34 × 11`, centred on the current route, drawn over a **dimmed** backdrop
 is available. At the 16-colour floor and under `NO_COLOR` there is no dim, so the overlay is
 separated by its **border** instead, in `--z-border-strong` (`#64748B`, 4.08:1 — it satisfies
 WCAG 1.4.11 as a control boundary; `--z-border` at 1.53:1 may never do this job).
+
+All nine content rows of the `34 × 11` box are spent on the five items and their spacing, so the
+overlay's **key hints live in the frame's reserved footer row**, not inside the box. An overlay does
+not get its own footer; it borrows the one already on screen.
 
 At Tiny the overlay does not fit inside `30 × 21` with its margins, so **at Tiny an overlay
 becomes a route** — pushed, full-screen, popped with `Esc`. Behaviourally identical; only the
