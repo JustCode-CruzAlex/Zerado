@@ -1,0 +1,264 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-ERD-02"
+title = "ZERADO — DATA MODEL  ·  SHEET 2"
+subtitle = "Phase 2 enrichment, and the Phase 4 boundary — only what the player typed crosses"
+width = 2120
+height = 1740
+
+[titleblock]
+dwg_title = "ZERADO DATA MODEL - ENRICHMENT AND THE SYNC BOUNDARY"
+discipline = "ARCHITECTURE"
+sheet = "02 OF 10"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "Phase 2 enrichment; only what the player typed crosses."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "gameref"
+title = "item"
+sublines = ["( SHEET 01 )", "id · item_uid · item_type", "provider_id + provider_ref"]
+color = "accent"
+shape = "cyl"
+x = 90
+y = 560
+w = 380
+h = 280
+
+[[zone]]
+title = "PHASE 2 — ENRICHMENT   ·   every row carries its age"
+color = "gold"
+x = 540
+y = 150
+w = 620
+h = 1180
+
+[[node]]
+id = "meta"
+title = "metadata"
+sublines = [
+  "item_id            PK / FK",
+  "sinopse",
+  "cover_ref     cache path, never a URL",
+  "released_at · genres",
+  "source_provider · attribution",
+  "fetched_at         NOT NULL",
+]
+color = "gold"
+shape = "cyl"
+x = 580
+y = 220
+w = 540
+h = 250
+
+[[node]]
+id = "price"
+title = "price_quote"
+sublines = [
+  "id PK  ·  item_id FK",
+  "shop · currency",
+  "current_cents · low_cents · low_at",
+  "url    a plain shop link, no affiliate tag",
+  "source_provider",
+  "observed_at        NOT NULL",
+]
+color = "gold"
+shape = "cyl"
+x = 580
+y = 530
+w = 540
+h = 250
+
+[[node]]
+id = "moodtag"
+title = "mood_tag"
+sublines = ["id  PK", "key      stable identifier the recommender reasons over", "label    what the player sees"]
+color = "gold"
+shape = "rect"
+x = 580
+y = 840
+w = 250
+h = 150
+
+[[node]]
+id = "gamemood"
+title = "item_mood"
+sublines = ["item_id FK  ·  mood_id FK", "source   user | inferred", "confidence"]
+color = "gold"
+shape = "rect"
+x = 580
+y = 1050
+w = 540
+h = 200
+
+[[zone]]
+title = "PHASE 4 — THE SERVER SIDE   ·   the first time Zerado has an account at all"
+color = "info"
+x = 1240
+y = 150
+w = 790
+h = 880
+
+[[node]]
+id = "statechange"
+title = "state_change"
+sublines = [
+  "item_uid",
+  "status_manual  ·  status_changed_at",
+  "device_id FK  ·  applied_at",
+  "THE ONLY PAYLOAD THAT CROSSES",
+]
+color = "err"
+shape = "rect"
+x = 1290
+y = 220
+w = 690
+h = 250
+
+[[node]]
+id = "device"
+title = "device"
+sublines = ["id PK · account_id FK", "label", "last_seen_at"]
+color = "info"
+shape = "rect"
+x = 1290
+y = 540
+w = 320
+h = 180
+
+[[node]]
+id = "account"
+title = "account"
+sublines = ["id PK", "email", "created_at"]
+color = "info"
+shape = "cyl"
+x = 1660
+y = 540
+w = 320
+h = 180
+
+[[node]]
+id = "comment"
+title = "comment"
+sublines = ["id PK · account_id FK", "item_uid", "body · created_at"]
+color = "info"
+shape = "rect"
+x = 1290
+y = 800
+w = 320
+h = 170
+
+[[node]]
+id = "review"
+title = "review"
+sublines = ["id PK · account_id FK", "item_uid", "rating · body · created_at"]
+color = "info"
+shape = "rect"
+x = 1660
+y = 800
+w = 320
+h = 170
+
+[[edge]]
+from = "gameref"
+to = "meta"
+label = "1 : 0..1"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "gameref"
+to = "price"
+label = "1 : N"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "gameref"
+to = "gamemood"
+label = "1 : N"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "moodtag"
+to = "gamemood"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "device"
+to = "statechange"
+label = "1 : N"
+style = "solid"
+from_side = "t"
+to_side = "b"
+
+[[edge]]
+from = "account"
+to = "device"
+label = "1 : N"
+style = "solid"
+from_side = "l"
+to_side = "r"
+
+[[edge]]
+from = "account"
+to = "review"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "account"
+to = "comment"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[free]]
+text = "KEY    violet = the item (sheet 01)    ·    gold = Phase 2 enrichment, every row stamped with fetched_at / observed_at    ·    blue = Phase 4 server side    ·    red = the only payload that crosses"
+color = "fg2"
+x = 90
+y = 1390
+w = 1900
+
+[[free]]
+text = "state_change, comment and review key off item_uid — a stable, content-derived identity assigned in Phase 1. It is a merge HINT, not authoritative: ambiguous matches are shown to the player, never guessed."
+color = "err"
+x = 90
+y = 1450
+w = 1900
+
+[[free]]
+text = "NEVER crosses: the library itself, playtime, last_played_at, cover art, sinopse, prices — every one re-derivable on each device. And credentials. Ever."
+color = "err"
+x = 90
+y = 1510
+w = 1900
+
+[[free]]
+text = "PHASE 2 — ENRICHMENT   ·   every row carries its age"
+color = "gold"
+x = 562
+y = 178
+w = 900
+
+[[free]]
+text = "PHASE 4 — THE SERVER SIDE   ·   the first time Zerado has an account at all"
+color = "info"
+x = 1262
+y = 178
+w = 900

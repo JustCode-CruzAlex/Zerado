@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1980" height="1570" viewBox="0 0 1980 1570" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif">
+<rect x="0" y="0" width="1980" height="1570" fill="#000000"/>
+<rect x="44" y="44" width="1892" height="1482" fill="none" stroke="#334155" stroke-width="2"/>
+<rect x="50" y="50" width="1880" height="1470" fill="none" stroke="#1E293B" stroke-width="1"/>
+<line x1="54" y1="54" x2="72" y2="54" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="54" y1="54" x2="54" y2="72" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1926" y1="54" x2="1908" y2="54" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1926" y1="54" x2="1926" y2="72" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="54" y1="1516" x2="72" y2="1516" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="54" y1="1516" x2="54" y2="1498" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1926" y1="1516" x2="1908" y2="1516" stroke="#9D7BFF" stroke-width="1.5"/>
+<line x1="1926" y1="1516" x2="1926" y2="1498" stroke="#9D7BFF" stroke-width="1.5"/>
+<text x="60" y="78" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="29" font-weight="700" fill="#FAFAFA">FLOW  ·  THE OFFLINE CONTRACT</text>
+<text x="61" y="102" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="13.5" fill="#94A3B8">works · degrades · refuses — and a feature is never in two of them</text>
+<polyline points="380.0,545.0 460.0,545.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="460.0,545.0 448.1,550.3 448.1,539.7" fill="#94A3B8"/>
+<polyline points="780.0,545.0 900.0,465.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="900.0,465.0 893.1,476.0 887.2,467.2" fill="#94A3B8"/>
+<polyline points="620.0,650.0 620.0,760.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="620.0,760.0 614.7,748.1 625.3,748.1" fill="#94A3B8"/>
+<polyline points="780.0,865.0 900.0,865.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="900.0,865.0 888.1,870.3 888.1,859.7" fill="#94A3B8"/>
+<polyline points="620.0,970.0 900.0,1125.0" fill="none" stroke="#94A3B8" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="900.0,1125.0 887.0,1123.9 892.2,1114.6" fill="#94A3B8"/>
+<ellipse cx="230.0" cy="545.0" rx="150.0" ry="65.0" fill="#0F0F23" stroke="#7D56F4" stroke-width="2.0"/>
+<text x="230.0" y="549.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">a screen needs a value</text>
+<polygon points="620.0,440.0 780.0,545.0 620.0,650.0 460.0,545.0" fill="#0F0F23" stroke="#F59E0B" stroke-width="2.0"/>
+<text x="620.0" y="549.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">is it local?</text>
+<rect x="900.0" y="370.0" width="620.0" height="190.0" rx="12" ry="12" fill="#0F0F23" stroke="#22C55E" stroke-width="2.0"/>
+<text x="1210.0" y="442.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">WORKS</text>
+<text x="1210.0" y="460.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">render it</text>
+<text x="1210.0" y="479.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">no banner, no notice, no difference</text>
+<text x="1210.0" y="497.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">Z-04 · Z-05 · Z-06 · Z-07 · Z-08 · Z-09 · Z-10 · Z-01</text>
+<polygon points="620.0,760.0 780.0,865.0 620.0,970.0 460.0,865.0" fill="#0F0F23" stroke="#F59E0B" stroke-width="2.0"/>
+<text x="620.0" y="869.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">is it cached?</text>
+<rect x="900.0" y="770.0" width="620.0" height="190.0" rx="12" ry="12" fill="#0F0F23" stroke="#FBBF24" stroke-width="2.0"/>
+<text x="1210.0" y="842.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">DEGRADES</text>
+<text x="1210.0" y="860.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">render it WITH ITS AGE</text>
+<text x="1210.0" y="879.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">plus the one-row degrade banner</text>
+<text x="1210.0" y="897.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">prices · covers · sinopse · inferred moods</text>
+<rect x="900.0" y="1030.0" width="620.0" height="190.0" rx="12" ry="12" fill="#0F0F23" stroke="#EF4444" stroke-width="2.0"/>
+<text x="1210.0" y="1102.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#FAFAFA" text-anchor="middle" font-weight="600">REFUSES</text>
+<text x="1210.0" y="1120.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">name what, why, and the retry key</text>
+<text x="1210.0" y="1139.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">keep whatever the player typed</text>
+<text x="1210.0" y="1157.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#FAFAFA" text-anchor="middle" font-weight="400">Z-02 · Z-03  —  and nothing else in Phase 1</text>
+<rect x="822.2" y="494.0" width="35.6" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="840.0" y="509.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">yes</text>
+<rect x="603.0" y="694.0" width="34.0" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="620.0" y="709.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">no</text>
+<rect x="822.2" y="854.0" width="35.6" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="840.0" y="869.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">yes</text>
+<rect x="743.0" y="1036.5" width="34.0" height="20" rx="6" fill="#000000" stroke="#94A3B8" stroke-width="1" opacity="1"/>
+<text x="760.0" y="1051.5" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8" text-anchor="middle">no</text>
+<text x="80.0" y="1270.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#94A3B8" text-anchor="start" font-weight="normal">Zerado does NOT probe for connectivity. No heartbeat, no reachability check — that would be exactly the background traffic the page promises does not exist, and it is unreliable anyway. A request fails, and the failure is classified.</text>
+<text x="80.0" y="1330.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#EF4444" text-anchor="start" font-weight="normal">Any value that came from the network is rendered with its age. ALWAYS.   &quot;$15&quot; is forbidden.   &quot;$15 · 3 days ago&quot; is required. Zerado&#x27;s value is telling a player NOT to buy; a stale price shown as current is advice from memory.</text>
+<rect x="44" y="1404" width="1892" height="122" fill="#0F0F23"/>
+<line x1="44" y1="1404" x2="1936" y2="1404" stroke="#7D56F4" stroke-width="2.5"/>
+<line x1="44" y1="1408" x2="1936" y2="1408" stroke="#1E293B" stroke-width="1"/>
+<line x1="327.8" y1="1418" x2="327.8" y2="1492" stroke="#334155" stroke-width="1"/>
+<line x1="895.4" y1="1418" x2="895.4" y2="1492" stroke="#334155" stroke-width="1"/>
+<line x1="1160.3" y1="1418" x2="1160.3" y2="1492" stroke="#334155" stroke-width="1"/>
+<line x1="1330.6" y1="1418" x2="1330.6" y2="1492" stroke="#334155" stroke-width="1"/>
+<line x1="1538.7" y1="1418" x2="1538.7" y2="1492" stroke="#334155" stroke-width="1"/>
+<line x1="1746.8" y1="1418" x2="1746.8" y2="1492" stroke="#334155" stroke-width="1"/>
+<g transform="translate(58.0,1423.0) scale(1.5000)" fill="#7D56F4" stroke="none"><path d="M14.5,22.4c0-.4.3-.7.7-.7s.7.3.7.7-.3.7-.7.7-.7-.3-.7-.7Z"/><path d="M15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM11.4,17.8v1.6h-1.1v-1.6h-4.7s-.5,4.4,5.3,6.8c0,0,2.2.9,2.2,3h0c0,.2,0,3.4-2.5,3.4-.6,0-1,.5-1,1v2h4.2c0-.1,0-.3.1-.4.5-1.1,1.3-2.1,2.4-2.6.6-.3,1.4-.5,2.2-.5s1.5.2,2.2.5c.8.4,1.5,1,2,1.8.2.4.4.8.5,1.2h4.2v-2c0-.6-.5-1-1-1,0,0-2.4,0-2.6-3.1,0-.5,0-.7,0-1,.2-1.9,1.3-3.8,2.8-4.9,0,0,.2-.1.3-.2.3-.2.7-.3,1-.5.4-.1.8-.6.8-1.1v-2.5H11.4ZM15.2,20.7c.9,0,1.7.7,1.7,1.7s0,.4-.1.6l1.3,1-.7.6-1.1-.8c-.3.2-.6.3-1,.3-.9,0-1.7-.7-1.7-1.7s.7-1.7,1.7-1.7ZM21.7,28.8c-.8,0-1.5-.7-1.5-1.5s0-.3,0-.5l-1.6-1.2.7-.6,1.4,1.1c.2-.2.5-.3.8-.3.8,0,1.5.7,1.5,1.5s-.7,1.5-1.5,1.5ZM21.5,24c-.4,0-.7-.1-1-.3l-4.1,3.1c0,.2,0,.3,0,.5,0,.8-.7,1.5-1.5,1.5s-1.5-.7-1.5-1.5.7-1.5,1.5-1.5.6,0,.8.3l4.1-3.1c0-.2-.1-.4-.1-.6,0-.9.7-1.7,1.7-1.7s1.7.7,1.7,1.7-.7,1.7-1.7,1.7ZM21.7,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6Z"/><path d="M17.4,1.9s1.1,3.5-2.6,5.8c-3.7,2.3-3.2,5.5-3.2,5.5,0,0,.3,2.5,1.8,3.6h8.8s1.5-1.4,1.6-4.7-1.7-3.3-1.7-3.3c0,0,0,2.6-2.1,4s-2.2,2.3-2.2,2.3c0,0-1.8-1.6-.1-3.7s3.4-4.4,1.9-6.9-2.3-2.4-2.3-2.4Z"/><path d="M15.6,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M22.2,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/><path d="M22.3,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M15.9,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/></g>
+<text x="124.0" y="1462" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#FAFAFA">FlowForge</text>
+<text x="124.0" y="1482" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8">Zerado</text>
+<text x="345.8" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DRAWING TITLE</text>
+<text x="345.8" y="1468" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#FAFAFA">FLOW - THE OFFLINE CONTRACT</text>
+<text x="345.8" y="1488" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">Works, degrades or refuses. A feature is never in two classes.</text>
+<text x="913.4" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DISCIPLINE</text>
+<text x="913.4" y="1468" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">ARCHITECTURE</text>
+<text x="1178.3" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">SHEET</text>
+<text x="1178.3" y="1468" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">08 OF 10</text>
+<text x="1348.6" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DWG NO.</text>
+<text x="1348.6" y="1468" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">ADR-0001</text>
+<text x="1556.7" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">REV</text>
+<text x="1556.7" y="1468" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">A</text>
+<text x="1556.7" y="1488" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">2026-08-25</text>
+<text x="1764.8" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">STATUS</text>
+<circle cx="1770.8" cy="1463" r="6" fill="#F59E0B"/>
+<text x="1784.8" y="1468" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="14" font-weight="600" letter-spacing="1" fill="#F59E0B">DRAFT</text>
+<line x1="44" y1="1498" x2="1936" y2="1498" stroke="#334155" stroke-width="0.75"/>
+<text x="62.0" y="1514" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8">RENDERED FROM  ZRD-FLOW-06.chart.toml · tools/chartspec.py      AUTHOR fft-tui-architect      APPROVED       INTERNAL</text>
+</svg>

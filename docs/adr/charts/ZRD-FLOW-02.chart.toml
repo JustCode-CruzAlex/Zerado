@@ -1,0 +1,143 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-02"
+title = "FLOW  ·  THE FOUR STATES"
+subtitle = "twelve legal transitions — exactly one of them automatic"
+width = 1860
+height = 1360
+
+[titleblock]
+dwg_title = "FLOW - THE FOUR-STATE MACHINE"
+discipline = "ARCHITECTURE"
+sheet = "04 OF 10"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "The four states. One transition is derived; the rest are the player."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "ns"
+title = "○   NOT STARTED"
+sublines = ["chrome  #A5A29B  ·  ANSI 247", "ASCII  [ ]", "DERIVED when status_manual IS NULL"]
+color = "muted"
+shape = "rect"
+x = 180
+y = 190
+w = 420
+h = 190
+
+[[node]]
+id = "ip"
+title = "◐   IN PROGRESS"
+sublines = ["amber  #FFB000  ·  ANSI 214", "ASCII  [~]", "derived, or the player's choice"]
+color = "gold"
+shape = "rect"
+x = 1180
+y = 190
+w = 420
+h = 190
+
+[[node]]
+id = "zr"
+title = "◉   ZERADO"
+sublines = ["cyan  #19E0FF  ·  ANSI 45", "ASCII  [*]", "MANUAL ONLY — never inferred"]
+color = "accent"
+shape = "rect"
+x = 1180
+y = 660
+w = 420
+h = 190
+
+[[node]]
+id = "ab"
+title = "⊘   ABANDONED"
+sublines = ["orchid  #C77DFF  ·  ANSI 177", "ASCII  [x]", "manual only"]
+color = "info"
+shape = "rect"
+x = 180
+y = 660
+w = 420
+h = 190
+
+[[edge]]
+from = "ns"
+to = "ip"
+label = "playtime > 0    THE ONE DERIVED TRANSITION"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "ip"
+to = "zr"
+label = "s"
+style = "solid"
+bidir = true
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "zr"
+to = "ab"
+label = "s"
+style = "solid"
+bidir = true
+from_side = "l"
+to_side = "r"
+
+[[edge]]
+from = "ab"
+to = "ns"
+label = "s  ·  clear override"
+style = "solid"
+bidir = true
+from_side = "t"
+to_side = "b"
+
+[[edge]]
+from = "ns"
+to = "zr"
+label = "beat elsewhere"
+style = "dashed"
+from_side = "b"
+to_side = "l"
+
+[[edge]]
+from = "ip"
+to = "ab"
+label = "gave up"
+style = "dashed"
+from_side = "b"
+to_side = "r"
+
+[[free]]
+text = "ONE transition is automatic: NOT STARTED → IN PROGRESS, when a sync reports playtime > 0 on a game whose status_manual is NULL. Every other arrow on this sheet is the player."
+color = "gold"
+x = 180
+y = 940
+w = 1600
+
+[[free]]
+text = "A SYNC NEVER WRITES status_manual. Mark a game ZERADO, then play three more hours: playtime updates, last_played_at updates, the state does not. That invariant is what makes the product trustworthy."
+color = "err"
+x = 180
+y = 1000
+w = 1600
+
+[[free]]
+text = "ZERADO is never inferred. 100% achievements may SUGGEST it in Phase 2 — a dismissible line the player accepts. A machine cannot hand someone the moment the product exists to create."
+color = "accent"
+x = 180
+y = 1060
+w = 1600
+
+[[free]]
+text = "All twelve ordered pairs are legal. For providers with no playtime capability — physical copies, and any store whose API does not report it — all four states are manual, always."
+color = "fg2"
+x = 180
+y = 1120
+w = 1600

@@ -1,0 +1,191 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FRAME-01"
+title = "SCREEN ANATOMY  ·  80 × 24, THE DESIGN FLOOR"
+subtitle = "every row accounted for — the numbers every screen spec starts from"
+width = 2100
+height = 1460
+
+[titleblock]
+dwg_title = "SCREEN ANATOMY AT THE 80x24 DESIGN FLOOR"
+discipline = "ARCHITECTURE"
+sheet = "09 OF 10"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "The 80x24 frame row by row. Body canvas is 74 x 16."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "r1"
+title = "row 1   —   OuterMarginY = 1"
+sublines = ["blank. un-glues the breadcrumb from row 0"]
+color = "muted"
+shape = "rect"
+x = 140
+y = 210
+w = 1150
+h = 80
+
+[[node]]
+id = "band"
+title = "rows 2 – 4   —   HeaderBandHeight = 3   (the base; no subtitle)"
+sublines = [
+  "row 2      Zerado ✦ Library            breadcrumb, begins at col 4",
+  "row 3      (blank)                     InterElementGap = 1",
+  "row 4      LIBRARY                     title, begins at col 4",
+]
+color = "brand"
+shape = "rect"
+x = 140
+y = 310
+w = 1150
+h = 200
+
+[[node]]
+id = "respiro"
+title = "rows 5 – 6   —   InnerPaddingY = 1  +  InterElementGap = 1"
+sublines = ["blank. the band-to-body respiro"]
+color = "muted"
+shape = "rect"
+x = 140
+y = 530
+w = 1150
+h = 90
+
+[[node]]
+id = "body"
+title = "rows 7 – 22   —   THE BODY   ·   74 × 16"
+sublines = [
+  "row  7      pinned summary      247 games  ○ 198  ◐ 12  ◉ 6  ⊘ 31    ← R-10(c), outside the scroll",
+  "row  8      (respiro)",
+  "row  9      column header       STATE           TITLE                  HRS",
+  "rows 10–21  THE SCROLL REGION   12 game rows at this size",
+  "row 22      scroll position     4–15 of 247",
+]
+color = "accent"
+shape = "rect"
+x = 140
+y = 640
+w = 1150
+h = 300
+
+[[node]]
+id = "footer"
+title = "row 23   —   the reserved footer"
+sublines = ["↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit"]
+color = "gold"
+shape = "rect"
+x = 140
+y = 960
+w = 1150
+h = 90
+
+[[node]]
+id = "r24"
+title = "row 24   —   OuterMarginY = 1"
+sublines = ["blank. un-glues the footer from the bottom edge"]
+color = "muted"
+shape = "rect"
+x = 140
+y = 1070
+w = 1150
+h = 80
+
+[[node]]
+id = "cols"
+title = "THE COLUMNS"
+sublines = [
+  "leftInset = OuterMarginX (2) + InnerPaddingX (1) = 3",
+  "every visible row begins at COLUMN 4",
+  "header-left == content-left  — the whole point of #2435",
+  "BodyRect.w = 80 − 2·leftInset = 74",
+]
+color = "gold"
+shape = "rect"
+x = 1370
+y = 210
+w = 620
+h = 220
+
+[[node]]
+id = "row74"
+title = "THE 74-COLUMN GAME ROW"
+sublines = [
+  "focus field       2    fixed, width-aware padded",
+  "state chip       14    glyph field 2 + space + label",
+  "gutter            2",
+  "TITLE            42    the identity column, R-10(a)",
+  "gutter            2",
+  "playtime          6    right-aligned",
+  "gutter            2",
+  "source            4    STM / PHY",
+  "                 ──",
+  "                 74",
+]
+color = "accent"
+shape = "rect"
+x = 1370
+y = 460
+w = 620
+h = 380
+
+[[node]]
+id = "why2"
+title = "WHY THE GLYPH FIELD IS 2 COLUMNS"
+sublines = [
+  "○ U+25CB and ◐ U+25D0 are AMBIGUOUS width.",
+  "◉ U+25C9 and ⊘ U+2298 are Neutral.",
+  "Ambiguous = 1 cell in most terminals, 2 where",
+  "the user set ambiguous-width=double. A 1-column",
+  "budget would shear the state column on a real",
+  "class of terminals — on the most-used component",
+  "in the product. Fixed in RENDERING, never by",
+  "changing the ratified glyphs.",
+]
+color = "err"
+shape = "rect"
+x = 1370
+y = 870
+w = 620
+h = 300
+
+[[edge]]
+from = "band"
+to = "cols"
+label = "col 4"
+style = "dashed"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "body"
+to = "row74"
+label = "each row"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "row74"
+to = "why2"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[free]]
+text = "BodyRect.h = 24 − HeaderBandHeight (3) − footer (1) − 2·OuterMarginY (2) − InnerPaddingY (1) − InterElementGap (1) = 16"
+color = "accent"
+x = 140
+y = 1200
+w = 1850
+
+[[free]]
+text = "80 × 24 is the design width and the guaranteed floor. Every screen is composed at 74 × 16 first and enhanced upward. A screen that only reads well at 120 columns is not finished; a screen that REQUIRES more than 80 is a defect."
+color = "fg2"
+x = 140
+y = 1255
+w = 1850
