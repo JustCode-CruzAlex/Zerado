@@ -55,14 +55,20 @@ screen is `WORKS`, it works with the machine in a Faraday cage.
 | Read a game's detail (`Z-05`) | **WORKS** | Every locally-known field |
 | Set a status (`Z-06`) | **WORKS** | Writes immediately. This is the product's core action and it has never needed a network |
 | Add a game by hand (`Z-08`) | **WORKS** | The whole point of a physical shelf |
-| Settings (`Z-09`) | **WORKS** | Except connecting a store, which is `REFUSES` |
+| Settings (`Z-09`) | **WORKS** | Every dial reads and writes locally. *Connecting* a store is `Z-02`, a separate screen with its own class — Settings only routes there |
 | Help (`Z-10`) | **WORKS** | It is compiled in |
 | **Sync (`Z-03`)** | **REFUSES** | Names the reason, shows when the last sync was, offers `r` to retry |
 | **Connect a store (`Z-02`)** | **REFUSES** | Cannot validate a key without reaching the provider. Says so on submit, keeps what was typed |
 | First run (`Z-01`) | **WORKS** | The "add a game by hand" door still opens. A player with no network can still start using the product today |
+| Fatal error (`Z-11`) | **WORKS** | It reports a local failure and depends on nothing. It is the one screen that is *more* reliable offline, because it reaches for nothing at all |
 
-**Nine of eleven Phase 1 screens are fully functional offline.** The two that are not are the two
-that are definitionally about reaching somewhere else.
+**Nine of the eleven Phase 1 screens are `WORKS`** — `Z-01`, `Z-04`, `Z-05`, `Z-06`, `Z-07`,
+`Z-08`, `Z-09`, `Z-10`, `Z-11`. **Two are `REFUSES`** — `Z-02` and `Z-03`, the two that are
+definitionally about reaching somewhere else. **None is `DEGRADES` in Phase 1**, because there is
+nothing cached to be stale about until Phase 2 adds metadata and prices.
+
+Eleven screens, three classes, every screen in exactly one — which is the §1 invariant holding,
+stated as a count so it can be checked rather than asserted.
 
 ### Phase 2 and later
 

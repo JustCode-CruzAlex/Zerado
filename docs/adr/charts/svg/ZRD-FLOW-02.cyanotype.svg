@@ -142,7 +142,7 @@
 <text x="120.0" y="1276" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">Zerado</text>
 <text x="325.0" y="1232" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DRAWING TITLE</text>
 <text x="325.0" y="1262" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#EAF4FF">FLOW - THE FOUR-STATE MACHINE</text>
-<text x="325.0" y="1282" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">The four game states and their transitions. Every arrow but one is the player. effective_status = status_manual ?? derive(playtime, capabilities).</text>
+<text x="325.0" y="1282" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">The four states. One transition is derived; the rest are the player.</text>
 <text x="859.0" y="1232" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DISCIPLINE</text>
 <text x="859.0" y="1262" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ARCHITECTURE</text>
 <text x="1108.2" y="1232" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">SHEET</text>

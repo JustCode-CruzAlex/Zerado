@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "How a player gets from an empty machine to a library. First run is a route, not a wizard that owns the session - every door lands on a normal screen."
+description = "First run to a library. Two of three doors work with no network."
 project = "Zerado"
 author = "fft-tui-architect"
 

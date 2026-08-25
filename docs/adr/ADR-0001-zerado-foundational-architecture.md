@@ -5,7 +5,6 @@ title: "Zerado foundational architecture — provider seam, persistence, navigat
 status: PROPOSED
 date: 2026-08-25
 ticket: "#2"
-chart_ref: "docs/adr/charts/"
 ---
 
 # ADR-0001 · Zerado foundational architecture

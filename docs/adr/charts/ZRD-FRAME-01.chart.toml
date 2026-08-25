@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "The frame at 80x24, row by row, with every spacing token named. Body canvas is 74 x 16. Header-left equals content-left at column 4. Zerado carries no header subtitle on any screen, so the band is always the 3-row base."
+description = "The 80x24 frame row by row. Body canvas is 74 x 16."
 project = "Zerado"
 author = "fft-tui-architect"
 

@@ -81,7 +81,7 @@
 <text x="124.0" y="1092" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8">Zerado</text>
 <text x="357.8" y="1048" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DRAWING TITLE</text>
 <text x="357.8" y="1078" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#FAFAFA">FLOW - FIRST RUN TO A LIBRARY</text>
-<text x="357.8" y="1098" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">How a player gets from an empty machine to a library. First run is a route, not a wizard that owns the session - every door lands on a normal screen.</text>
+<text x="357.8" y="1098" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">First run to a library. Two of three doors work with no network.</text>
 <text x="949.4" y="1048" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DISCIPLINE</text>
 <text x="949.4" y="1078" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">ARCHITECTURE</text>
 <text x="1225.5" y="1048" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">SHEET</text>

@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "The Phase 1 schema. One SQLite file the player can back up, move or delete. Credentials and cover-art blobs are deliberately outside it - see the two boxes below the file."
+description = "Phase 1 schema. One file; credentials and art live outside it."
 project = "Zerado"
 author = "fft-tui-architect"
 

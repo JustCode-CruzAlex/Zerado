@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "Phase 2 enrichment tables and the Phase 4 server side. state_change is the ONLY payload that crosses the sync boundary; the library itself is re-derivable on every device from the player's own sources."
+description = "Phase 2 enrichment; only what the player typed crosses to Phase 4."
 project = "Zerado"
 author = "fft-tui-architect"
 

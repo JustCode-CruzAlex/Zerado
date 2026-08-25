@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "Every feature is in exactly one class, and the class does not change with the weather. Nine of eleven Phase 1 screens are fully functional with the network off."
+description = "Works, degrades or refuses. A feature is never in two classes."
 project = "Zerado"
 author = "fft-tui-architect"
 

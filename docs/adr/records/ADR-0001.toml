@@ -1,0 +1,16 @@
+# FlowForge ADR record — managed by `flowforge adr`. The number is
+# allocated by the ledger; edit content fields, never n/id by hand.
+schema_version = 1
+n = 1
+id = "ADR-0001"
+slug = "zerado-foundational-architecture"
+title = "Zerado foundational architecture — provider seam, persistence, navigation model, Phase 4 sync boundary"
+status = "proposed"
+ticket = "2"
+supersedes = ""
+superseded_by = ""
+prose_path = "ADR-0001-zerado-foundational-architecture.md"
+chart_ref = ""
+allocated_at = "2026-08-25T00:00:00Z"
+updated_at = "2026-08-25T06:35:04Z"
+work_id = ""

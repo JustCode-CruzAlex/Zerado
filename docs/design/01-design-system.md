@@ -30,7 +30,8 @@ needs a sixth channel is a component that is trying to be a web page.
 
 ### 1.2 · Glyph width — a verified hazard, and the fix
 
-Checked against **`EastAsianWidth-17.0.0.txt`, dated 2025-07-24** (unicode.org), on 2026-08-25:
+Checked against **`EastAsianWidth-17.0.0.txt`, dated 2025-07-24** and **`emoji-data.txt` v17.0,
+dated 2025-07-25** (unicode.org), on 2026-08-25:
 
 | Glyph | Codepoint | EAW class | Consequence |
 |---|---|---|---|
@@ -39,12 +40,15 @@ Checked against **`EastAsianWidth-17.0.0.txt`, dated 2025-07-24** (unicode.org),
 | `◉` zerado | U+25C9 | N — Neutral | always 1 cell |
 | `⊘` abandoned | U+2298 | N — Neutral | always 1 cell |
 | `✦` breadcrumb separator | U+2726 | N — Neutral | always 1 cell |
-| `▸` cursor | U+25B8 | N — Neutral | always 1 cell |
+| `▸` palette sigil | U+25B8 | N — Neutral | always 1 cell |
+| `▮` `▯` audio indicator | U+25AE · U+25AF | N — Neutral (**both**) | always 1 cell; **not** in the emoji set |
 | `─` `━` scanner track / pip | U+2500 · U+2501 | A — Ambiguous (**both**) | consistent with each other |
 | `│ ┌ ┐ └ ┘ ├ ┤` box drawing | U+2500 block | A — Ambiguous | the whole family is one class |
 | `▌` annunciator | U+258C | A — Ambiguous | |
 | `█` vs `░` | U+2588 · U+2591 | **A** vs **N** — mixed | **never pair these** |
 | `[ ] [~] [*] [x]` ASCII column | ASCII | Na — Narrow | immune by construction |
+| `♪` music note — **rejected** | U+266A | **A — Ambiguous** | would shear the status bar |
+| `▪` `▫` small squares — **avoid** | U+25AA · U+25AB | N — Neutral, but **listed as `Emoji`** | may take emoji presentation and arrive coloured |
 
 **The finding that matters:** the four ratified state glyphs are **not all the same width
 class**. In a terminal configured to render ambiguous characters as double-width — the norm in
@@ -75,6 +79,27 @@ across the whole family, so it is internally consistent and carries no mixed-cla
 > characters and they are **different width classes** — the bar changes length as it fills.
 > Zerado's progress components use `━` and `─` instead: same class, and the same vocabulary as
 > the scanner. See §9.
+
+> **Why the audio indicator is `▮`/`▯` and not `♪`.** Two independent tests, and the note
+> records what each one actually proved.
+>
+> **Width — decisive.** `♪` U+266A is **East-Asian Ambiguous**, so it would render two cells wide
+> on exactly the terminals rule 1 above exists to protect, shearing the status bar. `▮` U+25AE
+> and `▯` U+25AF are both **Neutral** — one cell, always.
+>
+> **Emoji — checked, and it does *not* hold for `♪`.** U+266A has **no entry in Unicode's
+> `emoji-data.txt`** (its neighbours `♠ ♣ ♥ ♦ ♨` do; the music note does not), so it carries no
+> emoji presentation and would not arrive pre-coloured under `NO_COLOR`. Recorded because it is
+> the kind of plausible claim that ought to be checked rather than repeated.
+>
+> **The check did catch a real one, elsewhere.** `▪` U+25AA and `▫` U+25AB *are* listed as
+> `Emoji` and `Extended_Pictographic`, so a font may render them in colour — which is precisely
+> the failure that had emoji glyphs rejected in the first place. They are therefore on the avoid
+> list above, and the Phase 3 price marker was moved off `▪` (§4.6).
+>
+> Beyond width, `▮`/`▯` are the right pair on their own merits: a **filled/hollow** contrast
+> reuses the state system's own visual logic (`◉` against `○`), so the indicator reads as part of
+> one family rather than as a borrowed icon, and it survives `NO_COLOR` unaided.
 
 ### 1.3 · Zerado does not paint a background — *design decision*
 
@@ -479,7 +504,7 @@ only.
 | Focused | gutter `▌` in `--z-primary` + bold row (§1.7) |
 | Selected (multi-select, Phase 2) | gutter `▌`; title bold — **never a background fill** (§1.3) |
 | Physical copy | title suffixed ` · physical` in `--z-text-tertiary`. A hand-added disc is **not** a second-class row (public copy §06). |
-| Price-flagged (Phase 3) | a `▪` marker in `--z-primary` after the hours; never red — a good price is not an alarm |
+| Price-flagged (Phase 3) | a `▬` (U+25AC, Neutral, non-emoji) marker in `--z-primary` after the hours; never red — a good price is not an alarm. **Not `▪`** — see §1.2 |
 | Loading placeholder | title renders `—` in `--z-text-tertiary`; the chip renders its real state. **Never a spinner per row.** |
 
 ### 4.7 · `NO_COLOR`
@@ -527,25 +552,50 @@ R-10(c). One row, pinned outside the scroll region, always on screen.
 ### 5.1 · Anatomy — Wide tier, body width 74
 
 ```
-247 games · 6 zerado · 12 in progress                            ? help
-│                                                                 │
-└ the summary — prose casing (§3.3)                               └ help hint, right
+247 games · 6 zerado · 12 in progress                  ▮ AUDIO   ? help
+│                                                      │          │
+└ the summary — prose casing (§3.3)                     │          └ help hint, right
+                                    audio indicator ────┘  present only when audio is enabled
 ```
 
-### 5.2 · Content rules
+### 5.2 · The audio indicator
+
+Audio is **off until the player opts in** (§15), so the default status bar carries **no audio
+indicator at all** and **`m` is absent from the footer** — there is nothing to mute. The
+indicator appears only once audio has been enabled.
+
+Co-rendered on three channels, exactly like every other state in the product:
+
+| Audio state | Glyph | Label | Colour role | ANSI-256 / 16-col |
+|---|---|---|---|---|
+| **Never enabled — the default** | — | — | **no indicator; `m` absent from the footer** | — |
+| Enabled, unmuted | `▮` U+25AE | `AUDIO` | `--z-primary` | **214** / `bright yellow` |
+| Enabled, muted | `▯` U+25AF | `MUTED` | `--z-text-secondary` | **249** / `white` |
+
+The filled/hollow pair carries the state without colour, so the indicator survives `NO_COLOR`
+and the 16-colour floor unaided — the same mechanism as `◉` against `○`. Glyph choice and the
+rejected `♪` are recorded in §1.2.
+
+The amber here is an **ambient-voice** use, not an action: it is the machine saying it is on, not
+asking to be pressed. It therefore spends no cyan and does not touch the chrome-cyan budget
+(`02-colour-budget.md` §4.1).
+
+### 5.3 · Content rules
 
 - **Say the number.** `247 games`, never `a lot of games` (brand §8).
 - Prose casing for counts: `6 zerado`, not `6 ZERADO`.
 - Three facts maximum. The ratified voice example is the shape: *"247 games. 6 finished. Last
   played: 3 weeks ago."* — three facts, no adornment, no exclamation mark.
 - The right-hand hint is **always** `? help` (WCAG 3.2.6 Consistent Help).
+- `m` appears in the footer **only when audio is enabled.** A key hint for a subsystem the player
+  never turned on is noise, and it advertises a feature as if it were already running.
 
-### 5.3 · Spacing
+### 5.4 · Spacing
 
 Occupies the **reserved footer row** of the Spacing Canon frame (#2435 §5.2) — it is not an
 extra row and does not steal from `BodyRect`.
 
-### 5.4 · States
+### 5.5 · States
 
 | State | Rendering |
 |---|---|
@@ -554,15 +604,17 @@ extra row and does not steal from `BodyRect`.
 | Syncing | replaced by the progress readout (§9) |
 | Offline | prefixed by the degrade banner (§12) |
 | Filter active | replaced by the filter bar (§7) |
-| Tiny | counts only: `247 · 6 · 12`, and `?` alone as the hint |
+| Audio enabled | the indicator sits between the summary and the help hint; `m` joins the footer keys |
+| Audio muted | indicator becomes `▯ MUTED` in `--z-text-secondary`; nothing else on the row changes |
+| Tiny | counts only: `247 · 6 · 12`, and `?` alone as the hint. The audio indicator degrades to the bare glyph `▮` / `▯` — **the glyph is the last thing dropped, never the first** |
 
-### 5.5 · `NO_COLOR` / 40 columns
+### 5.6 · `NO_COLOR` / 40 columns
 
 Zero SGR; the text carries itself. At 40 columns the summary truncates from the right, dropping
 whole facts rather than mid-word: `247 games · 6 zerado`. The `? help` hint is the last thing to
 go, and at Tiny becomes `?`.
 
-### 5.6 · Reuse verdict
+### 5.7 · Reuse verdict
 
 Build fresh — a `lipgloss` join with the width-aware truncation from §1.2.
 

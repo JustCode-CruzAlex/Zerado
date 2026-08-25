@@ -151,7 +151,7 @@
 <text x="120.0" y="1336" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">Zerado</text>
 <text x="319.0" y="1292" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DRAWING TITLE</text>
 <text x="319.0" y="1322" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#EAF4FF">ZERADO DATA MODEL - PHASE 1 CORE</text>
-<text x="319.0" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">The Phase 1 schema. One SQLite file the player can back up, move or delete. Credentials and cover-art blobs are deliberately outside it - see the two boxes below the file.</text>
+<text x="319.0" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">Phase 1 schema. One file; credentials and art live outside it.</text>
 <text x="841.0" y="1292" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DISCIPLINE</text>
 <text x="841.0" y="1322" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ARCHITECTURE</text>
 <text x="1084.6" y="1292" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">SHEET</text>

@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "The four game states and their transitions. Every arrow but one is the player. effective_status = status_manual ?? derive(playtime, capabilities)."
+description = "The four states. One transition is derived; the rest are the player."
 project = "Zerado"
 author = "fft-tui-architect"
 

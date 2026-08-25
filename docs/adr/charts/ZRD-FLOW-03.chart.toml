@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "A sync from key to result, including every way it can fail. Zerado never probes for connectivity - a request fails and the failure is classified."
+description = "Sync from key to result, including every way it can fail."
 project = "Zerado"
 author = "fft-tui-architect"
 

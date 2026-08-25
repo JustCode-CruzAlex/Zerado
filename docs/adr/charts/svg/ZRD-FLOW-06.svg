@@ -67,7 +67,7 @@
 <text x="124.0" y="1482" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#94A3B8">Zerado</text>
 <text x="345.8" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DRAWING TITLE</text>
 <text x="345.8" y="1468" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#FAFAFA">FLOW - THE OFFLINE CONTRACT</text>
-<text x="345.8" y="1488" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">Every feature is in exactly one class, and the class does not change with the weather. Nine of eleven Phase 1 screens are fully functional with the network off.</text>
+<text x="345.8" y="1488" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#94A3B8">Works, degrades or refuses. A feature is never in two classes.</text>
 <text x="913.4" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">DISCIPLINE</text>
 <text x="913.4" y="1468" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#FAFAFA">ARCHITECTURE</text>
 <text x="1178.3" y="1438" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9D7BFF">SHEET</text>

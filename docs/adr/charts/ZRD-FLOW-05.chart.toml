@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "Interface segregation makes physical copies first-class by construction. A screen never talks to a provider; a provider never talks to a screen. Between them sits the Store."
+description = "Interface segregation. A new store adds a provider and no screens."
 project = "Zerado"
 author = "fft-tui-architect"
 

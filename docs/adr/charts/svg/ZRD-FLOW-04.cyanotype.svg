@@ -164,7 +164,7 @@
 <text x="124.0" y="1392" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">Zerado</text>
 <text x="345.8" y="1348" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DRAWING TITLE</text>
 <text x="345.8" y="1378" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#EAF4FF">FLOW - NAVIGATION AND FOCUS</text>
-<text x="345.8" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">The Phase 1 route graph. Z-04 Library is the root and can never be popped. At most one overlay. Pushing a route already on the stack unwinds to it.</text>
+<text x="345.8" y="1398" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">The Phase 1 route graph. Library is the root and never pops.</text>
 <text x="913.4" y="1348" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DISCIPLINE</text>
 <text x="913.4" y="1378" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ARCHITECTURE</text>
 <text x="1178.3" y="1348" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">SHEET</text>
