@@ -360,7 +360,7 @@ never covers it: the band is above `BodyRect` and the overlay is centred inside 
 
 | # | State | Trigger | Composition | Copy |
 |---|---|---|---|---|
-| **S1** | **First run — unreachable by construction** | Library empty | **`Z-06` cannot be opened.** `s` on an empty library means *connect Steam* (`01-design-system.md` §10.1); there is no game whose status could be set | — |
+| **S1** | **First run — unreachable by construction** | Library empty | **`Z-06` cannot be opened.** `s` means set-status everywhere, always (`04-navigation-and-focus.md` §3.2) — and on an empty library there is no game whose status could be set, so the binding is **not live** and `s` is absent from that footer. Connect-a-store is `c` | — |
 | **S2** | **Override set — five items** | `status_manual IS NOT NULL` | Variant A. Focus starts on the **current effective state** | §10.1 |
 | **S3** | **No override — four items** | `status_manual IS NULL` | Variant B. Rows 8–9 carry the provenance note | §10.2 |
 | **S4** | **A hand-added copy** | `Capabilities.Progress = false` | Variant C. The provider has no opinion to name | §10.3 |
@@ -624,7 +624,7 @@ the state column is not the only place the hazard lives:
 > All are ASCII-narrow and immune by construction. `01-design-system.md` §1.7 already names `>`
 > as the marker's ASCII fallback and §1.2 already names the state column; this decision closes
 > the remaining two. **This is a cross-cutting design-system addition, not a screen decision —
-> see §18 item 2.**
+> see D-06-1 — now the spine token `BorderInsetX`.**
 
 ---
 
@@ -716,28 +716,33 @@ and WCAG 1.4.11 applies. A `--z-border` box around this overlay would be an auto
 
 ## 17 · Upstream findings
 
+**Re-checked against head on 2026-08-25.** Four of rev A's six findings are **closed** and are
+struck from this table: the `05-state-machine.md` §5 consequence line now reads
+`Steam says IN PROGRESS` and records the 36 → 27 correction in its own words
+(`14-contradictions-closed.md` #13); `02-composition.md` §2.4 now states outright that all nine
+content rows are spent and *"the overlay's key hints live in the frame's reserved footer row"*
+(#14); the bordered-surface inset is a spine token, `BorderInsetX` = 2 / `BorderInsetY` = 0
+(#16); and `03-designer-manual.md` §5.11 verdict 3 is struck through and marked SUPERSEDED (#4).
+The `s` collision is **closed by decision** — `04-navigation-and-focus.md` §3.2 binds
+connect-a-store to `c` and `s` to set-status everywhere, which is what S1's *unreachable* row now
+records.
+
 | # | Finding | Where | Owner |
 |---|---|---|---|
-| 1 | **`05-state-machine.md` §5's second line — `Back to what Steam says: IN PROGRESS` — is 36 characters and does not fit the 28-cell content width** of the binding `34 × 11` overlay. This spec keeps the *requirement* (name what the game will become) and shortens the wording to `Steam says IN PROGRESS` (27) | `05-state-machine.md` §5 | `fft-tui-architect` |
-| 2 | **`02-composition.md` §2.4 binds `34 × 11` as fixed but the five-item composition needs all nine content rows**, leaving none for a key-hint line. Resolved by putting the overlay's keys in the frame's reserved footer row (§11.1). Recorded because a builder reading §2.4 alone would look for room that is not there | `02-composition.md` §2.4 | `fft-tui-architect` |
-| 3 | **`01-design-system.md` §6.2's bordered-surface inset is drawn (2 cols / 0 rows) but never named**, and it does not equal `InnerPaddingX` at any tier except ExtraWide. Adopted as D-06-1; proposed as a token in §18 | `01-design-system.md` §6.2 | `fft-design-architect` |
-| 4 | **`ZERADO_ASCII=1` is defined for the state column only** (`01-design-system.md` §1.2 rule 3), but the box-drawing family is equally Ambiguous and an overlay is the place it bites hardest. Extended by D-06-5; needs adopting into the design system | `01-design-system.md` §1.2 | `fft-design-architect` |
-| 5 | **`s` is bound to *set status* globally and to *connect Steam* on an empty library** (`01-design-system.md` §10.1). It is why S1 exists as an *unreachable* row rather than a screen. See `Z-04-library.md` §18 item 1 | `01-design-system.md` §10.1 vs `04-navigation-and-focus.md` §3 | founder |
-| 6 | `03-designer-manual.md` §5.11 verdict 3 still reads as a permanent rejection of the audio subsystem, superseded by founder direction relayed 2026-08-25 | `03-designer-manual.md` §5.11 | `fft-design-architect` |
+| 1 | **`ZERADO_ASCII=1` still forces only the state column and the truncation marker.** `01-design-system.md` §1.2 rule 4 names *"the ratified ASCII column `[ ] [~] [*] [x]`"* and rule 3 the ellipsis; **box drawing is not covered.** §1.2 argues it is safe because *"the whole family is one class, so it is internally consistent and carries no mixed-class risk"* — which is true of *alignment* and false of *absolute width*: an overlay whose footprint is bound at `34 × 11` is **68 cells wide** on an `ambiguous-width=double` terminal, and an overlay is the surface where that bites hardest. `14-contradictions-closed.md` #17 records this as *"extended to the whole glyph vocabulary"*, so the register and the document disagree about how much was done. Extended here by **D-06-5**; it needs adopting into the design system | `01-design-system.md` §1.2 vs `14-contradictions-closed.md` #17 | `fft-design-architect` |
 
 ---
 
 ## 18 · Open for the founder
 
-1. **The shortened consequence line.** `05-state-machine.md` §5 writes
-   `Back to what Steam says: IN PROGRESS`; it does not fit the binding 28-cell width and this
-   spec renders `Steam says IN PROGRESS`. The *requirement* — name what the game will become —
-   is fully met, but the exact wording changed, and §5 is a spine document.
-   **Confirm the shortened form, or widen the overlay.**
-2. **`space.BorderInsetX = 2`, fixed at every tier.** Shared by this overlay and `Z-05`'s detail
-   pane. It is currently a number read off `01-design-system.md` §6.2's drawing, which is exactly
-   the kind of value the canon says must be a token. Owner if approved: `fft-design-architect`.
-3. **`?` is inert while an overlay is open** (D-06-4). It is the one place in the product where a
+> **Two items closed since rev A.** The **shortened consequence line** (item 1) was adopted:
+> `05-state-machine.md` §5 now prints `Steam says IN PROGRESS` and records the 36 → 27
+> correction, with *"the requirement is the naming, not the wording"* in its own words.
+> **`BorderInsetX`** (item 2) landed as a spine token in `02-composition.md` — `BorderInsetX` =
+> **2** columns each side, `BorderInsetY` = **0** rows. D-06-1 is no longer a number read off a
+> mockup.
+
+1. **`?` is inert while an overlay is open** (D-06-4). It is the one place in the product where a
    globally-available key does nothing, and it is a deliberate reading of WCAG 3.2.6 — the
    overlay prints its own keys, so the help *is* on screen. **Confirm**, because the alternative
    (dismiss the overlay, then push help) silently discards an in-progress decision.
@@ -748,7 +753,7 @@ and WCAG 1.4.11 applies. A `--z-border` box around this overlay would be an auto
 
 | # | Decision | Reason |
 |---|---|---|
-| **D-06-1** | A bordered surface is inset 2 cols each side, 0 rows, fixed at every tier (§3.1) | Read from `01-design-system.md` §6.2's ratified anatomy; a box that breathes differently at different widths looks resized, not designed |
+| **D-06-1** | A bordered surface is inset 2 cols each side, 0 rows, fixed at every tier (§3.1) | Read from `01-design-system.md` §6.2's ratified anatomy; a box that breathes differently at different widths looks resized, not designed. **Now a spine token** — `02-composition.md` names `BorderInsetX` = 2 and `BorderInsetY` = 0 |
 | **D-06-2** | The box is 11 rows in all three variants; variant B fills rows 8–9 with the provenance note rather than shrinking (§3.1) | `34 × 11` is bound as fixed; and a box that changes height between two presses of the same key reads as a glitch. The note also teaches the override model at the one moment the player is looking at it |
 | **D-06-3** | Vertically centred in `BodyRect`, not in the terminal (§4) | Clears the pinned summary row, which R-10(c) requires on screen at any row count — in one line of arithmetic, at every tier, with no special case |
 | **D-06-4** | `?` is inert while the overlay is open; it works normally when `Z-06` is a route at Tiny (§11) | A modal is not a page, it prints its own keys, and `04-navigation-and-focus.md` §1 rule 2 forbids stacking on an overlay |

@@ -21,7 +21,9 @@ Every contradiction the three deliverables found in each other, enumerated so th
 > too: it is **29**, not 25. The original figure double-counted two items and omitted the six the
 > design architect found.
 
-**29 distinct findings. 29 closed.** Each names who found it, where it was, and where the fix
+**29 distinct findings. 27 closed, 1 reopened, 1 partial** — see #15 and #17, both caught by
+`fft-tui-designer` reading *this register* against head and finding it over-claimed. A register that
+asserts closure it has not verified is the same defect it exists to record. Each names who found it, where it was, and where the fix
 landed.
 
 ---
@@ -49,9 +51,9 @@ landed.
 | **12** | **`Sort` was listed as a Phase 1 feature** with no key bound and no screen owning it | Replaced with `Ordering`, described honestly: fixed title A→Z, no control |
 | **13** | **The `Z-06` consequence line was 36 cells** against a binding 28-cell overlay content width | Shortened; the requirement is the naming, not the wording |
 | **14** | **`Z-06`'s `34 × 11` box has no room for key hints** — all nine content rows are spent | Hints live in the frame's reserved footer row; an overlay borrows the one on screen |
-| **15** | **The detail pane was drawn at 28 columns**, a composition the spine rejected | Real pane is 44 wide, 38 content |
+| **15** | **The detail pane was drawn at 28 columns**, a composition the spine rejected | **REOPENED.** `01-design-system.md` states the pane three ways: §5 has the spine's `66 ∥ 2 ∥ 44`, §6.1 has `ledger 64 · gutter 2 · pane 46`, and §6.2 is still headed *pane 28 cols*. §6.1 and the spine both sum to 112, which is the same worse-than-wrong failure as finding #7 — a builder and a reviewer would each think the screen correct. Being fixed to the spine's split |
 | **16** | **The bordered-surface inset was drawn but never named** — two screens depended on a number read off a mockup | Named: `BorderInsetX` = 2, `BorderInsetY` = 0 |
-| **17** | **`ZERADO_ASCII` covered only the state column**, but box drawing, the focus marker and the scanner are equally Ambiguous and carry the frame itself | Extended to the whole glyph vocabulary |
+| **17** | **`ZERADO_ASCII` covered only the state column**, but box drawing, the focus marker and the scanner are equally Ambiguous and carry the frame itself | **PARTIAL.** Extended in the spine ([`03-responsive.md`](./03-responsive.md) §5b); `01-design-system.md` §1.2 rule 4 still names only the state column. Its box-drawing argument is about *internal alignment*, not absolute width — and a `34 × 11` overlay whose border rows are **entirely** box-drawing is **68 cells wide** on an `ambiguous-width=double` terminal while its content rows are ~36. Being fixed |
 | **18** | **Nothing specified where a key's description lives** — dispatch, footer and help could be three strings that drift | One key registry is now a spine requirement; `Z-10` is generated from it |
 
 ## C · Found by `fft-tui-designer` (entry and failure cluster) — 11

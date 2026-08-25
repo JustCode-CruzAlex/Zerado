@@ -131,7 +131,7 @@ finished; a screen that requires more than 80 is a defect.
 | **Z-04** | **Library** | **≤119: single-pane list · ≥120: list ∥ detail** | 1 → 2 | list · detail pane |
 | Z-05 | Game detail | **≤119: route, single-pane scroll · ≥120: the right pane of Z-04** | 1 | viewport |
 | Z-06 | Set status | Overlay, centred, `34 × 11` fixed | 1 | choice list |
-| Z-07 | Filter and search | Mode of Z-04 — takes body rows 1–2, focus moves into it | 2 | filter bar · list |
+| Z-07 | Filter and search | Mode of Z-04 — **dynamic height**, 1–4 body rows ([`03-responsive.md`](./03-responsive.md) §5b) | 2 | filter bar · list |
 | Z-08 | Add a game by hand | Single-pane form (`huh`) | 1 | field group |
 | Z-09 | Settings | Single-pane grouped form — **never master/detail**, at any tier (§2.5) | 1 | field group |
 | Z-10 | Help and key map | Single-pane table in a viewport | 1 | viewport |
@@ -191,8 +191,11 @@ Forty-two columns for the title is comfortable: it holds *Return of the Obra Din
 
 #### 2.2.1 · Why the glyph and focus fields are two columns, not one
 
-**The four state glyphs are not one width class.** Verified against Unicode 16.0
-`EastAsianWidth`:
+**The four state glyphs are not one width class.** The authoritative width table for this bundle is
+[`../design/01-design-system.md`](../design/01-design-system.md) §1.2, checked against
+`EastAsianWidth-17.0.0.txt` and `emoji-data.txt` v17.0 — **cite it rather than restating a version
+here**, because a version stated in two documents is a version nobody owns. Reproduced for the four
+states only:
 
 | Glyph | Codepoint | Class |
 |---|---|---|

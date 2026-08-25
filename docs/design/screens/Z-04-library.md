@@ -196,7 +196,8 @@ gutter 2 · **title 40** · gutter 2 · playtime 6 = 66.
 > **D-04-4 · At ExtraWide the ledger is unbordered; only the detail pane carries a border.**
 > Three reasons. (1) A border around the ledger would push its content 3 columns right of the
 > title row and break the canon's headline invariant — header-left **equals** content-left
-> (#2435; `00-design-brief.md` §10.1). (2) It would cost 2 columns of the identity column and
+> (Spacing Canon **#2435 §5** — §5.1 names the tokens, §5.2 fixes the values;
+> `00-design-brief.md` §10 line 1). (2) It would cost 2 columns of the identity column and
 > 2 rows of the visible row count for zero information. (3) `02-colour-budget.md` §7.1 already
 > names the sanctioned separator: *a border and a two-column gutter* — the pane's own border and
 > the gutter carry it; a second border is redundant. Elevation is still never carried by fill.
@@ -205,8 +206,8 @@ gutter 2 · **title 40** · gutter 2 · playtime 6 = 66.
 > columns — *narrower* than Wide's 42 — because the list pane is narrower than the full Wide
 > body even after shedding `source`. R-10(a) still holds at the composition level: the pane
 > beside it renders the selected game's title **untruncated and wrapped**.
-> `01-design-system.md` §4.4's "ExtraWide → title 81" describes a single-pane ExtraWide list,
-> which the spine does not compose. **That row is stale — see §17.**
+> `01-design-system.md` §4.4 now carries the same figure — **40** — and names the trap in the
+> same words (*"ExtraWide does not widen the title, it narrows it"*). The two documents agree.
 
 ---
 
@@ -310,8 +311,8 @@ load rather than merely reinforce.
 ### 7.1 · The fourth channel — audio (spine delta, 2026-08-25)
 
 Audio ships in Phase 1. `03-designer-manual.md` §5.11 verdict 3 is **superseded by founder
-direction relayed 2026-08-25 through the spine** — recorded here so the two documents do not
-disagree silently (see §17).
+direction relayed 2026-08-25 through the spine**, and the manual now carries the strike-through
+and the provenance note. The two documents agree.
 
 | Audio state | Glyph | Label | Colour | In the footer? |
 |---|---|---|---|---|
@@ -370,6 +371,35 @@ Every row is a real screen, including the one nobody writes down.
 | **L10** | **412 rows, scrolled to the end** | Overflow | R-10(a)(b)(c) all hold — §12 | — | — |
 | **L11** | **Detail pane focused** (ExtraWide) | `Tab` or `⏎` | Pane border goes heavy; the ledger cursor stays visible in chrome, not amber | — | §13 |
 | **L12** | **Below the refusal floor** | `< 24` cols or `< 8` rows | **Frameless.** One sentence, `exit 2` at start-up; a running session keeps running | all | §11.3 |
+| **L13** | **A sync stopped returning some rows — they are tombstoned and out of the default view** | `absent_since IS NOT NULL` on ≥ 1 row (`06-data-seams.md` §2.4) | The ledger renders **exactly as L4** — the absent rows are simply not in the default row set. The pinned summary appends `<n> absent` and degrades one step to make room (§10.3) | — | §10.3 |
+
+> **L13 · The default-view exclusion rule, stated because a row that is invisible has to be
+> accounted for somewhere.** `06-data-seams.md` §2.4 decides it: a game a sync stops returning is
+> **tombstoned, never deleted** — `absent_since` is set, the row stays, and it carries the
+> player's own work. Three consequences bind this screen:
+>
+> 1. **Absent rows are excluded from the default row set.** `Z-04`'s ledger, its scroll
+>    arithmetic, its `ROWS n–m of N` readout and its cursor all operate on the shown set. Nothing
+>    on this screen renders an absent row.
+> 2. **The summary's counts therefore describe the set actually shown.** `05-state-machine.md`
+>    §7 rule 1 holds unchanged — the four counts sum to the number shown — because both figures
+>    are the shown set.
+> 3. **And the summary says so.** See §10.3 and **D-04-8**: the moment the default view stops
+>    being the whole file, silence would be the *"list view lies"* failure rule 2 names.
+>
+> **`absent` is not a fifth state and never renders as one.** It is an orthogonal presence flag
+> (§2.4). An absent game still carries one of the four states — usually the most valuable one —
+> and if it is ever shown (via `Z-07`'s facet) it renders with its own chip, unchanged. **No
+> fifth glyph, no fifth colour, no fifth chip in the ledger.**
+>
+> **Only a sync whose status is `ok` may tombstone.** A `partial`, `failed` or `cancelled` sync
+> must not, because *not returned* and *not reached* are indistinguishable in a truncated stream.
+> **This screen never initiates that** — `r` pushes `Z-03` — but it is the reason `Z-04` can
+> trust that a drop in the count is a fact rather than an artefact.
+>
+> **`absent_since` is cleared silently when the game comes back.** No banner, no result line, no
+> celebration: the count in the clause simply goes down, and at zero the clause stops rendering.
+> The *zerado* result line (§10.5) is the only moment this screen announces, and this is not it.
 
 **`Z-04` is never a sync screen.** `r` pushes `Z-03`. `07-offline-contract.md` §5 is explicit —
 *"There is no connectivity check, no background ping… Between the two, nothing is running."*
@@ -401,9 +431,9 @@ appears when nothing is degraded — a banner that is always there is furniture.
 > `07-offline-contract.md` §4 makes the age mandatory on any network-derived value.
 
 **B5 and B7 carry Phase-1-correct copy.** `01-design-system.md` §12.3's `STEAM KEY MISSING`
-row is reproduced verbatim. `07-offline-contract.md` §4's 90-day copy — *"Prices this old are
-not useful"* — names a **Phase 3** capability and cannot ship in Phase 1 (anti-pattern 14,
-*never claim what isn't built*); B7 above is the Phase 1 wording. **See §17.**
+row is reproduced verbatim. `07-offline-contract.md` §4.1 now carries the Phase 1 wording
+itself — *`Last synced in May. Anything you have played since then is missing. r to sync.`* —
+and defers the price wording to Phase 3 with its reason. B7 above is that wording.
 
 **Priority when two conditions hold — at most one banner ever renders:**
 `B6 > B5 > B3 > B4 > B7 > B2 > B1`. Action-required outranks informational; the most specific
@@ -475,7 +505,7 @@ The list is **real but partial**. 11 game rows, not 12: the banner is on the nev
 │   Zerado reads your Steam library once you add a key.                          │
 │   Physical discs and cartridges can be added by hand.                          │
 │                                                                                │
-│   s  connect Steam        a  add a game by hand                                │
+│   c  connect a store      a  add a game by hand                                │
 │                                                                                │
 │                                                                                │
 │                                                                                │
@@ -486,7 +516,7 @@ The list is **real but partial**. 11 game rows, not 12: the banner is on the nev
 │                                                                                │
 │                                                                                │
 │                                                                                │
-│   s connect Steam   a add by hand   , settings   ? help   q quit               │
+│   c connect a store   a add by hand   , settings   ? help   q quit             │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -494,14 +524,15 @@ The list is **real but partial**. 11 game rows, not 12: the banner is on the nev
 Top-aligned in `BodyRect`, left-aligned at `leftInset`, `InterElementGap` between blocks — never
 vertically centred, because a centred block moves as soon as a line is added.
 
-**`s  connect Steam` is where this screen spends its one chrome cyan** (§14). `a  add a game by
-hand` is `--z-primary` amber, per `02-colour-budget.md` §4.1 item 5.
+**`c  connect a store` is where this screen spends its one chrome cyan** (§14). `a  add a game
+by hand` is `--z-primary` amber, per `02-colour-budget.md` §4.1 item 5.
 
-> **FLAG** · **`s` here means *connect Steam*; on a populated library `s` means *set status*
-> (`04-navigation-and-focus.md` §3).** It is not a live ambiguity — an empty library has no game
-> whose status could be set — but it is a muscle-memory risk. The copy is
-> `01-design-system.md` §10.1's and is reproduced faithfully rather than silently edited.
-> **Open for the founder, §18 item 1. Recommendation: `c`.**
+> **The `s` collision is closed.** An earlier revision of this spec flagged `s` meaning *set
+> status* on a populated library and *connect Steam* on an empty one, and recommended `c`.
+> `04-navigation-and-focus.md` §3.2 adopted it: **`s` means set-status everywhere, always, in
+> every state; connect-a-store is `c`.** `01-design-system.md` §10.1 and §10.3 carry the
+> corrected copy and it is reproduced here verbatim. **`s` is not live on an empty library at
+> all** — there is no game whose status could be set — so it is absent from this footer.
 
 ### 8.4 · Mockup — L2, Steam returned an empty library
 
@@ -523,7 +554,7 @@ Ratified copy, `01-design-system.md` §10.3, **verbatim**.
 │   share the list until that's public.                                          │
 │   Settings → Privacy.                                                          │
 │                                                                                │
-│   r  try again        s  Steam settings                                        │
+│   r  try again        c  Steam settings                                        │
 │                                                                                │
 │                                                                                │
 │                                                                                │
@@ -531,7 +562,7 @@ Ratified copy, `01-design-system.md` §10.3, **verbatim**.
 │                                                                                │
 │                                                                                │
 │                                                                                │
-│   r try again   s Steam settings   , settings   ? help   q quit                │
+│   r try again   c Steam settings   , settings   ? help   q quit                │
 │                                                                                │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -554,7 +585,8 @@ footer** (`04-navigation-and-focus.md` §6).
 | `Ctrl-D` / `Ctrl-U` | Half a page down / up | global | |
 | `⏎` | Open the focused game | screen | ≤ 119: push `Z-05` · ≥ 120: **move focus into the pane** |
 | `Tab` / `Shift-Tab` | Next / previous region | global | **ExtraWide only** — `R = 2`. Below 120 there is one region and `Tab` does nothing and is not listed |
-| `s` | Set this game's status → `Z-06` | screen | On an **empty** library it means *connect Steam* — §8.3, and flagged there |
+| `s` | Set this game's status → `Z-06` | screen | **Set-status everywhere, always** (`04-navigation-and-focus.md` §3.2). Not live on an empty library — there is no row — and therefore not in that footer |
+| `c` | Connect a store → `Z-02` | screen | **Only on an empty library** (§8.3). Not live once a row exists |
 | `/` | Filter and search → `Z-07` (a mode) | screen | |
 | `f` | Jump to the state chips of `Z-07` | screen | Enters filter mode with the chip row focused |
 | `a` | Add a game by hand → `Z-08` | screen | |
@@ -577,8 +609,8 @@ shows **no error**.
 | Populated, audio never enabled | `↑↓ move   ⏎ open   s status   / filter   a add   r sync   ? help   q quit` | **73** |
 | Populated, audio enabled | `↑↓ move  ⏎ open  s status  / filter  a add  r sync  m mute  ? help  q quit` | **74** |
 | ExtraWide | `↑↓ move   ⏎ detail   tab pane   s status   / filter   a add   r sync   ? help   q quit` | 86 ≤ 112 |
-| First run (L1) | `s connect Steam   a add by hand   , settings   ? help   q quit` | 62 |
-| Empty from provider (L2) | `r try again   s Steam settings   , settings   ? help   q quit` | 61 |
+| First run (L1) | `c connect a store   a add by hand   , settings   ? help   q quit` | **64** |
+| Empty from provider (L2) | `r try again   c Steam settings   , settings   ? help   q quit` | 61 |
 | Narrow 40 | `↑↓ ⏎ / s   ? help   q quit` | 26 |
 | Tiny 32 | `⏎ open  ? help  q quit` | 22 |
 
@@ -607,7 +639,7 @@ No library yet.
 Zerado reads your Steam library once you add a key.
 Physical discs and cartridges can be added by hand.
 
-s  connect Steam        a  add a game by hand
+c  connect a store      a  add a game by hand
 ```
 
 ### 10.2 · Provider returned nothing (L2) — `01-design-system.md` §10.3, **verbatim**
@@ -619,7 +651,7 @@ Game details are private on your profile — Steam won't
 share the list until that's public.
 Settings → Privacy.
 
-r  try again        s  Steam settings
+r  try again        c  Steam settings
 ```
 
 ### 10.3 · The pinned summary — the three forms, and the ladder
@@ -647,6 +679,71 @@ never becomes the only carrier of a state's name.
 
 **Filter active:** the summary is replaced by `Z-07`'s bar
 (`01-design-system.md` §5.4). See `Z-07-filter-and-search.md` §10.
+
+**Absent rows present (L13): the summary appends `<n> absent`, and it says the number.**
+
+> **D-04-8 · When at least one row is absent, the summary carries a trailing `<n> absent`
+> clause; the clause is exempt from the degrade ladder and the base form degrades around it.**
+>
+> **Whether to mention the hidden count at all was the decision, and the answer is yes.**
+> `05-state-machine.md` §7's preamble requires the summary to say *"which set it is describing"*,
+> and rule 2 gives the filter case. A default view with absent rows is the *second* case, and it
+> is rule 2's failure **in mirror image**: rule 2 forbids *"showing whole-library counts above a
+> filtered list"*; silence here would show **filtered counts and call them the whole library.**
+> Same lie, opposite direction. A player whose family share expires loses forty rows from view,
+> and a summary that quietly reads `207 games` where it read `247 games` yesterday has told them
+> their library shrank. **Silence was considered and rejected on that sentence.**
+>
+> *The alternative placements considered and rejected.* **A banner** — it would cost a game row
+> on every render, compete for the one-banner-at-a-time slot (§8.1), and claim urgency the seam
+> deliberately refuses (`absent_since` is set and cleared silently). **The scroll-position row** —
+> it has 57 spare cells at Wide and looks tempting, but it does not render when nothing scrolls,
+> and a library small enough not to scroll can still have absent rows. The carrier has to be the
+> one row that is always there, which is the summary (R-10(c)).
+>
+> **The four rules that keep it honest:**
+> 1. The clause renders only when `n ≥ 1`. At `n = 0` the summary is byte-identical to forms 1–3T
+>    above — the common case pays nothing.
+> 2. The total and the four state counts describe the **shown** set, so §7 rule 1 holds unchanged.
+>    The file total is `shown + n` and is never printed as a separate figure here.
+> 3. **The clause is never dropped.** It is not a rung on the ladder; the ladder runs beneath it.
+>    A screen too narrow to carry both the clause and four state buckets does not exist — step 5
+>    composes to 30 cells at the 30-column Tiny floor.
+> 4. **`absent` is the same word on all four surfaces** — this clause, `Z-07`'s `[ABSENT]` chip,
+>    `Z-07`'s `absent   yes` diagnostic line, and `Z-05`'s `SOURCE` value. One word, one meaning,
+>    learned once. It is chosen over *missing*, *removed* and *hidden* because each of those
+>    asserts something the product cannot know: that something is lost, that someone took it, or
+>    that Zerado is keeping it from them.
+
+**The composed forms, at 247 shown and 3 absent.** Counted, as everything on this screen is:
+
+| Form | Composed | Cells | Fits |
+|---|---|---|---|
+| 1 + clause | `247 games · 198 not started · 12 in progress · 6 zerado · 31 abandoned · 3 absent` | **81** | ✗ at Wide 74 |
+| 2 + clause | the same with `  ` separators | **76** | ✗ at Wide 74 |
+| **3 + clause** | `247 games  ○ 198  ◐ 12  ◉ 6  ⊘ 31  3 absent` | **43** | ✓ ExtraWide pane 66 · Wide 74 · Standard 54 |
+| 3T + clause | `247  ○ 198  ◐ 12  ◉ 6  ⊘ 31  3 absent` | **37** | ✗ at Narrow 36 |
+| **unspaced + clause** (`01-design-system.md` §5.5's Tiny form) | `247  ○198 ◐12 ◉6 ⊘31  3 absent` | **30** | ✓ Narrow 36 · Tiny 30 |
+
+**So at Wide, a 247-game library with 3 absent rows renders the glyph key rather than the prose.**
+That is the ladder working, not a regression: the row changes shape on the rare day it has
+something extra to say, and changes back the moment the game returns. A smaller library keeps the
+prose — `84 games  61 not started  4 in progress  3 zerado  16 abandoned  3 absent` is **73** and
+fits Wide in form 2.
+
+**The ladder, declared rather than improvised** (the same shape as the footer's, §9.2):
+
+1. Compose form 1 **plus the clause**. If it measures ≤ `BodyRect.w`, done.
+2. Separators tighten ` · ` → `  `.
+3. The state words become the glyph key.
+4. The total sheds its noun — `247 games` → `247`.
+5. The glyph counts unspace — `○198 ◐12 ◉6 ⊘31`.
+6. **No state bucket is ever dropped** (`01-design-system.md` §5.6 — a summary missing a bucket no
+   longer sums) **and the clause is never dropped.**
+
+Steps 3–5 are legend-dependent, and D-04-1's guard still binds: the glyph key may render only
+where the full state **label** is visible in the list below, which is true at every tier. **The
+clause is not legend-dependent** — it is a word.
 
 ### 10.4 · Degrade banners
 
@@ -866,6 +963,12 @@ is nothing below. **Focus is never nowhere.**
 331 + 18 + 9 + 54 = **412**. The counts sum to the number shown, at any row count
 (`05-state-machine.md` §7 rule 1).
 
+**And they sum to the number shown when rows are absent, which is the case rule 1 is easiest to
+break in.** With 412 shown and 20 tombstoned, the summary reads
+`412 games  ○ 331  ◐ 18  ◉ 9  ⊘ 54  20 absent` — **412**, not 432. The four counts are a
+`GROUP BY` over the **shown** set and the clause names the rest; a total of 432 above a
+412-row ledger would break the leg this section exists to prove. See §10.3, D-04-8.
+
 ### (c) The summary is pinned OUTSIDE the scroll region
 
 Body row 1 — or row 2 when a banner is present — never inside the viewport, never scrollable,
@@ -880,7 +983,8 @@ is what makes (b)'s identity-preserving cursor work), and it never lies. `last_p
 nullable and *"`NULL` means not reported, not never played"* (`05-state-machine.md` §6), so a
 recency sort would have a large undefined tail. **No sort control is bound in Phase 1**, and no
 sort indicator renders — an on-screen indicator would imply a control that does not exist
-(anti-pattern 14). `07-offline-contract.md` §2 lists *Sort* as a Phase 1 feature; **see §17.**
+(anti-pattern 14). `07-offline-contract.md` §2 now lists **`Ordering`** rather than *Sort*, and
+describes it in the same terms.
 
 ### 12.2 · Reading the not-fetched / known-empty distinction in the ledger
 
@@ -958,7 +1062,7 @@ This is `04-navigation-and-focus.md` §5, unchanged. **There is no keyboard trap
 | Screen state | STATE cyan (uncounted) | Focus ring (exempt) | **CHROME CYAN — the budget** | Verdict |
 |---|---|---|---|---|
 | **L4 populated** | every `◉` and `ZERADO` — 3 chips in §3's render, 40 in a library with 40 finished games | none — the row cursor is **amber** | **0** | **PASS.** Zero is a pass; a browsing screen has nothing to urge |
-| **L1 first run** | none | none | **1** — `s  connect Steam` | **PASS** |
+| **L1 first run** | none | none | **1** — `c  connect a store` | **PASS** |
 | **L2 empty from provider** | none | none | **1** — `r  try again` | **PASS** |
 | **L5 banner** | as L4 | none | **0** — the banner's action key is **amber**, the action-required class (`01-design-system.md` §12.2) | **PASS** |
 | **L6 filter mode** | as L4 | the text input's ring, **exempt** by §2.3 | **0** | **PASS** — see `Z-07` §14 |
@@ -1032,6 +1136,7 @@ subset. The render below is the §3 screen with colour stripped, character for c
 | Which region has focus (ExtraWide) | `┏━┓` against `┌─┐` — box-drawing **weight** |
 | The banner class | The **label word** — `OFFLINE`, `SYNC INCOMPLETE`. Colour distinguishes only informational from action, and the word already says which |
 | Audio | `▮ AUDIO` / `▯ MUTED` — filled vs hollow glyph **and** the word |
+| **An absent row** | It is not on screen at all, and the summary's **`3 absent`** clause says how many are not. **A word and a number, with no colour and no glyph in it** — the one channel on this screen that never depended on either (§10.3, D-04-8) |
 
 **Cross-check (`02-colour-budget.md` §3.3):** run the same screen with `NO_COLOR=1`. **If any
 information disappears, the screen was encoding meaning in colour.** Nothing above does.
@@ -1075,34 +1180,34 @@ ratified stack.
 Recorded rather than silently designed around. None is mine to fix; each belongs to the document
 named.
 
+**Re-checked against head on 2026-08-25.** Eight findings were recorded in rev A; **seven are
+closed** and are struck from this table rather than left to rot — `01-design-system.md` §4.3
+(row budget), §4.4 (ExtraWide title **40**), §5.4 (the summary is body row 1, *"it is not the
+footer row"*), §5.3 (the three-facts guideline reconciled, *"where they genuinely conflict, the
+falsifiable rule wins"*), §5.11 of the manual (audio, struck through and marked SUPERSEDED),
+`07-offline-contract.md` §4.1 (Phase 1 copy names the library, the price wording deferred to
+Phase 3 with its reason) and §2 (*Sort* → **`Ordering`**, described honestly). They are
+enumerated as **#7–#12** and **#4** in `14-contradictions-closed.md`.
+
 | # | Finding | Where | Owner |
 |---|---|---|---|
-| 1 | **The game-row column budget disagrees with itself.** `02-composition.md` §2.2 gives title 42 · playtime 6 · source 4 with 2-col gutters; `01-design-system.md` §4.3–4.4 gives title 43 · hours 5 · source 3 with a 3-col gutter. Both sum to 74. **This spec follows the spine, which is binding** | `01-design-system.md` §4.3, §4.4 | `fft-tui-architect` / `fft-design-architect` |
-| 2 | **`01-design-system.md` §4.4's "ExtraWide → title 81"** describes a single-pane ExtraWide list, which `02-composition.md` §2.3 does not compose. The real figure is **40** | `01-design-system.md` §4.4 | `fft-design-architect` |
-| 3 | **`01-design-system.md` §5.3 says the status bar "occupies the reserved footer row".** It cannot: `02-composition.md` §2.2 puts the pinned summary at **body row 1** and `04-navigation-and-focus.md` §6 puts the key hints in the reserved footer row, and §6 also forbids the footer from carrying status | `01-design-system.md` §5.3 | `fft-design-architect` |
-| 4 | **`01-design-system.md` §5.2's "three facts maximum"** cannot coexist with `05-state-machine.md` §7's *"the four state counts add to 247"*, which is five facts. This spec follows the state machine because rule 1 there is falsifiable and the three-fact line is a voice guideline | both | `fft-design-architect` |
-| 5 | **`07-offline-contract.md` §4's 90-day banner copy names prices**, a Phase 3 capability. Shipping it in Phase 1 would present something unbuilt as working | `07-offline-contract.md` §4 | `fft-tui-architect` |
-| 6 | **`07-offline-contract.md` §2 lists *Sort* as a Phase 1 feature**, but no key is bound to it in `04-navigation-and-focus.md` §3 and no screen owns it. This spec renders one fixed order and binds nothing | `07-offline-contract.md` §2 | `fft-tui-architect` |
-| 7 | **`03-designer-manual.md` §5.11 verdict 3 permanently rejects the audio subsystem**, which the spine superseded on 2026-08-25 by founder direction. The manual and the design brief still read as a rejection | `03-designer-manual.md` §5.11 | `fft-design-architect` |
-| 8 | **`01-design-system.md` §1.2 checked `EastAsianWidth-17.0.0.txt`; `02-composition.md` §2.2.1 cites Unicode 16.0.** This spec re-verified every glyph it uses against **UCD 16.0.0** on 2026-08-25 and every class matched both documents | both | — |
+| 1 | **Two documents cite different Unicode versions for the same width table.** `01-design-system.md` §1.2 is checked against `EastAsianWidth-17.0.0.txt`; `02-composition.md` §2.2.1 cites Unicode 16.0. This spec re-verified every glyph it uses against **UCD 16.0.0** on 2026-08-25 and every class matched both documents, so nothing is wrong today — but a version that is stated twice and differently is a version nobody owns | `01-design-system.md` §1.2 vs `02-composition.md` §2.2.1 | `fft-design-architect` |
+| 2 | **`01-design-system.md` §6.1 splits ExtraWide as `ledger 64 · gutter 2 · pane 46`; `02-composition.md` §2.3 splits it `66 ∥ 2 ∥ 44`.** Both sum to 112, which is the harder kind of disagreement — a builder following one and a reviewer following the other would each think the screen correct. **This spec follows the spine (66 ∥ 2 ∥ 44), which is binding**, and §4's 40-column ExtraWide title is derived from it. `14-contradictions-closed.md` #15 records this as closed with *"real pane is 44 wide, 38 content"*, so the design system is the document that has not caught up | `01-design-system.md` §6.1 | `fft-design-architect` |
 
 ---
 
 ## 18 · Open for the founder
 
-1. **`s` means two different things on this screen.** On a populated library it opens `Z-06` Set
-   status; on an empty one `01-design-system.md` §10.1 and §12.3 bind it to *connect Steam*, and
-   §10.3 binds it to *Steam settings*. It is **not a live ambiguity** — an empty library has no
-   game whose status could be set — but it is a muscle-memory cost on the product's most-used
-   screen, and `Z-10`'s help has to say two different things depending on how full the library
-   is (which it does correctly today — see `Z-10-help-and-key-map.md` §8).
-   **Recommendation: bind the connect action to `c`**, which is unbound and unreserved. It is a
-   one-character change in three copy blocks and it removes the collision entirely.
-   *Changing ratified copy is not a screen decision, which is why this is here and not in §19.*
-2. **Nine ANSI-256 indices are still underived** (`00-design-brief.md` §9). This screen ships
+> **Closed since rev A.** The `s` collision — *set status* on a populated library, *connect
+> Steam* on an empty one — was item 1 here. `04-navigation-and-focus.md` §3.2 adopted the
+> recommendation: **`s` means set-status everywhere, always; connect-a-store is `c`.**
+> `01-design-system.md` §10.1 and §10.3 carry the corrected copy and this spec reproduces it
+> verbatim (§8.3, §8.4, §10.1, §10.2). Nothing is open.
+
+1. **Nine ANSI-256 indices are still underived** (`00-design-brief.md` §9). This screen ships
    `--z-text-tertiary` **uncoloured** as its documented interim — correct and honest, but not
    the designed colour. Confirm the derivation lands before `Z-04` is built.
-3. **The library deck as Zerado's in-house gold standard.** `00-design-brief.md` §4 (R-1)
+2. **The library deck as Zerado's in-house gold standard.** `00-design-brief.md` §4 (R-1)
    proposes that this screen becomes the reference every later screen rises to, the moment it is
    ruled GOLDEN. Confirm the nomination; it changes how the next eight screens are reviewed.
 
@@ -1121,6 +1226,7 @@ Marked, with reasons, because the canon did not settle them.
 | **D-04-5** | Below Standard the scroll region takes `floor(remaining/2)` games; the leftover row becomes the respiro (§11.1) | Always closes the arithmetic with no orphan half-row |
 | **D-04-6** | Source is **right-aligned** in its 4-column field; selection and focus are distinguished by the ledger row's weight plus the pane's box weight (§3.2, §13.3) | Every ledger row then ends flush with the body's right edge, so the block reads as ruled rather than ragged; and the focus/selection distinction survives `NO_COLOR` using only vocabulary the canon already has |
 | **D-04-7** | Row order is title A→Z, no sort control, no sort indicator (§12.1) | A list must have an order and naming it is honest; an on-screen indicator would imply a control that does not exist |
+| **D-04-8** | When at least one row is absent the summary appends `<n> absent`; the clause is exempt from the degrade ladder and the base form degrades around it (§8 L13, §10.3) | `06-data-seams.md` §2.4 excludes absent rows from the default view, so the summary is describing a subset — and `05-state-machine.md` §7 requires it to say which set it describes. A banner would cost a game row and claim an urgency the seam refuses; the scroll row does not render when nothing scrolls. The summary is the only always-present carrier |
 | **D-A1** | The audio annunciator is right-aligned on the header band's title row, on every screen (§7.1) | The only surface every framed screen has at every tier; keeps 4.1.3's stable place with no per-screen exception, without repurposing the footer or truncating the summary |
 
 ---
@@ -1154,9 +1260,17 @@ which apply in full. Each line below is falsifiable from a rendered artifact.
     input holds focus except `esc`, `⏎`, `tab` and `^c`.
 12. **Below 24 × 8 the screen refuses in one sentence** and does not render a frame.
 13. **No scanner and no progress bar appear on this screen in any state.**
-14. **Audio, when enabled, is announced on the title row and in the footer**; when it has never
+14. **No absent row appears in the default view**, at 412 rows with 20 tombstoned, at every
+    tier — verified by row count and by title against the file.
+15. **The summary's four state counts sum to the number it shows**, with absent rows present,
+    in every one of the five composed forms of §10.3.
+16. **`<n> absent` is on screen whenever `n ≥ 1`** at 80 × 24, 60 × 24, 40 × 24 and 32 × 24,
+    and is **byte-absent** when `n = 0`. It is the last clause standing at 32 columns.
+17. **`absent_since` clearing produces no banner, no result line and no announcement** — the
+    clause's count decrements, and at zero the clause stops rendering.
+18. **Audio, when enabled, is announced on the title row and in the footer**; when it has never
     been enabled, neither renders and `m` is unbound.
-15. **The screenshot is founder-validated before merge.** Eight artifacts per
+19. **The screenshot is founder-validated before merge.** Eight artifacts per
     `03-responsive.md` §7: `24×8` · `32×24` · `40×24` · `60×24` · **`80×24`** · `120×40`, plus
     `NO_COLOR=1` at `80×24` and a forced 16-colour depth at `80×24` — **and every tabular one at
     412 rows.** No founder-validated screenshot → not GOLDEN → no merge.

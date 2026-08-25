@@ -71,9 +71,10 @@ and getting silence is an answered question rather than a bug.
 > **Three consequences a builder must honour:**
 > 1. A binding carries its own one-line description, its display form and its **scope**
 >    (`screen` · `mode` · `global` · `reserved`).
-> 2. A binding may declare a **precondition** — `s` on `Z-04` describes *set this game's status*
->    when a row exists and *connect Steam* when the library is empty. `Z-10` asks the origin, in
->    its current state, and renders the answer.
+> 2. A binding may declare an **availability predicate** — `s` on `Z-04` is live only when a row
+>    exists, and `c` only when the library is empty. `Z-10` asks the origin, in its current
+>    state, and lists what is live. `04-navigation-and-focus.md` §5b names this the registry's
+>    own mechanism and §5c uses it for `?`.
 > 3. **Nothing on this screen is a string literal in `Z-10`'s own code** except the four block
 >    headings.
 
@@ -218,7 +219,8 @@ Lines 19–33 of 33. The global and reserved blocks.
 > on the stack and therefore does nothing visible. Listing it as *"this key map"* with no
 > qualifier would be the screen lying about itself on the one screen whose entire job is not
 > lying. **The clause is generated from the binding's precondition** (D-10-1 consequence 2), the
-> same mechanism that makes `s` describe two different things on `Z-04`.
+> same availability predicate that keeps `c` out of a populated library's list and `s` out of an
+> empty one's.
 
 > **`m` is present only when audio has been enabled.** When it has never been enabled the
 > binding is not live, so `Z-10` does not list it and the footer does not carry it — because
@@ -229,7 +231,9 @@ Lines 19–33 of 33. The global and reserved blocks.
 ## 6 · Mockup — pushed from an EMPTY Library: a different, honest list
 
 **This is the requirement, demonstrated.** The player came from the same screen ID, `Z-04`, in a
-different state — and eight of the eleven bindings are not live, so eight of them are not here.
+different state. **Eight of its nine screen bindings are not live, so eight of them are not
+here — and one binding appears that the populated screen does not have.** The registry both drops
+and adds, which is the whole point of an availability predicate.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────┐
@@ -243,7 +247,7 @@ different state — and eight of the eleven bindings are not live, so eight of t
 │                                                                                │
 │   Nothing is in the library yet, so most keys do nothing here.                 │
 │                                                                                │
-│   s             connect Steam                                                  │
+│   c             connect a store                                                │
 │   a             add a game by hand                                             │
 │                                                                                │
 │   EVERYWHERE                                                                   │
@@ -260,10 +264,11 @@ different state — and eight of the eleven bindings are not live, so eight of t
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Note what is gone:** `↑ ↓`, `g`/`G`, `^d`/`^u`, `⏎`, `/`, `f`, `r` — every one of them
-needs a row, and there are none. **Note what changed:** `s` reads *connect Steam*, not *set this
-game's status*, because that is what it does here (`01-design-system.md` §10.1). **`m` is gone**
-because audio has never been enabled in this render.
+**Note what is gone:** `↑ ↓`, `g`/`G`, `^d`/`^u`, `⏎`, **`s`**, `/`, `f`, `r` — every one of
+them needs a row, and there are none. **`s` is gone with the rest**: it means *set this game's
+status* everywhere, always (`04-navigation-and-focus.md` §3.2), and there is no game.
+**Note what appeared:** `c  connect a store`, which is **not** in the populated list — it is live
+only here. **`m` is gone** because audio has never been enabled in this render.
 
 **The prose line is not decoration.** A player who opens help on an empty library and sees two
 keys should be told *why* it is two, or the screen reads as broken. One sentence, dry, concrete:
@@ -272,9 +277,13 @@ keys should be told *why* it is two, or the screen reads as broken. One sentence
 Nothing is in the library yet, so most keys do nothing here.
 ```
 
-> **FLAG** · **`s` describing two different actions on two states of one screen is an upstream
-> collision**, not a design of this screen — see `Z-04-library.md` §18 item 1. `Z-10` renders it
-> correctly either way, because it asks the origin rather than assuming.
+> **The collision this row used to flag is closed.** Rev A recorded `s` meaning *set status* on
+> a populated library and *connect Steam* on an empty one, and routed it to the founder.
+> `04-navigation-and-focus.md` §3.2 resolved it — **`s` is set-status everywhere, always;
+> connect-a-store is `c`** — and cites this screen as part of the argument: the collision *"forces
+> `Z-10 Help` to print different text depending on how full the library is."* It no longer does.
+> `Z-10` rendered it correctly either way, because it asks the origin rather than assuming; it
+> now renders something simpler.
 
 ---
 
@@ -553,7 +562,7 @@ ON THIS SCREEN — LIBRARY
 
 Nothing is in the library yet, so most keys do nothing here.
 
-s             connect Steam
+c             connect a store
 a             add a game by hand
 ```
 
@@ -707,7 +716,7 @@ same order.** Two places it does not, both recorded rather than hidden:
    is the stronger obligation. Each of those screens' footers names the way out.
 2. **While an overlay is open** at Narrow and above (`Z-06`). The overlay prints its own three
    keys in its footer, which is help already on screen and one keystroke closer than a route
-   would be. See `Z-06-set-status.md` §18 item 3 — it is open for the founder.
+   would be. See `Z-06-set-status.md` §18 item 1 — it is open for the founder.
 
 ---
 
@@ -840,30 +849,36 @@ every colour depth because it is made of nothing.
 
 ## 21 · Upstream findings
 
+**Re-checked against head on 2026-08-25.** Four of rev A's six findings are **closed** and are
+struck from this table. Finding 1 — nothing specified where a key's description lives — landed as
+`04-navigation-and-focus.md` **§5b, *"One key registry — dispatch, footer and help are the same
+source"***, which names the entry's key, scope, description, **availability predicate** and
+handler, and states that *"`Z-10` is generated from it"* (`14-contradictions-closed.md` #18).
+**D-10-1 is now a spine requirement rather than this screen's proposal.** Findings 3 and 4 — how
+help describes itself, and the two places `?` is unavailable — are closed by **§5c**, which
+tabulates both *"so the conformance statement can be written once and honestly"*. Finding 6's
+audio half is closed (`03-designer-manual.md` §5.11, struck through and marked SUPERSEDED, #4)
+and its second half too: **`m` is in the global key table**, marked *"only when audio is
+enabled."* And the `s` collision is closed by decision — §3.2 binds connect-a-store to `c`, so
+`Z-10` no longer prints different text depending on how full the library is (§6).
+
 | # | Finding | Where | Owner |
 |---|---|---|---|
-| 1 | **No document specifies where a key's description lives.** `04-navigation-and-focus.md` §3 has a global key table and §6 has a footer rule, but nothing binds them together — so today a key could be dispatched, listed in a footer and described in help by three separate strings. **D-10-1 proposes the registry that makes them one** | `04-navigation-and-focus.md` §3, §6 | `fft-tui-architect` |
-| 2 | **`04-navigation-and-focus.md` §3 lists `f` under no screen**, but `01-design-system.md` §7.3 binds it to the state filter chips *"(ExtraWide, or via `f`)"*. This spec lists it under `Z-04` as `filter by state`; it must exist in the registry or `Z-10` cannot show it | `04-navigation-and-focus.md` §3 | `fft-tui-architect` |
-| 3 | **`04-navigation-and-focus.md` §3 says `?` "unwinds if already on the stack"**, which means `?` on `Z-10` is a no-op. Nothing says how help should describe itself in that case. **§5 resolves it in copy** | `04-navigation-and-focus.md` §1 rule 3 | — |
-| 4 | **`?` is unavailable in two documented cases** — inside a text input (2.1.4) and while an overlay is open (D-06-4) — which slightly qualifies WCAG 3.2.6's *"from every screen"*. Both are recorded in §16.3 rather than glossed | `00-design-brief.md` §3.1 | `fft-design-architect` |
-| 5 | **`s` describes two different actions on two states of `Z-04`**, which this screen renders correctly by asking the origin. It remains an upstream collision | `01-design-system.md` §10.1 vs `04-navigation-and-focus.md` §3 | founder — `Z-04-library.md` §18 item 1 |
-| 6 | `03-designer-manual.md` §5.11 verdict 3 still reads as a permanent rejection of the audio subsystem, superseded by founder direction relayed 2026-08-25. **`m` must be in the global key table before `Z-10` can list it** | `03-designer-manual.md` §5.11 · `04-navigation-and-focus.md` §3 | `fft-design-architect` / `fft-tui-architect` |
+| 1 | **`04-navigation-and-focus.md` §3 still lists no `f`.** `01-design-system.md` §7.3 binds it to the state filter chips (*"ExtraWide, or via `f`"*) and `Z-07` composes with it; this spec lists it under `Z-04` as `filter by state`. §5b now settles *where* a description lives but not *which bindings exist*, and **a key that is not in the registry cannot be listed here** — which is D-10-1 working as designed, and is exactly why the omission has to be fixed upstream rather than papered over in this screen | `04-navigation-and-focus.md` §3 | `fft-tui-architect` |
+| **2** | **`Z-07`'s absent facet is a control with no key**, by design (`Z-07-filter-and-search.md` D-07-8): `[ABSENT]` is toggled with `space` on the chip row, which is already bound. It therefore has **no row in this screen's block 1 or block 2**, and a player who has absent rows will find the facet on `Z-07` and not in Help. That is correct — Help lists *keys*, and this facet is not one — but it is the first Phase 1 affordance that Help cannot describe, and it is worth knowing before someone reads the omission as a bug | `06-data-seams.md` §2.4 · `Z-07` D-07-8 | `fft-tui-architect` |
 
 ---
 
 ## 22 · Open for the founder
 
-1. **The key registry (D-10-1) is a spine-level ask, not a screen decision.** It is the only way
-   `01-screen-inventory.md` §5 stays true after the tenth key is bound, and it makes the footer
-   and the help provably consistent for free. It is small — a binding struct with a key, a long
-   description, a short description, a scope and an optional precondition — but it has to be
-   decided by `fft-tui-architect` before `Z-10` is built, because otherwise `Z-10` gets a
-   hand-written table and this screen's promise is already broken on day one.
-2. **`?` is unavailable in two places** (§16.3): inside a text input, and while an overlay is
-   open. The first is forced by WCAG 2.1.4 and is not negotiable. The second is a design decision
-   (`Z-06-set-status.md` D-06-4) and is open there. **Confirm both, so the conformance statement
-   for 3.2.6 is written once and honestly.**
-3. **The reserved block.** Listing keys that deliberately do nothing is unusual, and it is here
+> **Two items closed since rev A, both adopted rather than answered.** The **key registry**
+> (item 1) is now `04-navigation-and-focus.md` §5b, a spine requirement carrying the key, its
+> scope, its description, its **availability predicate** and its handler, with *"`Z-10` is
+> generated from it"* stated outright. **`?`'s two unavailable contexts** (item 2) are tabulated
+> in §5c — a text input (WCAG 2.1.4) and an open overlay — *"so the conformance statement can be
+> written once and honestly."* §16.3 is that statement and it now has an upstream to cite.
+
+1. **The reserved block.** Listing keys that deliberately do nothing is unusual, and it is here
    because `04-navigation-and-focus.md` §3.1 reserves five of them and a player who presses one
    deserves an answer rather than silence. **Confirm** — the alternative is that `:` and `1`–`9`
    are simply undocumented until Phase 2.

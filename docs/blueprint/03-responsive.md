@@ -81,7 +81,7 @@ trade: at 40 columns a player is reading, not scanning.
 | **Z-04** Library | **List ∥ detail**, 28 rows | Single-pane, 12 rows, full chip | `source` shed | **Two-line rows**, 8 games | Two-line rows, title truncated to body width |
 | **Z-05** Detail | **A pane** in Z-04 | A route, full width | Same | Same, labels above values instead of beside | Same |
 | **Z-06** Set status | Overlay 34 × 11 | Same | Same | Same | **Becomes a route** — the overlay does not fit |
-| **Z-07** Filter | Filter bar, 2 body rows | Same | Same | Filter bar takes 3 rows (chips wrap) | One filter at a time, cycled with `Tab` |
+| **Z-07** Filter | Filter bar, **dynamic height** — §5b | Same | Same | Same; chips wrap sooner | One filter at a time, cycled with `Tab` |
 | **Z-08** Add by hand | Field + help beside | Field, help below | Same | Help collapses | One field at a time |
 | **Z-09** Settings | Single-pane grouped list, **wider gutter** | Single-pane grouped list | Same | Values below labels | Values below labels |
 | **Z-10** Help | Two key columns | One key column | Same | Same | Same, scrolls more |
@@ -127,7 +127,32 @@ Under `prefers-reduced-motion` — or its terminal equivalent, which Zerado take
 the track at full weight** and does not travel. It is deliberately not hidden: the lit slot is an
 identity element, the travel is the decoration (brand manual §7.3).
 
-## 5b · `ZERADO_ASCII` covers every Ambiguous glyph, not just the state column
+## 5b · The filter bar's height is dynamic, not a per-tier constant
+
+The first draft fixed the filter bar at **2 body rows at Standard and above**. `fft-tui-designer`
+measured it and the constant does not survive: five active chips are **73–75 cells**, and the
+**Standard** body is **54**. The bar was specified to a height it cannot render in.
+
+**Rule: the filter bar takes the rows its active facets need, and the list absorbs the difference.**
+That is already how it behaved at Narrow, so this makes the existing behaviour the rule instead of
+a per-tier constant that happened to hold at two tiers.
+
+| | |
+|---|---|
+| Minimum | **1** row — the editor, with no chips |
+| Growth | chips wrap; each wrapped line is one more row |
+| **Cap** | **4** rows. Beyond that the chips collapse to a count — `4 filters · ⏎ to edit` — and the bar returns to 2 |
+| Floor it protects | the list keeps **at least 12** rows at the 80 × 24 body |
+
+The cap is what stops a filter bar from eating the thing it filters. A player with enough facets
+active to overflow four rows is better served by a count than by a wall of chips, and the editor is
+one keystroke away.
+
+*(Found by counting: the defect predates the `absent` facet and was surfaced by adding the fifth
+chip. The designer recorded it rather than patching it, because the fix changes a tier's row map —
+which is the spine's to change, not a screen's.)*
+
+## 5c · `ZERADO_ASCII` covers every Ambiguous glyph, not just the state column
 
 The state glyphs have an ASCII column (`[ ] [~] [*] [x]`) for terminals where they cannot be relied
 on. But the state glyphs are **not the only Ambiguous-width characters on a Zerado screen** — the

@@ -228,7 +228,8 @@ pane title goes amber. Under `NO_COLOR` the box weight alone still says which re
 > where the first content row sits directly under the top border and the left inset is two
 > spaces. It is **fixed at 2 at every tier** rather than tracking `InnerPaddingX`, because a
 > bordered box that breathes differently at different terminal widths is a box that looks
-> resized rather than designed. **Proposed as a named token `BorderInsetX = 2` — see §18.**
+> resized rather than designed. **Now a spine token:** `02-composition.md` names `BorderInsetX`
+> = **2** columns each side and `BorderInsetY` = **0** rows (`14-contradictions-closed.md` #16).
 
 > **The pane is 30 content rows and Phase 1 fills 12 of them.** That is not an unfinished
 > screen; it is the honest amount Phase 1 knows, with block 3 anchored to the last row so the
@@ -375,6 +376,7 @@ The whole screen is a state table; §9 draws the ones that matter.
 | **D11** | **The title overflows the host** | Any host | **Wraps at a word boundary. Never truncated.** It is the identity (R-10(a)) and, unlike a ledger row, there is room | §9.3 |
 | **D12** | **Content taller than the host** | Narrow · Tiny · a long title | `bubbles/viewport` scrolls it. The footer says `↑↓ scroll` | — |
 | **D13** | **Below the refusal floor** | `< 24` cols or `< 8` rows | The frame refuses for the whole program — `Z-04-library.md` §11.3 | — |
+| **D14** | **The game is absent — a sync stopped returning it** | `absent_since IS NOT NULL` (`06-data-seams.md` §2.4) | §9.6. `SOURCE` carries `<Provider> — absent since <date>`; a **two-line prose block** after block 2 says why. **No banner, no retry, no red, no fifth state.** Every other value renders exactly as D2 | §10.8 |
 
 > **D1 is the honest first-run row, and it is a *nothing*.** The manual demands a first-run row
 > on every screen; the truthful one here is that this screen has no first-run appearance,
@@ -475,6 +477,12 @@ retry exists.
 | **Unavailable right now** | `—` and the banner names it | `--z-text-tertiary` | the age | **yes — `r`** | The last value, with its age, or nothing plus the reason |
 | **Not trackable at all** | **`not tracked`** | `--z-text-tertiary` | **absent** | **no** | The provider has no such capability. Not a fault, not a gap |
 
+**The sixth rendering is not a value at all — it is a fact about the row** (D14, §9.6). Every
+value above still renders normally; what changes is that `SOURCE` carries `— absent since <date>`
+and a prose block explains it. It belongs beside this table rather than in it, because the other
+five answer *"what does Zerado know about this field?"* and this one answers *"is this row still
+being reported?"*
+
 **`—` versus `not tracked` is the load-bearing distinction on this screen**, and it is carried in
 **words**, so it survives `NO_COLOR`, a screenshot, and a screen reader reading the raw stream.
 A colour difference alone would not.
@@ -554,6 +562,95 @@ are below the fold; `↑↓` scrolls to them, and the footer says so.
 
 Body **30 × 21**. `OuterMarginX` and `OuterMarginY` shed to **0**; the band is the title row
 alone. The chip does **not** shrink and the label is **never** dropped.
+
+### 9.6 · D14 — the game is absent, which is a fact about the SOURCE
+
+**This is the screen `06-data-seams.md` §2.4 names.** A game a sync stops returning is
+**tombstoned, never deleted**: `absent_since` is set and the row stays, because *"the provider
+stopped returning it"* and *"the player no longer owns it"* are not the same fact and only the
+first is observable. `Z-04` excludes the row from the default view; `Z-07`'s `[ABSENT]` chip is
+how the player got here; **this screen is the one that says plainly why.**
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                │
+│   Zerado ✦ Game detail                                                         │
+│                                                                                │
+│   GAME DETAIL                                                                  │
+│                                                                                │
+│                                                                                │
+│   Alan Wake                                                                    │
+│                                                                                │
+│   ◉  ZERADO                                                                    │
+│                                                                                │
+│   PLAYTIME     19h                                                             │
+│   LAST PLAYED  2 Jul 2026                                                      │
+│   ADDED        12 Mar 2026                                                     │
+│   SOURCE       Steam — absent since 14 Aug 2026                                │
+│                                                                                │
+│   SET BY       you, 3 Aug 2026                                                 │
+│   STEAM SAYS   IN PROGRESS                                                     │
+│                                                                                │
+│   Zerado cannot tell whether you still own it, so it changed nothing.          │
+│   The row and its status stay, out of the list, until Steam returns it.        │
+│                                                                                │
+│   LAST SYNCED  3 hours ago                                                     │
+│   ↑↓ scroll   s status   r sync   esc back   ? help   q quit                   │
+│                                                                                │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+> **D-05-7 · The absence is a value on the `SOURCE` row, not a banner — and the prose block does
+> the explaining.**
+>
+> **Why not a banner.** A degrade banner has four mandatory parts (`07-offline-contract.md` §3):
+> an uppercase label word, **what is unavailable**, **how stale it is**, and **the key that
+> retries it**. An absent row has none of them. Nothing is unavailable — every field on this
+> screen renders normally. Nothing is stale — the last sync was three hours ago and it succeeded.
+> And there is no retry: `r` re-syncs the library, and if Steam has not started returning the game
+> it will not, so a banner offering it would be the screen promising a fix it does not have. A
+> banner would also cost two body rows (itself plus its respiro) and compete for `Z-04` §8.1's
+> one-banner-at-a-time slot with degradations that *are* urgent.
+>
+> **Why the `SOURCE` row.** Because that is the fact. `SOURCE` is the row that says where this
+> game comes from; *the source stopped returning it* is a statement about the source, and it
+> lands in the line the eye is already reading for exactly that. **It costs zero rows**, which is
+> what lets block 3 keep its respiro on the one screen where the age matters most.
+>
+> **Rendering.** `Steam` stays `--z-text` (16.65); the clause `— absent since 14 Aug 2026` is
+> `--z-text-secondary` (`#A9B5C7` / 249 / `white`, 9.36) — a weight step inside one value, the
+> same technique as the summary's numerals against its words, and **no new token**. The date is
+> said the way people say them (§10.8's rule), never an ISO timestamp. Under `NO_COLOR` the
+> clause is unchanged: **it is carried entirely by words.**
+>
+> **`—` U+2014 is Ambiguous** (verified, UCD 16.0.0). It sits inside a flex value that is
+> **measured, not counted**, so it cannot shear a column.
+
+**Row arithmetic, both forms — 16 body rows, and it closes without scrolling:**
+
+| | With an override (drawn above) | No override (D9 form) |
+|---|---|---|
+| title · gap · chip · gap | 1–4 | 1–4 |
+| block 1 — four rows, `SOURCE` carrying the clause | 5–8 | 5–8 |
+| gap | 9 | 9 |
+| block 2 | 10–11 | 10 |
+| gap | 12 | 11 |
+| the prose block | 13–14 | 12–13 |
+| spare | 15 | 14–15 |
+| **block 3, bottom-anchored (D-05-4)** | **16** | **16** |
+
+**Neither form scrolls at 80 × 24**, which is the whole reason the banner was declined. In host B
+(38 content columns) the prose re-wraps to four lines in a 32-row pane and is **never truncated**,
+exactly as D4's block is.
+
+**`absent` is not a fifth state and this screen renders no fifth glyph.** *Alan Wake* is
+`◉ ZERADO` and its chip is byte-identical to any other `ZERADO` chip in the product — which is
+§2.4's point: *"a game you finished and no longer own is exactly the row you would be angriest to
+lose."* `STEAM SAYS  IN PROGRESS` still renders, because the provider's last answer is still a
+fact about where the status came from.
+
+**When it comes back, nothing announces it.** `absent_since` is cleared silently (§2.4): the
+`SOURCE` clause stops rendering, the prose block disappears, the row returns to `Z-04`'s default
+view, and the screen is D2 again. **No banner, no result line, no celebration** — the *zerado*
+line (`Z-04-library.md` §10.5) is the only moment Zerado announces, and this is not it.
 
 ---
 
@@ -657,7 +754,45 @@ already looking at. No spinner, no scanner: reading a local row is not an indete
 
 The label carries the `…` until SQLite confirms. **Never an optimistic silent change.**
 
-### 10.8 · Copy notes
+### 10.8 · D14 — the game is absent
+
+**The copy `06-data-seams.md` §2.4 authorises.** Rev A of this spec refused to write it, on the
+grounds that a decision about a player's own data is not a screen's to make. §2.4 makes it — *"a
+game a sync stops returning is tombstoned, never deleted"* — and names the refusal as the right
+call. This is the copy.
+
+```
+SOURCE       Steam — absent since 14 Aug 2026
+```
+```
+Zerado cannot tell whether you still own it, so it changed nothing.
+The row and its status stay, out of the list, until Steam returns it.
+```
+
+**45 cells for the readout line** (label field 11 + gutter 2 + a 32-cell value) **· 67 and 69
+for the prose.** At 38 content columns (host B) the prose re-wraps to four lines; it is
+**never truncated**, the same rule as D4's block.
+
+**What each clause is doing, because every one of them is a decision:**
+
+| Clause | Why it is there | What it deliberately does not say |
+|---|---|---|
+| `absent since 14 Aug 2026` | **What happened, and when.** The date is the one fact the player can check against their own memory | Not `removed`, not `deleted`, not `missing` — none of those is observable |
+| `Zerado cannot tell whether you still own it` | **Why.** *"The provider stopped returning it"* and *"the player no longer owns it"* are not the same fact and only the first one is observable (§2.4) | It does not guess which. It does not list delistings, region changes and family shares — naming causes for *this* game would be a guess wearing a fact's clothes |
+| `so it changed nothing` | **The consequence, stated as an action the product did not take.** *"Deletion is irreversible. Tombstoning is not"* | It does not apologise, and it does not ask the player to do anything |
+| `The row and its status stay` | **What it means for their data**, which is the sentence that had to be right | It says *its* status rather than *your* status, because a derived status is not theirs and this line must be true in both cases |
+| `out of the list` | Why they cannot find it on `Z-04` — the thing they will actually notice | |
+| `until Steam returns it` | It is **reversible, and reverses by itself.** `absent_since` is cleared the moment the game comes back | It does not offer a key. `r` will not fix this, and a copy line pointing at one would be the screen promising a fix it does not have |
+
+**The register is the sync refusals'** (`07-offline-contract.md` §3): the fact, then the
+consequence, in two short sentences. **No exclamation mark, no apology, no emoji, and the player
+is never told they did anything** — because they did not.
+
+**Nothing here claims an unbuilt capability.** There is no *"remove it"* affordance offered:
+§2.4 reserves deletion for when the **player** asks, and Phase 1 binds no key that asks. Offering
+one in copy would be anti-pattern 14.
+
+### 10.9 · Copy notes
 
 - **Dates** are said the way people say them — `12 Mar 2026`, `3 hours ago`, `just now`,
   `last June`. Never `2026-08-22T04:11:09Z`. The exact timestamp belongs in this view for anyone
@@ -846,6 +981,7 @@ Separator 3 spaces, tightening to 2 before any hint drops; `? help` and `q quit`
 | D4 hand-added | 0 | none | **0** | **PASS** |
 | D5 not fetched | 0 | none | **0** | **PASS** |
 | D7 offline | as D2 | none | **0** | **PASS** |
+| **D14 absent** | as D2 — the chip is unchanged | none | **0** | **PASS** |
 | Host B, pane focused | as D2 | the pane's border is `--z-border-strong`, **not cyan** | **0** | **PASS** |
 
 **`Z-05` spends ZERO chrome cyan in every state.** A detail view has nothing to urge — the
@@ -888,30 +1024,41 @@ control**. The focused pane border — which is a focus indicator and therefore 
 
 ## 17 · Upstream findings
 
+**Re-checked against head on 2026-08-25.** Three of rev A's five findings are **closed** and are
+struck from this table. Finding 2 — the bordered-surface inset drawn but never named — landed as
+spine tokens `BorderInsetX = 2` / `BorderInsetY = 0` (`02-composition.md`;
+`14-contradictions-closed.md` #16). Finding 5 — the audio verdict — is struck through and marked
+SUPERSEDED in `03-designer-manual.md` §5.11 (#4). **Finding 4 is closed by decision, not by
+correction, and it is the reason this revision exists:** it read *"no document says what happens
+to a detail view whose game a sync removed"* and refused to invent an answer.
+`06-data-seams.md` §2.4 now decides it, names the refusal as the right call, and this spec
+carries the resulting state row (**D14**), mockup (§9.6) and copy (§10.8).
+
 | # | Finding | Where | Owner |
 |---|---|---|---|
-| 1 | **`01-design-system.md` §6.2 draws the detail pane at "Wide tier, pane 28 cols"**, but §6.1 and `02-composition.md` §2.1 both establish that **no detail pane exists below 120 columns**. The 28-column anatomy describes a composition the spine rejected; the real pane is **44** wide with **38** of content | `01-design-system.md` §6.2 | `fft-design-architect` |
-| 2 | **The bordered-surface inset is drawn but never named.** §6.2's own anatomy uses 2 columns and 0 rows, which does not equal `InnerPaddingX` at any tier except ExtraWide. This spec adopts the drawn value as **D-06-1** and proposes naming it | `01-design-system.md` §6.2 | `fft-design-architect` |
-| 3 | **`03-responsive.md` §3 specifies Z-05's readout arrangement by tier**, which a two-host view cannot use — the pane's 38 content columns fall *between* Narrow's 36 and Standard's 54. Resolved as the width threshold **D-05-2**, which agrees with the spine at the tested breakpoint | `03-responsive.md` §3 | `fft-tui-architect` |
-| 4 | **No document says what happens to a detail view whose game a sync removed.** `06-data-seams.md` §2.4 says a sync streams and a cancel leaves *"a valid partial library"*, but never states whether a row absent from a provider's response is deleted, tombstoned or kept. This spec does **not** invent an answer — see §18 item 2 | `06-data-seams.md` | `fft-tui-architect` |
-| 5 | `03-designer-manual.md` §5.11 verdict 3 still reads as a permanent rejection of the audio subsystem, superseded by founder direction relayed 2026-08-25 | `03-designer-manual.md` §5.11 | `fft-design-architect` |
+| 1 | **`01-design-system.md` §6 still describes a detail pane the spine does not compose, in two different ways.** §6.2 is headed *"Anatomy — Wide tier, pane 28 cols"*, a composition §6.1 and `02-composition.md` §2.1 both rule out below 120 columns; and §6.1's own ExtraWide split reads `ledger 64 · gutter 2 · pane 46` where `02-composition.md` §2.3 binds **66 ∥ 2 ∥ 44**. Both sum to 112, which is the harder kind of disagreement — a builder following one and a reviewer following the other would each think the screen correct. **This spec follows the spine: pane 44, content 38.** `14-contradictions-closed.md` #15 already records this as closed with *"real pane is 44 wide, 38 content"*, so the design system is the document that has not caught up | `01-design-system.md` §6.1, §6.2 | `fft-design-architect` |
+| 2 | **`03-responsive.md` §3 specifies Z-05's readout arrangement by tier**, which a two-host view cannot use — the pane's 38 content columns fall *between* Narrow's 36 and Standard's 54. Resolved as the width threshold **D-05-2**, which agrees with the spine at the tested breakpoint | `03-responsive.md` §3 | `fft-tui-architect` |
 
 ---
 
 ## 18 · Open for the founder
 
-1. **Name the bordered-surface inset as a token.** D-06-1 fixes it at 2 columns / 0 rows on the
-   authority of `01-design-system.md` §6.2's own drawing, and both the detail pane and `Z-06`'s
-   overlay depend on it. It is currently a number read off a mockup. **Proposal:
-   `space.BorderInsetX = 2`, fixed at every tier**, added to the token table so no screen ever
-   types a 2.
-2. **What happens to a game a sync no longer returns?** Kept with its status, tombstoned, or
-   deleted? It decides real copy on this screen — *"This is no longer in your Steam library.
-   Zerado kept the row and your status."* is a sentence I can write the moment the behaviour is
-   decided, and it is a sentence I refuse to write before then, because the product's promise is
-   about a file the player owns. **This spec deliberately has no such state row.** Route to
-   `fft-tui-architect` (`06-data-seams.md`).
-3. **The nine underived ANSI-256 indices.** This screen leans on `--z-text-tertiary` more than
+> **Two items closed since rev A, and neither needs the founder now.**
+>
+> **Naming the bordered-surface inset** (item 1) landed: `02-composition.md` carries
+> `BorderInsetX` = **2** columns each side and `BorderInsetY` = **0** rows as spine tokens
+> (`14-contradictions-closed.md` #16). D-06-1 is no longer a number read off a mockup.
+>
+> **What happens to a game a sync no longer returns** (item 2) was routed to
+> `fft-tui-architect` and **decided** in `06-data-seams.md` §2.4: tombstoned, never deleted;
+> `absent_since` set on the first complete, successful sync that omits it and cleared silently
+> when it returns; excluded from `Z-04`'s default view; findable through `Z-07`'s facet; deleted
+> only when the player asks. The copy this spec refused to write before the decision is now
+> written — **§10.8**, with D14 and §9.6. *The refusal was the right call and the seam says so;
+> the sentence it produced is better than the one rev A sketched, because §2.4 decided the
+> reason and not just the behaviour.*
+
+1. **The nine underived ANSI-256 indices.** This screen leans on `--z-text-tertiary` more than
    any other in the bundle — it is the colour of *not knowing* — and ships it **uncoloured** as
    the documented interim. Confirm the derivation lands before `Z-05` is built.
 
@@ -926,8 +1073,9 @@ control**. The focused pane border — which is a focus indicator and therefore 
 | **D-05-3** | The status-provenance block (`SET BY` / `<PROVIDER> SAYS`) is a permanent block, present in every state, with the provider row omitted when no override exists (§3.2, §10.5) | It is the fact that makes `Z-06`'s *Clear override* predictable, and `05-state-machine.md` §5 requires that the consequence be nameable in advance |
 | **D-05-4** | Block 3 is bottom-anchored when a blank row would otherwise separate it (§3.2) | Turns 17 rows of empty box into a readout footer in host B and a status line in host A, with one rule for both |
 | **D-05-5** | Five distinct renderings of *not a value*, carried in **words**: `9h` · `0h` / `never played` · `—` · `—` + banner · `not tracked` (§9.3) | `01-screen-inventory.md` §5 requires the distinction and the player can act on only two of the five; a colour-only difference would not survive `NO_COLOR`, a screenshot, or a screen reader |
-| **D-05-6** | No Phase 2 field labels, no "coming in Phase 2" line, no cover placeholder (§10.8) | Anti-pattern 14 — *omit the block, do not label it empty.* The roadmap is on the landing page, not in a detail view |
-| **D-06-1** | A bordered surface is inset 2 columns each side and 0 rows, fixed at every tier (§4) | Read from `01-design-system.md` §6.2's ratified anatomy; a box that breathes differently at different widths looks resized rather than designed |
+| **D-05-6** | No Phase 2 field labels, no "coming in Phase 2" line, no cover placeholder (§10.9) | Anti-pattern 14 — *omit the block, do not label it empty.* The roadmap is on the landing page, not in a detail view |
+| **D-05-7** | An absent row is announced on the **`SOURCE` value** plus a two-line prose block — **not** a banner (§9.6, §10.8) | A degrade banner's four mandatory parts (`07-offline-contract.md` §3) all fail here: nothing is unavailable, nothing is stale, and there is no retry. *The source stopped returning it* is a fact about the source, so it lands on the row that names the source — at **zero row cost**, which is what lets block 3 keep its respiro on the screen where the age matters most |
+| **D-06-1** | A bordered surface is inset 2 columns each side and 0 rows, fixed at every tier (§4) | Read from `01-design-system.md` §6.2's ratified anatomy; **now a spine token** — `02-composition.md` names `BorderInsetX` = 2 and `BorderInsetY` = 0 |
 
 ---
 
@@ -956,6 +1104,16 @@ Beyond `00-design-brief.md` §10 and `02-colour-budget.md` §10, both of which a
     2-column gutter carry it; no fill is involved.
 11. **The focused pane is identifiable with colour off**, by box weight alone.
 12. **No scanner and no progress bar render on this screen in any state.**
-13. **Founder-validated screenshot before merge**, at all six viewports of
+13. **An absent row renders its four block-1 values, its chip and its block 2 exactly as a
+    present row of the same state does** — the only differences are the `SOURCE` clause and the
+    prose block. Verified by diffing a `ZERADO` row against the same row tombstoned.
+14. **D14 does not scroll at 80 × 24**, with an override and without one — the 16-row
+    arithmetic of §9.6 closes in both forms, and `LAST SYNCED` is on screen in both.
+15. **No banner, no red, no retry key and no fifth state glyph appear on an absent row**, in
+    either host, at any tier.
+16. **The absent prose is never truncated** — at 74, 38, 36 and 30 content columns it re-wraps.
+17. **Clearing `absent_since` returns the screen to D2 with no announcement** — no banner, no
+    result line, no dwell.
+18. **Founder-validated screenshot before merge**, at all six viewports of
     `03-responsive.md` §7 plus `NO_COLOR=1` and forced-16-colour at 80 × 24 — and in **both
     hosts** at 120 × 40. No screenshot → not GOLDEN → no merge.
