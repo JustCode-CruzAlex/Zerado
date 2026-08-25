@@ -1,0 +1,177 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-ERD-01"
+title = "ZERADO — DATA MODEL  ·  SHEET 1"
+subtitle = "the Phase 1 core — one SQLite file, and the two things deliberately outside it"
+width = 1820
+height = 1420
+
+[titleblock]
+dwg_title = "ZERADO DATA MODEL - PHASE 1 CORE"
+discipline = "ARCHITECTURE"
+sheet = "01 OF 08"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "The Phase 1 schema. One SQLite file the player can back up, move or delete. Credentials and cover-art blobs are deliberately outside it - see the two boxes below the file."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[zone]]
+title = "library.db  —  ONE FILE, and the promise is that it stays one"
+color = "brand"
+x = 70
+y = 150
+w = 1630
+h = 690
+
+[[node]]
+id = "game"
+title = "game"
+sublines = [
+  "id                      PK",
+  "game_uid                merge hint, INDEXED not unique",
+  "provider_id + provider_ref     UNIQUE",
+  "title · sort_title · platform",
+  "playtime_minutes        INT NOT NULL",
+  "last_played_at          NULL = not reported",
+  "status_manual           NULL = derive on read",
+  "status_changed_at       decides Phase 4 conflicts",
+  "merged_into             NULL",
+]
+color = "accent"
+shape = "cyl"
+x = 120
+y = 215
+w = 520
+h = 390
+
+[[node]]
+id = "conn"
+title = "provider_connection"
+sublines = [
+  "provider_id             PK",
+  "account_ref",
+  "connected_at",
+  "last_sync_at",
+  "last_sync_status",
+]
+color = "brand"
+shape = "cyl"
+x = 750
+y = 215
+w = 450
+h = 250
+
+[[node]]
+id = "syncrun"
+title = "sync_run"
+sublines = [
+  "id PK  ·  provider_id FK",
+  "started_at · finished_at",
+  "status   ok | partial | failed | cancelled",
+  "items_seen · items_new · items_changed",
+  "error",
+]
+color = "brand"
+shape = "rect"
+x = 750
+y = 530
+w = 450
+h = 250
+
+[[node]]
+id = "setting"
+title = "setting"
+sublines = ["key    PK", "value"]
+color = "muted"
+shape = "rect"
+x = 1310
+y = 215
+w = 330
+h = 150
+
+[[node]]
+id = "migration"
+title = "schema_migration"
+sublines = ["version    PK", "applied_at"]
+color = "muted"
+shape = "rect"
+x = 1310
+y = 420
+w = 330
+h = 150
+
+[[node]]
+id = "vault"
+title = "Vault   —   NOT in the library file"
+sublines = [
+  "OS keychain, or credentials.json mode 0600",
+  "the player's own API keys",
+  "never backed up with the library, never synced",
+]
+color = "err"
+shape = "rect"
+x = 340
+y = 930
+w = 630
+h = 190
+
+[[node]]
+id = "cache"
+title = "XDG cache   —   NOT in the library file"
+sublines = [
+  "cover-art blobs (Phase 2)",
+  "disposable, refetchable, OS may delete it",
+  "keeps the backed-up file small enough to back up",
+]
+color = "muted"
+shape = "rect"
+x = 1030
+y = 930
+w = 630
+h = 190
+
+[[edge]]
+from = "game"
+to = "conn"
+label = "provider_id    N : 1"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "conn"
+to = "syncrun"
+label = "1 : N"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "conn"
+to = "vault"
+label = "reads keys"
+style = "dashed"
+from_side = "l"
+to_side = "t"
+
+
+
+
+
+[[free]]
+text = "effective_status is NOT stored — it is derived on read:  status_manual ?? derive(playtime_minutes, capabilities)."
+color = "accent"
+x = 340
+y = 880
+w = 1300
+
+[[free]]
+text = "KEY    violet = the game row and its sync bookkeeping    ·    grey = local-only, never syncs    ·    red = deliberately OUTSIDE the library file"
+color = "fg2"
+x = 340
+y = 1180
+w = 1300

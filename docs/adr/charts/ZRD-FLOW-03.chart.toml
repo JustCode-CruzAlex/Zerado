@@ -1,0 +1,273 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-03"
+title = "FLOW  ·  SYNC, WITH ITS FAILURE BRANCHES"
+subtitle = "the screens nobody writes down are the ones that decide whether it feels solid"
+width = 2060
+height = 1700
+
+[titleblock]
+dwg_title = "FLOW - SYNC AND ITS FAILURE BRANCHES"
+discipline = "ARCHITECTURE"
+sheet = "05 OF 08"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "A sync from key to result, including every way it can fail. Zerado never probes for connectivity - a request fails and the failure is classified."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "start"
+title = "r   —   sync"
+color = "brand"
+shape = "ellipse"
+x = 840
+y = 80
+w = 360
+h = 120
+
+[[node]]
+id = "vault"
+title = "read the key from the Vault"
+sublines = ["keychain, or 0600 file — never the library"]
+color = "err"
+shape = "rect"
+x = 840
+y = 260
+w = 360
+h = 130
+
+[[node]]
+id = "req"
+title = "Syncer.Sync( ctx, cred )"
+sublines = ["streams items — memory stays bounded"]
+color = "brand"
+shape = "rect"
+x = 840
+y = 450
+w = 360
+h = 130
+
+[[node]]
+id = "cancel"
+title = "q / Esc   →   ctx cancelled"
+sublines = ["in-flight I/O aborts", "what was written STAYS written", "a half-synced library is a valid library"]
+color = "muted"
+shape = "rect"
+x = 1480
+y = 430
+w = 480
+h = 170
+
+[[node]]
+id = "dclass"
+title = "classify the outcome"
+color = "gold"
+shape = "diamond"
+x = 780
+y = 640
+w = 480
+h = 200
+
+[[node]]
+id = "ok"
+title = "STREAMED"
+sublines = ["UpsertBatch per batch"]
+color = "ok"
+shape = "rect"
+x = 80
+y = 920
+w = 340
+h = 160
+
+[[node]]
+id = "empty"
+title = "200 + EMPTY"
+sublines = ["a private Steam profile"]
+color = "err"
+shape = "rect"
+x = 460
+y = 920
+w = 340
+h = 160
+
+[[node]]
+id = "auth"
+title = "401 / 403"
+sublines = ["the key was rejected"]
+color = "err"
+shape = "rect"
+x = 840
+y = 920
+w = 340
+h = 160
+
+[[node]]
+id = "offline"
+title = "NO ROUTE / DNS"
+sublines = ["there is no network"]
+color = "busy"
+shape = "rect"
+x = 1220
+y = 920
+w = 340
+h = 160
+
+[[node]]
+id = "unreach"
+title = "TIMEOUT / 5xx"
+sublines = ["their end, not the key"]
+color = "busy"
+shape = "rect"
+x = 1600
+y = 920
+w = 340
+h = 160
+
+[[node]]
+id = "done"
+title = "Z-03  DONE"
+sublines = ["247 games. 6 finished.", "Last played: 3 weeks ago."]
+color = "ok"
+shape = "rect"
+x = 80
+y = 1160
+w = 340
+h = 170
+
+[[node]]
+id = "refusal"
+title = "Z-03 / Z-02  REFUSES"
+sublines = ["names WHAT happened, WHY, and the next action", "keeps whatever the player typed"]
+color = "err"
+shape = "rect"
+x = 460
+y = 1160
+w = 720
+h = 170
+
+[[node]]
+id = "banner"
+title = "DEGRADE BANNER on Z-04"
+sublines = ["what is stale, how stale, and the retry key", "the library below it still works, completely"]
+color = "busy"
+shape = "rect"
+x = 1220
+y = 1160
+w = 720
+h = 170
+
+[[edge]]
+from = "start"
+to = "vault"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "vault"
+to = "req"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "req"
+to = "cancel"
+style = "dashed"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "req"
+to = "dclass"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "dclass"
+to = "ok"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "dclass"
+to = "empty"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "dclass"
+to = "auth"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "dclass"
+to = "offline"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "dclass"
+to = "unreach"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "ok"
+to = "done"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "empty"
+to = "refusal"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "auth"
+to = "refusal"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "offline"
+to = "banner"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "unreach"
+to = "banner"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[free]]
+text = "Steam returned an empty library. Game details are private on your profile — Steam won't share the list until that's public. Settings → Privacy."
+color = "err"
+x = 80
+y = 1400
+w = 1900
+
+[[free]]
+text = "Not: \"Something went wrong.\" That is the one sentence a terminal user cannot act on. Every refusal names what happened, why, and what to do next."
+color = "fg2"
+x = 80
+y = 1460
+w = 1900

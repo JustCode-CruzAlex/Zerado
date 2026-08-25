@@ -1,0 +1,136 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-06"
+title = "FLOW  ·  THE OFFLINE CONTRACT"
+subtitle = "works · degrades · refuses — and a feature is never in two of them"
+width = 1980
+height = 1570
+
+[titleblock]
+dwg_title = "FLOW - THE OFFLINE CONTRACT"
+discipline = "ARCHITECTURE"
+sheet = "08 OF 08"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "Every feature is in exactly one class, and the class does not change with the weather. Nine of eleven Phase 1 screens are fully functional with the network off."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "start"
+title = "a screen needs a value"
+color = "brand"
+shape = "ellipse"
+x = 80
+y = 480
+w = 300
+h = 130
+
+[[node]]
+id = "d1"
+title = "is it local?"
+color = "gold"
+shape = "diamond"
+x = 460
+y = 440
+w = 320
+h = 210
+
+[[node]]
+id = "works"
+title = "WORKS"
+sublines = ["render it", "no banner, no notice, no difference", "Z-04 · Z-05 · Z-06 · Z-07 · Z-08 · Z-09 · Z-10 · Z-01"]
+color = "ok"
+shape = "rect"
+x = 900
+y = 370
+w = 620
+h = 190
+
+[[node]]
+id = "d2"
+title = "is it cached?"
+color = "gold"
+shape = "diamond"
+x = 460
+y = 760
+w = 320
+h = 210
+
+[[node]]
+id = "degrades"
+title = "DEGRADES"
+sublines = ["render it WITH ITS AGE", "plus the one-row degrade banner", "prices · covers · sinopse · inferred moods"]
+color = "busy"
+shape = "rect"
+x = 900
+y = 770
+w = 620
+h = 190
+
+[[node]]
+id = "refuses"
+title = "REFUSES"
+sublines = ["name what, why, and the retry key", "keep whatever the player typed", "Z-02 · Z-03  —  and nothing else in Phase 1"]
+color = "err"
+shape = "rect"
+x = 900
+y = 1030
+w = 620
+h = 190
+
+[[edge]]
+from = "start"
+to = "d1"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d1"
+to = "works"
+label = "yes"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d1"
+to = "d2"
+label = "no"
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "d2"
+to = "degrades"
+label = "yes"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d2"
+to = "refuses"
+label = "no"
+style = "solid"
+from_side = "b"
+to_side = "l"
+
+[[free]]
+text = "Zerado does NOT probe for connectivity. No heartbeat, no reachability check — that would be exactly the background traffic the page promises does not exist, and it is unreliable anyway. A request fails, and the failure is classified."
+color = "fg2"
+x = 80
+y = 1270
+w = 1820
+
+[[free]]
+text = "Any value that came from the network is rendered with its age. ALWAYS.   \"$15\" is forbidden.   \"$15 · 3 days ago\" is required. Zerado's value is telling a player NOT to buy; a stale price shown as current is advice from memory."
+color = "err"
+x = 80
+y = 1330
+w = 1820

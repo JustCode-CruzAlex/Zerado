@@ -1,0 +1,161 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-05"
+title = "FLOW  ·  THE PROVIDER SEAM"
+subtitle = "a new store adds a provider and ZERO screens"
+width = 2060
+height = 1280
+
+[titleblock]
+dwg_title = "FLOW - THE PROVIDER SEAM"
+discipline = "ARCHITECTURE"
+sheet = "07 OF 08"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "Interface segregation makes physical copies first-class by construction. A screen never talks to a provider; a provider never talks to a screen. Between them sits the Store."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "steam"
+title = "steam"
+sublines = ["Provider + Syncer", "Sync ✓   Playtime ✓", "Credentials: api_key, steam_id"]
+color = "brand"
+shape = "rect"
+x = 100
+y = 220
+w = 400
+h = 190
+
+[[node]]
+id = "physical"
+title = "physical"
+sublines = ["Provider ONLY — not a Syncer", "Sync ✗   Playtime ✗", "its sync is a human typing"]
+color = "ok"
+shape = "rect"
+x = 100
+y = 470
+w = 400
+h = 190
+
+[[node]]
+id = "future"
+title = "playstation  ·  gog  ·  ea"
+sublines = ["later — and each adds", "ZERO screens, ZERO routes,", "ZERO schema changes"]
+color = "muted"
+shape = "rect"
+x = 100
+y = 720
+w = 400
+h = 190
+
+[[node]]
+id = "z02"
+title = "Z-02  CONNECT A STORE"
+sublines = ["the form is RENDERED FROM", "Capabilities().Credentials", "— it is not written per store"]
+color = "gold"
+shape = "rect"
+x = 660
+y = 130
+w = 440
+h = 190
+
+[[node]]
+id = "seam"
+title = "Provider  /  Syncer"
+sublines = [
+  "ID()  ·  Display()",
+  "Capabilities{ Sync, Playtime,",
+  "  LastPlayed, OwnedSince, Credentials }",
+  "Sync(ctx, cred) <-chan Item",
+]
+color = "gold"
+shape = "rect"
+x = 660
+y = 430
+w = 440
+h = 270
+
+[[node]]
+id = "store"
+title = "Store"
+sublines = ["THE ONLY WRITER", "one SQLite file", "every screen reads from here"]
+color = "brand"
+shape = "cyl"
+x = 1240
+y = 430
+w = 400
+h = 270
+
+[[node]]
+id = "screens"
+title = "every screen"
+sublines = ["reads ONLY", "renders no network response", "— ever"]
+color = "accent"
+shape = "rect"
+x = 1780
+y = 470
+w = 240
+h = 190
+
+[[edge]]
+from = "steam"
+to = "seam"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "physical"
+to = "seam"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "future"
+to = "seam"
+style = "dashed"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "seam"
+to = "z02"
+label = "renders the form"
+style = "solid"
+from_side = "t"
+to_side = "b"
+
+[[edge]]
+from = "seam"
+to = "store"
+label = "writes"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "store"
+to = "screens"
+label = "reads"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[free]]
+text = "A screen never talks to a provider. A provider never talks to a screen. Between them sits the Store — which is why the offline contract is STRUCTURAL rather than a feature that had to be added."
+color = "accent"
+x = 100
+y = 970
+w = 1900
+
+[[free]]
+text = "Everything downstream reads Capabilities, never ProviderID. An is_physical boolean would force every new feature to remember a special case — and eventually one would not."
+color = "ok"
+x = 100
+y = 1030
+w = 1900

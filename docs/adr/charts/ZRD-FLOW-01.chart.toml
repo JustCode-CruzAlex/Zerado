@@ -1,0 +1,178 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-01"
+title = "FLOW  ·  FIRST RUN  →  A LIBRARY"
+subtitle = "the cold path — and the one that still works with no network"
+width = 2060
+height = 1180
+
+[titleblock]
+dwg_title = "FLOW - FIRST RUN TO A LIBRARY"
+discipline = "ARCHITECTURE"
+sheet = "03 OF 08"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "How a player gets from an empty machine to a library. First run is a route, not a wizard that owns the session - every door lands on a normal screen."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "start"
+title = "zerado"
+color = "brand"
+shape = "ellipse"
+x = 80
+y = 470
+w = 230
+h = 130
+
+[[node]]
+id = "d1"
+title = "library empty AND no provider ever connected?"
+color = "gold"
+shape = "diamond"
+x = 380
+y = 420
+w = 320
+h = 240
+
+[[node]]
+id = "z01"
+title = "Z-01  FIRST RUN"
+sublines = ["three doors, no questions", "it collects nothing"]
+color = "accent"
+shape = "rect"
+x = 780
+y = 190
+w = 340
+h = 170
+
+[[node]]
+id = "z02"
+title = "Z-02  CONNECT A STORE"
+sublines = ["rendered from the provider descriptor", "REFUSES with no network — and says why"]
+color = "brand"
+shape = "rect"
+x = 1200
+y = 90
+w = 380
+h = 170
+
+[[node]]
+id = "z03"
+title = "Z-03  SYNC"
+sublines = ["streams · honest counts", "cancel leaves a valid PARTIAL"]
+color = "brand"
+shape = "rect"
+x = 1660
+y = 90
+w = 340
+h = 170
+
+[[node]]
+id = "z08"
+title = "Z-08  ADD A GAME BY HAND"
+sublines = ["works with the network off", "a physical copy is a first-class row"]
+color = "ok"
+shape = "rect"
+x = 1200
+y = 560
+w = 380
+h = 170
+
+[[node]]
+id = "z04"
+title = "Z-04  LIBRARY   ( ROOT )"
+sublines = ["can never be popped"]
+color = "accent"
+shape = "rect"
+x = 1660
+y = 420
+w = 340
+h = 170
+
+[[edge]]
+from = "start"
+to = "d1"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "d1"
+to = "z01"
+label = "yes"
+style = "solid"
+from_side = "t"
+to_side = "l"
+
+[[edge]]
+from = "d1"
+to = "z04"
+label = "no — straight to the library"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "z01"
+to = "z02"
+label = "connect"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "z01"
+to = "z08"
+label = "add by hand"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "z01"
+to = "z04"
+label = "look around"
+style = "dashed"
+from_side = "r"
+to_side = "t"
+
+[[edge]]
+from = "z02"
+to = "z03"
+style = "solid"
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "z03"
+to = "z04"
+label = "247 games. 6 finished."
+style = "solid"
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "z08"
+to = "z04"
+style = "solid"
+from_side = "r"
+to_side = "b"
+
+[[free]]
+text = "The condition is checked ONCE, at start-up, and never re-checked. A player who deletes every game does not get thrown back into first run — that would be the program telling them they had undone their own setup."
+color = "fg2"
+x = 80
+y = 830
+w = 1900
+
+[[free]]
+text = "With no network, two of the three doors still open. The closed one is SHOWN, disabled, with its reason — hiding it would make the player think Zerado cannot connect to stores at all."
+color = "ok"
+x = 80
+y = 890
+w = 1900

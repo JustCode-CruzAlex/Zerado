@@ -1,0 +1,206 @@
+schema_version = 1
+
+[chart]
+name = "ZRD-FLOW-04"
+title = "FLOW  ·  NAVIGATION"
+subtitle = "a route stack with one overlay slot — not tabs"
+width = 1980
+height = 1480
+
+[titleblock]
+dwg_title = "FLOW - NAVIGATION AND FOCUS"
+discipline = "ARCHITECTURE"
+sheet = "06 OF 08"
+dwg_no = "ADR-0001"
+rev = "A"
+date = "2026-08-25"
+status = "DRAFT"
+description = "The Phase 1 route graph. Z-04 Library is the root and can never be popped. At most one overlay. Pushing a route already on the stack unwinds to it."
+project = "Zerado"
+author = "fft-tui-architect"
+
+[[node]]
+id = "z06"
+title = "Z-06  SET STATUS"
+sublines = ["OVERLAY  ·  a ROUTE at Tiny", "two keystrokes, then gone"]
+color = "gold"
+shape = "rect"
+x = 800
+y = 210
+w = 400
+h = 160
+
+[[node]]
+id = "z03"
+title = "Z-03  SYNC"
+color = "brand"
+shape = "rect"
+x = 200
+y = 260
+w = 360
+h = 140
+
+[[node]]
+id = "z10"
+title = "Z-10  HELP & KEY MAP"
+color = "brand"
+shape = "rect"
+x = 1440
+y = 210
+w = 380
+h = 140
+
+[[node]]
+id = "z09"
+title = "Z-09  SETTINGS"
+color = "brand"
+shape = "rect"
+x = 200
+y = 530
+w = 360
+h = 140
+
+[[node]]
+id = "z04"
+title = "Z-04  LIBRARY"
+sublines = ["THE ROOT", "can never be popped"]
+color = "accent"
+shape = "rect"
+x = 800
+y = 500
+w = 400
+h = 200
+
+[[node]]
+id = "z05"
+title = "Z-05  GAME DETAIL"
+sublines = ["a ROUTE below 120 columns", "a PANE at 120 and above", "one view, two hosts"]
+color = "accent"
+shape = "rect"
+x = 1440
+y = 490
+w = 380
+h = 190
+
+[[node]]
+id = "z08"
+title = "Z-08  ADD BY HAND"
+color = "ok"
+shape = "rect"
+x = 200
+y = 790
+w = 360
+h = 140
+
+[[node]]
+id = "z07"
+title = "Z-07  FILTER & SEARCH"
+sublines = ["a MODE of Z-04, at every tier", "not a permanent region"]
+color = "gold"
+shape = "rect"
+x = 800
+y = 830
+w = 400
+h = 160
+
+[[node]]
+id = "z11"
+title = "Z-11  FATAL ERROR"
+sublines = ["FRAMELESS — plain text to stdout", "replaces everything, from anywhere", "there is no way back"]
+color = "err"
+shape = "rect"
+x = 1440
+y = 810
+w = 380
+h = 190
+
+[[edge]]
+from = "z04"
+to = "z06"
+label = "s"
+style = "solid"
+bidir = true
+from_side = "t"
+to_side = "b"
+
+[[edge]]
+from = "z04"
+to = "z07"
+label = "/"
+style = "solid"
+bidir = true
+from_side = "b"
+to_side = "t"
+
+[[edge]]
+from = "z04"
+to = "z05"
+label = "⏎   ·   Esc"
+style = "solid"
+bidir = true
+from_side = "r"
+to_side = "l"
+
+[[edge]]
+from = "z04"
+to = "z03"
+label = "r"
+style = "solid"
+bidir = true
+from_side = "l"
+to_side = "r"
+
+[[edge]]
+from = "z04"
+to = "z09"
+label = ","
+style = "solid"
+bidir = true
+from_side = "l"
+to_side = "r"
+
+[[edge]]
+from = "z04"
+to = "z08"
+label = "a"
+style = "solid"
+bidir = true
+from_side = "l"
+to_side = "r"
+
+[[edge]]
+from = "z04"
+to = "z10"
+label = "?"
+style = "solid"
+bidir = true
+from_side = "r"
+to_side = "l"
+
+[[free]]
+text = "Esc = back one level, everywhere. In a text input it blurs first and keeps what was typed. In filter mode the first Esc leaves the editor and KEEPS the filter; the second clears it — and the footer says so at the moment it matters."
+color = "fg2"
+x = 200
+y = 1060
+w = 1700
+
+[[free]]
+text = "q = quit, from anywhere, immediately. There is nothing to confirm: every mutation commits when it is made. A confirmation with nothing behind it teaches people to dismiss confirmations."
+color = "fg2"
+x = 200
+y = 1120
+w = 1700
+
+[[free]]
+text = ":  and  Ctrl-K  are RESERVED and UNBOUND in Phase 1, so the Phase 2 command palette can claim them without retraining anyone. Pressing either does nothing, and shows no error."
+color = "gold"
+x = 200
+y = 1180
+w = 1700
+
+[[free]]
+text = "Focus is carried by THREE channels and any two are enough: position (a ▌ marker in the left gutter), weight (bold), colour (amber). Under NO_COLOR the first two survive. The focus ring is never removed."
+color = "accent"
+x = 200
+y = 1240
+w = 1700
