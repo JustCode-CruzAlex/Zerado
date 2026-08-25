@@ -3,7 +3,7 @@ schema_version = 1
 [chart]
 name = "ZRD-FLOW-07"
 title = "FLOW  ·  THE AUDIO SUBSYSTEM"
-subtitle = "off by default · bundled, never streamed · silent on every failure"
+subtitle = "off by default · streamed radio, nothing bundled · silent on every failure"
 width = 2020
 height = 1500
 
@@ -15,7 +15,7 @@ dwg_no = "ADR-0001"
 rev = "A"
 date = "2026-08-25"
 status = "DRAFT"
-description = "Audio ships in Phase 1. It cannot fail, block or hang."
+description = "Audio ships in Phase 1: streamed radio, local FX. Cannot fail or block."
 project = "Zerado"
 author = "fft-tui-architect"
 
@@ -202,7 +202,7 @@ from_side = "r"
 to_side = "l"
 
 [[free]]
-text = "BUNDLED, NEVER STREAMED. No CDN, no fetch, no cache warm — so audio makes no network requests at all. That is what keeps three ratified promises intact, and it is why audio is WORKS in the offline contract rather than an exception to it."
+text = "STREAMED, NEVER BUNDLED. Music is internet radio the player chooses; nothing ships in the binary, so there is nothing to license. The two channels differ: interface FX are WORKS (local, always), radio NEEDS THE NETWORK and stops offline."
 color = "ok"
 x = 90
 y = 1260

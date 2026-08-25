@@ -43,14 +43,9 @@ Corpora disagree. When they do, this order decides, top wins, no discussion at t
 > becomes a defect to fix, not a source to follow.** Authority #1 is the *ratified promise set*,
 > not the page's current bytes. The 2026-08-25 amendment dropped affiliate links and the premium
 > tier; **`content/landing-copy.md` has not yet caught up** — §14 and §16 still disclose an
-> affiliate commission and a premium account (verified at source 2026-08-25). Design against the
-> amendment.
->
-> This one is worth escalating rather than absorbing: a stale money claim on a public page is not
-> a documentation lag, it is the page telling visitors the product earns a commission it has
-> decided not to earn. Owner: whoever holds the published copy. **Until it is corrected, the page
-> and the promise set disagree, and this brief follows the promise set.**
-
+> Zerado is **non-commercial**: free software, donation-supported, zero revenue. The published page
+> already says so — it was corrected in `524df22`, the same day the decision was taken. Design
+> against the amendment, not against a stale reading of the page.
 **The tiebreak when the order does not resolve it** is the brand manual's own (§1):
 *which option makes the product's own argument more clearly?* The argument is an expensive
 object from 1984 designed for 2030 — the DeLorean and KITT. Retro-**future**, never

@@ -21,7 +21,7 @@ Every contradiction the three deliverables found in each other, enumerated so th
 > too: it is **29**, not 25. The original figure double-counted two items and omitted the six the
 > design architect found.
 
-**48 findings: 29 from the cross-check, 6 from D7's theme gate (2 open upstream), 3 from auditing the checkers, 6 from the second review's stale-sweep pass and 4 from the third. 46 closed, 2 open upstream — and three round-F closures were RE-OPENED rather than silently re-closed, because they had fixed the instance and not the class.**
+**51 findings: 29 from the cross-check, 6 from D7's theme gate (2 open upstream), 3 from auditing the checkers, 6 · 4 · 3 from the second, third and fourth review rounds. 48 closed, 1 withdrawn, 2 open upstream — and three round-F closures were RE-OPENED rather than silently re-closed, because they had fixed the instance and not the class.**
 
 Two of them — #15 and #17 — were briefly marked *reopened* and *partial* after `fft-tui-designer`
 read this register against head and found it over-claiming. Both were then closed by commit
@@ -124,7 +124,7 @@ down instead. Each of these is a one-liner against a clean checkout.
 | **Section anchors** | The link check resolves **files, not anchors**, so `0 broken links` never covered a `§N` reference. For every inline link to a `.md` immediately followed by a section number, assert the target actually has that section → **331 refs · 0 dead** |
 | **Mockup HEIGHT and frame extent** | The width check cannot see a frame that is internally consistent but wrong **as a whole** — too few rows for its viewport, or a frame narrower than the terminal it claims. Count rows against declared `H` and frame width against declared `W`. **Four real defects survived the other checks through this gap.** The check must know **two conventions** or it reports false positives: a block's first line is a **ruler**, not a terminal row; and **`Z-11` is exempt** — in EXIT mode it has already left the alternate screen, so its message is allowed to outrun the window and scroll. A naive version of this check flagged three blocks, and all three were the conventions, not defects |
 | **Title-block overrun** | For each rendered SVG, find the `[titleblock].description` text run and the **cell** rules (short vertical lines inside the title band — *not* the cyanotype theme's full-height graticule) → the run ends before the next cell rule |
-| **Canon invariants** | The six statements in *"The check that would have caught all of them"* below. For each, a regex that must return **zero** hits across `docs/**/*.md` — with historical and negated forms rescued, and this register exempt because it quotes superseded claims deliberately. **This is the check that survives an amendment**, because it asserts what the bundle believes rather than where a word appears |
+| **Canon invariants** | The six statements in *"The check that would have caught all of them"* below. For each, a regex that must return **zero** hits across **`.md`, `.toml`, `.svg` and `.excalidraw`** in this bundle's own directories — with historical and negated forms rescued, and this register exempt because it quotes superseded claims deliberately. **The file types matter:** scoped to `.md` it could not see a chart spec or a rendered drawing, which is exactly how two residues survived |
 | **Charts are live, not stale exports** | Re-run `flowforge chart render` on all ten specs and diff the SVGs; the only permitted difference is the `RENDERED FROM` path prefix, which reflects the invocation directory |
 
 **The one number that was not reproducible has been retired.** An earlier PR body claimed *"82
@@ -224,6 +224,37 @@ an invariant catches what is *asserted* — everywhere, every time, without anyo
 **The distinction worth keeping:** a sweep asks *where did I say this word.* An invariant asks *does
 this bundle still believe something it has stopped believing.* Only the second survives the next
 amendment.
+
+---
+
+## H · Round four — the sweep cannot reach what the branch cannot see — 3
+
+| # | Finding | State |
+|---|---|---|
+| **49** | **The bundle's loudest founder escalation described a defect that had already been fixed.** §5 item 8 claimed — in the present tense, with a *"verified at source"* stamp — that the published page carried an affiliate disclosure and a premium promise, and ranked it above every other open item. **All three of its named sources refute it**: the page was corrected the same day in `524df22`. Two causes: this branch was cut from the initial commit so its tree held neither `docs/content/` nor `site/`, **and** I verified against the ForgePlay *authoring* copy outside the repository and treated it as the deployed page | **WITHDRAWN** |
+| **50** | **`ZRD-FLOW-07`, the audio drawing, still read *"BUNDLED, NEVER STREAMED… audio makes no network requests at all"*** — in the chart spec and all four rendered artifacts. **This is #47's class in a different drawing**, and the round-G canon check could not see it because it was scoped to `.md` | **CLOSED** |
+| **51** | **The ADR *record* still carried the revision-A title** — *"media-polymorphic core"*, asserting the pruned model and omitting D7–D9. The prose frontmatter was corrected; the machine-read record was not, and `flowforge chart draft` pulls its title from there | **CLOSED** |
+
+### What this round actually taught
+
+Round G's conclusion was that a **content invariant** beats a keyword sweep. That held — the
+invariant found two residues the review did not. But it was **scoped to `.md`**, so it was blind to
+a chart spec, four rendered artifacts and a `.toml` record. **The invariant was right and its glob
+was wrong**, which is the register's own recurring lesson wearing its fourth different hat: *ask
+what convention you are depending on.* A file-extension filter is a convention.
+
+**And the sharper half is #49, which no glob would have caught.** The claim was not stale — it was
+**never true from this tree**. The branch was cut from the initial commit, so the files it cited
+were not present to be read, and the "source" actually consulted was a different artifact in a
+different repository that happens to share a filename.
+
+> A source-verification stamp is worth exactly the care taken over **which source**. Mine named a
+> file I had never opened, and the escalation built on it was the most emphatic sentence in the
+> bundle.
+
+The mechanical fix is done — the base is merged in, so the files are readable and the next sweep can
+see what it claims to sweep. The habit that needs to survive is narrower and harder: **when a claim
+is about an artifact, name the artifact and read that one.**
 
 ---
 

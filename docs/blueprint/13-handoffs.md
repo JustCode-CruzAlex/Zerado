@@ -153,30 +153,38 @@ Collected here so the gate has them in one place.
 7. **The nine underived ANSI-256 indices.** `fft-brand-architect` derives them by nearest-neighbour
    search in CIELAB; four components ship an interim uncoloured rendering until then.
    *(Still open.)*
-8. **The published page currently makes a money claim the product has decided not to honour.**
-   `content/landing-copy.md` §16 carries an **affiliate disclosure** — *"`Zerado` earns a commission
-   when you buy a game through a price link on this page"* — and §11 and §14 promise *"a premium
-   account or a donation"*. Affiliate is dropped and premium is dropped. Both statements are live on
-   a public page.
+8. ~~**The published page makes a money claim the product has decided not to honour.**~~
+   **WITHDRAWN — the defect did not exist, and this item was the worst thing in this bundle.**
 
-   **This is not a documentation lag.** `fft-design-architect` put it better than my first phrasing
-   did, so it is recorded in its words:
+   It claimed, in the present tense and with an explicit *"verified at source 2026-08-25"* stamp,
+   that the page carried an affiliate disclosure and a premium-account promise. It escalated that
+   above every other open item, on the grounds that a published untrue statement about money cannot
+   queue.
 
-   > *a stale money claim on a public page is not a documentation lag, it is the page telling
-   > visitors the product earns a commission it has decided not to earn.*
+   **All three of its named sources refute it.** The page was corrected the *same day*, in `524df22`
+   (PR #3): Amendment 3 removed premium from §11 and §14, Amendment 4 replaced the affiliate
+   disclosure with *"Zerado is free software and earns no money. There is no commission on any link
+   on this page"*, and `Footer.astro`, `FAQ.astro` and `Community.astro` all ship that copy.
 
-   My earlier version of this item said the page *"contradicts the product"*, which is accurate and
-   far too comfortable — it reads as a sync chore that can queue behind other work. It cannot. A
-   consistency problem can wait; **a published untrue statement about money cannot**, and it is the
-   only item on this list that is currently visible to people outside the project.
+   **Two things went wrong, and the second is the one worth keeping.**
 
-   **It cannot be fixed inside this bundle.** That copy is ticket #1's surface. It needs whoever
-   owns the page, and it needs them before the affiliate decision is announced anywhere else.
+   The mechanical cause is that this branch was cut from the initial commit, so its tree held
+   neither `docs/content/` nor `site/`. The claim could not have been checked here. *(Fixed: the
+   base is merged in, and the files are now readable from this branch — the sweep can see what it
+   claims to sweep.)*
 
-   *(One knock-on, already handled: the page is authority #1 in the design brief's precedence rule,
-   so a design obeying the amendment contradicted authority #1 as written. The rule now reads that
-   authority #1 is the **ratified promise set**, not the page's current bytes, and a founder
-   amendment postdating the page governs.)*
+   The real cause is that **I verified against the wrong artifact entirely.** I read the ForgePlay
+   *authoring* copy outside this repository and treated it as the deployed page. Those are different
+   objects, and only one of them is published. A source-verification stamp is worth exactly the
+   care taken over *which source*, and mine named a file I had never opened.
+
+   This is register finding **#48**'s class — *"a stale flag outlived its repair … it reached the
+   founder as an open item directing a specialist at a defect that no longer existed"* — arriving
+   in the item the bundle shouted loudest about, one round after that class was marked closed.
+
+   **What survives, because it is right for reasons independent of the page's state:** authority #1
+   in the design brief's precedence rule is the **ratified promise set**, not the page's current
+   bytes, and a founder amendment postdating the page governs. That correction stands.
 
 9. ~~**Whether `film` and `series` are two media types**~~ — **moot.** Media types are pruned; the
    observation survives only as a note in [`11-media-model.md`](./11-media-model.md)'s Appendix —

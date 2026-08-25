@@ -39,7 +39,7 @@ off. The brand manual already said what it looks like.
 | | [`16-i18n.md`](./16-i18n.md) | **i18n from the first line** — no string literal in code, and the second language is one file |
 | | [`17-images.md`](./17-images.md) | **Cover art is foundational** — Kitty/Ghostty, with a supported degrade |
 | | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
-| | [`14-contradictions-closed.md`](./14-contradictions-closed.md) | The cross-check register — all 29 findings, enumerated |
+| | [`14-contradictions-closed.md`](./14-contradictions-closed.md) | The cross-check register — **all 48 findings**, enumerated; 46 closed, 2 open upstream |
 | **B · design** | [`../design/`](../design/) | The design system, the designer manual, and [the theme system](../design/05-theme-system.md) |
 | **C · screens** | [`../design/screens/`](../design/screens/) | **Twelve** implementation-ready specs — one per Phase 1 screen |
 
@@ -169,9 +169,9 @@ exists:
 ## The bundle checked itself
 
 The three deliverables were not written in isolation and then stapled together. Each specialist read
-the others' output and cross-checked it, and **29 contradictions were found and closed before this
-bundle was surfaced** — [enumerated one by one](./14-contradictions-closed.md), so the count is
-auditable rather than asserted — a stale row budget, a status bar in a forbidden row, refusal copy that named
+the others' output and cross-checked it, and **48 contradictions have been found — 46 closed, 2 open
+upstream** — [enumerated one by one](./14-contradictions-closed.md), so the count is auditable
+rather than asserted. Among them: a stale row budget, a status bar in a forbidden row, refusal copy that named
 a key which cannot fire, a warning glyph whose stated reason was factually wrong, an ASCII fallback
 that covered one column of a screen made of the same problem, and a decision about a player's own
 data that had simply never been made.
@@ -236,20 +236,21 @@ that has none.
    1.1° from `#9FB0C6` — **the exact blue-cast steel §4.4 rejected on the dark side.** The dark
    set's correction was never carried to paper. `fft-brand-architect` repairs it; until then no
    light theme ships, which is D7's gate doing its job.
-7. **The ΔE figures quoted throughout are the brand manual's measurements, not this bundle's.**
-   Every `ΔE` in these documents is quoted from `brand-manual.md` §4.4, which states the model
-   (Viénot, Brettel & Mollon 1999 + CIEDE2000) but **does not pin the model variant or the white
-   point** — so independent implementations do not land on the same digits, and three of them
-   did not: the manual's **11.9**, an independent reviewer's **12.07**, and this bundle's now-pinned
-   method's **11.81**. [`../design/05-theme-system.md`](../design/05-theme-system.md) §2.1 **pins
-   it** — matrices, D65, the linear-RGB clamp, CIEDE2000 with `kL=kC=kH=1` — because a validation
-   gate cannot rest on a method two implementations read differently. An independent
-   check of the rejected `#9FB0C6` reproduced **11.02** against the manual's **8.8**, and of the
-   shipping floor **12.07** against **11.9** (1.4%). The *load-bearing* claims reproduce: the
-   tightest pair really is `zerado × abandoned`, and the warm grey really does separate far better
-   than the blue-cast grey it replaced. **Pinning the variant and white point upstream is
-   `fft-brand-architect`'s job**, and until it is done these numbers should be read as the
-   manual's, not as independently verified.
+7. **The ΔE figures: the manual's are quoted, this bundle's are computed — and the method is pinned.**
+   `brand-manual.md` §4.4 states the model (Viénot, Brettel & Mollon 1999 + CIEDE2000) but **does
+   not pin the model variant or the white point**, so independent implementations do not land on the
+   same digits — three did not, for the same pair: the manual's **11.9**, a reviewer's **12.07**,
+   and this bundle's **11.81**. Where a figure is quoted from the manual, read it as the manual's.
+
+   **The theme system's figures are not quoted — they are computed here**, under the method
+   [`../design/05-theme-system.md`](../design/05-theme-system.md) §2.1 **pins**: matrices, D65 white
+   point, the linear-RGB clamp, CIEDE2000 with `kL=kC=kH=1`. That is why §2.1 exists, and **the
+   light-set failure rests on it rather than on the manual.** An independent reviewer reimplemented
+   the pinned method from scratch and reproduced the hue table to **0.01°** on all five rows, with
+   the ΔE digits moving only in the third significant figure — exactly the variance §2.1 predicts.
+   **Those figures should be read as measured, not discounted**, and pinning the variant upstream in
+   the manual itself remains `fft-brand-architect`'s.
+
 8. **The contrast claim is precise, and worth stating precisely.** It is *"AA on Zerado's own
    ground and on five measured popular terminal themes, with `NO_COLOR` as the unconditional
    fallback."* An unqualified "WCAG AA" would not be true on an arbitrary user-chosen theme, and
