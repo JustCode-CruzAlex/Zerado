@@ -2,8 +2,9 @@
 title: Zerado — Landing Page Design Blueprint
 discipline: DESIGN
 doc-no: ZRD-DESIGN-01
-rev: A
+rev: B
 date: 2026-08-24
+amended: 2026-08-25
 status: normative — the build implements this; the quality gate diffs against it
 machine-manifest: design/blueprint.tokens.json
 ---
@@ -31,6 +32,40 @@ wires:     content/landing-copy.md (rev A, "final — implement verbatim")
 head data: content/seo.md (title, meta description, canonical, OG, Twitter) — used verbatim
 sections:  16 present · 16 ratified · 0 added · 0 dropped · 0 reordered
 ```
+
+### 1.0 Amendment record
+
+§9 names the things the build may not change without coming back to this
+document. One of them changed. This is that return — the procedure, followed,
+rather than a silent edit to the clause that forbade it.
+
+#### Amendment 1 — 2026-08-25 · roadmap status · rev A → rev B
+
+**What changed.** §12's Phase 1 status marker moves from `Planned` to
+`In progress`. Phases 2, 3 and 4 are unchanged.
+
+**Authority.** Founder instruction, 2026-08-25, verbatim: *"we need to show
+Phase 1 'In progress'"*. Phase 1 work started that day, so the statement became
+true and the page was permitted to make it.
+
+**Clauses amended.** §2 (§12) — the ASCII spec and the "all four read Planned"
+condition. §8 — the co-render inventory. §9 item 5 — the change-control clause
+itself.
+
+**What did NOT change, and remains under §9.**
+
+- No phase may render a **done**-equivalent. `StatusMarker`'s type is
+  `'planned' | 'in-progress'`; there is no third value, and adding one is a
+  deliberate act requiring another amendment.
+- The roadmap stays **undated**.
+- Every mockup keeps its **visible caption**.
+- The status marker still co-renders **colour + glyph + label**, never colour
+  alone.
+
+**Enforcement.** `scripts/check-page.mjs` pins the exact sequence
+`['In progress', 'Planned', 'Planned', 'Planned']` and fails CI on any drift, in
+either direction. This document and that gate now agree; before this amendment
+they did not, which is the defect this record exists to close.
 
 ### 1.1 Section inventory — all sixteen, in the ratified order
 
@@ -315,8 +350,11 @@ H2 "Roadmap", intro line copy §12, then the **RoadmapTrack**.
   PHASE 1     PHASE 2     PHASE 3     PHASE 4     nodes 10px --z-steel rings
   CLI/TUI MVP Enrichment  Recommend…  Social…
   Your libr…  Covers, s…  What to b…  Sync, c…
-  ○ PLANNED   ○ PLANNED   ○ PLANNED   ○ PLANNED
+  ◐ IN PROG…  ○ PLANNED   ○ PLANNED   ○ PLANNED
 ```
+
+> Phase 1 reads `◐ IN PROGRESS` in `--z-state-in-progress` amber as of
+> **Amendment 1** (§1.0). It read `○ PLANNED` at rev A.
 
 | Band | Layout | Why |
 |---|---|---|
@@ -324,8 +362,10 @@ H2 "Roadmap", intro line copy §12, then the **RoadmapTrack**.
 | 768–1279 | **2 × 2 grid, reading order preserved left-to-right then down** | Measured: 4 across at 768 gives 168px per card, and "Recommendations" alone is 132px at 15px — the cards cramp. 2×2 keeps left-to-right time order (the whole reason the outline chose horizontal) without cramping. |
 | <768 | Vertical list, rail rotated to a left-hand vertical spine | The ratified fallback, verbatim: "stacking to a vertical list on narrow screens". |
 
-- **All four statuses read `Planned`. None is marked done.** Copy §12 says so and the outline
-  makes it the honesty condition of the whole page.
+- **Phase 1 reads `In progress`; phases 2–4 read `Planned`. None is marked done** — and no
+  done-equivalent status exists to mark one with. Copy §12 says so and the outline makes it the
+  honesty condition of the whole page. Amended 2026-08-25 (§1.0, Amendment 1); at rev A all four
+  read `Planned`.
 - **No dates render** — decisions.md leaves dates open and the fallback is undated.
 - **The status marker is built so that changing one phase is a token change, not a redesign.**
   `StatusMarker` consumes exactly four component tokens:
@@ -1133,8 +1173,10 @@ in every model. This page adds no new meaning-bearing colour, so that verificati
 
 **No information on this page is conveyed by colour alone.** Every state carries colour + glyph +
 label; the `PHYSICAL` tag carries colour + `▣` + word; the roadmap status carries colour + `○` +
-`PLANNED`; the live-vs-planned store rows carry colour + `◉`/`○` + position under a labelled
-heading. Under `forced-colors: active` the page surrenders colour to the OS and stays fully
+`PLANNED` or colour + `◐` + `IN PROGRESS` (§1.0, Amendment 1); the store rows carry colour +
+`◉`/`○` + a per-row status word exposed to assistive technology — position under a labelled
+heading is **not** sufficient, because the glyph is `aria-hidden` and a screen reader would
+otherwise hear four identical rows. Under `forced-colors: active` the page surrenders colour to the OS and stays fully
 readable: glyph and label carry everything, and terminal frames keep a 1px border so they do not
 dissolve into the background.
 
@@ -1205,6 +1247,9 @@ re-derives them:
 3. The four breakpoints — 375 / 768 / 1280 / 1920.
 4. The rule that every mockup carries a **visible** caption naming it a mockup.
 5. The absence of real game cover art, of a donate/sponsor control, of the community-source name banned by ratified decision Q4 (that name is deliberately not written anywhere in this repository — see `docs/REDACTIONS.md`), and of
-   any roadmap status other than `Planned`.
+   any roadmap status other than `Planned` or `In progress` — and **never** a done-equivalent
+   (`Done`, `Complete`, `Shipped`, `Released`, `Live`) on any phase, whatever its state.
+   `In progress` was added by **Amendment 1** (§1.0); at rev A only `Planned` was permitted.
+   Adding a further status means another amendment, not an edit to this line.
 6. The focus ring, on any element, in any state.
 7. The reduced-motion behaviour of the scanner: **parks, never hides.**

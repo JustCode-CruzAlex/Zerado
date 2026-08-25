@@ -37,11 +37,19 @@ case "${1:-deploy}" in
     ssh "$REMOTE" bash -euo pipefail <<ROLLBACK
       cd "${ROOT}/releases"
       current=\$(basename "\$(readlink "${ROOT}/current")")
-      previous=\$(ls -1 | sort | grep -v "^\${current}\$" | tail -1)
-      [ -n "\$previous" ] || { echo "No previous release to roll back to."; exit 1; }
+      # Strictly OLDER than current, so repeated rollbacks WALK BACK through
+      # history. Selecting "newest that isn't current" would toggle: after
+      # R3 -> R2, the newest non-current is R3 again, and a second rollback
+      # would roll forward into the release you were escaping.
+      # Release names are UTC timestamps, so lexicographic order is chronological.
+      previous=\$(ls -1 | sort | awk -v c="\$current" '\$0 < c' | tail -1)
+      [ -n "\$previous" ] || { echo "No release older than \$current to roll back to."; exit 1; }
+      # Validate BEFORE switching: never leave a box pointing at a new release
+      # with a config that will not load.
+      nginx -t
       ln -sfn "${ROOT}/releases/\$previous" "${ROOT}/current.tmp"
       mv -Tf "${ROOT}/current.tmp" "${ROOT}/current"
-      nginx -t && systemctl reload nginx
+      systemctl reload nginx
       echo "Rolled back: \$current -> \$previous"
 ROLLBACK
     exit 0
@@ -73,9 +81,12 @@ rsync -az --delete --chmod=D755,F644 site/dist/ "${REMOTE}:${ROOT}/releases/${RE
 say "Switching current -> ${RELEASE}"
 ssh "$REMOTE" bash -euo pipefail <<SWITCH
   test -f "${ROOT}/releases/${RELEASE}/index.html" || { echo "Upload incomplete — refusing to switch."; exit 1; }
+  # Validate BEFORE the switch. Under `set -e` a failing `nginx -t` after the
+  # symlink move would abort with the new release already live and the reload
+  # never issued — a state the atomicity below is supposed to make impossible.
+  nginx -t
   ln -sfn "${ROOT}/releases/${RELEASE}" "${ROOT}/current.tmp"
   mv -Tf "${ROOT}/current.tmp" "${ROOT}/current"
-  nginx -t
   systemctl reload nginx
   cd "${ROOT}/releases"
   ls -1 | sort -r | tail -n +$((KEEP + 1)) | xargs -r rm -rf

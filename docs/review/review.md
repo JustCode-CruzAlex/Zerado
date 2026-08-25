@@ -150,6 +150,24 @@ The part I want to credit specifically is that the feeling was **carried elsewhe
 
 ## 8. Still required from you before this goes live
 
+> **Addendum, 2026-08-25 — items 1 and 2 have moved since this review was written.**
+> This section is left exactly as it was recorded at rev A; a review verdict is
+> evidence and is not edited after the fact. What follows is what happened next.
+>
+> - **Item 1 is resolved, in the opposite direction to the one this review
+>   assumed.** It read the tension as an *undersell* and expected it to close by
+>   marking Phase 1 complete. The founder confirmed on 2026-08-25 that nothing is
+>   built — no TUI, no Go code — so it closed the other way: Phase 1 now reads
+>   *In progress* (not done), and §06/§14's *"Steam is built and works" /
+>   "Steam syncs today"* moved to the future tense, because with no Go code they
+>   were false rather than merely in tension. See `docs/REDACTIONS.md` §3 and
+>   `design/blueprint.md` §1.0, Amendment 1.
+> - **Item 2 is unchanged:** the roadmap is still undated, and whether it carries
+>   dates is still unanswered.
+> - **Item 3 is unchanged:** every mockup still carries its visible caption.
+>
+> The counts and the verdict above are untouched.
+
 These are the same three open values recorded in `decisions.md`. The page currently renders the honest fallback for each, so it is **publishable as-is** — none of these is a launch blocker, but each one currently costs you a little credibility.
 
 1. **Which phase is honestly done today.** All four phases read *"Planned"* — including Phase 1, even though §14 states *"Steam is built and works."* That is an internal tension a careful reader will notice: the FAQ says something works, the roadmap says nothing is started. The fallback is the *honest* choice given no answer, but it undersells you. `blueprint.tokens.json` records `statusChangeIsTokenOnly: true`, so marking a phase complete is a token swap, not a rebuild.

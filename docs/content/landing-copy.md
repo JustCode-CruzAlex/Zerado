@@ -21,8 +21,10 @@ lowercase `zerado`; the in-app status, in prose, is lowercase and *italicised on
 appearance on the page* — that first appearance is in §05, below — and plain lowercase after.
 
 No dates, no version numbers, no download links, no prices, no user counts, no testimonials
-appear anywhere in this document. The roadmap (§12) marks every phase **Planned**. Nothing is
-downloadable yet — the CTA is a waitlist, everywhere it appears.
+appear anywhere in this document. The roadmap (§12) marks Phase 1 **In progress** and phases 2–4
+**Planned**; no phase is marked done, and no done-equivalent status exists (amended 2026-08-25 —
+see §12; at rev A all four read *Planned*). Nothing is downloadable yet — the CTA is a waitlist,
+everywhere it appears.
 
 ---
 
@@ -138,8 +140,13 @@ one."
 **Heading:** One collection, everything you own
 
 **Connected stores:**
-> Steam syncs today — your library, playtime and status, kept current on its own. PlayStation,
-> GOG and EA are planned next: connect an account, see it in the same list.
+> Steam is what Phase 1 builds — your library, playtime and status, kept current on its own.
+> PlayStation, GOG and EA come after: connect an account, see it in the same list.
+
+*(Amended 2026-08-25. At rev A this read "Steam syncs today —…" and the Steam store row
+rendered `status="live"`. No Go code exists, so the present tense was a false capability
+claim — the exact thing this repository's own review bar forbids. Tense only; nothing else
+in §06 changed. Reverting is a one-line change the day Steam sync ships.)*
 
 **The physical shelf:**
 > Add the discs and cartridges next to your desk by hand — title, platform, done. Each one
@@ -316,8 +323,12 @@ and has not been answered.)*
 > `Zerado`-run server, because there isn't one.
 
 **Q: Which stores work today, and which are later?**
-> Steam is built and works. PlayStation, GOG and EA are planned, not yet built. Physical discs
-> and cartridges are entered by hand from day one — no store integration required for those.
+> None of them yet — nothing is runnable. Steam is what Phase 1 builds; PlayStation, GOG and EA
+> follow. Physical discs and cartridges will be entered by hand from day one — no store
+> integration required for those.
+
+*(Amended 2026-08-25. At rev A this read "Steam is built and works." — false, and the same
+claim as §06. Tense only.)*
 
 **Q: Can I run my own server?**
 > There's no server to run. `Zerado` is local-first: it reads your library and stores the

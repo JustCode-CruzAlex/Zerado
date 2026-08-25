@@ -127,6 +127,39 @@ check('the roadmap renders no dates', 'undated, ordered phases', () => {
   return [hits.length === 0, hits.join(', ') || 'none'];
 });
 
+// --- capability honesty -----------------------------------------------------
+// The gap that let a false present-tense claim survive two review rounds inside
+// a green suite: nothing asserted on what the page says *works*. Zerado has no
+// Go code, so nothing on this page may claim, in the present tense, that a
+// capability exists. Each entry flips only when the thing actually ships.
+const PRESENT_TENSE_CLAIMS = [
+  /\bis built and works\b/i,
+  /\bsyncs today\b/i,
+  /\bworks today\b/i,
+  /\bavailable (now|today)\b/i,
+  /\bdownload (it |the )?(now|today)\b/i,
+  /\byou can install\b/i
+];
+
+check('no present-tense capability claim', 'nothing dishonest ships', () => {
+  const visible = html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, ' ');
+  const hits = PRESENT_TENSE_CLAIMS.map(re => visible.match(re)?.[0]).filter(Boolean);
+  return [hits.length === 0, hits.join(', ') || 'none'];
+});
+
+check('no store row claims to be live', 'no store syncs until Phase 1 ships', () => {
+  const live = (html.match(/z-store-row--live/g) ?? []).length;
+  return [live === 0, `${live} live row(s)`];
+});
+
+check('every store row exposes its status to assistive technology', 'the co-render rule', () => {
+  const rows = [...html.matchAll(/<div class="z-store-row z-store-row--([a-z]+)"[^>]*>([\s\S]*?)<\/div>/g)];
+  // The glyph is aria-hidden, so colour would otherwise be the only signal.
+  const bare = rows.filter(r => !/z-visually-hidden/.test(r[2]));
+  return [rows.length > 0 && bare.length === 0,
+    `${rows.length} row(s), ${bare.length} with no accessible status word`];
+});
+
 // --- report --------------------------------------------------------------
 let failed = 0;
 for (const r of results) {
