@@ -91,6 +91,7 @@ Titles and levels were read from the W3C Recommendation on 2026-08-25.
 
 | SC | Title | Level | What it means on a Zerado screen |
 |---|---|---|---|
+| **1.1.1** | Non-text Content | A | **Live since cover art became Phase 1 (D8)** — until then Zerado rendered no non-text content at all, so this SC was genuinely inapplicable. That was a fact about the product, and it changed. **Cover tiles:** the text alternative is the **tile caption**, and the caption does two jobs — it is the alternative for a player using a screen reader, **and** it is the entire content for a player on a terminal with no image protocol. One string, both jobs, which is exactly why it must be the real game title and never decorative. **Glyphs:** a TTY has no `alt`, so the alternative is the **label beside the glyph** — the third leg of co-render, and why the label may not be dropped for density. |
 | **1.4.1** | Use of Color | A | **This SC *is* the co-render rule.** Colour is never the only channel. Every state carries colour **and** glyph **and** label. Non-negotiable, already ratified (brand §4.3). |
 | **1.4.2** | Audio Control | A | **Live since audio was added to Phase 1.** Verified at source: *if any audio plays automatically for more than 3 seconds, either a mechanism is available to pause or stop it, or a mechanism is available to control its volume independently from system volume.* Satisfied structurally — see `01-design-system.md` §15.6. |
 | **1.4.3** | Contrast (Minimum) | AA | 4.5:1 for text. Every state colour clears it on `--z-surface` (7.21 worst — abandoned) and on the five popular themes brand §5.3 measured. **Honest caveat in §3.4.** |
@@ -118,7 +119,6 @@ Titles and levels were read from the W3C Recommendation on 2026-08-25.
 
 | SC | Title | Level | The honest terminal analogue |
 |---|---|---|---|
-| **1.1.1** | Non-text Content | A | Glyphs are non-text content, but a TTY has no `alt`. The text alternative is the **label sitting beside the glyph** — the third leg of co-render. This is the mechanism, and it is why the label may not be dropped for density. |
 | **1.3.1** | Info and Relationships | A | There is no programmatic structure to expose. Structure must be carried by *visible* means — position, box drawing, spacing, readout labels — because that is all there is. |
 | **1.4.4** | Resize Text | AA | The user resizes by changing their terminal font. Zerado must never assume a cell size and must re-render correctly on `SIGWINCH`. |
 | **1.4.10** | Reflow | AA | The 320 CSS px rule does not map. The intent — no loss of content or function on reflow — maps exactly onto the five-tier system and the documented refusal floor. |
@@ -133,10 +133,10 @@ Titles and levels were read from the W3C Recommendation on 2026-08-25.
 
 | SC / group | Why it does not apply |
 |---|---|
-| **1.2.1 – 1.2.9** (time-based media) | No video, and no speech or informational audio. Phase 1 audio is **non-informational by design** — §15.1 of the design system forbids sound from ever being the only carrier of information — so there is no time-based media whose information needs an alternative. **1.4.2 Audio Control is a different matter and does apply: it has moved to §3.1.** |
+| **1.2.1 – 1.2.9** (time-based media) | Zerado now has media — cover art, Phase 1 — but **no *time-based* media**: no video, and no speech or informational audio. Phase 1 audio is **non-informational by design** (§15.1 of the design system forbids sound from ever being the only carrier of information), so nothing time-based carries information that would need an alternative. The distinction matters now that images exist: these SCs are out of scope because the media is **not time-based**, not because there is none. **1.4.2 Audio Control is a different matter and does apply: it has moved to §3.1.** |
 | **1.3.4** Orientation | A terminal has no orientation lock. |
 | **1.3.5** Identify Input Purpose | No autocomplete metadata exists; the fields are a Steam key and a Steam ID, neither of which is a listed input purpose. |
-| **1.4.5 / 1.4.9** Images of Text | No images. Cover art arrives in Phase 2 and is art, not text. |
+| **1.4.5 / 1.4.9** Images of Text | Zerado renders images from **Phase 1** (cover art, D8) — but **no images *of text***. Cover art is artwork, and a game's title is always real text in the caption beside it, never baked into the picture. Inapplicable because of what the images *are*, not because there are none. |
 | **1.4.12** Text Spacing | The SC is **scoped in its own text** to *"content implemented using markup languages that support the following text style properties."* A character grid supports none of them. **Inapplicable as written** — not "waived". The residual duty is 1.4.4's: honour whatever font and line height the user has set. |
 | **2.5.1 – 2.5.8** (pointer, gestures, dragging, target size) | No pointer. **2.5.8 Target Size (Minimum) — 24 × 24 CSS px, AA — becomes live in Phase 4** and is carried in `04-terminal-to-phone-bridge.md`. |
 | **3.1.1** Language of Page | No markup in which to declare it. |
@@ -406,6 +406,10 @@ applicable lines pass, evidenced by a rendered artifact rather than a claim.
 **Colour, state and accessibility**
 12. Every state renders **colour and glyph and label** — all three, every row, every tier
     (1.4.1 · R-6).
+    - **Every cover tile carries its caption**, and the caption is the real game title, never
+      decorative (**1.1.1**). It is simultaneously the alternative for a screen reader and the
+      entire content on a terminal with no image protocol — a missing or decorative caption
+      fails both readers at once.
 13. `NO_COLOR` emits **zero** SGR sequences and the screen remains fully unambiguous.
 14. The screen is correct at the **16-colour floor**, where `--z-surface` and
     `--z-surface-raised` both collapse to `black` — so **no region is separated by fill**.

@@ -146,11 +146,31 @@ path, not the exceptional one.
 > **Governance flag.** Brand manual §9 lists the cross-surface invariants as *the four states,
 > amber-common/cyan-earned, the scanner as the only signature motion, the voice, and dark by
 > default.* **Audio is not in that list** — brand rev A is dated 2026-08-24 and the audio
-> decision is 2026-08-25, so §9 predates it. This section is the working invariant until the
-> manual catches up; **§9 should gain audio as a sixth invariant** via the brand governance
-> procedure (owner: `fft-brand-architect`). Recorded rather than assumed, because a bridge
-> document quietly extending the brand's own invariant list is exactly the drift §9 exists to
-> prevent.
+> decision is 2026-08-25, so §9 predates it. **The caption rule below (§2.8) is a second such
+> gap**, for the same reason: cover art became Phase 1 after rev A was written, so §9 could not
+> have listed it either. These two sections are the working invariants until the manual catches
+> up; **§9 should gain audio as a sixth and the caption rule as a seventh** via the brand
+> governance procedure (owner: `fft-brand-architect`). Recorded rather than assumed, because a
+> bridge document quietly extending the brand's own invariant list is exactly the drift §9 exists
+> to prevent.
+
+### 2.8 · A caption is always a real title, never decorative
+
+Non-text content carries a text alternative on every surface — WCAG **1.1.1**, live since cover
+art became Phase 1. The caption beside a cover tile is **the game's real title**, never a
+decorative flourish, never a truncated slug, never absent.
+
+**Why this is an invariant and not a terminal implementation detail.** In the terminal the
+caption does two jobs at once: it is the alternative for a player using a screen reader, **and**
+on a terminal with no image protocol it is *the entire content of the tile*. That second job is
+what makes it obviously load-bearing — and **that job does not exist on a phone**, because there
+is no phone that cannot draw an image (§3).
+
+So the phone inherits **the rule without the reason.** A designer who only ever sees the phone
+will find a caption sitting under an image that always renders, conclude it is redundant, and
+optimise it away — at which point screen-reader users lose the only text there was. **A rule
+whose justification does not travel is exactly the kind that gets deleted by someone acting in
+good faith.** It is recorded here, at invariant level, so it survives that reasoning.
 
 ---
 
@@ -174,6 +194,7 @@ the brand entirely.
 | **The 24-column / 8-row refusal floor** | No phone is too narrow. | Not carried. |
 | **`ZERADO_NO_AUDIO`** | An environment variable with no phone equivalent. | The platform's own controls: the iOS silent switch, system volume, per-app audio settings — plus Zerado's own in-app opt-in and per-channel mutes, which carry unchanged. |
 | **"No device, so silence"** | A phone always has an audio device. | The equivalent condition is *muted, in a pocket, or on a call.* The response is identical and is the point of §2.7.3: **silence loses no information.** |
+| **The image-capability degrade** — a terminal that cannot draw, where the **caption is the entire content** | **There is no phone that cannot draw an image.** The condition simply does not exist on the platform. | No analogue, and none is needed. **But the rule the condition justifies still applies — see §2.8.** This is the one place in this document where a rule travels and its reason does not, which is precisely why the rule is written as an invariant rather than left to be re-derived from a constraint the phone never meets. |
 
 ---
 
@@ -198,7 +219,7 @@ the brand entirely.
 | **System volume model** | Use it. The phone has an OS volume model and per-app audio settings the terminal does not; Zerado's own per-channel volumes sit *underneath* it, never override it. |
 | **Silent switch / Do Not Disturb** | **Must be honoured.** Zerado's audio is never essential, so it uses an ambient-class audio session that the silent switch silences. Never a playback/priority class that overrides it. |
 | **Background audio conventions** | Zerado's audio is **foreground-only.** No background audio entitlement, no lock-screen transport controls, no now-playing metadata — Zerado is not a music player and must not present as one. |
-| **Cover art** | Phase 2 metadata is a first-class visual on a phone in a way it never is in a terminal. |
+| **Cover art** | Cover art is **first-class on both surfaces** from Phase 1 — what differs is **scale and the fallback path**, a difference of degree rather than of kind. A phone has pixels and no protocol question: tiles are drawn, sized to the layout, and always render. A terminal has a **capability axis** — Kitty and iTerm2 draw the image; everything else takes the designed text degrade. So the phone may show larger art, more of it, and at any aspect it likes; what it may **not** do is assume the caption is optional because its own art always renders (§3). |
 
 ### 4.2 · One codebase must not mean one look
 
@@ -461,9 +482,12 @@ than carrying the interim assignment indefinitely. The trigger is real work, not
    codebase. Confirm the reading that the app **adapts per platform** — Cupertino on iOS,
    Material 3 on Android — with the identity layer identical across both. The alternative, one
    uniform look on both platforms, would be cheaper and would strain the published promise.
-4. **Brand §9's invariant list is now incomplete (§2.7).** It predates the audio decision by one
-   day and lists five invariants; audio is a sixth. Confirm `fft-brand-architect` updates §9
-   through the governance procedure, so the manual and this bridge do not diverge.
+4. **Brand §9's invariant list is now incomplete by two (§2.7, §2.8).** Rev A lists five
+   cross-surface invariants and predates both later decisions: **audio is a sixth** (2026-08-25)
+   and **the caption rule a seventh** (cover art moving to Phase 1). Both are recorded here as
+   working invariants. Confirm `fft-brand-architect` folds them into §9 through the governance
+   procedure, so the manual and this bridge stop diverging — two gaps in one week is a rate worth
+   noticing, not just a pair of items to close.
 5. **The glyph substitution rule (§5).** It permits a redraw and forbids a resymbolisation.
    Confirm that the four marks must stay one ring family on the phone — no checkmark for
    *zerado*, however conventional that would be on a mobile list.

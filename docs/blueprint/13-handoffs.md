@@ -131,10 +131,24 @@ Collected here so the gate has them in one place.
    that. But the sentence names Steam and price data specifically, it is **published**, and a radio
    stream uses **no key of the player's**. The reading is sound and it is not mine to ratify.
    *(Raised by `fft-tui-designer`.)*
-6. **Brand manual §9's invariant list is incomplete.** §9 names five invariants carrying identity
-   across web, terminal and phone. **Audio is a sixth**, and the manual predates it.
-   `fft-brand-architect` should add it through the §10 governance procedure — token and manual in
-   the same commit. *(Still open.)*
+6. **Brand manual §9's invariant list is incomplete by two — and the rate is the finding.**
+   §9 names five invariants carrying identity across web, terminal and phone. There are now
+   **seven**: **audio** (the sound register, opt-in posture, and never-the-sole-carrier rule) and
+   **the caption rule** (a caption under a cover is always the real title, never decorative).
+
+   Both gaps arrived by the **same mechanism** — a product decision landing after rev A froze — and
+   both arrived **within one week**. That is worth seeing as a rate rather than as two tickets: §9
+   is currently drifting faster than it is being maintained, and the next amendment will do it
+   again unless the governance loop is tightened.
+
+   The caption rule is the one most at risk, because **its reason does not travel between
+   surfaces.** There is no phone that cannot draw an image, so a designer who only ever sees the
+   phone finds a caption under art that always renders, concludes it is redundant, and removes it —
+   in good faith. `fft-design-architect` recorded the rule in §2 of the bridge (where invariants
+   live, so it carries) and its non-transferring reason in §3 (what cannot translate), deliberately
+   in different sections.
+
+   `fft-brand-architect` closes both through the §10 governance procedure. *(Still open.)*
 7. **The nine underived ANSI-256 indices.** `fft-brand-architect` derives them by nearest-neighbour
    search in CIELAB; four components ship an interim uncoloured rendering until then.
    *(Still open.)*
