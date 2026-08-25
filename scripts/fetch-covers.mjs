@@ -23,8 +23,8 @@
  * site/package-lock.json. Nothing new enters the dependency tree for this.
  */
 import { createRequire } from 'node:module';
-import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync } from 'node:fs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const require = createRequire(new URL('../site/package.json', import.meta.url));
 
@@ -39,7 +39,7 @@ const HEIGHT = 480;
 
 /** Parse the row table straight out of the TypeScript so there is exactly one
  *  list of the twelve and this script cannot drift from what the page renders. */
-async function rows() {
+export async function rows() {
   const src = await import('node:fs').then((fs) =>
     fs.readFileSync(fileURLToPath(new URL('site/src/data/coverGrid.ts', ROOT)), 'utf8')
   );
@@ -87,6 +87,33 @@ const yearOf = (g) =>
   g.first_release_date ? new Date(g.first_release_date * 1000).getUTCFullYear() : null;
 
 /**
+ * Two titles are the same title, in the typographic sense.
+ *
+ * This is NOT a fuzzy comparison — it is still exact equality, taken over the
+ * text rather than over one particular way of encoding it. `coverGrid.ts`
+ * spells row 10 “Baldur’s Gate II” with a typographic apostrophe (U+2019),
+ * because that is how the name is set on the page; IGDB stores it with an
+ * ASCII apostrophe. Byte equality therefore called them different games,
+ * dropped to the unnamed pool, matched the base game AND the Collectors'
+ * Edition on year, and correctly refused rather than guess between them.
+ *
+ * Folding the curly quotes to their ASCII forms (and NFC-normalising first, so
+ * a decomposed accent equals its precomposed twin) removes that one false
+ * distinction and nothing else: "Dead Space" still does not equal "Dead Space
+ * Remake", and the release-year pin below is untouched.
+ */
+function sameName(a, b) {
+  const norm = (s) =>
+    s
+      .normalize('NFC')
+      .replace(/[‘’ʼ]/g, "'")
+      .replace(/[“”]/g, '"')
+      .toLowerCase()
+      .trim();
+  return norm(a) === norm(b);
+}
+
+/**
  * Deterministic match, and it refuses rather than guesses.
  *
  * A fuzzy "closest result wins" is how a page ends up quietly showing the 2023
@@ -95,10 +122,8 @@ const yearOf = (g) =>
  * not land on exactly one game the row is REPORTED and skipped — it renders its
  * art-directed tile and a human pins the id. A wrong cover is worse than none.
  */
-function pick(results, row) {
-  const named = results.filter(
-    (g) => g.name && g.name.toLowerCase() === row.searchName.toLowerCase()
-  );
+export function pick(results, row) {
+  const named = results.filter((g) => g.name && sameName(g.name, row.searchName));
   const pool = named.length ? named : results;
   const dated = pool.filter((g) => yearOf(g) === row.releaseYear);
   if (dated.length === 1) return dated[0];
@@ -201,6 +226,38 @@ async function main() {
     console.log(`✓ ${row.slug}  ← ${game.name} [${yearOf(game)}]  ${game.cover.image_id}`);
   }
 
+  // Carry forward the rows this run did NOT resolve but whose files are still
+  // on disk.
+  //
+  // `provenance.covers` starts empty every run and only rows that resolve are
+  // pushed, while a failed row's previously-downloaded files are left exactly
+  // where they are — the script tells you to "pin them by hand" rather than
+  // loosening the match, which means living with a partial run. Writing the
+  // fresh list unconditionally therefore DROPPED those rows from the legal
+  // record while their covers stayed shipped, breaking the one invariant §8 of
+  // the licence finding states: every file under site/public/covers/ appears
+  // here. The record has to describe what is shipped, not what this particular
+  // run happened to re-download.
+  const resolved = new Set(provenance.covers.map((c) => c.slug));
+  let carried = 0;
+  if (existsSync(fileURLToPath(PROVENANCE))) {
+    try {
+      const prior = JSON.parse(readFileSync(fileURLToPath(PROVENANCE), 'utf8'));
+      for (const c of prior.covers ?? []) {
+        if (resolved.has(c.slug)) continue;
+        if (!existsSync(fileURLToPath(new URL(`${c.slug}.jpg`, OUT_DIR)))) continue;
+        provenance.covers.push(c);
+        carried++;
+      }
+    } catch {
+      // An unreadable prior record must not take the fresh one down with it.
+      console.error('! existing cover-provenance.json could not be parsed — not carried forward');
+    }
+  }
+  if (carried) {
+    console.log(`↻ ${carried} row(s) carried forward from the previous record (files still shipped)`);
+  }
+
   provenance.covers.sort((a, b) => a.slug.localeCompare(b.slug));
   writeFileSync(fileURLToPath(PROVENANCE), `${JSON.stringify(provenance, null, 2)}\n`);
 
@@ -216,4 +273,10 @@ async function main() {
   }
 }
 
-await main();
+// Runs only when invoked as a command. `pick` and `rows` are exported so
+// `scripts/fetch-covers.test.mjs` can exercise the match rule without a
+// network, credentials, or writing a file — the match rule is the part of this
+// script that can silently put the wrong cover on the page.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  await main();
+}
