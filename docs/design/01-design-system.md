@@ -98,10 +98,22 @@ in rendering, and it is four rules:
    | Scanner track / pip | `─` / `━` | `-` / `=` |
    | Determinate bar fill / track | `━` / `─` | `=` / `-` |
    | Breadcrumb separator | `✦` | `>` |
-   | Audio annunciator | `▮` / `▯` | `[*]` / `[ ]` |
+   | Audio annunciator | `▮` / `▯` | **no glyph — the label alone** (`AUDIO` / `MUTED`) |
    | Truncation marker | `…` | `...` (rule 3) |
 
    Mirrored from `docs/blueprint/03-responsive.md` §5c, which is the authority for this mapping.
+
+   > **Why the audio annunciator drops its glyph instead of taking an ASCII pair.** An earlier
+   > version of the mapping sent `▮`/`▯` to `[*]`/`[ ]` — which collide with the state column's
+   > `[*]` *zerado* and `[ ]` *not started*. The labels differ (`AUDIO` against `ZERADO`), so it
+   > was confusability rather than ambiguity and co-render still held. It was fixed anyway,
+   > because confusability on the most-used screen is what this bundle rejects everywhere else.
+   >
+   > The cheap answer is not a second glyph pair. **The annunciator already carries a label word**,
+   > so the glyph is its third channel and the label is unambiguous standing alone — dropping it
+   > costs nothing. This is the precedent the **degrade banner** already set (§12.4), where the
+   > label word was chosen over a glyph for exactly this reason. `#`/`-` would have worked, but it
+   > adds a token to learn in order to say what the word already says.
 
    > **Why the frame needs it as much as the state column does — and why "internally consistent"
    > was not a sufficient answer.** An earlier draft of this section argued that box drawing
@@ -679,6 +691,10 @@ The filled/hollow pair carries the state without colour, so the indicator surviv
 and the 16-colour floor unaided — the same mechanism as `◉` against `○`. Glyph choice and the
 rejected `♪` are recorded in §1.2.
 
+**Under `ZERADO_ASCII=1` the glyph is dropped and the label renders alone** — `AUDIO` / `MUTED`,
+with no bracketed substitute (§1.2 rule 4). The label word is unambiguous by itself, so nothing is
+lost; the glyph was the third channel, not the carrier.
+
 The amber here is an **ambient-voice** use, not an action: it is the machine saying it is on, not
 asking to be pressed. It therefore spends no cyan and does not touch the chrome-cyan budget
 (`02-colour-budget.md` §4.1).
@@ -734,7 +750,7 @@ key hints, and it may never carry status (`04-navigation-and-focus.md` §6).
 | Offline | the degrade banner takes its own row directly above (§12) |
 | Audio enabled | `▮ AUDIO` right-aligned on this row; `m` joins the **footer** keys |
 | Audio muted | indicator becomes `▯ MUTED` in `--z-text-secondary`; nothing else on the row changes |
-| Tiny | total and counts only, glyph counts unspaced — `247  ○198 ◐12 ◉6 ⊘31`. The audio indicator degrades to the bare glyph `▮` / `▯` — **the glyph is the last thing dropped, never the first** |
+| Tiny | total and counts only, glyph counts unspaced — `247  ○198 ◐12 ◉6 ⊘31`. The audio indicator degrades to the bare glyph `▮` / `▯` — **the glyph is the last thing dropped, never the first**. Under `ZERADO_ASCII=1` there is no glyph to keep, so the **label** is what survives at Tiny — whichever channel exists is the one that is never dropped |
 
 ### 5.6 · `NO_COLOR` / 40 columns
 

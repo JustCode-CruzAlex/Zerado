@@ -293,8 +293,15 @@ Ratios are read from the brand manual's measured table (§4.2). **None is estima
 | Banner `▌`, action required | `--z-primary` | `#FFB000` | **214** | `bright yellow` | `▌` | `>` | the label word | **10.59** AAA |
 | Detail-pane border, focused (ExtraWide) | `--z-border-strong` | `#64748B` | **67** | `bright black` | `┏━┓` | `+-+` | — | **4.08** |
 | Detail-pane border, unfocused | `--z-border` | `#2A3342` | **236** | `black` | `┌─┐` | `+-+` | — | 1.53 — **decoration only, and it bounds no control here** |
-| Audio annunciator, unmuted | `--z-primary` | `#FFB000` | **214** | `bright yellow` | `▮` U+25AE (**N**) | `[#]` | `AUDIO` | **10.59** AAA |
-| Audio annunciator, muted | `--z-text-secondary` | `#A9B5C7` | **249** | `white` | `▯` U+25AF (**N**) | `[ ]` | `MUTED` | **9.36** AAA |
+| Audio annunciator, unmuted | `--z-primary` | `#FFB000` | **214** | `bright yellow` | `▮` U+25AE (**N**) | *none — label alone* | `AUDIO` | **10.59** AAA |
+| Audio annunciator, muted | `--z-text-secondary` | `#A9B5C7` | **249** | `white` | `▯` U+25AF (**N**) | *none — label alone* | `MUTED` | **9.36** AAA |
+
+> **The annunciator has no ASCII glyph, deliberately.** `[ ]` and `[*]` are the *state column's*
+> tokens — *not started* and *zerado* — and on an ASCII-mode library screen they would appear twice
+> on one row meaning two different things. Co-render survives, because the labels differ, but
+> confusability on the most-used screen is what this bundle rejects everywhere else. The annunciator
+> already carries a label word, so the glyph is its third channel and the label is unambiguous
+> alone. `03-responsive.md` §5c is the authority.
 
 > ***underived*** means exactly that: **no ANSI-256 index has been derived for
 > `--z-text-tertiary` `#8492A8`.** Nobody may pick one at the keyboard (brand §10 rule 5).

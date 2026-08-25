@@ -165,13 +165,28 @@ carry the frame itself.
 |---|---|---|
 | State | `○ ◐ ◉ ⊘` | `[ ] [~] [*] [x]` |
 | Focus marker | `▌` | `>` |
-| Box drawing | `┌─┐│└┘` | `+-+|+ +` |
+| Box drawing | `┌─┐│└┘` | `+-+\|+ +` |
 | Scanner track / pip | `─` / `━` | `-` / `=` |
 | Breadcrumb separator | `✦` | `>` |
-| Audio annunciator | `▮` / `▯` | `[*]` / `[ ]` |
+| Audio annunciator | `▮` / `▯` | **no glyph — the label alone** |
 
 A fallback that rescues the state column while leaving the frame to shear would fix the smallest
 problem on the screen and leave the largest.
+
+> **The audio annunciator drops its glyph in ASCII mode rather than taking one.** The obvious
+> mapping — `▮`/`▯` → `[*]`/`[ ]` — puts the **state column's own tokens** on a second element
+> meaning something else: `[*]` is *zerado* and `[ ]` is *not started*, and on an ASCII-mode library
+> screen both would appear twice, meaning two different things. Co-render survives, because the
+> labels differ (`AUDIO` versus `ZERADO`), so it is confusability rather than ambiguity — but
+> confusability on the most-used screen is what this bundle rejects everywhere else.
+>
+> The annunciator already carries a **label word**, so the glyph is its third channel and the label
+> is unambiguous alone. Dropping it is also the precedent already set by the degrade banner, where
+> the label word was chosen over a glyph for the same reason. One fewer token to learn, and no
+> collision is possible.
+>
+> *(Found by `fft-design-architect` reading this table rather than mirroring it — the fallback
+> mapping is the spine's, so it flagged instead of diverging.)*
 
 *(Found by `fft-tui-designer`: the original scope covered only the state column.)*
 
