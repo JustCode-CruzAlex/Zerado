@@ -1,0 +1,54 @@
+name: go
+
+# Mirrors the guardrails workflow's trigger, and deliberately so: Release
+# Discipline puts the gating CI on main only, so this runs when a release line
+# is merged into main rather than on every branch. It is not path-filtered —
+# a change to go.mod or to a workflow can break the build without touching a
+# .go file.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: go-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  go:
+    name: build, vet and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          check-latest: true
+
+      - name: Everything is gofmt-clean
+        run: |
+          unformatted="$(gofmt -l ./internal)"
+          if [ -n "$unformatted" ]; then
+            echo "::error::gofmt would change these files:"
+            echo "$unformatted"
+            exit 1
+          fi
+          echo "OK — gofmt-clean."
+
+      - name: Build
+        run: go build ./internal/...
+
+      - name: Vet
+        run: go vet ./internal/...
+
+      # -race because the sync stream's progress snapshot is read from the
+      # render goroutine while the provider's goroutine writes it. That
+      # contract is unenforceable without this flag.
+      - name: Test
+        run: go test -race ./internal/...
