@@ -71,7 +71,12 @@ jobs:
       # the shipped files' true intrinsic size, which is what the CLS-is-0.000
       # claim actually rests on. No network and no credentials.
       - name: Cover match rule and shipped-file dimensions
-        run: node --test "scripts/**/*.test.mjs"
+        # The glob is deliberately UNQUOTED: the shell expands it and Node
+        # receives concrete paths, so this does not depend on which Node
+        # version learned to expand globs itself. The matrix spans 22 and 24,
+        # and this workflow does not run on the release-line PR that lands the
+        # change — a version-boundary break here would surface only at the cut.
+        run: node --test scripts/*.test.mjs
 
       - name: Upload the build
         if: matrix.node == '24'

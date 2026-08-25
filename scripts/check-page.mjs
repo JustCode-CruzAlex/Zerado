@@ -271,10 +271,55 @@ check('the copy file and the page agree on every cover alt string', 'the alt-tex
   const decode = t => t.replace(/&#39;/g, "'").replace(/&amp;/g, '&').replace(/&quot;/g, '"');
   const rendered = COVER_IMGS.map(t => decode(attr(t, 'alt') ?? ''));
   if (rendered.length === 0) return [declared.length === 12, `no covers shipped; ${declared.length} declared`];
-  const missing = declared.filter(d => !rendered.includes(d));
+  // The two directions are NOT symmetric, and treating them as one is what
+  // broke the withdrawal path (see below).
+  //
+  // `extra` — the page renders an alt string the copy file never declared — is
+  // always drift, and is always a failure. The page may not invent alt text.
+  //
+  // `missing` — the copy file declares a row the page did not render — is a
+  // failure ONLY if that row actually shipped an image. A row whose cover is
+  // absent from the build renders its art-directed tile and contributes no
+  // <img> and no alt, which is the CORRECT behaviour and a documented state:
+  // `docs/legal/igdb-image-licence-finding.md` §7 names a rights-holder
+  // objecting to one specific cover, "in which case that row loses its image
+  // and the tile treatment renders in its place — a data-only change".
+  //
+  // It was not a data-only change. Deleting one cover's files failed this
+  // assertion, so the one remedy the project would need to execute FASTEST,
+  // under legal pressure, was blocked by its own build gate. The all-absent
+  // case was already handled above; only the partial case — which is exactly
+  // the rights-holder case — was not.
+  //
+  // So a declared-but-unrendered row is excused precisely when its files are
+  // genuinely not in the build, and not otherwise. The contract keeps its
+  // teeth: the copy file cannot silently lose a row whose cover still ships.
   const extra = rendered.filter(r => !declared.includes(r));
-  return [missing.length === 0 && extra.length === 0,
-    `${declared.length} declared, ${rendered.length} rendered; missing: ${missing.join(' | ') || 'none'}; unlisted: ${extra.join(' | ') || 'none'}`];
+  const missing = declared.filter(d => !rendered.includes(d));
+
+  const gridPath = 'site/src/data/coverGrid.ts';
+  const coversDir = ['site/public/covers', join(dist, 'covers')].find(existsSync);
+  let unexplained = missing;
+  let excused = [];
+  if (missing.length && existsSync(gridPath) && coversDir) {
+    // alt -> slug, straight out of the row table, so this cannot drift either.
+    const grid = readFileSync(gridPath, 'utf8');
+    const bySlug = new Map(
+      [...grid.matchAll(/slug:\s*'([a-z0-9-]+)',?\s*\n?\s*alt:\s*'((?:[^'\\]|\\.)*)'/g)]
+        .map(m => [m[2].replace(/\\'/g, "'"), m[1]])
+    );
+    excused = missing.filter(d => {
+      const slug = bySlug.get(d);
+      return slug && !existsSync(join(coversDir, `${slug}.jpg`));
+    });
+    unexplained = missing.filter(d => !excused.includes(d));
+  }
+
+  return [unexplained.length === 0 && extra.length === 0,
+    `${declared.length} declared, ${rendered.length} rendered; ` +
+    `unexplained: ${unexplained.join(' | ') || 'none'}; ` +
+    `withdrawn (no cover file, renders its tile): ${excused.length}; ` +
+    `unlisted: ${extra.join(' | ') || 'none'}`];
 });
 
 // --- report --------------------------------------------------------------

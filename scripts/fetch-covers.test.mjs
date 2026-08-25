@@ -9,7 +9,7 @@
  * entirely fine and is wrong. So `pick` is exercised against the real shapes
  * IGDB returns, including the two ambiguities this repository actually hit.
  *
- *   node --test scripts/
+ *   node --test scripts/*.test.mjs
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -160,4 +160,29 @@ test('every shipped cover is exactly the box the page reserves', async (t) => {
       assert.ok(statSync(f).size > 0, `${r.slug}.${ext} is empty`);
     }
   }
+});
+
+// --- the withdrawal path stays open --------------------------------------
+
+test('every row’s alt maps back to its slug', async () => {
+  // `check-page.mjs` excuses a declared-but-unrendered alt string only when
+  // that row's cover file is genuinely absent — the rights-holder withdrawal
+  // of `docs/legal/igdb-image-licence-finding.md` §7. It resolves alt -> slug
+  // with a regex over coverGrid.ts that assumes `slug:` sits immediately before
+  // `alt:`. Reorder those two fields and the map comes back EMPTY, nothing is
+  // ever excused, and the withdrawal path silently re-blocks — a build gate
+  // standing in front of a legal remedy, failing the way it used to.
+  //
+  // This pins the shape that assumption rests on. It is cheap here and would
+  // cost a second full build to catch anywhere else.
+  const grid = readFileSync(fileURLToPath(new URL('site/src/data/coverGrid.ts', ROOT)), 'utf8');
+  const pairs = [...grid.matchAll(/slug:\s*'([a-z0-9-]+)',?\s*\n?\s*alt:\s*'((?:[^'\\]|\\.)*)'/g)];
+  assert.equal(pairs.length, 12, 'the alt -> slug regex in check-page.mjs no longer matches all twelve');
+
+  const slugs = new Set((await rows()).map((r) => r.slug));
+  for (const [, slug, alt] of pairs) {
+    assert.ok(slugs.has(slug), `${slug} is not one of the twelve rows`);
+    assert.ok(alt.trim().length > 0, `${slug} has an empty alt`);
+  }
+  assert.equal(new Set(pairs.map((m) => m[2])).size, 12, 'alt strings are distinct');
 });
