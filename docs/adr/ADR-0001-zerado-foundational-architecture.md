@@ -1,7 +1,7 @@
 ---
 archetype: adr-detail
 adr: ADR-0001
-title: "Zerado foundational architecture — provider seam, persistence, navigation model, Phase 4 sync boundary"
+title: "Zerado foundational architecture — provider seam, persistence, navigation model, Phase 4 sync boundary, media-polymorphic core, audio"
 status: PROPOSED
 date: 2026-08-25
 ticket: "#2"
@@ -396,6 +396,12 @@ Named so they are not assumed to have been settled here:
 
 ## Status
 
-**PROPOSED.** These four are the third of the founder's three ratification questions. Ratifying
-the bundle ratifies them; that ratification is itself the authorization to emit the Phase 1
-implementation tickets, with no second approval step.
+**PROPOSED.** **All six** — D1 through D6 — are the third of the founder's three ratification
+questions. Ratifying the bundle ratifies them; that ratification is itself the authorization to
+emit the Phase 1 implementation tickets, with no second approval step.
+
+The clause originally read *"these four"*, written when there were four. **D5** (the
+media-polymorphic core) and **D6** (audio) arrived by founder direction on 2026-08-25 and are the
+two [](../blueprint/00-index.md) marks **Highest** and
+**Low-but-licensing** reversal cost — so on the document's own words, ratifying "them" would not
+have reached the two most expensive decisions in it. Corrected.

@@ -37,6 +37,7 @@ off. The brand manual already said what it looks like.
 | | [`11-media-model.md`](./11-media-model.md) | **Games first, not games only** — the core entity is a media item; the four states verified across four types |
 | | [`12-audio.md`](./12-audio.md) | **Audio ships in Phase 1** — bundled, off by default, fully removable |
 | | [`13-handoffs.md`](./13-handoffs.md) | What this spine decides, and what it hands to `fft-database` and `fft-api-designer` |
+| | [`14-contradictions-closed.md`](./14-contradictions-closed.md) | The cross-check register — all 29 findings, enumerated |
 | **B · design** | [`../design/`](../design/) | The design system and the designer manual |
 | **C · screens** | [`../design/screens/`](../design/screens/) | **Eleven** implementation-ready specs — one per Phase 1 screen |
 
@@ -158,8 +159,9 @@ exists:
 ## The bundle checked itself
 
 The three deliverables were not written in isolation and then stapled together. Each specialist read
-the others' output and cross-checked it, and **25 contradictions were found and closed before this
-bundle was surfaced** — a stale row budget, a status bar in a forbidden row, refusal copy that named
+the others' output and cross-checked it, and **29 contradictions were found and closed before this
+bundle was surfaced** — [enumerated one by one](./14-contradictions-closed.md), so the count is
+auditable rather than asserted — a stale row budget, a status bar in a forbidden row, refusal copy that named
 a key which cannot fire, a warning glyph whose stated reason was factually wrong, an ASCII fallback
 that covered one column of a screen made of the same problem, and a decision about a player's own
 data that had simply never been made.
@@ -191,22 +193,43 @@ that has none.
    all* is a first-class designed state rather than an error state — see
    [`06-data-seams.md`](./06-data-seams.md) §3. What Phase 2 looks like if IGDB says no is
    written down there.
-3. **Nine ANSI-256 indices are underived** — `--z-scanner-300` (error text), `--z-scanner-900`
+3. **Two token vocabularies meet here, and both are correct — which nothing said.** The
+   underived-index list names `--z-scanner-900` (`#5C1414`) and `--z-amber-900` (`#8A5E00`), while
+   the component-facing colour list names `--z-scanner-track` and `--z-primary-muted` for the same
+   two colours. A reviewer reasonably read that as one vocabulary needing to win. **Verified at
+   source in `tokens.css`, it is not:** `--z-scanner-900` and `--z-amber-900` are declared
+   **primitives** carrying the raw hex (lines 61, 71), and `--z-scanner-track` and
+   `--z-primary-muted` are **semantics** declared as `var()` of them (lines 102, 116). Brand manual
+   §10 fixes the three layers and says a primitive is *"never referenced by a component"* — so the
+   component list is right to name the semantic, and the derive-these list is right to name the
+   primitive, because an ANSI-256 index is derived from a **raw value**. Neither should change; the
+   layer relationship simply needed stating, and now does.
+4. **Nine ANSI-256 indices are underived** — `--z-scanner-300` (error text), `--z-scanner-900`
    (the scanner track), `--z-amber-900`, `--z-text-tertiary` and five others have no derived
    terminal index. Four components ship an interim **uncoloured** rendering rather than a guessed
    one. Deriving them is `fft-brand-architect`'s job (brand manual §10 requires a
    nearest-neighbour search in CIELAB, never an eyeballed index), and until it is done those
    components are correct but plainer than designed.
-4. **The light-mode state colours have never been CVD-verified.** `tokens.css` §10 defines a
+5. **The light-mode state colours have never been CVD-verified.** `tokens.css` §10 defines a
    separate four-colour state set for light grounds; their contrast is recorded, their
    colour-vision separation is not. The dark set's own first draft failed at ΔE 8.8 under
    deuteranopia, so this is not a formality — and Phase 4 will meet system light mode.
-5. **The contrast claim is precise, and worth stating precisely.** It is *"AA on Zerado's own
+6. **The ΔE figures quoted throughout are the brand manual's measurements, not this bundle's.**
+   Every `ΔE` in these documents is quoted from `brand-manual.md` §4.4, which states the model
+   (Viénot, Brettel & Mollon 1999 + CIEDE2000) but **does not pin the model variant or the white
+   point** — so an independent implementation will not land on the same digits. An independent
+   check of the rejected `#9FB0C6` reproduced **11.02** against the manual's **8.8**, and of the
+   shipping floor **12.07** against **11.9** (1.4%). The *load-bearing* claims reproduce: the
+   tightest pair really is `zerado × abandoned`, and the warm grey really does separate far better
+   than the blue-cast grey it replaced. **Pinning the variant and white point upstream is
+   `fft-brand-architect`'s job**, and until it is done these numbers should be read as the
+   manual's, not as independently verified.
+7. **The contrast claim is precise, and worth stating precisely.** It is *"AA on Zerado's own
    ground and on five measured popular terminal themes, with `NO_COLOR` as the unconditional
    fallback."* An unqualified "WCAG AA" would not be true on an arbitrary user-chosen theme, and
    the product should not claim it.
 
-6. **Terminal inline-image support is not assumed anywhere.** Cover art is a Phase 2 question
+8. **Terminal inline-image support is not assumed anywhere.** Cover art is a Phase 2 question
    and is inventoried, not specified. The Phase 1 deck is text, by design and not by omission.
 
 ---

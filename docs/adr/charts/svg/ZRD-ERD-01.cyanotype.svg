@@ -1,42 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1820" height="1470" viewBox="0 0 1820 1470" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif">
-<rect x="0" y="0" width="1820" height="1470" fill="#0B3D6B"/>
-<line x1="40" y1="40" x2="40" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="88" y1="40" x2="88" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="136" y1="40" x2="136" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="184" y1="40" x2="184" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="232" y1="40" x2="232" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="280" y1="40" x2="280" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="328" y1="40" x2="328" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="376" y1="40" x2="376" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="424" y1="40" x2="424" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="472" y1="40" x2="472" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="520" y1="40" x2="520" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="568" y1="40" x2="568" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="616" y1="40" x2="616" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="664" y1="40" x2="664" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="712" y1="40" x2="712" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="760" y1="40" x2="760" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="808" y1="40" x2="808" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="856" y1="40" x2="856" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="904" y1="40" x2="904" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="952" y1="40" x2="952" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1000" y1="40" x2="1000" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1048" y1="40" x2="1048" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1096" y1="40" x2="1096" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1144" y1="40" x2="1144" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1192" y1="40" x2="1192" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1240" y1="40" x2="1240" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1288" y1="40" x2="1288" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1336" y1="40" x2="1336" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1384" y1="40" x2="1384" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1432" y1="40" x2="1432" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1480" y1="40" x2="1480" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1528" y1="40" x2="1528" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1576" y1="40" x2="1576" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1624" y1="40" x2="1624" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1672" y1="40" x2="1672" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1720" y1="40" x2="1720" y2="1430" stroke="#16527F" stroke-width="0.75"/>
-<line x1="1768" y1="40" x2="1768" y2="1430" stroke="#16527F" stroke-width="0.75"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1820" height="1530" viewBox="0 0 1820 1530" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif">
+<rect x="0" y="0" width="1820" height="1530" fill="#0B3D6B"/>
+<line x1="40" y1="40" x2="40" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="88" y1="40" x2="88" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="136" y1="40" x2="136" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="184" y1="40" x2="184" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="232" y1="40" x2="232" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="280" y1="40" x2="280" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="328" y1="40" x2="328" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="376" y1="40" x2="376" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="424" y1="40" x2="424" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="472" y1="40" x2="472" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="520" y1="40" x2="520" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="568" y1="40" x2="568" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="616" y1="40" x2="616" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="664" y1="40" x2="664" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="712" y1="40" x2="712" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="760" y1="40" x2="760" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="808" y1="40" x2="808" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="856" y1="40" x2="856" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="904" y1="40" x2="904" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="952" y1="40" x2="952" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1000" y1="40" x2="1000" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1048" y1="40" x2="1048" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1096" y1="40" x2="1096" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1144" y1="40" x2="1144" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1192" y1="40" x2="1192" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1240" y1="40" x2="1240" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1288" y1="40" x2="1288" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1336" y1="40" x2="1336" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1384" y1="40" x2="1384" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1432" y1="40" x2="1432" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1480" y1="40" x2="1480" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1528" y1="40" x2="1528" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1576" y1="40" x2="1576" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1624" y1="40" x2="1624" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1672" y1="40" x2="1672" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1720" y1="40" x2="1720" y2="1490" stroke="#16527F" stroke-width="0.75"/>
+<line x1="1768" y1="40" x2="1768" y2="1490" stroke="#16527F" stroke-width="0.75"/>
 <line x1="40" y1="40" x2="1780" y2="40" stroke="#16527F" stroke-width="0.75"/>
 <line x1="40" y1="88" x2="1780" y2="88" stroke="#16527F" stroke-width="0.75"/>
 <line x1="40" y1="136" x2="1780" y2="136" stroke="#16527F" stroke-width="0.75"/>
@@ -66,45 +66,49 @@
 <line x1="40" y1="1288" x2="1780" y2="1288" stroke="#16527F" stroke-width="0.75"/>
 <line x1="40" y1="1336" x2="1780" y2="1336" stroke="#16527F" stroke-width="0.75"/>
 <line x1="40" y1="1384" x2="1780" y2="1384" stroke="#16527F" stroke-width="0.75"/>
-<rect x="40" y="40" width="1740" height="1390" fill="none" stroke="#7FB2DA" stroke-width="2"/>
-<rect x="46" y="46" width="1728" height="1378" fill="none" stroke="#5C93BE" stroke-width="1"/>
+<line x1="40" y1="1432" x2="1780" y2="1432" stroke="#16527F" stroke-width="0.75"/>
+<line x1="40" y1="1480" x2="1780" y2="1480" stroke="#16527F" stroke-width="0.75"/>
+<rect x="40" y="40" width="1740" height="1450" fill="none" stroke="#7FB2DA" stroke-width="2"/>
+<rect x="46" y="46" width="1728" height="1438" fill="none" stroke="#5C93BE" stroke-width="1"/>
 <line x1="50" y1="50" x2="68" y2="50" stroke="#5BC8FF" stroke-width="1.5"/>
 <line x1="50" y1="50" x2="50" y2="68" stroke="#5BC8FF" stroke-width="1.5"/>
 <line x1="1770" y1="50" x2="1752" y2="50" stroke="#5BC8FF" stroke-width="1.5"/>
 <line x1="1770" y1="50" x2="1770" y2="68" stroke="#5BC8FF" stroke-width="1.5"/>
-<line x1="50" y1="1420" x2="68" y2="1420" stroke="#5BC8FF" stroke-width="1.5"/>
-<line x1="50" y1="1420" x2="50" y2="1402" stroke="#5BC8FF" stroke-width="1.5"/>
-<line x1="1770" y1="1420" x2="1752" y2="1420" stroke="#5BC8FF" stroke-width="1.5"/>
-<line x1="1770" y1="1420" x2="1770" y2="1402" stroke="#5BC8FF" stroke-width="1.5"/>
+<line x1="50" y1="1480" x2="68" y2="1480" stroke="#5BC8FF" stroke-width="1.5"/>
+<line x1="50" y1="1480" x2="50" y2="1462" stroke="#5BC8FF" stroke-width="1.5"/>
+<line x1="1770" y1="1480" x2="1752" y2="1480" stroke="#5BC8FF" stroke-width="1.5"/>
+<line x1="1770" y1="1480" x2="1770" y2="1462" stroke="#5BC8FF" stroke-width="1.5"/>
 <text x="56" y="74" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="29" font-weight="700" fill="#EAF4FF">ZERADO — DATA MODEL  ·  SHEET 1</text>
 <text x="57" y="98" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="13.5" fill="#9DC4E6">the Phase 1 core — a media item, its typed extension, and what is deliberately outside the file</text>
-<rect x="70.0" y="150.0" width="1630.0" height="700.0" rx="18" fill="#0A325A" opacity="0.16" stroke="#5BC8FF" stroke-width="1.5" stroke-dasharray="3 6"/>
-<polyline points="370.0,590.0 370.0,635.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
-<polygon points="370.0,635.0 364.7,623.1 375.3,623.1" fill="#9DC4E6"/>
-<polyline points="630.0,395.0 700.0,325.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
-<polygon points="700.0,325.0 695.4,337.1 687.9,329.6" fill="#9DC4E6"/>
+<rect x="70.0" y="150.0" width="1630.0" height="750.0" rx="18" fill="#0A325A" opacity="0.16" stroke="#5BC8FF" stroke-width="1.5" stroke-dasharray="3 6"/>
+<polyline points="370.0,650.0 370.0,690.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="370.0,690.0 364.7,678.1 375.3,678.1" fill="#9DC4E6"/>
+<polyline points="630.0,425.0 700.0,325.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="700.0,325.0 697.5,337.8 688.9,331.7" fill="#9DC4E6"/>
 <polyline points="925.0,450.0 925.0,520.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
 <polygon points="925.0,520.0 919.7,508.1 930.3,508.1" fill="#9DC4E6"/>
-<polyline points="700.0,325.0 655.0,930.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-dasharray="9 7" stroke-linejoin="round" stroke-linecap="round"/>
-<polygon points="655.0,930.0 650.6,917.8 661.2,918.6" fill="#9DC4E6"/>
-<path d="M110.0,214.0 A260.0,14 0 0 1 630.0,214.0 L630.0,576.0 A260.0,14 0 0 1 110.0,576.0 Z" fill="#0A325A" stroke="#8FD0FF" stroke-width="2.0"/>
+<polyline points="700.0,325.0 655.0,990.0" fill="none" stroke="#9DC4E6" stroke-width="2.0" stroke-dasharray="9 7" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="655.0,990.0 650.5,977.8 661.1,978.5" fill="#9DC4E6"/>
+<path d="M110.0,214.0 A260.0,14 0 0 1 630.0,214.0 L630.0,636.0 A260.0,14 0 0 1 110.0,636.0 Z" fill="#0A325A" stroke="#8FD0FF" stroke-width="2.0"/>
 <path d="M110.0,214.0 A260.0,14 0 0 0 630.0,214.0" fill="none" stroke="#8FD0FF" stroke-width="2.0"/>
-<text x="370.0" y="307.4" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">media_item</text>
-<text x="370.0" y="325.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id                    PK</text>
-<text x="370.0" y="344.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_uid             merge hint, INDEXED not unique</text>
-<text x="370.0" y="362.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_type            &#x27;game&#x27; in Phase 1, CONSTRAINED to it</text>
-<text x="370.0" y="381.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">provider_id + provider_ref      UNIQUE</text>
-<text x="370.0" y="399.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">acquisition           digital | physical</text>
-<text x="370.0" y="418.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">title · sort_title · platform</text>
-<text x="370.0" y="436.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">progress_value / _unit / _source</text>
-<text x="370.0" y="455.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">last_used_at          NULL = not reported</text>
-<text x="370.0" y="473.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">status_manual         NULL = derive on read</text>
-<text x="370.0" y="492.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">status_changed_at · rating · notes · merged_into</text>
-<rect x="110.0" y="635.0" width="520.0" height="175.0" rx="12" ry="12" fill="#0A325A" stroke="#6EE7A0" stroke-width="2.0"/>
-<text x="370.0" y="699.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">media_game        — the typed extension</text>
-<text x="370.0" y="718.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_item_id         PK / FK</text>
-<text x="370.0" y="736.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">steam_appid</text>
-<text x="370.0" y="755.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">achievements_total · achievements_unlocked</text>
+<text x="370.0" y="318.9" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">media_item</text>
+<text x="370.0" y="337.4" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">id                    PK</text>
+<text x="370.0" y="355.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_uid             merge hint, INDEXED not unique</text>
+<text x="370.0" y="374.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_type            &#x27;game&#x27; in Phase 1, CONSTRAINED to it</text>
+<text x="370.0" y="392.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">provider_id + provider_ref      UNIQUE</text>
+<text x="370.0" y="411.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">acquisition           digital | physical</text>
+<text x="370.0" y="429.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">title · sort_title · platform</text>
+<text x="370.0" y="448.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">progress_value / _unit / _source</text>
+<text x="370.0" y="466.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">last_used_at          NULL = not reported</text>
+<text x="370.0" y="485.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">status_manual         NULL = derive on read</text>
+<text x="370.0" y="503.7" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">status_changed_at · rating · notes</text>
+<text x="370.0" y="522.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">absent_since          tombstone — NEVER a delete</text>
+<text x="370.0" y="540.6" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">merged_into           Phase 4 merge, never rewrites keys</text>
+<rect x="110.0" y="690.0" width="520.0" height="175.0" rx="12" ry="12" fill="#0A325A" stroke="#6EE7A0" stroke-width="2.0"/>
+<text x="370.0" y="754.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">media_game        — the typed extension</text>
+<text x="370.0" y="773.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">media_item_id         PK / FK</text>
+<text x="370.0" y="791.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">steam_appid</text>
+<text x="370.0" y="810.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">achievements_total · achievements_unlocked</text>
 <path d="M700.0,214.0 A225.0,14 0 0 1 1150.0,214.0 L1150.0,436.0 A225.0,14 0 0 1 700.0,436.0 Z" fill="#0A325A" stroke="#5BC8FF" stroke-width="2.0"/>
 <path d="M700.0,214.0 A225.0,14 0 0 0 1150.0,214.0" fill="none" stroke="#5BC8FF" stroke-width="2.0"/>
 <text x="925.0" y="292.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">provider_connection</text>
@@ -127,54 +131,54 @@
 <text x="1365.0" y="461.3" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">schema_migration</text>
 <text x="1365.0" y="479.8" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">version  PK</text>
 <text x="1365.0" y="498.2" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">applied_at</text>
-<rect x="340.0" y="930.0" width="630.0" height="190.0" rx="12" ry="12" fill="#0A325A" stroke="#FF8A8A" stroke-width="2.0"/>
-<text x="655.0" y="1002.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">Vault   —   NOT in the library file</text>
-<text x="655.0" y="1020.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">OS keychain, or credentials.json mode 0600</text>
-<text x="655.0" y="1039.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">the player&#x27;s own API keys</text>
-<text x="655.0" y="1057.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">never backed up with the library, never synced</text>
-<rect x="1030.0" y="930.0" width="630.0" height="190.0" rx="12" ry="12" fill="#0A325A" stroke="#A8CBEA" stroke-width="2.0"/>
-<text x="1345.0" y="1002.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">XDG cache   —   NOT in the library file</text>
-<text x="1345.0" y="1020.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">cover-art blobs (Phase 2)</text>
-<text x="1345.0" y="1039.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">disposable, refetchable, OS may delete it</text>
-<text x="1345.0" y="1057.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">keeps the backed-up file small enough to back up</text>
-<rect x="345.0" y="601.5" width="50.0" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
-<text x="370.0" y="616.5" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">1 : 1</text>
-<rect x="586.0" y="349.0" width="158.0" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
-<text x="665.0" y="364.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">provider_id    N : 1</text>
+<rect x="340.0" y="990.0" width="630.0" height="190.0" rx="12" ry="12" fill="#0A325A" stroke="#FF8A8A" stroke-width="2.0"/>
+<text x="655.0" y="1062.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">Vault   —   NOT in the library file</text>
+<text x="655.0" y="1080.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">OS keychain, or credentials.json mode 0600</text>
+<text x="655.0" y="1099.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">the player&#x27;s own API keys</text>
+<text x="655.0" y="1117.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">never backed up with the library, never synced</text>
+<rect x="1030.0" y="990.0" width="630.0" height="190.0" rx="12" ry="12" fill="#0A325A" stroke="#A8CBEA" stroke-width="2.0"/>
+<text x="1345.0" y="1062.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="14" fill="#EAF4FF" text-anchor="middle" font-weight="600">XDG cache   —   NOT in the library file</text>
+<text x="1345.0" y="1080.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">cover-art blobs (Phase 2)</text>
+<text x="1345.0" y="1099.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">disposable, refetchable, OS may delete it</text>
+<text x="1345.0" y="1117.5" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="12" fill="#EAF4FF" text-anchor="middle" font-weight="400">keeps the backed-up file small enough to back up</text>
+<rect x="345.0" y="659.0" width="50.0" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
+<text x="370.0" y="674.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">1 : 1</text>
+<rect x="586.0" y="364.0" width="158.0" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
+<text x="665.0" y="379.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">provider_id    N : 1</text>
 <rect x="900.0" y="474.0" width="50.0" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
 <text x="925.0" y="489.0" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">1 : N</text>
-<rect x="656.1" y="616.5" width="42.8" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
-<text x="677.5" y="631.5" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">keys</text>
-<text x="110.0" y="880.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#6EE7A0" text-anchor="start" font-weight="normal">media_book · media_film · media_series are NOT built in Phase 1. They are named so the shape is visibly extensible — and so finding F-1 (film and series are two types, not one) is not rediscovered later.</text>
-<text x="110.0" y="1190.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#8FD0FF" text-anchor="start" font-weight="normal">effective_status is NOT stored. It is derived on read:  status_manual ?? derive(progress, capabilities).  ONE function, every media type — see 11-media-model.md.</text>
-<text x="110.0" y="1245.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#9DC4E6" text-anchor="start" font-weight="normal">KEY    violet = the media item    ·    green = its typed extension    ·    blue = sync bookkeeping    ·    grey = local-only, never syncs    ·    red = deliberately OUTSIDE the library file</text>
-<rect x="40" y="1308" width="1740" height="122" fill="#0A325A"/>
-<line x1="40" y1="1308" x2="1780" y2="1308" stroke="#5BC8FF" stroke-width="2.5"/>
-<line x1="40" y1="1312" x2="1780" y2="1312" stroke="#5C93BE" stroke-width="1"/>
-<line x1="301.0" y1="1322" x2="301.0" y2="1396" stroke="#5C93BE" stroke-width="1"/>
-<line x1="823.0" y1="1322" x2="823.0" y2="1396" stroke="#5C93BE" stroke-width="1"/>
-<line x1="1066.6" y1="1322" x2="1066.6" y2="1396" stroke="#5C93BE" stroke-width="1"/>
-<line x1="1223.2" y1="1322" x2="1223.2" y2="1396" stroke="#5C93BE" stroke-width="1"/>
-<line x1="1414.6" y1="1322" x2="1414.6" y2="1396" stroke="#5C93BE" stroke-width="1"/>
-<line x1="1606.0" y1="1322" x2="1606.0" y2="1396" stroke="#5C93BE" stroke-width="1"/>
-<g transform="translate(54.0,1327.0) scale(1.5000)" fill="#EAF4FF" stroke="none"><path d="M14.5,22.4c0-.4.3-.7.7-.7s.7.3.7.7-.3.7-.7.7-.7-.3-.7-.7Z"/><path d="M15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM11.4,17.8v1.6h-1.1v-1.6h-4.7s-.5,4.4,5.3,6.8c0,0,2.2.9,2.2,3h0c0,.2,0,3.4-2.5,3.4-.6,0-1,.5-1,1v2h4.2c0-.1,0-.3.1-.4.5-1.1,1.3-2.1,2.4-2.6.6-.3,1.4-.5,2.2-.5s1.5.2,2.2.5c.8.4,1.5,1,2,1.8.2.4.4.8.5,1.2h4.2v-2c0-.6-.5-1-1-1,0,0-2.4,0-2.6-3.1,0-.5,0-.7,0-1,.2-1.9,1.3-3.8,2.8-4.9,0,0,.2-.1.3-.2.3-.2.7-.3,1-.5.4-.1.8-.6.8-1.1v-2.5H11.4ZM15.2,20.7c.9,0,1.7.7,1.7,1.7s0,.4-.1.6l1.3,1-.7.6-1.1-.8c-.3.2-.6.3-1,.3-.9,0-1.7-.7-1.7-1.7s.7-1.7,1.7-1.7ZM21.7,28.8c-.8,0-1.5-.7-1.5-1.5s0-.3,0-.5l-1.6-1.2.7-.6,1.4,1.1c.2-.2.5-.3.8-.3.8,0,1.5.7,1.5,1.5s-.7,1.5-1.5,1.5ZM21.5,24c-.4,0-.7-.1-1-.3l-4.1,3.1c0,.2,0,.3,0,.5,0,.8-.7,1.5-1.5,1.5s-1.5-.7-1.5-1.5.7-1.5,1.5-1.5.6,0,.8.3l4.1-3.1c0-.2-.1-.4-.1-.6,0-.9.7-1.7,1.7-1.7s1.7.7,1.7,1.7-.7,1.7-1.7,1.7ZM21.7,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6Z"/><path d="M17.4,1.9s1.1,3.5-2.6,5.8c-3.7,2.3-3.2,5.5-3.2,5.5,0,0,.3,2.5,1.8,3.6h8.8s1.5-1.4,1.6-4.7-1.7-3.3-1.7-3.3c0,0,0,2.6-2.1,4s-2.2,2.3-2.2,2.3c0,0-1.8-1.6-.1-3.7s3.4-4.4,1.9-6.9-2.3-2.4-2.3-2.4Z"/><path d="M15.6,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M22.2,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/><path d="M22.3,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M15.9,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/></g>
-<text x="120.0" y="1366" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#EAF4FF">FlowForge</text>
-<text x="120.0" y="1386" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">Zerado</text>
-<text x="319.0" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DRAWING TITLE</text>
-<text x="319.0" y="1372" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#EAF4FF">ZERADO DATA MODEL - PHASE 1 CORE</text>
-<text x="319.0" y="1392" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">Conceptual model. Games first, not games only.</text>
-<text x="841.0" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DISCIPLINE</text>
-<text x="841.0" y="1372" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ARCHITECTURE</text>
-<text x="1084.6" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">SHEET</text>
-<text x="1084.6" y="1372" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">01 OF 10</text>
-<text x="1241.2" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DWG NO.</text>
-<text x="1241.2" y="1372" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ADR-0001</text>
-<text x="1432.6" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">REV</text>
-<text x="1432.6" y="1372" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">A</text>
-<text x="1432.6" y="1392" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">2026-08-25</text>
-<text x="1624.0" y="1342" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">STATUS</text>
-<circle cx="1630.0" cy="1367" r="6" fill="#FFC861"/>
-<text x="1644.0" y="1372" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="14" font-weight="600" letter-spacing="1" fill="#FFC861">DRAFT</text>
-<line x1="40" y1="1402" x2="1780" y2="1402" stroke="#5C93BE" stroke-width="0.75"/>
-<text x="58.0" y="1418" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">RENDERED FROM  ZRD-ERD-01.chart.toml · tools/chartspec.py      AUTHOR fft-tui-architect      APPROVED       INTERNAL</text>
+<rect x="656.1" y="646.5" width="42.8" height="20" rx="6" fill="#0B3D6B" stroke="#9DC4E6" stroke-width="1" opacity="1"/>
+<text x="677.5" y="661.5" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6" text-anchor="middle">keys</text>
+<text x="110.0" y="935.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#6EE7A0" text-anchor="start" font-weight="normal">media_book · media_film · media_series are NOT built in Phase 1. They are named so the shape is visibly extensible — and so finding F-1 (film and series are two types, not one) is not rediscovered later.</text>
+<text x="110.0" y="1250.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#8FD0FF" text-anchor="start" font-weight="normal">effective_status is NOT stored. It is derived on read:  status_manual ?? derive(progress, capabilities).  ONE function, every media type — see 11-media-model.md.</text>
+<text x="110.0" y="1305.0" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="13" fill="#9DC4E6" text-anchor="start" font-weight="normal">KEY    violet = the media item    ·    green = its typed extension    ·    blue = sync bookkeeping    ·    grey = local-only, never syncs    ·    red = deliberately OUTSIDE the library file</text>
+<rect x="40" y="1368" width="1740" height="122" fill="#0A325A"/>
+<line x1="40" y1="1368" x2="1780" y2="1368" stroke="#5BC8FF" stroke-width="2.5"/>
+<line x1="40" y1="1372" x2="1780" y2="1372" stroke="#5C93BE" stroke-width="1"/>
+<line x1="301.0" y1="1382" x2="301.0" y2="1456" stroke="#5C93BE" stroke-width="1"/>
+<line x1="823.0" y1="1382" x2="823.0" y2="1456" stroke="#5C93BE" stroke-width="1"/>
+<line x1="1066.6" y1="1382" x2="1066.6" y2="1456" stroke="#5C93BE" stroke-width="1"/>
+<line x1="1223.2" y1="1382" x2="1223.2" y2="1456" stroke="#5C93BE" stroke-width="1"/>
+<line x1="1414.6" y1="1382" x2="1414.6" y2="1456" stroke="#5C93BE" stroke-width="1"/>
+<line x1="1606.0" y1="1382" x2="1606.0" y2="1456" stroke="#5C93BE" stroke-width="1"/>
+<g transform="translate(54.0,1387.0) scale(1.5000)" fill="#EAF4FF" stroke="none"><path d="M14.5,22.4c0-.4.3-.7.7-.7s.7.3.7.7-.3.7-.7.7-.7-.3-.7-.7Z"/><path d="M15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM11.4,17.8v1.6h-1.1v-1.6h-4.7s-.5,4.4,5.3,6.8c0,0,2.2.9,2.2,3h0c0,.2,0,3.4-2.5,3.4-.6,0-1,.5-1,1v2h4.2c0-.1,0-.3.1-.4.5-1.1,1.3-2.1,2.4-2.6.6-.3,1.4-.5,2.2-.5s1.5.2,2.2.5c.8.4,1.5,1,2,1.8.2.4.4.8.5,1.2h4.2v-2c0-.6-.5-1-1-1,0,0-2.4,0-2.6-3.1,0-.5,0-.7,0-1,.2-1.9,1.3-3.8,2.8-4.9,0,0,.2-.1.3-.2.3-.2.7-.3,1-.5.4-.1.8-.6.8-1.1v-2.5H11.4ZM15.2,20.7c.9,0,1.7.7,1.7,1.7s0,.4-.1.6l1.3,1-.7.6-1.1-.8c-.3.2-.6.3-1,.3-.9,0-1.7-.7-1.7-1.7s.7-1.7,1.7-1.7ZM21.7,28.8c-.8,0-1.5-.7-1.5-1.5s0-.3,0-.5l-1.6-1.2.7-.6,1.4,1.1c.2-.2.5-.3.8-.3.8,0,1.5.7,1.5,1.5s-.7,1.5-1.5,1.5ZM21.5,24c-.4,0-.7-.1-1-.3l-4.1,3.1c0,.2,0,.3,0,.5,0,.8-.7,1.5-1.5,1.5s-1.5-.7-1.5-1.5.7-1.5,1.5-1.5.6,0,.8.3l4.1-3.1c0-.2-.1-.4-.1-.6,0-.9.7-1.7,1.7-1.7s1.7.7,1.7,1.7-.7,1.7-1.7,1.7ZM21.7,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6ZM21.5,21.7c-.4,0-.7.3-.7.7s.3.7.7.7.7-.3.7-.7-.3-.7-.7-.7ZM15,26.7c-.3,0-.6.3-.6.6s.3.6.6.6.6-.3.6-.6-.3-.6-.6-.6Z"/><path d="M17.4,1.9s1.1,3.5-2.6,5.8c-3.7,2.3-3.2,5.5-3.2,5.5,0,0,.3,2.5,1.8,3.6h8.8s1.5-1.4,1.6-4.7-1.7-3.3-1.7-3.3c0,0,0,2.6-2.1,4s-2.2,2.3-2.2,2.3c0,0-1.8-1.6-.1-3.7s3.4-4.4,1.9-6.9-2.3-2.4-2.3-2.4Z"/><path d="M15.6,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M22.2,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/><path d="M22.3,27.3c0,.3-.3.6-.6.6s-.6-.3-.6-.6.3-.6.6-.6.6.3.6.6Z"/><path d="M15.9,22.4c0,.4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7Z"/></g>
+<text x="120.0" y="1426" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#EAF4FF">FlowForge</text>
+<text x="120.0" y="1446" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">Zerado</text>
+<text x="319.0" y="1402" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DRAWING TITLE</text>
+<text x="319.0" y="1432" font-family="'Segoe UI', 'Helvetica Neue', Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#EAF4FF">ZERADO DATA MODEL - PHASE 1 CORE</text>
+<text x="319.0" y="1452" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">Conceptual model. Games first, not games only.</text>
+<text x="841.0" y="1402" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DISCIPLINE</text>
+<text x="841.0" y="1432" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ARCHITECTURE</text>
+<text x="1084.6" y="1402" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">SHEET</text>
+<text x="1084.6" y="1432" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">01 OF 10</text>
+<text x="1241.2" y="1402" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">DWG NO.</text>
+<text x="1241.2" y="1432" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">ADR-0001</text>
+<text x="1432.6" y="1402" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">REV</text>
+<text x="1432.6" y="1432" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#EAF4FF">A</text>
+<text x="1432.6" y="1452" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="12" fill="#9DC4E6">2026-08-25</text>
+<text x="1624.0" y="1402" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="#9DC4E6">STATUS</text>
+<circle cx="1630.0" cy="1427" r="6" fill="#FFC861"/>
+<text x="1644.0" y="1432" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="14" font-weight="600" letter-spacing="1" fill="#FFC861">DRAFT</text>
+<line x1="40" y1="1462" x2="1780" y2="1462" stroke="#5C93BE" stroke-width="0.75"/>
+<text x="58.0" y="1478" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace" font-size="11" fill="#9DC4E6">RENDERED FROM  ZRD-ERD-01.chart.toml · tools/chartspec.py      AUTHOR fft-tui-architect      APPROVED       INTERNAL</text>
 </svg>
