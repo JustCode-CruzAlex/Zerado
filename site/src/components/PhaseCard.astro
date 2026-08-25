@@ -5,23 +5,26 @@
  * @prop {number} phase — 1-4
  * @prop {string} name — e.g. "CLI/TUI MVP"
  * @prop {string} line — e.g. "Your library, your statuses, stored locally."
+ * @prop {"planned" | "in-progress"} status — from data/roadmap.ts
  */
 import StatusMarker from './StatusMarker.astro';
+import type { PhaseStatus } from '../data/roadmap';
 
 interface Props {
   phase: number;
   name: string;
   line: string;
+  status: PhaseStatus;
 }
 
-const { phase, name, line } = Astro.props;
+const { phase, name, line, status } = Astro.props;
 ---
 
 <div class="z-phase" data-phase={phase}>
   <span class="z-readout z-phase__eyebrow">Phase {phase}</span>
   <p class="z-phase__name">{name}</p>
   <p class="z-phase__line">{line}</p>
-  <StatusMarker />
+  <StatusMarker status={status} />
 </div>
 
 <style>

@@ -1,14 +1,41 @@
 ---
 /**
- * StatusMarker — driven entirely by --z-status-* tokens; ships as PLANNED on
- * all four phases. Marking a phase shipped later is a token change on
- * `.z-phase[data-phase="N"]`, not a redesign. Ref: design/blueprint.md §2 (§12).
+ * StatusMarker — a roadmap phase's status.
+ *
+ * Co-render rule (brand-manual.md §3): colour AND glyph AND label, never colour
+ * alone. The marker stays unambiguous in a monochrome terminal screenshot, under
+ * `forced-colors`, and to a colour-blind reader — the label alone carries the
+ * meaning if both colour and glyph are stripped.
+ *
+ * The colour and glyph are the SAME tokens the product uses for its own game
+ * states (`--z-state-not-started`, `--z-state-in-progress`), so a phase that is
+ * in progress reads exactly like a game that is in progress. That rhyme is
+ * deliberate, not a coincidence of palette.
+ *
+ * There is intentionally no 'done' variant. Adding one is a deliberate act.
+ * Ref: design/blueprint.md §2 (§12); content/landing-copy.md §12.
+ *
+ * @prop {"planned" | "in-progress"} status — defaults to "planned"
  */
+import type { PhaseStatus } from '../data/roadmap';
+
+interface Props {
+  status?: PhaseStatus;
+}
+
+const { status = 'planned' } = Astro.props;
+
+const MARKERS: Record<PhaseStatus, { glyph: string; label: string }> = {
+  'planned': { glyph: '○', label: 'Planned' },
+  'in-progress': { glyph: '◐', label: 'In progress' }
+};
+
+const { glyph, label } = MARKERS[status];
 ---
 
-<span class="z-status-marker">
-  <span class="z-status-marker__glyph" aria-hidden="true">○</span>
-  <span class="z-status-marker__label">Planned</span>
+<span class={`z-status-marker z-status-marker--${status}`}>
+  <span class="z-status-marker__glyph" aria-hidden="true">{glyph}</span>
+  <span class="z-status-marker__label">{label}</span>
 </span>
 
 <style>
@@ -22,5 +49,16 @@
     letter-spacing: var(--z-tracking-readout);
     text-transform: uppercase;
     color: var(--z-status-color, var(--z-steel));
+  }
+
+  /* Measured against --z-surface-raised (#141A24), the phase card's own
+     background — not against the page background, which is darker and would
+     flatter the numbers. Both clear WCAG AA (4.5:1) and AAA (7:1). */
+  .z-status-marker--planned {
+    --z-status-color: var(--z-state-not-started); /* #A5A29B — 6.85:1 */
+  }
+
+  .z-status-marker--in-progress {
+    --z-status-color: var(--z-state-in-progress); /* #FFB000 — 9.53:1 */
   }
 </style>

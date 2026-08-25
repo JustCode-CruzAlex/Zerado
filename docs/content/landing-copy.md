@@ -247,13 +247,20 @@ public profile — watermarked 'Phase 4, not available yet.'"
 **Heading:** Roadmap
 
 **Intro line:**
-> Four phases, in order. Every one of them is planned — none is marked done, because that
+> Four phases, in order. Phase 1 is under way — nothing here is marked done, because that
 > would be the one dishonest line on this page.
 
 **Phase 1**
 - Number/name: Phase 1 — CLI/TUI MVP
 - Line: Your library, your statuses, stored locally.
-- Status: Planned
+- Status: In progress
+
+  *(Changed from "Planned" on 2026-08-25, on the founder's instruction — "we need
+  to show Phase 1 'In progress'" — when Phase 1 work started. In progress is not
+  done: no phase is marked done, and nothing on the page claims a capability
+  exists. The marker co-renders colour + glyph + label per brand-manual.md §3,
+  using the same `--z-state-in-progress` token and `◐` glyph as the product's own
+  IN PROGRESS game state.)*
 
 **Phase 2**
 - Number/name: Phase 2 — Enrichment
@@ -270,8 +277,9 @@ public profile — watermarked 'Phase 4, not available yet.'"
 - Line: Sync, community, the phone apps.
 - Status: Planned
 
-*(No dates render on any phase — see decisions.md, "still open" item 2: undated, ordered
-phases with a status marker only, until told otherwise.)*
+*(No dates render on any phase — undated, ordered phases with a status marker only,
+until told otherwise. Whether the roadmap carries dates is a separate open question
+and has not been answered.)*
 
 ---
 

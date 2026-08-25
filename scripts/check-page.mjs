@@ -75,31 +75,56 @@ check('no placeholder text', 'the review bar', () => {
   return [hits.length === 0, hits.join(', ') || 'none'];
 });
 
-// --- the roadmap ---------------------------------------------------------
-// This replaces a counter that matched the uppercase "PLANNED" inside the OG
-// image alt text and never saw the roadmap's own mixed-case "Planned" at all.
-// It now reads the actual status markers, in the actual roadmap section.
+// --- the roadmap -----------------------------------------------------------
+// Pins the EXACT per-phase state, not "they all say the same thing". Phase 1
+// moved to In progress on 2026-08-25; 2-4 stay Planned; none may ever read a
+// done-equivalent. Anything else is a regression, in either direction.
 const DONE_WORDS = /\b(shipped|done|complete|completed|released|live|available now)\b/i;
+const EXPECTED = ['In progress', 'Planned', 'Planned', 'Planned'];
 
 const roadmap = html.match(/<section[^>]*id="roadmap"[\s\S]*?<\/section>/)?.[0];
 
 check('the roadmap section exists', 'the ratified section order', () =>
   [Boolean(roadmap), roadmap ? `${roadmap.length} bytes` : 'NOT FOUND']);
 
-const labels = roadmap
-  ? [...roadmap.matchAll(/z-status-marker__label[^>]*>([^<]*)</g)].map(m => m[1].trim())
+// Each marker's colour class, glyph and label, in document order.
+const markers = roadmap
+  ? [...roadmap.matchAll(
+      /z-status-marker z-status-marker--([a-z-]+)"[^>]*>\s*<span class="z-status-marker__glyph"[^>]*>([^<]*)<\/span>\s*<span class="z-status-marker__label"[^>]*>([^<]*)</g
+    )].map(m => ({ variant: m[1], glyph: m[2].trim(), label: m[3].trim() }))
   : [];
 
 check('the roadmap carries exactly four status markers', 'the four ratified phases', () =>
-  [labels.length === 4, `found ${labels.length}: ${JSON.stringify(labels)}`]);
+  [markers.length === 4, `found ${markers.length}: ${JSON.stringify(markers.map(m => m.label))}`]);
 
-check('every roadmap phase reads Planned', 'no phase is marked done before it is done', () =>
-  [labels.length === 4 && labels.every(l => l === 'Planned'), JSON.stringify(labels)]);
+check('each phase carries its expected status', 'Phase 1 in progress; 2-4 planned', () => {
+  const got = markers.map(m => m.label);
+  return [JSON.stringify(got) === JSON.stringify(EXPECTED),
+    `expected ${JSON.stringify(EXPECTED)}, got ${JSON.stringify(got)}`];
+});
 
-check('no status marker anywhere claims done', 'no phase is marked done before it is done', () => {
+check('no phase is marked done', 'the one line that would cost credibility', () => {
   const all = [...html.matchAll(/z-status-marker__label[^>]*>([^<]*)</g)].map(m => m[1].trim());
   const offenders = all.filter(l => DONE_WORDS.test(l));
   return [offenders.length === 0, `${all.length} marker(s) page-wide; offenders: ${JSON.stringify(offenders)}`];
+});
+
+// Colour alone must never carry the meaning: brand-manual.md §3.
+check('every status marker co-renders colour, glyph and label', 'the co-render rule', () => {
+  const bad = markers.filter(m => !m.variant || !m.glyph || !m.label);
+  const distinctGlyphs = new Set(markers.map(m => m.glyph)).size;
+  const distinctVariants = new Set(markers.map(m => m.variant)).size;
+  return [bad.length === 0 && distinctGlyphs === distinctVariants,
+    `${markers.length} marker(s); ${distinctVariants} colour variant(s), ${distinctGlyphs} distinct glyph(s) — ` +
+    `${JSON.stringify(markers.map(m => `${m.variant}/${m.glyph}/${m.label}`))}`];
+});
+
+// The roadmap stays undated until that separate question is answered.
+check('the roadmap renders no dates', 'undated, ordered phases', () => {
+  const hits = roadmap
+    ? [...roadmap.matchAll(/\b(20\d\d|Q[1-4]|January|February|March|April|May|June|July|August|September|October|November|December)\b/g)].map(m => m[0])
+    : [];
+  return [hits.length === 0, hits.join(', ') || 'none'];
 });
 
 // --- report --------------------------------------------------------------

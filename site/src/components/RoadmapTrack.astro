@@ -13,7 +13,7 @@ import { PHASES } from '../data/roadmap';
     {PHASES.map((p) => (
       <div class="z-roadmap__item">
         <span class="z-roadmap__node" aria-hidden="true"></span>
-        <PhaseCard phase={p.phase} name={p.name} line={p.line} />
+        <PhaseCard phase={p.phase} name={p.name} line={p.line} status={p.status} />
       </div>
     ))}
   </div>

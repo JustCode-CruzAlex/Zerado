@@ -62,24 +62,28 @@ What exists today is **Phase 0 — Foundation**: the landing page at
 [zerado.app](https://zerado.app), the brand system, the ratified copy, the design
 blueprint, and this repository. That is the public face, not the product.
 
-**No product phase is complete.** All four read *Planned*, including Phase 1.
-The next piece of work is the Phase 1 spine and screen specs
-([#2](../../issues/2)); the CLI/TUI itself has not been started.
+**Phase 1 is in progress as of 2026-08-25** — the spine, design system and screen
+specs ([#2](../../issues/2)). In progress means exactly that: work has started and
+nothing is finished. No Go code has landed, and **no phase is complete.**
 
 We would rather say that plainly than mark a phase done and be wrong about it.
 
 ## Roadmap
 
-Four phases, in order. Every one of them is planned — none is marked done,
+Four phases, in order. Phase 1 is under way — nothing here is marked done,
 because that would be the one dishonest line in this file. No dates: dated
 roadmaps convert better and age badly.
 
 | | Phase | | Status |
 |---|---|---|---|
-| **1** | CLI/TUI MVP | Your library, your statuses, stored locally. | ○ Planned |
+| **1** | CLI/TUI MVP | Your library, your statuses, stored locally. | ◐ **In progress** |
 | **2** | Enrichment | Covers, synopsis, prices, moods. | ○ Planned |
 | **3** | Recommendations & Budget | What to buy, and whether to wait. | ○ Planned |
 | **4** | Social & Mobile | Sync, community, the phone apps. | ○ Planned |
+
+Every status co-renders as **colour + glyph + label**, here and on the site, so it
+survives a monochrome screenshot and a colour-blind reader — the same rule the
+four game states follow.
 
 **After Phase 4 — ideas, not promises:** more storefronts beyond the four above,
 deeper backlog analytics, and mood tagging that improves the more you use it.
@@ -159,9 +163,9 @@ flowchart LR
   class PSN,COVERS,PRICES,SYNC,COMMUNITY,APPS planned;
 ```
 
-Solid edges are Phase 1. Dashed edges and dashed nodes are **planned and not
-built** — Phase 2 enrichment, and the Phase 4 sync API, community layer and
-Flutter apps.
+Solid edges are Phase 1 — **in progress, not built.** Dashed edges and dashed
+nodes are **planned and not started** — Phase 2 enrichment, and the Phase 4 sync
+API, community layer and Flutter apps. Nothing in this diagram runs today.
 
 ## Install, build, run
 

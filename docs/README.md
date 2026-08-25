@@ -47,10 +47,11 @@ time" — real assistive-technology testing by a human has not been done.
 
 | | |
 |---|---|
-| [`deploy/digitalocean.md`](deploy/digitalocean.md) | The runbook: confirmed price, hosting decision and its trade-offs, DNS, TLS, the verification checklist. |
-| [`deploy/nginx/zerado.app.conf`](deploy/nginx/zerado.app.conf) | The fallback path's nginx config — ports `_headers` verbatim, adds HSTS and a CSP. |
+| [`deploy/digitalocean.md`](deploy/digitalocean.md) | The runbook, step by step: the $4.00/month droplet, the exact DNS records, TLS with verified renewal, deploy, rollback, and the verification checklist. |
+| [`deploy/nginx/zerado.app.conf`](deploy/nginx/zerado.app.conf) | The **primary** path's nginx config — ports `_headers` verbatim, adds HSTS and a CSP. |
 | [`deploy/nginx/snippets/zerado-headers.conf`](deploy/nginx/snippets/zerado-headers.conf) | The security-header set, in one file because nginx discards every inherited `add_header` in any location that declares one of its own. |
-| [`../.do/app.yaml`](../.do/app.yaml) | The App Platform spec for the recommended path. |
+| [`../scripts/deploy.sh`](../scripts/deploy.sh) | One idempotent deploy command — atomic release swap, real rollback. |
+| [`../.do/app.yaml`](../.do/app.yaml) | The App Platform spec — kept, and shape-asserted in CI, but not the chosen path. See the runbook's appendix. |
 
 ## PDFs
 

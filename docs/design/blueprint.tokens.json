@@ -41,10 +41,20 @@
       "$Q4_BANNED_SOURCE_NAME"
     ],
     "roadmapStatusesAllowed": [
-      "Planned"
+      "Planned",
+      "In progress"
     ],
     "bodyScrollWidthAssertion": "PER-ELEMENT: no element's bounding rect may exceed the viewport (right <= clientWidth+1, left >= -1), excluding aria-hidden subtrees. DO NOT use documentElement.scrollWidth === clientWidth: overflow-x:hidden on the root pins those two values together, making that a tautology that cannot fail. It reported PASS at all four breakpoints while section 02 destroyed 58% of its own text (QA BLOCKING-1). Mutation-tested: green at HEAD, red with the defect re-injected.",
-    "forbiddenStringsNote": "The single entry is a sentinel, not the literal. The community-source name banned by ratified decision Q4 is deliberately absent from this repository so that the repository passes its own case-insensitive scan; the QA harness (qa/harness/run-content.mjs) reconstructs the pattern at runtime. See docs/REDACTIONS.md."
+    "forbiddenStringsNote": "The single entry is a sentinel, not the literal. The community-source name banned by ratified decision Q4 is deliberately absent from this repository so that the repository passes its own case-insensitive scan; the QA harness (qa/harness/run-content.mjs) reconstructs the pattern at runtime. See docs/REDACTIONS.md.",
+    "roadmapStatusesForbidden": [
+      "Done",
+      "Complete",
+      "Completed",
+      "Shipped",
+      "Released",
+      "Live"
+    ],
+    "roadmapStatusNote": "Phase 1 renders \"In progress\" from 2026-08-25 (founder instruction); phases 2-4 render \"Planned\". No phase may EVER render a done-equivalent until it is done. Every marker co-renders colour + glyph + label — never colour alone."
   },
   "breakpoints": {
     "xs": {
