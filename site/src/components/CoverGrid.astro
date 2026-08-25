@@ -1,31 +1,90 @@
 ---
 /**
- * CoverGrid — twelve CoverTiles, role="img" labelled by its caption.
- * Ref: design/blueprint.md §7.5.
+ * CoverGrid — the twelve covers of §06.
+ *
+ * Two accessible shapes, picked by what the build actually contains:
+ *
+ * - **Covers present** — a `<ul>` of twelve images, each with its own alt text
+ *   naming the game and its platform. The ratified design specified
+ *   `role="img"` with `aria-hidden` children, and that was right for twelve
+ *   decorative gradients: there was one thing to say and saying it twelve times
+ *   would have been noise. Real covers are not decorative — each one is a
+ *   distinct piece of information, and a `role="img"` container would hide all
+ *   twelve from assistive technology. So the role goes and the list stays, which
+ *   is what still lets a screen-reader user hear "list, 12 items" and skip past.
+ *   Recorded as an amendment in `docs/design/blueprint.md` §7.5.
+ *
+ * - **No covers in the build** — the original ratified behaviour, unchanged:
+ *   `role="img"` labelled by the caption, children hidden, one description.
+ *
+ * The check is a filesystem read at build time rather than a flag, so the page
+ * can never claim to show cover art it did not ship.
+ *
+ * Ref: design/blueprint.md §7.5, content/landing-copy.md §06.
  *
  * @prop {string} labelledby — id of the figcaption describing this figure
  */
 import CoverTile from './CoverTile.astro';
-import { COVER_GRID_SEQUENCE } from '../data/coverGrid';
+import { coverTiles } from '../data/coverAssets';
 
 interface Props {
   labelledby: string;
 }
 
 const { labelledby } = Astro.props;
+
+const tiles = coverTiles();
+const anyImages = tiles.some((t) => t.hasImage);
 ---
 
-<div class="z-cover-grid" role="img" aria-labelledby={labelledby}>
-  {COVER_GRID_SEQUENCE.map((tile) => (
-    <CoverTile treatment={tile.treatment} hue={tile.hue} platformTag={tile.platformTag} />
-  ))}
-</div>
+{/* Two different elements on purpose, because the two states have genuinely
+    different semantics and neither may borrow the other's markup.
+
+    With covers: a real <ul> of twelve labelled images. No role override —
+    ARIA-in-HTML does not permit role="img" on a <ul>, and putting it there
+    would re-break the `aria-allowed-role` audit this page already fixed once
+    (docs/REDACTIONS.md §3.5).
+
+    Without covers: exactly the ratified shape — a <div role="img"> labelled by
+    the caption, decorative children hidden. Unchanged from rev A. */}
+{anyImages ? (
+  <ul class="z-cover-grid">
+    {tiles.map((tile) => (
+      <CoverTile
+        asListItem={true}
+        treatment={tile.treatment}
+        hue={tile.hue}
+        platformTag={tile.platformTag}
+        slug={tile.slug}
+        alt={tile.alt}
+        hasImage={tile.hasImage}
+      />
+    ))}
+  </ul>
+) : (
+  <div class="z-cover-grid" role="img" aria-labelledby={labelledby}>
+    {tiles.map((tile) => (
+      <CoverTile
+        asListItem={false}
+        treatment={tile.treatment}
+        hue={tile.hue}
+        platformTag={tile.platformTag}
+        slug={tile.slug}
+        alt={tile.alt}
+        hasImage={false}
+      />
+    ))}
+  </div>
+)}
 
 <style>
   .z-cover-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--z-space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   @media (min-width: 768px) {

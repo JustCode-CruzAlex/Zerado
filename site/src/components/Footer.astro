@@ -6,10 +6,17 @@
  */
 import FooterLink from './FooterLink.astro';
 import PoweredByFlowForge from './PoweredByFlowForge.astro';
+import { hasRealCovers } from '../data/coverAssets';
 
 const WAITLIST = 'mailto:alex@flowforgesoft.com?subject=Zerado-WaitList';
 const CONTACT = 'mailto:alex@flowforgesoft.com';
 const GITHUB = 'https://github.com/JustCode-CruzAlex/Zerado';
+
+// Second half of the IGDB attribution — visible and in a static location, per
+// docs/legal/igdb-image-licence-finding.md §6. It appears only when covers
+// actually ship, so the page never credits a source it did not use. Plain text,
+// not a link: the page's zero-external-request guarantee is load-bearing.
+const realCovers = hasRealCovers();
 ---
 
 <footer role="contentinfo" id="footer" class="z-footer z-section z-section--surface">
@@ -30,6 +37,13 @@ const GITHUB = 'https://github.com/JustCode-CruzAlex/Zerado';
         page, nothing here is for sale, and there is no funding ask anywhere on it. The Phase 4
         community layer will be donation-supported when it exists.
       </p>
+      {realCovers && (
+        <p class="z-body-sm">
+          Game cover art on this page is from IGDB.com, used under the Twitch Developer Services
+          Agreement. Zerado is not affiliated with IGDB, Twitch, or any game publisher, and each
+          cover remains the property of its rights holder.
+        </p>
+      )}
     </div>
 
     <div class="z-footer__band z-footer__band--company">

@@ -47,6 +47,15 @@
 /fonts/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
+# Game cover art fetched from IGDB and served from this origin — the page makes
+# zero external requests and that includes these. Not content-hashed, and IGDB
+# does replace cover art (its docs note a 30-day window on a replaced image), so
+# the same stale-while-revalidate shape as the fonts rather than `immutable`:
+# a re-fetched cover under an unchanged filename must not be served stale for a
+# year. See docs/legal/igdb-image-licence-finding.md §3.2.
+/covers/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
 # Same-origin marks/icons — also unhashed, same reasoning, shorter floor
 # since these are tiny and revalidation is cheap.
 /*.svg
