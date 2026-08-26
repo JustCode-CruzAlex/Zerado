@@ -162,6 +162,25 @@ sent to fix the wrong thing.
 takes a `fault.Outcome` — a `Transport` verdict, a status code, an item count — and returns a
 `*Fault`.
 
+It returns `error`, not `*Fault` — and that is a repair rather than a stylistic choice. It returned
+`*Fault` once, which made the natural provider spelling a trap:
+
+```go
+func (s *steam) sync(...) error { return fault.Classify(o) }   // success → non-nil error
+```
+
+A successful outcome returned a nil `*Fault`, which becomes a **non-nil error interface holding a
+typed nil**. `KindOf` then finds `err != nil`, `errors.As` succeeds, the embedded pointer is nil — and
+reports `KindInternal`, so a **completely successful sync renders the fatal screen**.
+
+It failed in the safe direction, which is the taxonomy working. But safe is not correct, and the fix
+is the same one this package has now made twice: make the guarantee a property of the signature
+rather than of how carefully every caller holds it. Returning `error` means the nil is an *untyped*
+nil at every call site, including the ones nobody has written yet.
+`TestClassifySuccessIsAnUntypedNil` pins it through an error-returning function, because that
+conversion is what created the trap and a direct comparison against the concrete type would not have
+caught it.
+
 It does **not** take an `*http.Response` and does not import `net` or `net/http`. Two consequences,
 and the second is the one that mattered:
 

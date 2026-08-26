@@ -242,3 +242,98 @@ func TestNoKindSilentlyInheritsTheInternalExitCode(t *testing.T) {
 		}
 	}
 }
+
+// TestTheSurfaceCanExpressEveryDocumentedInvocation is the MINOR-2 repair from
+// the review at 4484d9a.
+//
+// The surface is this ticket's deliverable, as reviewable data. It contained a
+// contradiction: `mark` declared both a required `state` argument and a
+// `--clear` flag, so a parser reading it would reject `zerado mark <game>
+// --clear` — while docs/api/03-cli-surface.md says a CLI without --clear could
+// not do what Z-06 does.
+//
+// TestVerbSurfaceIsStable pins verb names and nothing else, which is why the
+// contradiction survived. This pins the arities against the invocations the
+// dossier actually promises, so the surface and its documentation cannot drift
+// apart without one of them failing.
+func TestTheSurfaceCanExpressEveryDocumentedInvocation(t *testing.T) {
+	cases := []struct {
+		verb    string
+		args    []string
+		flags   []string
+		accept  bool
+		because string
+	}{
+		{verb: "mark", args: []string{"42", "zerado"}, accept: true,
+			because: "setting a state is the ordinary invocation"},
+		{verb: "mark", args: []string{"42"}, flags: []string{"clear"}, accept: true,
+			because: "clearing an override is a different action from setting NOT STARTED (03-cli-surface.md §1)"},
+		{verb: "mark", args: []string{"42"}, accept: false,
+			because: "without --clear, a state is required"},
+		{verb: "mark", args: nil, flags: []string{"clear"}, accept: false,
+			because: "--clear still needs to know which game"},
+		{verb: "sync", args: nil, accept: true,
+			because: "the provider argument is optional; --all or a default covers it"},
+		{verb: "sync", args: []string{"steam"}, accept: true},
+		{verb: "game", args: nil, accept: false,
+			because: "the deep link needs a game"},
+		{verb: "game", args: []string{"42"}, accept: true},
+		{verb: "list", args: nil, accept: true},
+		{verb: "help", args: nil, accept: true,
+			because: "bare help lists the verbs"},
+		{verb: "help", args: []string{"sync"}, accept: true},
+	}
+
+	for _, c := range cases {
+		v, ok := cli.Lookup(c.verb)
+		if !ok {
+			t.Fatalf("verb %q is not on the surface", c.verb)
+		}
+		flags := map[string]bool{}
+		for _, f := range c.flags {
+			flags[f] = true
+		}
+		missing := v.MissingArgs(c.args, flags)
+		accepted := len(missing) == 0
+
+		if accepted != c.accept {
+			verdict := "rejected"
+			if accepted {
+				verdict = "accepted"
+			}
+			t.Errorf("zerado %s %v %v was %s (missing %v), want accept=%v%s",
+				c.verb, c.args, c.flags, verdict, missing, c.accept, reason(c.because))
+		}
+	}
+}
+
+func reason(s string) string {
+	if s == "" {
+		return ""
+	}
+	return " — " + s
+}
+
+// TestEveryRequiredUnlessNamesARealFlag: a guard that resolves against a flag
+// the verb does not declare would silently never be satisfied, turning an
+// optional-under-a-flag argument back into a flatly required one.
+func TestEveryRequiredUnlessNamesARealFlag(t *testing.T) {
+	global := map[string]bool{}
+	for _, f := range cli.GlobalFlags() {
+		global[f.Name] = true
+	}
+	for _, v := range cli.Surface() {
+		declared := map[string]bool{}
+		for _, f := range v.Flags {
+			declared[f.Name] = true
+		}
+		for _, a := range v.Args {
+			for _, name := range a.RequiredUnless {
+				if !declared[name] && !global[name] {
+					t.Errorf("verb %q: argument %q is required unless --%s, which the verb does not declare",
+						v.Name, a.Name, name)
+				}
+			}
+		}
+	}
+}

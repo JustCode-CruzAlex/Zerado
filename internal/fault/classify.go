@@ -82,12 +82,34 @@ type Outcome struct {
 	MessageKey string
 }
 
-// Classify turns an Outcome into a Fault, implementing the decision tree in
+// Classify turns an Outcome into an error, implementing the decision tree in
 // 07-offline-contract.md §5.
 //
 // A nil return means success. Whether an empty result is itself a refusal is
 // the caller's business, and is answered by [ClassifySync] for the one
 // operation where it is — rather than by this function guessing.
+//
+// # Why it returns error and not *Fault
+//
+// It returned *Fault once, and that made the natural provider spelling a trap:
+//
+//	func (s *steam) sync(...) error { return fault.Classify(o) }
+//
+// A successful outcome returns a nil *Fault, which becomes a NON-nil error
+// interface holding a typed nil. [KindOf] then finds err != nil, errors.As
+// succeeds, the embedded pointer is nil — and reports KindInternal, so a
+// completely successful sync renders the fatal screen.
+//
+// It fails in the safe direction, loudly and in the "this is ours" direction,
+// which is the taxonomy working. But safe is not correct, and the repair is
+// the same one this package has now made twice elsewhere: make the guarantee a
+// property of the signature rather than of how carefully every caller holds
+// it. Returning error means the nil is an untyped nil at every call site,
+// including the ones nobody has written yet.
+//
+// Callers that need the classification ask [KindOf], [Is], [SubjectOf] or
+// [RetryAfterOf], which is the documented way to read a fault and works
+// through wrapping.
 //
 // The ordering of the branches is part of the contract:
 //
@@ -97,7 +119,7 @@ type Outcome struct {
 //     from the body;
 //  3. then 404 and 429, each of which has its own screen;
 //  4. then 5xx, then any other 4xx, which is our bug and not their outage.
-func Classify(o Outcome) *Fault {
+func Classify(o Outcome) error {
 	opts := []Option{WithSubject(o.Subject), WithCause(o.Cause), messageOverride(o.MessageKey)}
 
 	switch o.Transport {
@@ -151,7 +173,7 @@ func Classify(o Outcome) *Fault {
 // after which the screen would honestly report a catastrophe it had caused.
 // Returning a Fault here is what makes the ratified copy — "Your library is
 // unchanged — nothing was lost." — true at the moment it is printed.
-func ClassifySync(o Outcome) *Fault {
+func ClassifySync(o Outcome) error {
 	if f := Classify(o); f != nil {
 		return f
 	}

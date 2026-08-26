@@ -120,6 +120,13 @@ type **is** the tombstone guard.
 presence mode, because a filter language would be an abstraction with one consumer and the consumer
 is a bar with three chips.
 
+`Query.Empty` and `Query.Facets` are a **pair**, and the invariant that binds them — a query that
+reports itself filtered always names at least one facet — is asserted over the whole cross-product
+rather than case by case. It has to be: the contract's own idiom is
+`if !q.Empty() { name(q.Facets()[0]) }`, so a combination that reported itself filtered while naming
+nothing would index an empty slice. `Presence: Either` did exactly that until the review at
+`4484d9a`, and the repair was the invariant rather than the case.
+
 ## 5 · The error taxonomy
 
 Thirteen kinds, each with a screen treatment, a catalogue key and an exit code, all asserted total by

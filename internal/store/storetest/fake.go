@@ -337,8 +337,15 @@ func eqTimePtr(a, b *time.Time) bool {
 	return a.Equal(*b)
 }
 
+// sortTitle is the fake's stand-in for the store's collation key.
+//
+// One ToLower, not two — the outer call in the first version was a no-op over
+// an already-lowered string. A real store folds diacritics and strips articles
+// with collation that handles the accented titles the library already
+// contains; fft-database owns that derivation, and reimplementing it here
+// would be a second version to keep correct.
 func sortTitle(s string) string {
-	return strings.ToLower(strings.TrimPrefix(strings.ToLower(s), "the "))
+	return strings.TrimPrefix(strings.ToLower(s), "the ")
 }
 
 func (f *Fake) findRef(p provider.ID, ref string) (library.Game, library.GameID, bool) {

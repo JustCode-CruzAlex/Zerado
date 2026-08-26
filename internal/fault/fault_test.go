@@ -240,7 +240,7 @@ func TestMarshallingAFaultDropsTheCause(t *testing.T) {
 	f := fault.New(fault.KindRateLimited, "steam.Sync",
 		fault.WithSubject("Steam"), fault.WithCause(leak), fault.WithRetryAfter(30*time.Second))
 
-	// All three spellings, because the first version of MarshalJSON took a
+	// All four spellings, because the first version of MarshalJSON took a
 	// pointer receiver and only the first of these redacted. encoding/json
 	// does not invoke a pointer method for a non-addressable value, so the
 	// value and embedded forms fell back to reflection over the exported

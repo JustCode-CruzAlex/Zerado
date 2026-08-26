@@ -129,3 +129,74 @@ func TestOverriddenDrivesTheFifthMenuItem(t *testing.T) {
 		t.Fatal("a game with no manual status reports itself overridden; Z-06 would offer to clear nothing")
 	}
 }
+
+// TestEmptyAndFacetsAgree is the MINOR-1 repair from the review at 4484d9a,
+// and it is deliberately a property over the whole cross-product rather than a
+// case for the value that was wrong.
+//
+// Empty and Facets are a pair: Empty decides whether the summary names a
+// filter at all, Facets names which one emptied the set. The contract's own
+// idiom is
+//
+//	if !q.Empty() { name(q.Facets()[0]) }
+//
+// so a query that reports itself filtered while naming no facet indexes an
+// empty slice. Query{Presence: Either} did exactly that, and neither existing
+// test reached it — one iterated the other three dimensions, the other built a
+// single all-facets query.
+//
+// The defect was not the missing case. It was that nothing tied the two
+// functions together, so any future dimension can reintroduce it. This asserts
+// the relationship instead, which a new facet cannot slip past.
+func TestEmptyAndFacetsAgree(t *testing.T) {
+	searches := []string{"", "souls"}
+	stateSets := [][]status.Status{nil, {status.Zerado}}
+	sourceSets := [][]provider.ID{nil, {"physical"}}
+	presences := []library.Presence{library.PresentOnly, library.AbsentOnly, library.Either}
+
+	var checked int
+	for _, search := range searches {
+		for _, states := range stateSets {
+			for _, sources := range sourceSets {
+				for _, presence := range presences {
+					for _, limit := range []int{0, 12} {
+						q := library.Query{
+							Search: search, States: states, Sources: sources,
+							Presence: presence, Limit: limit,
+						}
+						checked++
+						facets := q.Facets()
+						switch {
+						case q.Empty() && len(facets) != 0:
+							t.Fatalf("%+v reports itself unfiltered but names facets %v", q, facets)
+						case !q.Empty() && len(facets) == 0:
+							t.Fatalf("%+v reports itself filtered but names no facet; "+
+								"the contract's own idiom indexes an empty slice here", q)
+						}
+					}
+				}
+			}
+		}
+	}
+	if checked != len(searches)*len(stateSets)*len(sourceSets)*len(presences)*2 {
+		t.Fatalf("the cross-product walked %d combinations; the loops are wrong", checked)
+	}
+}
+
+// TestEitherAndAbsentAreDifferentSets: a player must be able to tell which of
+// the two they are looking at — one is only the rows a sync stopped returning,
+// the other is everything including them.
+func TestEitherAndAbsentAreDifferentSets(t *testing.T) {
+	absent := library.Query{Presence: library.AbsentOnly}.Facets()
+	all := library.Query{Presence: library.Either}.Facets()
+
+	if len(absent) != 1 || absent[0] != "absent" {
+		t.Fatalf("AbsentOnly facets = %v", absent)
+	}
+	if len(all) != 1 || all[0] != "all" {
+		t.Fatalf("Either facets = %v", all)
+	}
+	if absent[0] == all[0] {
+		t.Fatal("the two presence modes name the same facet; the summary could not say which set it describes")
+	}
+}

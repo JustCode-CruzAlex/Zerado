@@ -26,10 +26,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Read from go.mod rather than repeated here. A version in two places is
+      # a version that drifts, and the pin exists precisely so that everything
+      # — the review vehicle, a contributor's build, this job — resolves the
+      # same toolchain.
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
-          check-latest: true
+          go-version-file: go.mod
 
       - name: Everything is gofmt-clean
         run: |

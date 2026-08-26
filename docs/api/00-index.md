@@ -131,6 +131,13 @@ wrong.*
 | Audio | `audio.Null` · `audiotest.Recorder` | nothing |
 | Error classifier | `fault.Classify` is a **pure function** over a `Transport` verdict | nothing |
 
+`go.mod` pins a **full toolchain version** (`1.27.0`), not a bare language version. `go 1.24` is a
+language version and Go cannot resolve a toolchain from it, so anything that resolves the pin before
+running — the review vehicle, a reproducible build — fails *upstream of every test in this module*.
+Sprint 0 #10's acceptance criteria already required a pinned toolchain;
+`TestTheGoDirectiveIsAResolvableToolchainVersion` now makes it checkable, and the CI workflow reads
+the number from `go.mod` rather than repeating it.
+
 The whole test suite runs with the machine in a Faraday cage and with **no `go.sum` at all** —
 `go.mod` declares no `require`, so there is no third-party dependency to download and no lock file to
 write. `TestTheModuleHasNoThirdPartyDependencies` records that as a property of this stage rather

@@ -37,7 +37,14 @@ func NewRegistry(ps ...Provider) *Registry {
 	for _, p := range ps {
 		id := p.ID()
 		if _, seen := r.byID[id]; seen {
-			r.collisions = append(r.collisions, id)
+			// Recorded once per ID, not once per extra registration, so that
+			// this and [Duplicates] answer "which IDs collided" with the same
+			// multiplicity. An ID registered three times is one collision, and
+			// two functions disagreeing about that would be two answers to one
+			// question.
+			if !containsID(r.collisions, id) {
+				r.collisions = append(r.collisions, id)
+			}
 		} else {
 			r.order = append(r.order, id)
 		}
@@ -123,7 +130,7 @@ func Duplicates(ps ...Provider) []ID {
 }
 
 // Collisions returns the IDs this registry was built with more than once,
-// sorted.
+// sorted, each appearing once however many times it was registered.
 //
 // It reports what [NewRegistry] actually observed, recorded at construction,
 // because after construction the evidence is gone: a later registration
@@ -183,4 +190,14 @@ func Check(p Provider) []string {
 		problems = append(problems, "provider Display is empty")
 	}
 	return problems
+}
+
+// containsID reports whether ids holds x.
+func containsID(ids []ID, x ID) bool {
+	for _, id := range ids {
+		if id == x {
+			return true
+		}
+	}
+	return false
 }

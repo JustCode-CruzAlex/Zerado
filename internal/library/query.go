@@ -85,12 +85,34 @@ const (
 	Either
 )
 
-// Empty reports whether the query filters nothing.
+// Empty reports whether the query describes the default library view.
 //
 // Z-07 F2 requires that an empty editor filters nothing and shows the full
 // ratio, and Z-04's unfiltered summary is the same predicate read the other
 // way: a summary says "247 games" without naming a filter exactly when this is
 // true. Paging is not a filter, so Limit and Offset are not consulted.
+//
+// # Why [Either] counts as not-empty, even though it narrows nothing
+//
+// Either is *less* restrictive than the PresentOnly default: it adds absent
+// rows rather than removing anything. So "filters nothing" is arguably true of
+// it, and an earlier revision returned false here while [Query.Facets]
+// returned nothing at all — leaving the contract's own idiom,
+//
+//	if !q.Empty() { name(q.Facets()[0]) }
+//
+// indexing an empty slice.
+//
+// The resolution is that this predicate is not really about narrowing. It is
+// about whether the summary must say which set it is describing, and a set
+// that includes absent rows is emphatically not the default view: its count
+// differs from Z-04's, and showing the larger number under an unqualified
+// "247 games" is the same lie §7 rule 2 forbids for a state filter.
+//
+// So Either is not-empty, and Facets names it. The invariant the two now hold
+// together — !Empty() implies at least one facet — is asserted over the whole
+// cross-product by TestEmptyAndFacetsAgree, because the defect was not the
+// missing case but the absence of anything tying the pair together.
 func (q Query) Empty() bool {
 	return q.Search == "" &&
 		len(q.States) == 0 &&
@@ -116,8 +138,15 @@ func (q Query) Facets() []string {
 	if len(q.Sources) > 0 {
 		out = append(out, "source")
 	}
-	if q.Presence == AbsentOnly {
+	switch q.Presence {
+	case AbsentOnly:
 		out = append(out, "absent")
+	case Either:
+		// Named separately from "absent" because they describe different sets
+		// and a player needs to be able to tell which one they are looking at:
+		// one is only the rows a sync stopped returning, the other is
+		// everything including them. It matches the CLI's --all.
+		out = append(out, "all")
 	}
 	return out
 }

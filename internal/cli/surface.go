@@ -94,8 +94,27 @@ type Verb struct {
 
 // Arg is a positional argument.
 type Arg struct {
-	Name     string
+	Name string
+
+	// Required means the verb refuses without it — unless one of
+	// [Arg.RequiredUnless] is present.
 	Required bool
+
+	// RequiredUnless names flags whose presence makes this argument optional.
+	//
+	// It exists because the surface has to be able to express `mark --clear`,
+	// and an earlier revision could not: `state` was flatly Required and
+	// `--clear` was declared alongside it, so a parser reading this surface as
+	// data would reject `zerado mark <game> --clear` for a missing argument —
+	// while the dossier says plainly that a CLI without --clear could not do
+	// what Z-06 does.
+	//
+	// A surface that contradicts its own stated requirement is worse than an
+	// incomplete one, because the contradiction is only discovered by whoever
+	// writes the parser. [Verb.MissingArgs] resolves it, and
+	// TestTheSurfaceCanExpressEveryDocumentedInvocation asserts the surface
+	// admits each invocation the dossier promises.
+	RequiredUnless []string
 
 	// Repeated means the argument may be given more than once and collects.
 	Repeated bool
@@ -179,12 +198,14 @@ func Surface() []Verb {
 			SummaryKey: "cli.verb.mark",
 			Args: []Arg{
 				{Name: "game", Required: true},
-				{Name: "state", Required: true},
+				{Name: "state", Required: true, RequiredUnless: []string{"clear"}},
 			},
 			Flags: []Flag{
 				// Clearing an override is a different action from setting
 				// NOT STARTED, and the CLI has to be able to express both or
-				// it cannot do what Z-06 does.
+				// it cannot do what Z-06 does. That is why `state` above is
+				// required *unless* this flag is present rather than flatly
+				// required.
 				{Name: "clear", SummaryKey: "cli.flag.mark.clear"},
 			},
 			Phase:     PhaseOne,
@@ -249,6 +270,41 @@ func Surface() []Verb {
 		{Name: "export", SummaryKey: "cli.verb.export", Phase: PhaseLater, Stability: StabilityReserved},
 		{Name: "import", SummaryKey: "cli.verb.import", Phase: PhaseLater, Stability: StabilityReserved},
 	}
+}
+
+// MissingArgs returns the names of this verb's required positional arguments
+// that were not supplied, given the flags that were.
+//
+// given is the set of positional arguments actually present, in order, and
+// flags is the set of flag names supplied. It is the one piece of behaviour on
+// this surface, and it is here rather than in a future parser because the
+// surface's own claim — that it can express every documented invocation — is
+// otherwise unfalsifiable.
+func (v Verb) MissingArgs(given []string, flags map[string]bool) []string {
+	var missing []string
+	for i, a := range v.Args {
+		if i < len(given) && given[i] != "" {
+			continue
+		}
+		if !a.Required {
+			continue
+		}
+		if satisfiedBy(a.RequiredUnless, flags) {
+			continue
+		}
+		missing = append(missing, a.Name)
+	}
+	return missing
+}
+
+// satisfiedBy reports whether any of names is present in flags.
+func satisfiedBy(names []string, flags map[string]bool) bool {
+	for _, n := range names {
+		if flags[n] {
+			return true
+		}
+	}
+	return false
 }
 
 // Lookup returns the verb with this name.

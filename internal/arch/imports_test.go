@@ -361,3 +361,41 @@ func TestEveryDocReferenceResolves(t *testing.T) {
 	}
 	t.Logf("%d doc references checked against %d files under docs/", checked, len(byName))
 }
+
+// TestTheGoDirectiveIsAResolvableToolchainVersion fails on a bare language
+// version in go.mod.
+//
+// `go 1.24` is a language version. Go cannot resolve a toolchain from it —
+// `GOTOOLCHAIN=go1.24 go env GOROOT` reports "go1.24 is a language version but
+// not a toolchain version" — and anything that resolves the pinned toolchain
+// before doing its job stops there. The review vehicle does exactly that, so
+// the module never reached the review at all: the failure was upstream of
+// every test in this package and invisible to all of them.
+//
+// It is the same shape as the defects this file already guards. A property the
+// project depends on (Sprint 0 #10: "go.mod declares the module and a pinned
+// Go toolchain version") held only because somebody typed the right thing, and
+// held nowhere that could notice when they did not.
+func TestTheGoDirectiveIsAResolvableToolchainVersion(t *testing.T) {
+	b, err := os.ReadFile(filepath.Join(moduleRoot(t), "go.mod"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	directive := regexp.MustCompile(`(?m)^go\s+(\S+)\s*$`)
+	m := directive.FindSubmatch(b)
+	if m == nil {
+		t.Fatal("go.mod has no go directive")
+	}
+	version := string(m[1])
+
+	// 1.X.Y — three components. Two is a language version and does not
+	// resolve; four is not a Go version at all.
+	full := regexp.MustCompile(`^\d+\.\d+\.\d+$`)
+	if !full.MatchString(version) {
+		t.Fatalf("go.mod pins %q, which is a language version rather than a toolchain version.\n"+
+			"Go resolves a toolchain only from a full 1.X.Y, so anything that resolves the pin\n"+
+			"before running — the review vehicle, a reproducible build — fails before it reads\n"+
+			"a line of code. Sprint 0 #10 requires a pinned toolchain version.", version)
+	}
+}

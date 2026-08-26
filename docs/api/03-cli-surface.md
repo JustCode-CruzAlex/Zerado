@@ -47,6 +47,14 @@ expressed where a scripted caller can see it *before* running anything.
 playtime makes it `IN PROGRESS` immediately, while choosing `NOT STARTED` stores a value that
 sticks. A CLI without `--clear` could not do what `Z-06` does.
 
+Its arity needs `Arg.RequiredUnless`: `state` is required **unless `--clear` is present**. An earlier
+revision declared `state` flatly required alongside the flag, which meant the surface — read as data,
+which is the whole point of declaring it as data — rejected the invocation this paragraph says must
+work. A surface that contradicts its own stated requirement is worse than an incomplete one, because
+only whoever writes the parser discovers it. `TestTheSurfaceCanExpressEveryDocumentedInvocation` now
+runs the documented invocations against the declared arities, so the two cannot drift apart without
+one of them failing. *(Found by the review at `4484d9a`.)*
+
 **`game <id>`.** [`../blueprint/04-navigation-and-focus.md`](../blueprint/04-navigation-and-focus.md)
 notes that deep-linking requires the route stack to be constructible from a descriptor rather than
 only by pushing. That is a **Phase 1 constraint caused by this verb**, and it is recorded next to
